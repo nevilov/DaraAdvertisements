@@ -14,21 +14,31 @@ namespace DaraAds.Core.Entities
         /// <summary>
         /// Имя пользователя
         /// </summary>
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Фамилия пользователя
         /// </summary>
-        public int LastName { get; set; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// Электронная почта
         /// </summary>
-        public int Email { get; set; }
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Аватар пользователя
+        /// </summary>
+        public string Abatar { get; set; }
+
+        /// <summary>
+        /// Телефон
+        /// </summary>
+        public string Phone { get; set; }
 
         /// <summary>
         /// Пароль пользователя
         /// </summary>
-        public int Password { get; set; }
+        public string Password { get; set; }
     }
 }
