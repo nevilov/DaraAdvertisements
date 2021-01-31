@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DaraAds.Core\DaraAds.Core.csproj" />
     <ProjectReference Include="..\DaraAds.Infrastructure\DaraAds.Infrastructure.csproj" />
   </ItemGroup>
 
