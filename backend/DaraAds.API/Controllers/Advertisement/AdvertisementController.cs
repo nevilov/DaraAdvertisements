@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DaraAds.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace DaraAds.API.Controllers.Advertisement
 {
-    public class AdvertisementController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AdvertisementController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly DaraAdsDbContext _context;
+
+        public AdvertisementController(DaraAdsDbContext context)
         {
-            return View();
+            _context = context;
         }
+        
     }
 }
