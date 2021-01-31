@@ -11,7 +11,7 @@ namespace DaraAds.API.Controllers.Ads
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AdsController : ControllerBase
+    public partial class AdsController : ControllerBase
     {
         private readonly DaraAdsDbContext _context;
 
@@ -25,6 +25,6 @@ namespace DaraAds.API.Controllers.Ads
         {
             return await _context.Advertisements.ToListAsync();
         }
-        
+
     }
 }
