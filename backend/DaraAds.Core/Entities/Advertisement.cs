@@ -34,12 +34,12 @@ namespace DaraAds.Core.Entities
         /// <summary>
         /// Ключ автора объявления
         /// </summary>
-        public int AuthorId { get; set; }
+        //public int AuthorId { get; set; }
 
         /// <summary>
         /// Код категории объявления
         /// </summary>
-        public string CategoryId { get; set; }
+        //public string CategoryId { get; set; }
 
         public string SubCategory { get; set; }
 

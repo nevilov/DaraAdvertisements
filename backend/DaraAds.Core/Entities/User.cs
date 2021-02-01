@@ -9,7 +9,7 @@ namespace DaraAds.Core.Entities
     /// <summary>
     /// Сущность пользователь
     /// </summary>
-    public class User
+    public class User : BaseEntity
     {
         /// <summary>
         /// Имя пользователя
@@ -29,7 +29,7 @@ namespace DaraAds.Core.Entities
         /// <summary>
         /// Аватар пользователя
         /// </summary>
-        public string Abatar { get; set; }
+        public string Avatar { get; set; }
 
         /// <summary>
         /// Телефон

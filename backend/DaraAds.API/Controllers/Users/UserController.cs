@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DaraAds.Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,16 +16,9 @@ namespace DaraAds.API.Controllers.Users
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public partial class UserController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-
-        public class User
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Password { get; set; }
-        }
 
         public static List<User> Users = new();
 
@@ -33,51 +27,17 @@ namespace DaraAds.API.Controllers.Users
             _configuration = configuration;
         }
 
-        public sealed class UserLoginRequest
-        {
-            public string Name { get; set; }
-
-            public string Password { get; set; }
-        }
-
-        [HttpPost("login")]
-        public IActionResult Login(UserLoginRequest request)
-        {
-            var user = Users.FirstOrDefault(u => u.Name == request.Name && u.Password == request.Password);
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
-            var claims = new List<Claim>
-            {
-                new(ClaimTypes.Name, user.Name),
-                new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            };
-
-            if (user.Name.Contains("admin"))
-            {
-                claims.Add(new Claim(ClaimTypes.Role, "admin"));
-            }
-
-            var token = new JwtSecurityToken
-            (
-                claims: claims,
-                expires: DateTime.UtcNow.AddDays(60),
-                notBefore: DateTime.UtcNow,
-                signingCredentials: new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"])),
-                    SecurityAlgorithms.HmacSha256)
-            );
-
-            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-        }
-
         public sealed class UserRegisterRequest
         {
             [Required(ErrorMessage = "Имя пользователя - обязательно")]
             public string Name { get; set; }
+
+            public string LastName { get; set; }
+
+            [Required(ErrorMessage = "Email пользователя - обязательно")]
+            public string Email { get; set; }
+
+            public string Phone { get; set; }
 
             [MaxLength(30)]
             [MinLength(6)] 
@@ -91,20 +51,16 @@ namespace DaraAds.API.Controllers.Users
             {
                 Id = Users.Count + 1,
                 Name = request.Name,
-                Password = request.Password
+                LastName = request.LastName,
+                Avatar = "Avatar",
+                Email = request.Email,
+                Phone = request.Phone,
+                Password = request.Password,
             };
 
             Users.Add(newUser);
 
-            return Created($"api/v1/users/{newUser.Id}", newUser);
-        }
-        
-        [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
-        public User Get(int id)
-        {
-            return Users.FirstOrDefault(user => user.Id == id);
-        }
-        
+            return Created($"api/v1/users/{newUser.Id}", newUser.ToDto());
+        }        
     }
 }
