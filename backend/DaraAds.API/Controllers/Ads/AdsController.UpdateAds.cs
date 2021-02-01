@@ -6,12 +6,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using DaraAds.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DaraAds.API.Controllers.Ads
 {
     public partial class AdsController : ControllerBase
     {
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateAds(int id, Advertisement newAdvertisement)
         {
             if (id != newAdvertisement.Id)

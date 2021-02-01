@@ -6,12 +6,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using DaraAds.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DaraAds.API.Controllers.Ads
 {
     public partial class AdsController : ControllerBase
     {
         [HttpDelete("{id}")]
+        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteAds(int id)
         {
             var viewAdv = await _context.Advertisements.FindAsync(id);

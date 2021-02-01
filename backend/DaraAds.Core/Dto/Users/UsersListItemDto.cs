@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DaraAds.Core.Dto.Users
 {
-    class UsersListItemDto
+    public class UsersListItemDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
