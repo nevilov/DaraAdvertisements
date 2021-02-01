@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DaraAds.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DaraAds.API.Controllers.Ads
 {
