@@ -32,14 +32,14 @@ namespace DaraAds.Core.Entities
         public string Cover { get; set; }
 
         /// <summary>
-        /// Ключ автора объявления
+        /// Автор объявления
         /// </summary>
-        //public int AuthorId { get; set; }
+        public User OwnerUser { get; set; }
 
         /// <summary>
         /// Код категории объявления
         /// </summary>
-        //public string CategoryId { get; set; }
+        public string Category { get; set; }
 
         public string SubCategory { get; set; }
 
