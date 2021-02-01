@@ -13,7 +13,7 @@ namespace DaraAds.API.Controllers.Ads
     public partial class AdsController : ControllerBase
     {
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin, owner")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteAds(int id)
         {
             var viewAdv = await _context.Advertisements.FindAsync(id);
