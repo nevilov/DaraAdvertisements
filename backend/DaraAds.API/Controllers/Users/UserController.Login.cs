@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DaraAds.Core.Dto.Requests;
+using DaraAds.Core.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -13,18 +15,10 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController : ControllerBase
     {
-
-        public sealed class UserLoginRequest
-        {
-            public string Name { get; set; }
-
-            public string Password { get; set; }
-        }
-
         [HttpPost("login")]
-        public IActionResult Login(UserLoginRequest request)
+        public async Task<IActionResult> Login(UserLoginRequest userModel)
         {
-            var user = Users.FirstOrDefault(u => u.Name == request.Name && u.Password == request.Password);
+            var user = _userContext.Users.FirstOrDefault(u => u.Email == userModel.Email && u.PasswordHash == userModel.Password);
 
             if (user == null)
             {

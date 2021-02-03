@@ -13,6 +13,7 @@ namespace DaraAds.Infrastructure
         public DaraAdsDbContext(DbContextOptions<DaraAdsDbContext> options) : base(options) { }
 
         public DbSet<Advertisement> Advertisements { get; set; }
+        public DbSet<User> Users { get; set; }
 
     }
 }
