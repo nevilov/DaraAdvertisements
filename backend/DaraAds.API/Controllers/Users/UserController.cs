@@ -39,7 +39,7 @@ namespace DaraAds.API.Controllers.Users
                 LastName = request.LastName,
                 Email = request.Email,
                 Phone = request.Phone,
-                Password = request.Password,
+                PasswordHash = request.Password,
             };
 
             Users.Add(newUser);

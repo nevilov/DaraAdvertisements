@@ -18,7 +18,7 @@ namespace DaraAds.API.Controllers.Users
         [HttpPost("login")]
         public IActionResult Login(UserLoginRequest userModel)
         {
-            var user = Users.FirstOrDefault(u => u.Email == userModel.Email && u.Password == userModel.Password);
+            var user = Users.FirstOrDefault(u => u.Email == userModel.Email && u.PasswordHash == userModel.Password);
 
             if (user == null)
             {
