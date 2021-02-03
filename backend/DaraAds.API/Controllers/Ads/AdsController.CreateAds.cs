@@ -15,6 +15,7 @@ namespace DaraAds.API.Controllers.Ads
     public partial class AdsController : ControllerBase
     {
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostTodoItem(Advertisement newAdvertisement)
         {
             if (newAdvertisement == null)
