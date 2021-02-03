@@ -8,6 +8,8 @@ using DaraAds.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using DaraAds.Core.Dto.Advertisement;
+using DaraAds.API.Controllers.Users;
 
 namespace DaraAds.API.Controllers.Ads
 {
@@ -16,11 +18,19 @@ namespace DaraAds.API.Controllers.Ads
     {
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> PostTodoItem(Advertisement newAdvertisement)
+        public async Task<IActionResult> PostTodoItem(AdvertisementDto newAdvertisement)
         {
             if (newAdvertisement == null)
             {
                 return BadRequest();
+            }
+
+            var userDto = HttpContext.User.ToDto();
+
+            var user = _context.Users.FirstOrDefault(u => u.Id == userDto.Id);
+            if (user == null)
+            {
+                return BadRequest($"Не существует пользователя с Id: {userDto.Id}");
             }
 
             var Ads = new Advertisement
@@ -31,14 +41,15 @@ namespace DaraAds.API.Controllers.Ads
                 Price = newAdvertisement.Price,
                 Cover = newAdvertisement.Cover,
                 Category = newAdvertisement.Category,
-                SubCategory = newAdvertisement.SubCategory
+                SubCategory = newAdvertisement.SubCategory,
+                OwnerUser = user
             };
 
-            _context.Advertisements.Add(newAdvertisement);
+            _context.Advertisements.Add(Ads);
             await _context.SaveChangesAsync();
 
             
-            return Created($"api/Ads/{newAdvertisement.Id}", newAdvertisement);
+            return Created($"api/Ads/{Ads.Id}", AdsExtensions.ToDto(Ads));
         }
 
     }

@@ -34,7 +34,7 @@ namespace DaraAds.API.Controllers.Users
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterRequest request)
         {
-            if(request == null)
+            if (request == null)
             {
                 return BadRequest();
             }
