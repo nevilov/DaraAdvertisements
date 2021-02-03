@@ -13,7 +13,7 @@ namespace DaraAds.API.Controllers.Ads
     public partial class AdsController : ControllerBase
     {
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> UpdateAds(int id, Advertisement newAdvertisement)
         {
             if (id != newAdvertisement.Id)

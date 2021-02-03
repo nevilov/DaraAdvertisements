@@ -1,4 +1,5 @@
-﻿using DaraAds.Core.Entities;
+﻿using DaraAds.Core.Dto.Requests;
+using DaraAds.Core.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,22 +28,6 @@ namespace DaraAds.API.Controllers.Users
             _configuration = configuration;
         }
 
-        public sealed class UserRegisterRequest
-        {
-            [Required(ErrorMessage = "Имя пользователя - обязательно")]
-            public string Name { get; set; }
-
-            public string LastName { get; set; }
-
-            [Required(ErrorMessage = "Email пользователя - обязательно")]
-            public string Email { get; set; }
-
-            public string Phone { get; set; }
-
-            [MaxLength(30)]
-            [MinLength(6)] 
-            public string Password { get; set; }
-        }
 
         [HttpPost("register")]
         public IActionResult Register(UserRegisterRequest request)
@@ -52,7 +37,6 @@ namespace DaraAds.API.Controllers.Users
                 Id = Users.Count + 1,
                 Name = request.Name,
                 LastName = request.LastName,
-                Avatar = "Avatar",
                 Email = request.Email,
                 Phone = request.Phone,
                 Password = request.Password,

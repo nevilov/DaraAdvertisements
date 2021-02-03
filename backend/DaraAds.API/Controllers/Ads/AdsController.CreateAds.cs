@@ -15,13 +15,24 @@ namespace DaraAds.API.Controllers.Ads
     public partial class AdsController : ControllerBase
     {
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> PostTodoItem(Advertisement newAdvertisement)
         {
             if (newAdvertisement == null)
             {
                 return BadRequest();
             }
+
+            var Ads = new Advertisement
+            {
+                Id = _context.Advertisements.Count() + 1,
+                Title = newAdvertisement.Title,
+                Description = newAdvertisement.Description,
+                Price = newAdvertisement.Price,
+                Cover = newAdvertisement.Cover,
+                Category = newAdvertisement.Category,
+                SubCategory = newAdvertisement.SubCategory
+            };
+
             _context.Advertisements.Add(newAdvertisement);
             await _context.SaveChangesAsync();
 
