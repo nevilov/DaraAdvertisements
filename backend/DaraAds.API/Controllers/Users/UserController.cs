@@ -1,5 +1,6 @@
 ﻿using DaraAds.Core.Dto.Requests;
 using DaraAds.Core.Entities;
+using DaraAds.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,20 +22,26 @@ namespace DaraAds.API.Controllers.Users
     {
         private readonly IConfiguration _configuration;
 
-        public static List<User> Users = new();
+        private readonly DaraAdsDbContext _userContext;
 
-        public UserController(IConfiguration configuration)
+        public UserController(IConfiguration configuration, DaraAdsDbContext userContext)
         {
             _configuration = configuration;
+            _userContext = userContext;
         }
 
 
         [HttpPost("register")]
-        public IActionResult Register(UserRegisterRequest request)
+        public async Task<IActionResult> Register(UserRegisterRequest request)
         {
+            if(request == null)
+            {
+                return BadRequest();
+            }
+
             var newUser = new User
             {
-                Id = Users.Count + 1,
+                Id = _userContext.Users.Count() + 1,
                 Name = request.Name,
                 LastName = request.LastName,
                 Email = request.Email,
@@ -42,7 +49,8 @@ namespace DaraAds.API.Controllers.Users
                 PasswordHash = request.Password,
             };
 
-            Users.Add(newUser);
+            _userContext.Users.Add(newUser);
+            await _userContext.SaveChangesAsync();
 
             return Created($"api/v1/users/{newUser.Id}", newUser.ToDto());
         }        

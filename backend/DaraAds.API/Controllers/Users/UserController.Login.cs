@@ -16,9 +16,9 @@ namespace DaraAds.API.Controllers.Users
     public partial class UserController : ControllerBase
     {
         [HttpPost("login")]
-        public IActionResult Login(UserLoginRequest userModel)
+        public async Task<IActionResult> Login(UserLoginRequest userModel)
         {
-            var user = Users.FirstOrDefault(u => u.Email == userModel.Email && u.PasswordHash == userModel.Password);
+            var user = _userContext.Users.FirstOrDefault(u => u.Email == userModel.Email && u.PasswordHash == userModel.Password);
 
             if (user == null)
             {
