@@ -39,6 +39,6 @@ namespace DaraAds.Core.Entities
         /// <summary>
         /// Пароль пользователя
         /// </summary>
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
     }
 }

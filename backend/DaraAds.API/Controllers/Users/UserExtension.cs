@@ -1,5 +1,7 @@
 ﻿using DaraAds.Core.Dto.Users;
 using DaraAds.Core.Entities;
+using System.Linq;
+using System.Security.Claims;
 
 namespace DaraAds.API.Controllers.Users
 {
@@ -15,6 +17,15 @@ namespace DaraAds.API.Controllers.Users
                 Avatar = user.Avatar,
                 Phone = user.Phone,
                 Email = user.Email,
+            };
+        }
+
+        public static UsersListItemDto ToDto(this ClaimsPrincipal principal)
+        {
+            return new()
+            {
+                Id = int.Parse(principal.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value),
+                Name = principal.Claims.First(c => c.Type == ClaimTypes.Name).Value
             };
         }
     }

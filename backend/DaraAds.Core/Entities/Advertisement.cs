@@ -41,6 +41,9 @@ namespace DaraAds.Core.Entities
         /// </summary>
         public string Category { get; set; }
 
+        /// <summary>
+        /// Код подкатегории товаров
+        /// </summary>
         public string SubCategory { get; set; }
 
     }
