@@ -21,7 +21,7 @@ namespace DaraAds.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("DaraAds.Core.Entities.Advertisement", b =>
+            modelBuilder.Entity("DaraAds.Domain.Entities.Advertisement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,7 +65,7 @@ namespace DaraAds.Infrastructure.Migrations
                     b.ToTable("Advertisements");
                 });
 
-            modelBuilder.Entity("DaraAds.Core.Entities.User", b =>
+            modelBuilder.Entity("DaraAds.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -104,9 +104,9 @@ namespace DaraAds.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DaraAds.Core.Entities.Advertisement", b =>
+            modelBuilder.Entity("DaraAds.Domain.Entities.Advertisement", b =>
                 {
-                    b.HasOne("DaraAds.Core.Entities.User", "OwnerUser")
+                    b.HasOne("DaraAds.Domain.Entities.User", "OwnerUser")
                         .WithMany()
                         .HasForeignKey("OwnerUserId");
 

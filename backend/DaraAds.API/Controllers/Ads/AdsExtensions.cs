@@ -1,9 +1,9 @@
-﻿using DaraAds.Core.Dto.Advertisement;
-using DaraAds.Core.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DaraAds.Domain;
+using DaraAds.Domain.Dto.Advertisement;
 
 namespace DaraAds.API.Controllers.Ads
 {

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DaraAds.Domain.Shared;
 
-namespace DaraAds.Core.Entities
+namespace DaraAds.Domain
 {
     /// <summary>
     /// Сущность пользователь
     /// </summary>
-    public class User : BaseEntity
+    public sealed class User : MutableEntity<int>
     {
         /// <summary>
         /// Имя пользователя

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DaraAds.Core.Dto.Advertisement
+﻿namespace DaraAds.Domain.Dto.Advertisement
 {
     public class AdvertisementDto
     {

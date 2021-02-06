@@ -15,7 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DaraAds.Core\DaraAds.Core.csproj" />
+    <ProjectReference Include="..\DaraAds.Application\DaraAds.Application.csproj" />
+    <ProjectReference Include="..\DaraAds.Domain\DaraAds.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="DataAccess" />
+    <Folder Include="Identity" />
   </ItemGroup>
 
 </Project>

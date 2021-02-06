@@ -1,16 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DaraAds.Domain.Shared;
 
-namespace DaraAds.Core.Entities
+namespace DaraAds.Domain
 {
     /// <summary>
     /// Сущность объявление
     /// </summary>
-    public class Advertisement : BaseEntity
+    public sealed class Advertisement : MutableEntity<int>
     {
+        /// <summary>
+        /// Статусы объявления
+        /// </summary>
+        public enum Statuses
+        {
+            Created,
+            Payed,
+            Closed
+        }
+            
         /// <summary>
         /// Заголовок объявления
         /// </summary>
@@ -26,6 +32,11 @@ namespace DaraAds.Core.Entities
         /// </summary>
         public decimal Price { get; set; }
 
+        /// <summary>
+        /// Статус
+        /// </summary>
+        public Statuses Status { get; set; }
+        
         /// <summary>
         /// Обложка объявления
         /// </summary>

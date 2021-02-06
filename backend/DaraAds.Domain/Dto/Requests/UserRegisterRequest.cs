@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DaraAds.Core.Dto.Requests
+namespace DaraAds.Domain.Dto.Requests
 {
     public sealed class UserRegisterRequest
     {

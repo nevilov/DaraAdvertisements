@@ -21,7 +21,7 @@ namespace DaraAds.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("DaraAds.Core.Entities.Advertisement", b =>
+            modelBuilder.Entity("DaraAds.Domain.Entities.Advertisement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

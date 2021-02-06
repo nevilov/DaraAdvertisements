@@ -1,6 +1,4 @@
-﻿using DaraAds.Core.Dto.Requests;
-using DaraAds.Core.Entities;
-using DaraAds.Infrastructure;
+﻿using DaraAds.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +11,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using DaraAds.Domain;
+using DaraAds.Domain.Dto.Requests;
 
 namespace DaraAds.API.Controllers.Users
 {

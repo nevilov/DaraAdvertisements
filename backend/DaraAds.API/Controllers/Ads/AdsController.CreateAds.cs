@@ -1,15 +1,10 @@
-﻿using DaraAds.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using DaraAds.Core.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using DaraAds.Core.Dto.Advertisement;
 using DaraAds.API.Controllers.Users;
+using DaraAds.Domain;
+using DaraAds.Domain.Dto.Advertisement;
 
 namespace DaraAds.API.Controllers.Ads
 {
@@ -25,7 +20,7 @@ namespace DaraAds.API.Controllers.Ads
                 return BadRequest();
             }
 
-            var userDto = HttpContext.User.ToDto();
+            var userDto = HttpContext.User.ToDto();     
 
             var user = _context.Users.FirstOrDefault(u => u.Id == userDto.Id);
             if (user == null)
