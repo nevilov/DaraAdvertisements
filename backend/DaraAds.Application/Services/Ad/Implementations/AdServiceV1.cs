@@ -93,12 +93,12 @@ namespace DaraAds.Application.Services.Ad.Implementations
             await _repository.Save(ad, cancellationToken);
         }
 
-        public async Task<GetPage.Response> GetPaged(GetPage.Request request, CancellationToken cancellationToken)
+        public async Task<GetPaged.Response> GetPaged(GetPaged.Request request, CancellationToken cancellationToken)
         {
             var total = await _repository.Count(cancellationToken);
             if (total == 0)
             {
-                return new GetPage.Response
+                return new GetPaged.Response
                 {
                     Total = 0,
                     Offset = request.Offset,
@@ -108,9 +108,9 @@ namespace DaraAds.Application.Services.Ad.Implementations
 
             var ads = await _repository.GetPaged(request.Offset, request.Limit, cancellationToken);
 
-            return new GetPage.Response
+            return new GetPaged.Response
             {
-                Items = ads.Select(a => new GetPage.Response.Item
+                Items = ads.Select(a => new GetPaged.Response.Item
                 {
                     Id = a.Id,
                     Title = a.Title,

@@ -84,7 +84,9 @@ namespace DaraAds.Application.Services.User.Implementations
         {
             var user = new Domain.User
             {
+                Email = request.Email,
                 Name = request.Name,
+                LastName = request.LastName,
                 PasswordHash = request.Password,
                 CreatedDate = DateTime.UtcNow
             };

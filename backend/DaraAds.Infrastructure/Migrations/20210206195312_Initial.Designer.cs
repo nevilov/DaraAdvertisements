@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DaraAds.Infrastructure.Migrations
 {
     [DbContext(typeof(DaraAdsDbContext))]
-    [Migration("20210201170048_ChangedAds")]
-    partial class ChangedAds
+    [Migration("20210206195312_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace DaraAds.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("DaraAds.Domain.Entities.Advertisement", b =>
+            modelBuilder.Entity("DaraAds.Domain.Advertisement", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,14 +40,14 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<int?>("OwnerUserId")
-                        .HasColumnType("integer");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
                     b.Property<DateTime?>("RemovedDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("SubCategory")
                         .HasColumnType("text");
@@ -58,14 +58,17 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Advertisements");
                 });
 
-            modelBuilder.Entity("DaraAds.Domain.Entities.User", b =>
+            modelBuilder.Entity("DaraAds.Domain.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +90,7 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
                     b.Property<string>("Phone")
@@ -101,14 +104,16 @@ namespace DaraAds.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DaraAds.Domain.Entities.Advertisement", b =>
+            modelBuilder.Entity("DaraAds.Domain.Advertisement", b =>
                 {
-                    b.HasOne("DaraAds.Domain.Entities.User", "OwnerUser")
+                    b.HasOne("DaraAds.Domain.User", "OwnerUser")
                         .WithMany()
-                        .HasForeignKey("OwnerUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("OwnerUser");
                 });

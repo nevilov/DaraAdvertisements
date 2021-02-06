@@ -14,6 +14,6 @@ namespace DaraAds.Application.Services.Ad.Interfaces
 
         Task<Update.Response> Update(Update.Request request, CancellationToken cancellationToken);
         
-        Task<GetPage.Response> GetPaged(GetPage.Request request, CancellationToken cancellationToken);
+        Task<GetPaged.Response> GetPaged(GetPaged.Request request, CancellationToken cancellationToken);
     }
 }
