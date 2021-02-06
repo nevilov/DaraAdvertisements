@@ -2,9 +2,9 @@
 
 namespace DaraAds.Application.Services.User.Contracts.Extantions
 {
-    public sealed class NotRightExctention : NoRightException
+    public sealed class NoRightsException : NoRightException
     {
-        public NotRightExctention(string message) : base(message)
+        public NoRightsException(string message) : base(message)
         {
         }
     }
