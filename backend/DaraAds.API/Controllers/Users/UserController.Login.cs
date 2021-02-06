@@ -8,7 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using DaraAds.Domain.Dto.Requests;
+using DaraAds.Domain.Dto.Users.Requests;
 
 namespace DaraAds.API.Controllers.Users
 {

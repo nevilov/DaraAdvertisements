@@ -9,9 +9,6 @@
             public decimal Price { get; set; }
             public string Cover { get; set; }
             
-            //Решить судьбу этих полей
-            //public string Category { get; set; }
-            //public string SubCategory { get; set; }
         }
 
         public sealed class Response

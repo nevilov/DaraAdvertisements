@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DaraAds.Domain.Dto.Requests
+namespace DaraAds.Domain.Dto.Users.Requests
 {
     public sealed class UserRegisterRequest
     {
