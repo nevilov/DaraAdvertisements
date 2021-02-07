@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DaraAds.Application.Services.Ad.Contracts
 {
-    public static class GetPaged
+    public static class GetPages
     {
         public sealed class Request
         {

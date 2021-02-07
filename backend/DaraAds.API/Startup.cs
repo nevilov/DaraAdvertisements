@@ -43,9 +43,9 @@ namespace DaraAds.API
             services.AddScoped<IAdService, AdServiceV1>();
 
             services
-             .AddSingleton<InMemoryRepository>()
-             .AddSingleton<IRepository<Domain.Advertisement, int>>(sp => sp.GetService<InMemoryRepository>())
-             .AddSingleton<IRepository<Domain.User, int>>(sp => sp.GetService<InMemoryRepository>());
+             .AddScoped<InMemoryRepository>()
+             .AddScoped<IRepository<Domain.Advertisement, int>>(sp => sp.GetService<InMemoryRepository>())
+             .AddScoped<IRepository<Domain.User, int>>(sp => sp.GetService<InMemoryRepository>());
 
             services
             .AddHttpContextAccessor()

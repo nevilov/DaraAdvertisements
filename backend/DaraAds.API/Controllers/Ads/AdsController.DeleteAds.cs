@@ -7,42 +7,25 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using DaraAds.API.Controllers.Users;
+using DaraAds.Application.Services.Ad.Interfaces;
+using System.Threading;
+using DaraAds.Application.Services.Ad.Contracts;
 
 namespace DaraAds.API.Controllers.Ads
 {
     public partial class AdsController : ControllerBase
     {
-        [HttpDelete("{id}")]
-        [Authorize]
-        public async Task<IActionResult> DeleteAds(int id)
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(
+            [FromRoute] int id,
+            [FromServices] IAdService service,
+            CancellationToken cancellationToken
+            )
         {
-            var userDto = HttpContext.User.ToDto();
-            var user = _context.Users.FirstOrDefault(u => u.Id == userDto.Id);
-            if (user == null)
+            await service.Delete(new Delete.Request
             {
-                return BadRequest($"Не существует пользователя с Id: {userDto.Id}");
-            }
-
-            var advertisement = _context.Advertisements.FirstOrDefault(adv => adv.Id == id);
-
-            if (advertisement == null)
-            {
-                return NotFound($"Не существует объявления с Id:{id}");
-            }
-
-            if (advertisement.OwnerUser.Id != user.Id)
-            {
-                return Forbid("Нет прав на удаление данного объявления");
-            }
-
-            if (advertisement == null)
-            {
-                return NotFound();
-            }
-
-            _context.Advertisements.Remove(advertisement);
-            await _context.SaveChangesAsync();
-
+                Id = id
+            }, cancellationToken);
             return NoContent();
         }
     }
