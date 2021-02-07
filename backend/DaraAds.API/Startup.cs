@@ -1,7 +1,15 @@
+using DaraAds.Application;
+using DaraAds.Application.Services.Ad.Implementations;
+using DaraAds.Application.Services.Ad.Interfaces;
+using DaraAds.Application.Services.User.Implementations;
+using DaraAds.Application.Services.User.Interfaces;
 using DaraAds.Infrastructure;
+using DaraAds.Infrastructure.DataAccess;
+using DaraAds.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,9 +39,22 @@ namespace DaraAds.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IUserService, UserServiceV1>();
+            services.AddScoped<IAdService, AdServiceV1>();
+
+            services
+             .AddSingleton<InMemoryRepository>()
+             .AddSingleton<IRepository<Domain.Advertisement, int>>(sp => sp.GetService<InMemoryRepository>())
+             .AddSingleton<IRepository<Domain.User, int>>(sp => sp.GetService<InMemoryRepository>());
+
+            services
+            .AddHttpContextAccessor()
+            .AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
+                c.CustomSchemaIds(type => type.FullName.Replace("+", "_"));
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DaraAds.API", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
