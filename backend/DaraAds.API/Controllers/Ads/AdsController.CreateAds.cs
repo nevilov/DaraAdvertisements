@@ -5,47 +5,54 @@ using Microsoft.AspNetCore.Authorization;
 using DaraAds.API.Controllers.Users;
 using DaraAds.Domain;
 using DaraAds.Domain.Dto.Advertisement;
+using Microsoft.AspNetCore.Http;
+using DaraAds.Application.Services.Ad.Interfaces;
+using System.Threading;
+using System.ComponentModel.DataAnnotations;
+using DaraAds.Application.Services.Ad.Contracts;
 
 namespace DaraAds.API.Controllers.Ads
 {
     
     public partial class AdsController : ControllerBase
     {
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> PostTodoItem(AdvertisementDto newAdvertisement)
+       [HttpPost]
+       [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> Create(
+            AdvertisementCreateRequest request,
+            [FromServices] IAdService service,
+            CancellationToken cancellationToken
+        )
         {
-            if (newAdvertisement == null)
+            var response = await service.Create(new Create.Request
             {
-                return BadRequest();
-            }
+                Title = request.Title,
+                Description = request.Description,
+                Price = request.Price,
+                Cover = request.Cover
+            }, cancellationToken);
 
-            var userDto = HttpContext.User.ToDto();     
-
-            var user = _context.Users.FirstOrDefault(u => u.Id == userDto.Id);
-            if (user == null)
-            {
-                return BadRequest($"Не существует пользователя с Id: {userDto.Id}");
-            }
-
-            var Ads = new Advertisement
-            {
-                Id = _context.Advertisements.Count() + 1,
-                Title = newAdvertisement.Title,
-                Description = newAdvertisement.Description,
-                Price = newAdvertisement.Price,
-                Cover = newAdvertisement.Cover,
-                Category = newAdvertisement.Category,
-                SubCategory = newAdvertisement.SubCategory,
-                OwnerUser = user
-            };
-
-            _context.Advertisements.Add(Ads);
-            await _context.SaveChangesAsync();
-
-            
-            return Created($"api/Ads/{Ads.Id}", AdsExtensions.ToDto(Ads));
+            return Created($"api/v1/advertisements/{response.Id}", new { });
         }
 
+        public sealed class AdvertisementCreateRequest
+        {
+
+            [Required]
+            [MaxLength(100)]
+            public string Title { get; set; }
+
+            [Required]
+            [MaxLength(10000)]
+            public string Description { get; set; }
+
+            [Required]
+            [Range(0, 100_000_000_000)]
+            public decimal Price { get; set; }
+
+            [Required]
+            [MaxLength(300)]
+            public string Cover { get; set; }
+        }
     }
 }

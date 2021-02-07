@@ -13,6 +13,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DaraAds.Domain;
 using DaraAds.Domain.Dto.Users.Requests;
+using Microsoft.AspNetCore.Http;
+using DaraAds.Application.Services.User.Interfaces;
+using System.Threading;
+using DaraAds.Application.Services.User.Contracts;
 
 namespace DaraAds.API.Controllers.Users
 {
@@ -20,39 +24,22 @@ namespace DaraAds.API.Controllers.Users
     [ApiController]
     public partial class UserController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-
-        private readonly DaraAdsDbContext _userContext;
-
-        public UserController(IConfiguration configuration, DaraAdsDbContext userContext)
-        {
-            _configuration = configuration;
-            _userContext = userContext;
-        }
-
-
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegisterRequest request)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> Register(
+            [FromBody] UserRegisterRequest request,
+            [FromServices] IUserService service,
+            CancellationToken cancellationToken)
         {
-            if (request == null)
+            var response = await service.Register(new Register.Request
             {
-                return BadRequest();
-            }
-
-            var newUser = new User
-            {
-                Id = _userContext.Users.Count() + 1,
+                Email = request.Email,
                 Name = request.Name,
                 LastName = request.LastName,
-                Email = request.Email,
-                Phone = request.Phone,
-                PasswordHash = request.Password,
-            };
+                Password = request.Password
+            }, cancellationToken);
 
-            _userContext.Users.Add(newUser);
-            await _userContext.SaveChangesAsync();
-
-            return Created($"api/v1/users/{newUser.Id}", newUser.ToDto());
+            return Created($"api/v1/users/{response.UserId}", new { });
         }        
     }
 }
