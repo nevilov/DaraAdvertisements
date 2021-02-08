@@ -13,13 +13,11 @@ namespace DaraAds.Application.Services.Ad.Implementations
     public sealed class AdServiceV1 : IAdService
     {
         private readonly IRepository<Advertisement, int> _repository;
-        private readonly IRepository<Domain.User, int> _repositoryUser;
         private readonly IUserService _userService;
 
-        public AdServiceV1(IRepository<Advertisement, int> repository, IRepository<Domain.User, int> repositoryUser, IUserService userService)
+        public AdServiceV1(IRepository<Advertisement, int> repository, IUserService userService)
         {
             _repository = repository;
-            _repositoryUser = repositoryUser;
             _userService = userService;
         }
 
@@ -59,14 +57,6 @@ namespace DaraAds.Application.Services.Ad.Implementations
                 throw new NoAdFoundException(request.Id);
             }
 
-            //FIND USER BY ID
-            var adOwner = await _repositoryUser.FindWhere(u => u.Id == ad.UserId, cancellationToken);
-
-            if (adOwner == null)
-            {
-                throw new NoAdFoundException(request.Id); //NO USER OWNER FOUND
-            }
-
             return new Get.Response
             {
                 Title = ad.Title,
@@ -77,9 +67,9 @@ namespace DaraAds.Application.Services.Ad.Implementations
                 
                 Owner = new Get.Response.OwnerResponse
                 {
-                    Id = adOwner.Id,
-                    Name  = adOwner.Name,
-                    LastName = adOwner.LastName
+                    Id = ad.OwnerUser.Id,
+                    Name  = ad.OwnerUser.Name,
+                    LastName = ad.OwnerUser.LastName
                 }
             };
         }
