@@ -64,12 +64,33 @@ namespace DaraAds.Infrastructure.DataAccess
                 entity.Id = Guid.NewGuid().GetHashCode();
             }
 
+            //_context.Advertisements.Add(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Add(Advertisement entity, CancellationToken cancellationToken)
+        {
+            if (entity.Id == 0)
+            {
+                entity.Id = Guid.NewGuid().GetHashCode();
+            }
+
             _context.Advertisements.Add(entity);
             await _context.SaveChangesAsync();
-
         }
 
         public async Task Save(User entity, CancellationToken cancellationToken)
+        {
+            if (entity.Id == 0)
+            {
+                entity.Id = Guid.NewGuid().GetHashCode();
+            }
+
+            //_context.Users.Add(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Add(User entity, CancellationToken cancellationToken)
         {
             if (entity.Id == 0)
             {

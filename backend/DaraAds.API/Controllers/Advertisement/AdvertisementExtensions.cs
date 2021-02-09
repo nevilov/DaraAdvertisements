@@ -7,7 +7,7 @@ using DaraAds.Domain.Dto.Advertisement;
 
 namespace DaraAds.API.Controllers.Ads
 {
-    public static class AdsExtensions
+    public static class AdvertisementExtensions
     {
         public static AdvertisementDto ToDto(Advertisement advertisement) {
             if (advertisement == null)

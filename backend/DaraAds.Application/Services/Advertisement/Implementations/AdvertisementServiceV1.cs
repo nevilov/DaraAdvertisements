@@ -10,12 +10,12 @@ using DaraAds.Domain;
 
 namespace DaraAds.Application.Services.Ad.Implementations
 {
-    public sealed class AdServiceV1 : IAdService
+    public sealed class AdvertisementServiceV1 : IAdvertisementService
     {
         private readonly IRepository<Advertisement, int> _repository;
         private readonly IUserService _userService;
 
-        public AdServiceV1(IRepository<Advertisement, int> repository, IUserService userService)
+        public AdvertisementServiceV1(IRepository<Advertisement, int> repository, IUserService userService)
         {
             _repository = repository;
             _userService = userService;
@@ -42,7 +42,7 @@ namespace DaraAds.Application.Services.Ad.Implementations
                 CreatedDate = DateTime.UtcNow
             };
 
-            await _repository.Save(ad, cancellationToken);
+            await _repository.Add(ad, cancellationToken);
             return new Create.Response
             {
                 Id = ad.Id

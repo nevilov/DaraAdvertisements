@@ -13,7 +13,7 @@ namespace DaraAds.API.Controllers.Ads
 {
     [ApiController]
     [Route("api/[controller]")]
-    public partial class AdsController : ControllerBase
+    public partial class AdvertisementController : ControllerBase
     {
     }
 }

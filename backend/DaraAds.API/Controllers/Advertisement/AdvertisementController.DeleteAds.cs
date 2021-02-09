@@ -13,12 +13,12 @@ using DaraAds.Application.Services.Ad.Contracts;
 
 namespace DaraAds.API.Controllers.Ads
 {
-    public partial class AdsController : ControllerBase
+    public partial class AdvertisementController : ControllerBase
     {
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(
+            public async Task<IActionResult> Delete(
             [FromRoute] int id,
-            [FromServices] IAdService service,
+            [FromServices] IAdvertisementService service,
             CancellationToken cancellationToken
             )
         {

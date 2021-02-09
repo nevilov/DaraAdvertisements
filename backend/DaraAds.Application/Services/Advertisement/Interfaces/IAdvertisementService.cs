@@ -4,7 +4,7 @@ using DaraAds.Application.Services.Ad.Contracts;
 
 namespace DaraAds.Application.Services.Ad.Interfaces
 {
-    public interface IAdService
+    public interface IAdvertisementService
     {
         Task<Create.Response> Create(Create.Request request, CancellationToken cancellationToken);
 
