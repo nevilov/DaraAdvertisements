@@ -14,14 +14,14 @@ using System.Threading;
 
 namespace DaraAds.API.Controllers.Ads
 {
-    public partial class AdsController : ControllerBase
+    public partial class AdvertisementController : ControllerBase
     {
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(GetPages.Response), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll(
             [FromQuery] GetAllRequest request,
-            [FromServices] IAdService adService,
+            [FromServices] IAdvertisementService adService,
             CancellationToken cancellationToken)
         {
             return Ok(await adService.GetPages(new GetPages.Request
@@ -36,7 +36,7 @@ namespace DaraAds.API.Controllers.Ads
         [AllowAnonymous]
         public async Task<IActionResult> GetById(
             [FromRoute] int id,
-            [FromServices] IAdService service,
+            [FromServices] IAdvertisementService service,
             CancellationToken cancellationToken
         )
         {

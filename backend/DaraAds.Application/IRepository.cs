@@ -12,6 +12,7 @@ namespace DaraAds.Application
     {
         Task<TEntity> FindById(TId id, CancellationToken cancellationToken);
         Task Save(TEntity entity, CancellationToken cancellationToken);
+        Task Add(TEntity entity, CancellationToken cancellationToken);
 
         Task<TEntity> FindWhere(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
 

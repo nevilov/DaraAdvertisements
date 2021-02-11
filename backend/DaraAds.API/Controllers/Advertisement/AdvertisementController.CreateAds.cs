@@ -14,13 +14,13 @@ using DaraAds.Application.Services.Ad.Contracts;
 namespace DaraAds.API.Controllers.Ads
 {
     
-    public partial class AdsController : ControllerBase
+    public partial class AdvertisementController : ControllerBase
     {
        [HttpPost]
        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(
             AdvertisementCreateRequest request,
-            [FromServices] IAdService service,
+            [FromServices] IAdvertisementService service,
             CancellationToken cancellationToken
         )
         {

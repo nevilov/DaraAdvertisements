@@ -40,7 +40,7 @@ namespace DaraAds.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserServiceV1>();
-            services.AddScoped<IAdService, AdServiceV1>();
+            services.AddScoped<IAdvertisementService, AdvertisementServiceV1>();
 
             services
              .AddScoped<InMemoryRepository>()

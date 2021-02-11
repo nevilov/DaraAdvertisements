@@ -11,7 +11,7 @@ using DaraAds.Domain;
 
 namespace DaraAds.API.Controllers.Ads
 {
-    public partial class AdsController : ControllerBase
+    public partial class AdvertisementController : ControllerBase
     {
     }
 }
