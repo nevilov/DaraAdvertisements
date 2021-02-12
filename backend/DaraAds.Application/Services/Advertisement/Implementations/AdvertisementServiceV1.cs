@@ -2,20 +2,19 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DaraAds.Application.Services.Ad.Contracts;
-using DaraAds.Application.Services.Ad.Contracts.Exeptions;
-using DaraAds.Application.Services.Ad.Interfaces;
+using DaraAds.Application.Services.Advertisement.Contracts;
+using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;
+using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.Application.Services.User.Interfaces;
-using DaraAds.Domain;
 
-namespace DaraAds.Application.Services.Ad.Implementations
+namespace DaraAds.Application.Services.Advertisement.Implementations
 {
     public sealed class AdvertisementServiceV1 : IAdvertisementService
     {
-        private readonly IRepository<Advertisement, int> _repository;
+        private readonly IRepository<Domain.Advertisement, int> _repository;
         private readonly IUserService _userService;
 
-        public AdvertisementServiceV1(IRepository<Advertisement, int> repository, IUserService userService)
+        public AdvertisementServiceV1(IRepository<Domain.Advertisement, int> repository, IUserService userService)
         {
             _repository = repository;
             _userService = userService;
@@ -31,18 +30,18 @@ namespace DaraAds.Application.Services.Ad.Implementations
                 throw new NoUserForAdCreationException($"Попытка создания объявления [{request.Title}] без пользователя.");
             }
 
-            var ad = new Advertisement
+            var ad = new Domain.Advertisement
             {
                 Title = request.Title,
                 Description = request.Description,
                 Price = request.Price,
                 Cover = request.Cover,
                 UserId = user.Id,
-                Status = Advertisement.Statuses.Created,
+                Status = Domain.Advertisement.Statuses.Created,
                 CreatedDate = DateTime.UtcNow
             };
 
-            await _repository.Add(ad, cancellationToken);
+            await _repository.Save(ad, cancellationToken);
             return new Create.Response
             {
                 Id = ad.Id
@@ -82,12 +81,12 @@ namespace DaraAds.Application.Services.Ad.Implementations
                 throw new NoAdFoundException(request.Id);
             }
 
-            if (ad.Status != Advertisement.Statuses.Created)
+            if (ad.Status != Domain.Advertisement.Statuses.Created)
             {
                 throw new AdShouldBeInCreatedStateForClosingException(ad.Id);
             }
 
-            ad.Status = Advertisement.Statuses.Closed;
+            ad.Status = Domain.Advertisement.Statuses.Closed;
             ad.UpdatedDate = DateTime.UtcNow;
 
             await _repository.Save(ad, cancellationToken);

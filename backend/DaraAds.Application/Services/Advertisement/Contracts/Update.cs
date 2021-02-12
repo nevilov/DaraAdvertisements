@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DaraAds.Application.Services.Ad.Contracts
+namespace DaraAds.Application.Services.Advertisement.Contracts
 {
     public static class Update
     {
