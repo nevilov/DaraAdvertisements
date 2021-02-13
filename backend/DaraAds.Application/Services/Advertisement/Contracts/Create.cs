@@ -1,4 +1,4 @@
-﻿namespace DaraAds.Application.Services.Ad.Contracts
+﻿namespace DaraAds.Application.Services.Advertisement.Contracts
 {
     public static class Create
     {

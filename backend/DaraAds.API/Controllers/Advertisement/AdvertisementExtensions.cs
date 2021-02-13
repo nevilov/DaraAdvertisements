@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DaraAds.Domain;
-using DaraAds.Domain.Dto.Advertisement;
+﻿using DaraAds.Domain.Dto.Advertisement;
 
-namespace DaraAds.API.Controllers.Ads
+namespace DaraAds.API.Controllers.Advertisement
 {
     public static class AdvertisementExtensions
     {
-        public static AdvertisementDto ToDto(Advertisement advertisement) {
+        public static AdvertisementDto ToDto(Domain.Advertisement advertisement) {
             if (advertisement == null)
             {
                 return null;
