@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace DaraAds.API.Controllers.Abuse
 {
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     [Route("api/[controller]")]
     public sealed partial class AbuseController : ControllerBase
     {

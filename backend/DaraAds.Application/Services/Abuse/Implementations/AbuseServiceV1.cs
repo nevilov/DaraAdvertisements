@@ -15,22 +15,31 @@ namespace DaraAds.Application.Services.Abuse.Implementations
     public sealed class AbuseServiceV1 : IAbuseService
     {
         private readonly IRepository<Domain.Abuse, int> _repository;
-//        private readonly IUserService _userService;
-        public AbuseServiceV1(IRepository<Domain.Abuse, int> repository) => _repository = repository;
+        private readonly IUserService _userService;
+
+        public AbuseServiceV1(IRepository<Domain.Abuse, int> repository, IUserService userService)
+        {
+            _repository = repository;
+            _userService = userService;
+        }
+
         public async Task<CreateAbuse.Response> CreateAbuse(
             CreateAbuse.Request request,
             CancellationToken cancellationToken)
         {
-//            var user = await _userService.GetCurrent(cancellationToken);
-//            if (user == null)
-//            {
-//                throw new NoRightsException("Нет прав");
-//            }
+            var user = await _userService.GetCurrent(cancellationToken);
+            if (user == null)
+            {
+                throw new NoRightsException("Нет прав");
+            }
+
+
             var abuse = new Domain.Abuse
             {
                 AbuseAdvId = request.AbuseAdvId,
                 AbuseText = request.AbuseText,
-//                AuthorId = user.Id
+                AuthorId = user.Id,
+                CreatedDate = DateTime.UtcNow
             };
             await _repository.Save(abuse, cancellationToken);
 
@@ -44,16 +53,16 @@ namespace DaraAds.Application.Services.Abuse.Implementations
         public async Task<GetAbusePages.Response> GetAbusePages(GetAbusePages.Request request, CancellationToken cancellationToken)
         {
 
-//            var total = await _repository.Count(cancellationToken);
-//            if (total == 0)
-//            {
-//                return new GetAbusePages.Response
-//                {
-//                    Total = 0,
-//                    Offset = request.Offset,
-//                    Limit = request.Limit
-//                };
-//            }
+            var total = await _repository.Count(cancellationToken);
+            if (total == 0)
+            {
+                return new GetAbusePages.Response
+                {
+                    Total = 0,
+                    Offset = request.Offset,
+                    Limit = request.Limit
+                };
+            }
 
             var abuses = await _repository.GetPaged(request.Offset, request.Limit, cancellationToken);
 
@@ -67,7 +76,7 @@ namespace DaraAds.Application.Services.Abuse.Implementations
                     Priority = a.Priority,
                     AbuseText = a.AbuseText
                 }),
-//                Total = 10,
+                Total = 10,
                 Offset = request.Offset,
                 Limit = request.Limit
             };

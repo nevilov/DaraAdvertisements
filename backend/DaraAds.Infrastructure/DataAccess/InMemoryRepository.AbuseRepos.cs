@@ -16,7 +16,6 @@ namespace DaraAds.Infrastructure.DataAccess
         IRepository<User, int>,
         IRepository<Abuse, int>
     {
-        //ABUSE REPOSITORY BEGIN
         Task<Abuse> IRepository<Abuse, int>.FindById(int id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -26,28 +25,25 @@ namespace DaraAds.Infrastructure.DataAccess
         {
             if (entity.Id == 0)
             {
-                entity.Id = Guid.NewGuid().GetHashCode();
+                entity.Id = _context.Abuses.Count() + 1;
             }
-            await _context.SaveChangesAsync();
-        }
 
-        public async Task Add(Abuse entity, CancellationToken cancellationToken)
-        {
-            if (entity.Id == 0)
+            var entry = _context.Entry(entity);
+
+            if(entry.State == EntityState.Detached)
             {
-                entity.Id = Guid.NewGuid().GetHashCode();
+                await _context.Abuses.AddAsync(entity);
             }
 
-            _context.Abuses.Add(entity);
             await _context.SaveChangesAsync();
         }
+
 
         public async Task<Abuse> FindWhere(Expression<Func<Abuse, bool>> predicate, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        //ABUSE GET PAGE & COUNT BEGIN
 
         async Task<IEnumerable<Abuse>> IRepository<Abuse, int>.GetPaged(int offset, int limit, CancellationToken cancellationToken)
         {
@@ -57,8 +53,6 @@ namespace DaraAds.Infrastructure.DataAccess
            .Take(limit)
            .ToListAsync();
         }
-
-        //ABUSE REPOSITORY END
     }
 
 }
