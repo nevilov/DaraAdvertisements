@@ -2,6 +2,7 @@
 
 namespace DaraAds.Domain
 {
+
     /// <summary>
     /// Сущность объявление
     /// </summary>

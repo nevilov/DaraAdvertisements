@@ -16,6 +16,7 @@ namespace DaraAds.Infrastructure
 
         public DbSet<Advertisement> Advertisements { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Abuse> Abuses { get; set; }
 
     }
 }
