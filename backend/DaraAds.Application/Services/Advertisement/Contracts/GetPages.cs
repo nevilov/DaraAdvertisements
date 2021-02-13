@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace DaraAds.Application.Services.Ad.Contracts
+namespace DaraAds.Application.Services.Advertisement.Contracts
 {
     public static class GetPages
     {

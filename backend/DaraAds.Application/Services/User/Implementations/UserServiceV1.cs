@@ -91,7 +91,7 @@ namespace DaraAds.Application.Services.User.Implementations
                 CreatedDate = DateTime.UtcNow
             };
 
-            await _repository.Add(user, cancellationToken);
+            await _repository.Save(user, cancellationToken);
 
             return new Register.Response
             {

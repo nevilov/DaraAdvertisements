@@ -32,7 +32,7 @@ namespace DaraAds.Application.Services.Abuse.Implementations
                 AbuseText = request.AbuseText,
 //                AuthorId = user.Id
             };
-            await _repository.Add(abuse, cancellationToken);
+            await _repository.Save(abuse, cancellationToken);
 
             return new CreateAbuse.Response
             {

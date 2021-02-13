@@ -1,6 +1,5 @@
 ﻿using DaraAds.Application.Services.Abuse.Contracts;
 using DaraAds.Application.Services.Abuse.Interfaces;
-using DaraAds.Application.Services.Ad.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

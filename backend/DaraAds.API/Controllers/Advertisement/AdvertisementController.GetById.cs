@@ -1,18 +1,12 @@
-﻿using DaraAds.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DaraAds.Domain;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using DaraAds.Application.Services.Ad.Interfaces;
-using DaraAds.Application.Services.Ad.Contracts;
-using System.Net;
+﻿using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
+using DaraAds.Application.Services.Advertisement.Contracts;
+using DaraAds.Application.Services.Advertisement.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace DaraAds.API.Controllers.Ads
+namespace DaraAds.API.Controllers.Advertisement
 {
     public partial class AdvertisementController : ControllerBase
     {

@@ -1,5 +1,4 @@
 ﻿using DaraAds.Application.Services.Abuse.Contracts;
-using DaraAds.Application.Services.Ad.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

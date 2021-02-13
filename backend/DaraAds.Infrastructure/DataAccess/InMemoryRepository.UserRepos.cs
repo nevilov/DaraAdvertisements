@@ -26,22 +26,17 @@ namespace DaraAds.Infrastructure.DataAccess
         {
             if (entity.Id == 0)
             {
-                entity.Id = Guid.NewGuid().GetHashCode();
+                entity.Id = _context.Users.Count() + 1;
             }
 
-            //_context.Users.Add(entity);
-            await _context.SaveChangesAsync();
-        }
+            var entry = _context.Entry(entity);
 
-        public async Task Add(User entity, CancellationToken cancellationToken)
-        {
-            if (entity.Id == 0)
+            if (entry.State == EntityState.Detached)
             {
-                entity.Id = Guid.NewGuid().GetHashCode();
+                await _context.Users.AddAsync(entity, cancellationToken);
             }
 
-            _context.Users.Add(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         async Task<User> IRepository<User, int>.FindById(int id, CancellationToken cancellationToken)

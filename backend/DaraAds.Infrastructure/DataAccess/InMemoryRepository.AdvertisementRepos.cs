@@ -43,22 +43,17 @@ namespace DaraAds.Infrastructure.DataAccess
         {
             if (entity.Id == 0)
             {
-                entity.Id = Guid.NewGuid().GetHashCode();
+                entity.Id = _context.Advertisements.Count() + 1;
             }
 
-            //_context.Advertisements.Add(entity);
-            await _context.SaveChangesAsync();
-        }
+            var entry = _context.Entry(entity);
 
-        public async Task Add(Advertisement entity, CancellationToken cancellationToken)
-        {
-            if (entity.Id == 0)
+            if (entry.State == EntityState.Detached)
             {
-                entity.Id = Guid.NewGuid().GetHashCode();
+                await _context.Advertisements.AddAsync(entity, cancellationToken);
             }
 
-            _context.Advertisements.Add(entity);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<int> Count(CancellationToken cancellationToken)

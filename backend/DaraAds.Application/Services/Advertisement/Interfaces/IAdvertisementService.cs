@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using DaraAds.Application.Services.Ad.Contracts;
+using DaraAds.Application.Services.Advertisement.Contracts;
 
-namespace DaraAds.Application.Services.Ad.Interfaces
+namespace DaraAds.Application.Services.Advertisement.Interfaces
 {
     public interface IAdvertisementService
     {
