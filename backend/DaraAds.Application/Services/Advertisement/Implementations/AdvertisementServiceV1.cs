@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
+using DaraAds.Application.Services.User.Contracts.Extantions;
 using DaraAds.Application.Services.User.Interfaces;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
@@ -126,7 +127,37 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<Update.Response> Update(Update.Request request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var user = await _userService.GetCurrent(cancellationToken);
+            var advertisement = await _repository.FindById(request.Id, cancellationToken);
+
+            if (user == null)
+            {
+                throw new NoUserFoundException($"Пользователь не найден");
+            }
+
+            if (advertisement == null)
+            {
+                throw new NoAdFoundException(request.Id);
+            }
+
+            if (user.Id != advertisement.OwnerUser.Id)
+            {
+                throw new NoRightsException($"Нет прав отредактировать объявление с id [{request.Id}]");
+            }
+
+            advertisement.Title = request.Title;
+            advertisement.Description = request.Description;
+            advertisement.Price = request.Price;
+            advertisement.Cover = request.Cover;
+            advertisement.UpdatedDate = DateTime.UtcNow;
+            //Status = (Enum.Parse<Domain.Advertisement.Statuses>(request.Status)).ToString;
+
+            await _repository.Save(advertisement, cancellationToken);
+
+            return new Update.Response
+            {
+                Id = request.Id
+            };    
         }
     }
 }

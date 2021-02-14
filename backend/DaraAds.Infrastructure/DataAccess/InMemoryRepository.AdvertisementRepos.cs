@@ -19,7 +19,12 @@ namespace DaraAds.Infrastructure.DataAccess
         public async Task<Advertisement> FindById(int id, CancellationToken cancellationToken)
         {
             var ad = await _context.Advertisements.FindAsync(id);
+            if (ad == null)
+            {
+                return null;
+            }
             var user = await _context.Users.FindAsync(ad.UserId);
+
             ad.OwnerUser = user;
             return ad;
         }
