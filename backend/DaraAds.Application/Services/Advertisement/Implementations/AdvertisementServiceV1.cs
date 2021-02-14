@@ -124,9 +124,21 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             };
         }
 
-        public async Task<Update.Response> Update(Update.Request request, CancellationToken cancellationToken)
+        public async Task Update(Update.Request request, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            var ad = await _repository.FindById(request.Id, cancellationToken);
+            if (ad == null)
+            {
+                throw new NoAdFoundException(request.Id);
+            }
+
+            ad.Title = request.Title;
+            ad.Description = request.Description;
+            ad.Price = request.Price;
+            ad.Cover = request.Cover;
+            ad.UpdatedDate = DateTime.UtcNow;
+
+            await _repository.Save(ad, cancellationToken);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
 
         Task Delete(Delete.Request request, CancellationToken cancellationToken);
 
-        Task<Update.Response> Update(Update.Request request, CancellationToken cancellationToken);
+        Task Update(Update.Request request, CancellationToken cancellationToken);
         
         Task<GetPages.Response> GetPages(GetPages.Request request, CancellationToken cancellationToken);
     }
