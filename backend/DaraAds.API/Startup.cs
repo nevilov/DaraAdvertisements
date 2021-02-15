@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Text;
 using DaraAds.Application.Services.Advertisement.Implementations;
 using DaraAds.Application.Services.Advertisement.Interfaces;
+using DaraAds.API.Controllers;
 
 namespace DaraAds.API
 {
@@ -49,39 +50,8 @@ namespace DaraAds.API
             .AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.CustomSchemaIds(type => type.FullName.Replace("+", "_"));
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DaraAds.API", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
-                        Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\n
-                        Example: 'Bearer 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme
-                });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
-                            Scheme = "oauth2",
-                            Name = "Bearer",
-                            In = ParameterLocation.Header,
-                        },
-                        new List<string>()
-                    }
-                });
-            });
+            services.AddSwaggerModule();
 
             //JWT-token settings
             services
@@ -104,11 +74,17 @@ namespace DaraAds.API
             {
                 p.UseNpgsql(Configuration.GetConnectionString("PostgreDB"));
             });
+
+            services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Init migrations
+            using var scope = app.ApplicationServices.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<DaraAdsDbContext>();
+            db.Database.Migrate();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -117,7 +93,7 @@ namespace DaraAds.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseApplicationException();
             app.UseRouting();
 
             app.UseAuthentication();
