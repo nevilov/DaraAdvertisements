@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Text;
 using DaraAds.Application.Services.Advertisement.Implementations;
 using DaraAds.Application.Services.Advertisement.Interfaces;
+using DaraAds.API.Controllers;
 
 namespace DaraAds.API
 {
@@ -117,7 +118,7 @@ namespace DaraAds.API
             }
 
             app.UseHttpsRedirection();
-
+            app.UseApplicationException();
             app.UseRouting();
 
             app.UseAuthentication();
