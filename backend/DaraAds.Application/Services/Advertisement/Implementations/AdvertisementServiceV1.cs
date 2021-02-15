@@ -77,9 +77,17 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         public async Task Delete(Delete.Request request, CancellationToken cancellationToken)
         {
             var ad = await _repository.FindById(request.Id, cancellationToken);
+
             if (ad == null)
             {
                 throw new NoAdFoundException(request.Id);
+            }
+
+            var user = await _userService.GetCurrent(cancellationToken);
+
+            if (user == null)
+            {
+                throw new NoUserForAdCreationException($"Попытка удаления без пользователя.");
             }
 
             if (ad.Status != Domain.Advertisement.Statuses.Created)
@@ -87,10 +95,18 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 throw new AdShouldBeInCreatedStateForClosingException(ad.Id);
             }
 
-            ad.Status = Domain.Advertisement.Statuses.Closed;
-            ad.UpdatedDate = DateTime.UtcNow;
+            if (user.Id == ad.OwnerUser.Id)
+            {
 
-            await _repository.Save(ad, cancellationToken);
+                ad.Status = Domain.Advertisement.Statuses.Closed;
+                ad.UpdatedDate = DateTime.UtcNow;
+
+                await _repository.Save(ad, cancellationToken);
+
+            } else
+            {
+                throw new NoUserForAdCreationException($"Нельзя удалить чужое объявление");
+            }
         }
 
         public async Task<GetPages.Response> GetPages(GetPages.Request request, CancellationToken cancellationToken)
