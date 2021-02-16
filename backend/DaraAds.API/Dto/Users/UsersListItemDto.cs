@@ -1,4 +1,4 @@
-﻿namespace DaraAds.Domain.Dto.Users
+﻿namespace DaraAds.API.Dto.Users
 {
     public class UsersListItemDto
     {

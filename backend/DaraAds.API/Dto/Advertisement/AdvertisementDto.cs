@@ -1,4 +1,4 @@
-﻿namespace DaraAds.Domain.Dto.Advertisement
+﻿namespace DaraAds.API.Dto.Advertisement
 {
     public class AdvertisementDto
     {

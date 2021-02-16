@@ -1,18 +1,6 @@
-﻿using DaraAds.Infrastructure;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using DaraAds.Domain;
-using DaraAds.Domain.Dto.Users.Requests;
 using Microsoft.AspNetCore.Http;
 using DaraAds.Application.Services.User.Interfaces;
 using System.Threading;
@@ -41,5 +29,22 @@ namespace DaraAds.API.Controllers.Users
 
             return Created($"api/v1/users/{response.UserId}", new { });
         }        
+    }
+    
+    public sealed class UserRegisterRequest
+    {
+        [Required(ErrorMessage = "Имя пользователя - обязательно")]
+        public string Name { get; set; }
+
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Email пользователя - обязательно")]
+        public string Email { get; set; }
+
+        public string Phone { get; set; }
+
+        [MaxLength(30)]
+        [MinLength(6)]
+        public string Password { get; set; }
     }
 }

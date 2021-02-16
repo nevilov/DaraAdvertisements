@@ -1,4 +1,4 @@
-﻿using DaraAds.Domain.Dto.Advertisement;
+﻿using DaraAds.API.Dto.Advertisement;
 
 namespace DaraAds.API.Controllers.Advertisement
 {

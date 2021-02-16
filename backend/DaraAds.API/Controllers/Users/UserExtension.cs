@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Claims;
+using DaraAds.API.Dto.Users;
 using DaraAds.Domain;
-using DaraAds.Domain.Dto.Users;
 
 namespace DaraAds.API.Controllers.Users
 {
