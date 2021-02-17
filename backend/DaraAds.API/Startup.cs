@@ -20,6 +20,7 @@ using System.Text;
 using DaraAds.Application.Services.Advertisement.Implementations;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.API.Controllers;
+using DaraAds.Infrastructure.DataAccess.Repositories;
 
 namespace DaraAds.API
 {
@@ -39,10 +40,9 @@ namespace DaraAds.API
             services.AddScoped<IAbuseService, AbuseService>();
 
             services
-             .AddScoped<InMemoryRepository>()
-             .AddScoped<IRepository<Domain.Advertisement, int>>(sp => sp.GetService<InMemoryRepository>())
-             .AddScoped<IRepository<Domain.User, int>>(sp => sp.GetService<InMemoryRepository>())
-             .AddScoped<IRepository<Domain.Abuse, int>>(sp => sp.GetService<InMemoryRepository>());
+             .AddScoped<IRepository<Domain.Advertisement, int>, EfRepository<Domain.Advertisement, int>>()
+             .AddScoped<IRepository<Domain.User, int>, EfRepository<Domain.User, int>>()
+             .AddScoped<IRepository<Domain.Abuse, int>, EfRepository<Domain.Abuse, int>>();
 
             services
             .AddHttpContextAccessor()

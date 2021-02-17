@@ -41,7 +41,7 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
 
         public async Task<TEntity> FindWhere(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
         {
-            var data = _context.Set<TEntity>();
+            var data = _context.Set<TEntity>().AsNoTracking();
 
             return await data.Where(predicate).FirstOrDefaultAsync(cancellationToken);
         }
@@ -58,6 +58,20 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
             var data = _context.Set<TEntity>();
 
             return await data.OrderBy(e => e.Id).Take(limit).Skip(offset).ToListAsync(cancellationToken);
+        }
+
+        public async Task<int> Count(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+        {
+            var data = _context.Set<TEntity>().AsNoTracking(); ;
+            return await data.Where(predicate).CountAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<TEntity>> GetPaged(Expression<Func<TEntity, bool>> predicate, int offset, int limit, CancellationToken cancellationToken)
+        {
+            var data = _context.Set<TEntity>().AsNoTracking();
+
+            return await data.Where(predicate).OrderBy(e => e.Id).Take(limit).Skip(offset)
+                .ToListAsync(cancellationToken);
         }
     }
 }
