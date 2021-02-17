@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace DaraAds.Application.Services.Abuse.Implementations
 {
-    public sealed class AbuseServiceV1 : IAbuseService
+    public sealed class AbuseService : IAbuseService
     {
         private readonly IRepository<Domain.Abuse, int> _repository;
         private readonly IUserService _userService;
 
-        public AbuseServiceV1(IRepository<Domain.Abuse, int> repository, IUserService userService)
+        public AbuseService(IRepository<Domain.Abuse, int> repository, IUserService userService)
         {
             _repository = repository;
             _userService = userService;

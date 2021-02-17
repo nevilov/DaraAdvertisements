@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace DaraAds.Application.Services.User.Implementations
 {
-    public sealed class UserServiceV1 : IUserService
+    public sealed class UserService : IUserService
     {
         private readonly IClaimsAccessor _claimsAccessor;
         private readonly IRepository<Domain.User, int> _repository;
         private readonly IConfiguration _configuration;
 
-        public UserServiceV1(IRepository<Domain.User, int> repository, IConfiguration configuration, IClaimsAccessor claimsAccessor)
+        public UserService(IRepository<Domain.User, int> repository, IConfiguration configuration, IClaimsAccessor claimsAccessor)
         {
             _repository = repository;
             _configuration = configuration;

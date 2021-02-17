@@ -32,12 +32,11 @@ namespace DaraAds.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IUserService, UserServiceV1>();
-            services.AddScoped<IAdvertisementService, AdvertisementServiceV1>();
-            services.AddScoped<IAbuseService, AbuseServiceV1>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAdvertisementService, AdvertisementService>();
+            services.AddScoped<IAbuseService, AbuseService>();
 
             services
              .AddScoped<InMemoryRepository>()
@@ -78,7 +77,6 @@ namespace DaraAds.API
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //Init migrations

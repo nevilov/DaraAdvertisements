@@ -10,12 +10,12 @@ using DaraAds.Application.Services.User.Interfaces;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
-    public sealed class AdvertisementServiceV1 : IAdvertisementService
+    public sealed class AdvertisementService : IAdvertisementService
     {
         private readonly IRepository<Domain.Advertisement, int> _repository;
         private readonly IUserService _userService;
 
-        public AdvertisementServiceV1(IRepository<Domain.Advertisement, int> repository, IUserService userService)
+        public AdvertisementService(IRepository<Domain.Advertisement, int> repository, IUserService userService)
         {
             _repository = repository;
             _userService = userService;
