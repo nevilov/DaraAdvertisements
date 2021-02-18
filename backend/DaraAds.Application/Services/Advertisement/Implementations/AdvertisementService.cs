@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
@@ -12,10 +13,10 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 {
     public sealed class AdvertisementService : IAdvertisementService
     {
-        private readonly IRepository<Domain.Advertisement, int> _repository;
+        private readonly IAdvertisementRepository _repository;
         private readonly IUserService _userService;
 
-        public AdvertisementService(IRepository<Domain.Advertisement, int> repository, IUserService userService)
+        public AdvertisementService(IAdvertisementRepository repository, IUserService userService)
         {
             _repository = repository;
             _userService = userService;
@@ -51,7 +52,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<Get.Response> Get(Get.Request request, CancellationToken cancellationToken)
         {
-            var ad = await _repository.FindById(request.Id, cancellationToken);
+            var ad = await _repository.FindByIdWithUser(request.Id, cancellationToken);
             if (ad == null)
             {
                 throw new NoAdFoundException(request.Id);
@@ -144,7 +145,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         public async Task<Update.Response> Update(Update.Request request, CancellationToken cancellationToken)
         {
             var user = await _userService.GetCurrent(cancellationToken);
-            var advertisement = await _repository.FindById(request.Id, cancellationToken);
+            var advertisement = await _repository.FindByIdWithUser(request.Id, cancellationToken);
 
             if (user == null)
             {

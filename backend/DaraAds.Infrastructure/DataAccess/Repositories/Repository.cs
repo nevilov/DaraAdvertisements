@@ -4,20 +4,20 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using DaraAds.Application;
+using DaraAds.Application.Repositories;
 using DaraAds.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace DaraAds.Infrastructure.DataAccess.Repositories
 {
-    public sealed class EfRepository<TEntity, TId> 
+    public class Repository<TEntity, TId> 
         : IRepository<TEntity, TId> 
         where TEntity : BaseEntity<TId>
     {
 
-        private readonly DaraAdsDbContext _context;
+        protected readonly DaraAdsDbContext _context;
 
-        public EfRepository(DaraAdsDbContext context)
+        public Repository(DaraAdsDbContext context)
         {
             _context = context;
         }
