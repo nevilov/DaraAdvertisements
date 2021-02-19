@@ -38,7 +38,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Description = request.Description,
                 Price = request.Price,
                 Cover = request.Cover,
-                UserId = user.Id,
+//                UserId = user.Id,
                 Status = Domain.Advertisement.Statuses.Created,
                 CreatedDate = DateTime.UtcNow
             };
@@ -68,7 +68,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 
                 Owner = new Get.Response.OwnerResponse
                 {
-                    Id = ad.OwnerUser.Id,
+//                    Id = ad.OwnerUser.Id,
                     Name  = ad.OwnerUser.Name,
                     LastName = ad.OwnerUser.LastName
                 }

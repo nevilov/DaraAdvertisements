@@ -39,7 +39,7 @@ namespace DaraAds.Application.Services.Abuse.Implementations
             {
                 AbuseAdvId = request.AbuseAdvId,
                 AbuseText = request.AbuseText,
-                AuthorId = user.Id,
+//                AuthorId = user.Id,
                 CreatedDate = DateTime.UtcNow
             };
             await _repository.Save(abuse, cancellationToken);
