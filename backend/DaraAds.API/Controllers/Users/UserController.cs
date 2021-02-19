@@ -1,18 +1,10 @@
-﻿using DaraAds.Core.Dto.Requests;
-using DaraAds.Core.Entities;
-using DaraAds.Infrastructure;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using DaraAds.Application.Services.User.Interfaces;
+using System.Threading;
+using DaraAds.Application.Services.User.Contracts;
 
 namespace DaraAds.API.Controllers.Users
 {
@@ -20,39 +12,39 @@ namespace DaraAds.API.Controllers.Users
     [ApiController]
     public partial class UserController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-
-        private readonly DaraAdsDbContext _userContext;
-
-        public UserController(IConfiguration configuration, DaraAdsDbContext userContext)
-        {
-            _configuration = configuration;
-            _userContext = userContext;
-        }
-
-
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegisterRequest request)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> Register(
+            [FromBody] UserRegisterRequest request,
+            [FromServices] IUserService service,
+            CancellationToken cancellationToken)
         {
-            if (request == null)
+            var response = await service.Register(new Register.Request
             {
-                return BadRequest();
-            }
-
-            var newUser = new User
-            {
-                Id = _userContext.Users.Count() + 1,
+                Email = request.Email,
                 Name = request.Name,
                 LastName = request.LastName,
-                Email = request.Email,
-                Phone = request.Phone,
-                PasswordHash = request.Password,
-            };
+                Password = request.Password
+            }, cancellationToken);
 
-            _userContext.Users.Add(newUser);
-            await _userContext.SaveChangesAsync();
-
-            return Created($"api/v1/users/{newUser.Id}", newUser.ToDto());
+            return Created($"api/v1/users/{response.UserId}", new { });
         }        
+    }
+    
+    public sealed class UserRegisterRequest
+    {
+        [Required(ErrorMessage = "Имя пользователя - обязательно")]
+        public string Name { get; set; }
+
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Email пользователя - обязательно")]
+        public string Email { get; set; }
+
+        public string Phone { get; set; }
+
+        [MaxLength(30)]
+        [MinLength(6)]
+        public string Password { get; set; }
     }
 }

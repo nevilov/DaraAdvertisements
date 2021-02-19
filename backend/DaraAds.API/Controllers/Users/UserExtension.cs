@@ -1,7 +1,7 @@
-﻿using DaraAds.Core.Dto.Users;
-using DaraAds.Core.Entities;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
+using DaraAds.API.Dto.Users;
+using DaraAds.Domain;
 
 namespace DaraAds.API.Controllers.Users
 {
