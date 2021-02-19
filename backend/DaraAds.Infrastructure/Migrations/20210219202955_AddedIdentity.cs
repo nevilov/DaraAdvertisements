@@ -9,11 +9,7 @@ namespace DaraAds.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Advertisements_Users_UserId",
-                table: "Advertisements");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Advertisements_UserId",
+                name: "FK_Advertisements_Users_OwnerId",
                 table: "Advertisements");
 
             migrationBuilder.DropPrimaryKey(
@@ -28,15 +24,17 @@ namespace DaraAds.Infrastructure.Migrations
                 name: "Users",
                 newName: "DomainUsers");
 
-            migrationBuilder.AddColumn<string>(
-                name: "OwnerUserId",
+            migrationBuilder.AlterColumn<string>(
+                name: "OwnerId",
                 table: "Advertisements",
                 type: "text",
-                nullable: true);
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "integer");
 
             migrationBuilder.DropColumn(
-                name: "Id",
-                table: "DomainUsers");
+               name: "Id",
+               table: "DomainUsers");
 
             migrationBuilder.AddColumn<string>(
                 name: "Id",
@@ -199,24 +197,19 @@ namespace DaraAds.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7ca197bb-d569-4fb9-b214-7f719973050e", "fd03c478-925d-4cea-b9e3-b3b17c9dafe2", "Admin", "ADMIN" },
-                    { "b09f2dce-4821-4cf3-aa27-37f9d920bc01", "860d4dbb-71fe-4663-9bed-c307ff968a54", "User", "USER" }
+                    { "7ca197bb-d569-4fb9-b214-7f719973050e", "5f6ec006-e871-45f4-a2d1-6bef00d3938f", "Admin", "ADMIN" },
+                    { "b09f2dce-4821-4cf3-aa27-37f9d920bc01", "19233007-e4ae-4a2a-85d9-810a0ab3499f", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e4266faa-8fc0-4972-bf1c-14533f1ccffd", 0, "a9165c65-35c9-45d9-917d-380164a7b51c", null, false, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEN/ojgTBgQs7q3GJWCY7zJgpVHKokNWsuWlfpiw/aJwg/2Owj4WAEhnFvOmCuM92zw==", null, false, "08ec1b79-3dc4-4a13-9924-26c3a0fe9321", false, "admin" });
+                values: new object[] { "e4266faa-8fc0-4972-bf1c-14533f1ccffd", 0, "cb587b4b-feb8-48f8-b995-d9e5475dca41", null, false, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEICxa3bYKuOxGGp1K2L8z82Y8z0OcW9yn8cw61RnCqB0xrxM8Oy/y1JCu0aksyyQ7Q==", null, false, "cc32ea1f-28ff-4737-8f19-6f514bdf79d4", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "7ca197bb-d569-4fb9-b214-7f719973050e", "e4266faa-8fc0-4972-bf1c-14533f1ccffd" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Advertisements_OwnerUserId",
-                table: "Advertisements",
-                column: "OwnerUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -256,9 +249,9 @@ namespace DaraAds.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Advertisements_DomainUsers_OwnerUserId",
+                name: "FK_Advertisements_DomainUsers_OwnerId",
                 table: "Advertisements",
-                column: "OwnerUserId",
+                column: "OwnerId",
                 principalTable: "DomainUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -267,7 +260,7 @@ namespace DaraAds.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Advertisements_DomainUsers_OwnerUserId",
+                name: "FK_Advertisements_DomainUsers_OwnerId",
                 table: "Advertisements");
 
             migrationBuilder.DropTable(
@@ -291,21 +284,23 @@ namespace DaraAds.Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Advertisements_OwnerUserId",
-                table: "Advertisements");
-
             migrationBuilder.DropPrimaryKey(
                 name: "PK_DomainUsers",
                 table: "DomainUsers");
 
-            migrationBuilder.DropColumn(
-                name: "OwnerUserId",
-                table: "Advertisements");
-
             migrationBuilder.RenameTable(
                 name: "DomainUsers",
                 newName: "Users");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "OwnerId",
+                table: "Advertisements",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0,
+                oldClrType: typeof(string),
+                oldType: "text",
+                oldNullable: true);
 
             migrationBuilder.AlterColumn<int>(
                 name: "Id",
@@ -320,22 +315,18 @@ namespace DaraAds.Infrastructure.Migrations
                 name: "PasswordHash",
                 table: "Users",
                 type: "text",
-                nullable: true);
+                nullable: false,
+                defaultValue: "");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Users",
                 table: "Users",
                 column: "Id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Advertisements_UserId",
-                table: "Advertisements",
-                column: "UserId");
-
             migrationBuilder.AddForeignKey(
-                name: "FK_Advertisements_Users_UserId",
+                name: "FK_Advertisements_Users_OwnerId",
                 table: "Advertisements",
-                column: "UserId",
+                column: "OwnerId",
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);

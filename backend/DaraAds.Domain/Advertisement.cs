@@ -48,7 +48,10 @@ namespace DaraAds.Domain
         /// </summary>
         public User OwnerUser { get; set; }
 
-        public int UserId { get; set; }
+        /// <summary>
+        /// Id автора объявления
+        /// </summary>
+        public string OwnerId { get; set; }
 
         /// <summary>
         /// Код категории объявления
