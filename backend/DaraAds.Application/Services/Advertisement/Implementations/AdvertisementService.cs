@@ -38,8 +38,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Description = request.Description,
                 Price = request.Price,
                 Cover = request.Cover,
-// TODO перевести int в string
-//                OwnerId = user.Id,
+                OwnerId = user.Id,
                 Status = Domain.Advertisement.Statuses.Created,
                 CreatedDate = DateTime.UtcNow
             };

@@ -113,8 +113,6 @@ namespace DaraAds.Infrastructure
                 });
             });
         }
-
-
     }
              
 }
