@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using DaraAds.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using DaraAds.Application.Common;
+using DaraAds.Infrastructure.DataAccess.EntitiesConfiguration;
 
 namespace DaraAds.Infrastructure
 {
@@ -43,16 +44,7 @@ namespace DaraAds.Infrastructure
 
             });
 
-//TODO это уже не нужно, переработать и убрать
-            modelBuilder.Entity<User>(builder =>
-            {
-                builder.HasKey(x => x.Id);
-                builder.Property(x => x.Name)
-                .IsRequired()
-                .HasMaxLength(30);
-
-//                builder.Property(x => x.PasswordHash).IsRequired();
-            });
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
 
             modelBuilder.Entity<Abuse>(builder =>
             {
