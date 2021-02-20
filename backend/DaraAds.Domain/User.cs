@@ -5,7 +5,7 @@ namespace DaraAds.Domain
     /// <summary>
     /// Сущность пользователь
     /// </summary>
-    public sealed class User : MutableEntity<int>
+    public sealed class User : MutableEntity<string>
     {
         /// <summary>
         /// Имя пользователя
@@ -32,9 +32,5 @@ namespace DaraAds.Domain
         /// </summary>
         public string Phone { get; set; }
 
-        /// <summary>
-        /// Пароль пользователя
-        /// </summary>
-        public string PasswordHash { get; set; }
     }
 }

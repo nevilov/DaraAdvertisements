@@ -18,10 +18,10 @@ namespace DaraAds.Application.Services.User.Implementations
     public sealed class UserService : IUserService
     {
         private readonly IClaimsAccessor _claimsAccessor;
-        private readonly IRepository<Domain.User, int> _repository;
+        private readonly IRepository<Domain.User, string> _repository;
         private readonly IConfiguration _configuration;
 
-        public UserService(IRepository<Domain.User, int> repository, IConfiguration configuration, IClaimsAccessor claimsAccessor)
+        public UserService(IRepository<Domain.User, string> repository, IConfiguration configuration, IClaimsAccessor claimsAccessor)
         {
             _repository = repository;
             _configuration = configuration;
@@ -42,22 +42,24 @@ namespace DaraAds.Application.Services.User.Implementations
 
             var intId = int.Parse(claim);
 
-            var user = await _repository.FindById(intId, cancellationToken);
-            if (user == null)
-            {
-                throw new NoRightsException("Нет прав");
-            }
+            //            var user = await _repository.FindById(intId, cancellationToken);
 
-            return user;
+            //            if (user == null)
+            //            {
+            //                throw new NoRightsException("Нет прав");
+            //            }
+
+            //            return user;
+            throw new NotImplementedException();
         }
 
         public async Task<Login.Response> Login(Login.Request request, CancellationToken cancellationToken)
         {
             var user = await _repository.FindWhere(u => u.Email == request.Email, cancellationToken);
-            if (user == null || !user.PasswordHash.Equals(request.Password))
-            {
-                throw new NoRightsException("Нет прав");
-            }
+//            if (user == null || !user.PasswordHash.Equals(request.Password))
+//            {
+//                throw new NoRightsException("Нет прав");
+//            }
 
             var claims = new List<Claim>
             {
@@ -88,7 +90,7 @@ namespace DaraAds.Application.Services.User.Implementations
                 Email = request.Email,
                 Name = request.Name,
                 LastName = request.LastName,
-                PasswordHash = request.Password,
+//                PasswordHash = request.Password,
                 CreatedDate = DateTime.UtcNow
             };
 
@@ -96,7 +98,7 @@ namespace DaraAds.Application.Services.User.Implementations
 
             return new Register.Response
             {
-                UserId = user.Id
+//                UserId = user.Id
             };
         }
     }
