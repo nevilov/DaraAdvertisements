@@ -10,25 +10,26 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.Application.Identity.Interfaces;
 
 namespace DaraAds.Application.Services.Abuse.Implementations
 {
     public sealed class AbuseService : IAbuseService
     {
         private readonly IRepository<Domain.Abuse, int> _repository;
-        private readonly IUserService _userService;
+        private readonly IIdentityService _identityService;
 
-        public AbuseService(IRepository<Domain.Abuse, int> repository, IUserService userService)
+        public AbuseService(IRepository<Domain.Abuse, int> repository, IIdentityService identityService)
         {
             _repository = repository;
-            _userService = userService;
+            _identityService = identityService;
         }
 
         public async Task<CreateAbuse.Response> CreateAbuse(
             CreateAbuse.Request request,
             CancellationToken cancellationToken)
         {
-            var user = await _userService.GetCurrent(cancellationToken);
+            var user = await _identityService.GetCurrentUserId(cancellationToken);
             if (user == null)
             {
                 throw new NoRightsException("Нет прав");

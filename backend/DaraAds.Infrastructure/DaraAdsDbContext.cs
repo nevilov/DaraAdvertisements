@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DaraAds.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using DaraAds.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using DaraAds.Application.Common;
 using DaraAds.Infrastructure.DataAccess.EntitiesConfiguration;
+using DaraAds.Domain;
 
 namespace DaraAds.Infrastructure
 {
@@ -18,13 +13,12 @@ namespace DaraAds.Infrastructure
         public DaraAdsDbContext(DbContextOptions<DaraAdsDbContext> options) : base(options)
         {
         }
-
-        public DbSet<Advertisement> Advertisements { get; set; }
+        public DbSet<Domain.Advertisement> Advertisements { get; set; }
         public DbSet<User> DomainUsers { get; set; }
         public DbSet<Abuse> Abuses { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Advertisement>(builder =>
+            modelBuilder.Entity<Domain.Advertisement>(builder =>
             {
                 builder.HasKey(x => x.Id);
                 builder.Property(x => x.CreatedDate).IsRequired();

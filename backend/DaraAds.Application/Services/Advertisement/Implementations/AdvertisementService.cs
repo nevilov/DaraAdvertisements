@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Common;
+using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;

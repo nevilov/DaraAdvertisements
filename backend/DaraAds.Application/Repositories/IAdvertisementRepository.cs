@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace DaraAds.Application.Repositories
 {
-    public interface IAdvertisementRepository: IRepository<Advertisement, int>
+    public interface IAdvertisementRepository: IRepository<Domain.Advertisement, int>
     {
-        public Task<Advertisement> FindByIdWithUser(int id, CancellationToken cancellationToken); 
+        public Task<Domain.Advertisement> FindByIdWithUser(int id, CancellationToken cancellationToken); 
     }
 }
