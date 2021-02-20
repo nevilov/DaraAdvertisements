@@ -12,7 +12,7 @@ using DaraAds.Application.Common;
 
 namespace DaraAds.Infrastructure
 {
-    public class DaraAdsDbContext : IdentityDbContext<IdentityUserExtended>
+    public class DaraAdsDbContext : IdentityDbContext<Identity.IdentityUser>
     {
         public DaraAdsDbContext(DbContextOptions<DaraAdsDbContext> options) : base(options)
         {
@@ -89,8 +89,8 @@ namespace DaraAds.Infrastructure
                 });
             });
 
-            var passwordHasher = new PasswordHasher<IdentityUser>();
-            var adminUser = new IdentityUser
+            var passwordHasher = new PasswordHasher<Microsoft.AspNetCore.Identity.IdentityUser>();
+            var adminUser = new Microsoft.AspNetCore.Identity.IdentityUser
             {
                 Id = ADMIN_ID,
                 UserName = "admin",
@@ -99,7 +99,7 @@ namespace DaraAds.Infrastructure
 
             adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "admin");
 
-            modelBuilder.Entity<IdentityUserExtended>(x =>
+            modelBuilder.Entity<Identity.IdentityUser>(x =>
             {
                 x.HasData(adminUser);
             });
