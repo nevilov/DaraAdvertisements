@@ -13,12 +13,19 @@ namespace DaraAds.API.Controllers.Users
     [ApiController]
     public partial class UserController : ControllerBase
     {
+        private readonly IUserService _userService;
+        private readonly IIdentityService _identityService;
+
+        public UserController(IUserService userService, IIdentityService identityService)
+        {
+            _userService = userService;
+            _identityService = identityService;
+        }
+
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Register(
             [FromBody] UserRegisterRequest request,
-            [FromServices] IUserService _userService,
-            [FromServices] IIdentityService _identityService,
             CancellationToken cancellationToken)
         {
             var registrationResult = await _userService.Register(new Register.Request

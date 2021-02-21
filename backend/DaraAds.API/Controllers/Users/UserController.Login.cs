@@ -14,8 +14,6 @@ namespace DaraAds.API.Controllers.Users
     {
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginRequest request,
-            [FromServices] IUserService _userService,
-            [FromServices] IIdentityService _identityService, 
             CancellationToken cancellationToken)
         {
             var token = await _identityService.CreateToken(new CreateToken.Request
