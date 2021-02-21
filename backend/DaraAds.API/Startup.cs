@@ -48,26 +48,12 @@ namespace DaraAds.API
             .AddHttpContextAccessor()
             .AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
 
+            services.AddIdentity(Configuration);
+
             services.AddControllers();
 
             services.AddSwaggerModule();
-
-            //JWT-token settings
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
-                {
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateActor = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidateIssuer = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"]))
-                    };
-                });
-
+                        
             //Our db
             services.AddDbContext<DaraAdsDbContext>(p =>
             {
