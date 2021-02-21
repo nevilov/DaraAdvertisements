@@ -3,19 +3,12 @@ using DaraAds.Application.Services.Abuse.Interfaces;
 using DaraAds.Application.Services.User.Implementations;
 using DaraAds.Application.Services.User.Interfaces;
 using DaraAds.Infrastructure;
-using DaraAds.Infrastructure.DataAccess;
-using DaraAds.Infrastructure.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
-using System.Text;
 using DaraAds.Application.Services.Advertisement.Implementations;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.API.Controllers;
@@ -35,9 +28,10 @@ namespace DaraAds.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAdvertisementService, AdvertisementService>();
-            services.AddScoped<IAbuseService, AbuseService>();
+            services
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IAdvertisementService, AdvertisementService>()
+            .AddScoped<IAbuseService, AbuseService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
@@ -45,7 +39,7 @@ namespace DaraAds.API
              .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>();
 
             services
-            .AddHttpContextAccessor()
+            .AddHttpContextAccessor();
 
             services.AddIdentity(Configuration);
 

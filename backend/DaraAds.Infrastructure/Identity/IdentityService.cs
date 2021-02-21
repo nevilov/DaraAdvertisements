@@ -24,10 +24,10 @@ namespace DaraAds.Infrastructure.Identity
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly HttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
 
-        public IdentityService(UserManager<IdentityUser> userManager, HttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public IdentityService(UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
