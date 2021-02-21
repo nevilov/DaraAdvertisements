@@ -46,7 +46,6 @@ namespace DaraAds.API
 
             services
             .AddHttpContextAccessor()
-            .AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
 
             services.AddIdentity(Configuration);
 
