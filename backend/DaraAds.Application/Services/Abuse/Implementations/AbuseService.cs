@@ -29,8 +29,8 @@ namespace DaraAds.Application.Services.Abuse.Implementations
             CreateAbuse.Request request,
             CancellationToken cancellationToken)
         {
-            var user = await _identityService.GetCurrentUserId(cancellationToken);
-            if (user == null)
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+            if (userId == null)
             {
                 throw new NoRightsException("Нет прав");
             }
@@ -40,7 +40,7 @@ namespace DaraAds.Application.Services.Abuse.Implementations
             {
                 AbuseAdvId = request.AbuseAdvId,
                 AbuseText = request.AbuseText,
-//                AuthorId = user.Id,
+                AuthorId = userId,
                 CreatedDate = DateTime.UtcNow
             };
             await _repository.Save(abuse, cancellationToken);

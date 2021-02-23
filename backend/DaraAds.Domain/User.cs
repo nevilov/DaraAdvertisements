@@ -8,6 +8,11 @@ namespace DaraAds.Domain
     public sealed class User : MutableEntity<string>
     {
         /// <summary>
+        /// Никнейм юзера
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
         /// Имя пользователя
         /// </summary>
         public string Name { get; set; }

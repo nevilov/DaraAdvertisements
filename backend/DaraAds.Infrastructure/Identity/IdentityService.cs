@@ -52,7 +52,7 @@ namespace DaraAds.Infrastructure.Identity
 
         public async Task<CreateUser.Response> CreateUser(CreateUser.Request request, CancellationToken cancellationToken = default)
         {
-            var existedUser = _userManager.FindByEmailAsync(request.Email);
+            var existedUser = await _userManager.FindByEmailAsync(request.Email);
             if (existedUser != null)
             {
                 throw new DuplicateException("Пользователь с таким именем уже существует");
@@ -60,7 +60,8 @@ namespace DaraAds.Infrastructure.Identity
 
             var newUser = new IdentityUser
             {
-                Email = request.Email
+                Email = request.Email,
+                UserName = request.Username
             };
             var identityResult = await _userManager.CreateAsync(newUser, request.Password);
             if (identityResult.Succeeded)

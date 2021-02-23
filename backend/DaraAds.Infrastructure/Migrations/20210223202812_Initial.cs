@@ -14,7 +14,7 @@ namespace DaraAds.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AuthorId = table.Column<int>(type: "integer", nullable: false),
+                    AuthorId = table.Column<string>(type: "text", nullable: true),
                     AbuseAdvId = table.Column<int>(type: "integer", nullable: false),
                     Priority = table.Column<int>(type: "integer", nullable: false),
                     AbuseText = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
@@ -71,11 +71,12 @@ namespace DaraAds.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    LastName = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true),
+                    Username = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    LastName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     Avatar = table.Column<string>(type: "text", nullable: true),
-                    Phone = table.Column<string>(type: "text", nullable: true),
+                    Phone = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     RemovedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
@@ -225,14 +226,14 @@ namespace DaraAds.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7ca197bb-d569-4fb9-b214-7f719973050e", "8ff7e674-907a-4da3-bb4f-42d3e7e9c3ce", "Admin", "ADMIN" },
-                    { "b09f2dce-4821-4cf3-aa27-37f9d920bc01", "3a78b5da-18e0-4915-98f5-81f36bd37671", "User", "USER" }
+                    { "7ca197bb-d569-4fb9-b214-7f719973050e", "1358b7f5-6c62-4ee8-8d2b-7de36907b130", "Admin", "ADMIN" },
+                    { "b09f2dce-4821-4cf3-aa27-37f9d920bc01", "fc57bf98-fc0e-4b8b-aea6-40ae1afd1e45", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e4266faa-8fc0-4972-bf1c-14533f1ccffd", 0, "ce5c33be-34e5-46d6-9f26-7dc7f8586de7", null, false, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEE6md2DItZV4fQxAOIRIl0Gu4A5obE8fi7D17PFmbn16S7mRHW/VdTBY2/hVF9cKzg==", null, false, "39e728d8-fddd-43a2-bee1-dbb07aa717aa", false, "admin" });
+                values: new object[] { "e4266faa-8fc0-4972-bf1c-14533f1ccffd", 0, "d9e41649-6486-4ff2-9551-b067d0af7fc9", null, false, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEOszj7vDCoiLNgORwVaF13STuyNowoSz4ep6YmA8E1w/c8jX6vxeopFOoXq87hcukQ==", null, false, "744dbda5-9dbb-4fbd-9a16-a6601e2a301d", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

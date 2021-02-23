@@ -30,6 +30,7 @@ namespace DaraAds.API.Controllers.Users
         {
             var registrationResult = await _userService.Register(new Register.Request
             {
+                Username = request.Username,
                 Name = request.Name,
                 LastName = request.LastName,
                 Email = request.Email,
@@ -43,6 +44,8 @@ namespace DaraAds.API.Controllers.Users
     
     public sealed class UserRegisterRequest
     {
+        public string Username { get; set; }
+
         [Required(ErrorMessage = "Имя пользователя - обязательно")]
         public string Name { get; set; }
 

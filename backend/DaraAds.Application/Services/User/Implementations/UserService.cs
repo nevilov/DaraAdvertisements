@@ -28,6 +28,7 @@ namespace DaraAds.Application.Services.User.Implementations
             //TODO Проверка на дупликаты
             var response = await _identity.CreateUser(new CreateUser.Request
             {
+                Username = request.Username,
                 Email = request.Email,
                 Password = request.Password,
                 Role = RoleConstants.UserRole
@@ -37,12 +38,20 @@ namespace DaraAds.Application.Services.User.Implementations
             {
                 var domainUser = new Domain.User
                 {
+                    Id = response.UserId,
+                    Username = request.Username,
                     Name = request.Name,
                     LastName = request.LastName,
+                    Email = request.Email,
                     CreatedDate = DateTime.UtcNow
                 };
 
                 await _repository.Save(domainUser, cancellationToken);
+
+                return new Register.Response
+                {
+                    UserId = response.UserId
+                };
             }
 
             throw new UserRegisterException(string.Join(",", response.Errors));

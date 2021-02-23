@@ -11,7 +11,7 @@ namespace DaraAds.Domain
         /// <summary>
         /// ID User'a - автора жалобы (для отправки ему ув.)
         /// </summary>
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
 
         /// <summary>
         /// ID объявления, на которое пожаловались
