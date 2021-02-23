@@ -80,6 +80,7 @@ namespace DaraAds.Infrastructure
             {
                 Id = ADMIN_ID,
                 UserName = "admin",
+                Email = "admin",
                 NormalizedUserName = "ADMIN"
             };
 
