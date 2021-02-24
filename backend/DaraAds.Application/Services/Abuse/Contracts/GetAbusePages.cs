@@ -16,7 +16,7 @@ namespace DaraAds.Application.Services.Abuse.Contracts
             public sealed class Item
             {
                 public int Id { get; set; }
-                public int AuthorId { get; set; }
+                public string AuthorId { get; set; }
                 public int AbuseAdvId { get; set; }
                 public int Priority { get; set; }
                 public string AbuseText { get; set; }

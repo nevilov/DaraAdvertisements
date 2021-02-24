@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DaraAds.Infrastructure.Migrations
 {
     [DbContext(typeof(DaraAdsDbContext))]
-    [Migration("20210220100250_Initial")]
+    [Migration("20210223202812_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,8 @@ namespace DaraAds.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("integer");
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp without time zone");
@@ -117,24 +117,36 @@ namespace DaraAds.Infrastructure.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasMaxLength(256)
+                        .IsUnicode(true)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("text");
+                        .HasMaxLength(12)
+                        .HasColumnType("character varying(12)");
 
                     b.Property<DateTime?>("RemovedDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
                     b.HasKey("Id");
 
@@ -209,13 +221,13 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ce5c33be-34e5-46d6-9f26-7dc7f8586de7",
+                            ConcurrencyStamp = "d9e41649-6486-4ff2-9551-b067d0af7fc9",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE6md2DItZV4fQxAOIRIl0Gu4A5obE8fi7D17PFmbn16S7mRHW/VdTBY2/hVF9cKzg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOszj7vDCoiLNgORwVaF13STuyNowoSz4ep6YmA8E1w/c8jX6vxeopFOoXq87hcukQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "39e728d8-fddd-43a2-bee1-dbb07aa717aa",
+                            SecurityStamp = "744dbda5-9dbb-4fbd-9a16-a6601e2a301d",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -250,14 +262,14 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "8ff7e674-907a-4da3-bb4f-42d3e7e9c3ce",
+                            ConcurrencyStamp = "1358b7f5-6c62-4ee8-8d2b-7de36907b130",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "3a78b5da-18e0-4915-98f5-81f36bd37671",
+                            ConcurrencyStamp = "fc57bf98-fc0e-4b8b-aea6-40ae1afd1e45",
                             Name = "User",
                             NormalizedName = "USER"
                         });
