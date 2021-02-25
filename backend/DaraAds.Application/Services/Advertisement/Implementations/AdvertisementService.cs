@@ -9,7 +9,6 @@ using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Extantions;
-using DaraAds.Application.Services.User.Interfaces;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
@@ -79,6 +78,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task Delete(Delete.Request request, CancellationToken cancellationToken)
         {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NoUserFoundException($"Пользователь не найден");
+            }
+
             var ad = await _repository.FindById(request.Id, cancellationToken);
 
             if (ad == null)
@@ -91,14 +97,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 throw new AdShouldBeInCreatedStateForClosingException(ad.Id);
             }
             
-            var userId = await _identityService.GetCurrentUserId(cancellationToken);
             var isAdmin = await _identityService.IsInRole(userId, RoleConstants.AdminRole, cancellationToken);
-            
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new NoUserFoundException($"Пользователь не найден");
-            }
-            
+
             if (!isAdmin && ad.OwnerId != userId)
             {
                 throw new NoRightsException("Нет прав для выполнения операции.");
@@ -145,22 +145,22 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<Update.Response> Update(Update.Request request, CancellationToken cancellationToken)
         {
-            
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NoUserFoundException($"Пользователь не найден");
+            }
+
             var advertisement = await _repository.FindByIdWithUser(request.Id, cancellationToken);
             
             if (advertisement == null)
             {
                 throw new NoAdFoundException(request.Id);
             }
-            
-            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
             var isAdmin = await _identityService.IsInRole(userId, RoleConstants.AdminRole, cancellationToken);
-            
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new NoUserFoundException($"Пользователь не найден");
-            }
-            
+
             if (!isAdmin && advertisement.OwnerId != userId)
             {
                 throw new NoRightsException("Нет прав для выполнения операции.");
