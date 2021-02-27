@@ -11,7 +11,7 @@ namespace DaraAds.API.Controllers.Users
         {
             return new UsersListItemDto
             {
-                Id = user.Id,
+//                Id = user.Id,
                 Name = user.Name,
                 LastName = user.LastName,
                 Avatar = user.Avatar,

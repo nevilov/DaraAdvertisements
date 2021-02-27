@@ -1,14 +1,14 @@
-﻿namespace DaraAds.Application.Services.User.Contracts
+﻿namespace DaraAds.Application.Identity.Contracts
 {
-    public static class Login
+    public static class CreateToken
     {
-        public sealed class Request
+        public class Request
         {
             public string Email { get; set; }
             public string Password { get; set; }
         }
-        
-        public sealed class Response
+
+        public class Response
         {
             public string Token { get; set; }
         }

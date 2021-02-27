@@ -18,8 +18,6 @@ namespace DaraAds.API.Controllers.Abuse
     {
         public sealed class CreateAbuseBinding
         {
-            [Required]
-            public int AbuseAdvId { get; set; }
             [Required, MinLength(5), MaxLength(300)]
             public string AbuseText { get; set; }
         }

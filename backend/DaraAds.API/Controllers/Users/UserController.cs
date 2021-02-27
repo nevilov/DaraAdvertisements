@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using DaraAds.Application.Services.User.Interfaces;
 using System.Threading;
 using DaraAds.Application.Services.User.Contracts;
+using DaraAds.Application.Identity.Interfaces;
 
 namespace DaraAds.API.Controllers.Users
 {
@@ -12,27 +13,39 @@ namespace DaraAds.API.Controllers.Users
     [ApiController]
     public partial class UserController : ControllerBase
     {
+        private readonly IUserService _userService;
+        private readonly IIdentityService _identityService;
+
+        public UserController(IUserService userService, IIdentityService identityService)
+        {
+            _userService = userService;
+            _identityService = identityService;
+        }
+
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Register(
             [FromBody] UserRegisterRequest request,
-            [FromServices] IUserService service,
             CancellationToken cancellationToken)
         {
-            var response = await service.Register(new Register.Request
+            var registrationResult = await _userService.Register(new Register.Request
             {
-                Email = request.Email,
+                Username = request.Username,
                 Name = request.Name,
                 LastName = request.LastName,
+                Email = request.Email,
+                Phone = request.Phone,
                 Password = request.Password
             }, cancellationToken);
 
-            return Created($"api/v1/users/{response.UserId}", new { });
+            return Created($"api/v1/users/{registrationResult.UserId}", new { });
         }        
     }
     
     public sealed class UserRegisterRequest
     {
+        public string Username { get; set; }
+
         [Required(ErrorMessage = "Имя пользователя - обязательно")]
         public string Name { get; set; }
 
