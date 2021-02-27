@@ -119,5 +119,10 @@ namespace DaraAds.Infrastructure.Identity
                  Token = new JwtSecurityTokenHandler().WriteToken(token)
              };
         }
+
+        public Task ConfirmEmail(string userId, string token, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
