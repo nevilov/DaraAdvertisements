@@ -5,7 +5,7 @@ namespace DaraAds.API.Controllers.Advertisement
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/advertisement/[controller]")]
     public partial class AdvertisementController : ControllerBase
     {
     }
