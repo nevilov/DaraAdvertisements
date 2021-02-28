@@ -14,6 +14,8 @@ using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.API.Controllers;
 using DaraAds.Infrastructure.DataAccess.Repositories;
 using DaraAds.Application.Repositories;
+using DaraAds.Infrastructure.Mail;
+using DaraAds.Application.Services.Mail.Interfaces;
 
 namespace DaraAds.API
 {
@@ -37,6 +39,10 @@ namespace DaraAds.API
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
              .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
              .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>();
+
+
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddScoped<IMailService, MailService>();
 
             services
             .AddHttpContextAccessor();

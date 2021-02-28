@@ -6,10 +6,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Advertisement.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Common;
 using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Interfaces;
+using DaraAds.Application.Services.Mail.Exception;
+using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Extantions;
 using DaraAds.Domain;
 using DaraAds.Domain.Shared.Exceptions;
@@ -26,13 +29,19 @@ namespace DaraAds.Infrastructure.Identity
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
+        private readonly IMailService _mailService;
 
-        public IdentityService(UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public IdentityService(UserManager<IdentityUser> userManager, 
+            IHttpContextAccessor httpContextAccessor,
+            IConfiguration configuration,
+            IMailService mailService)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
+            _mailService = mailService;
         }
+
         public Task<string> GetCurrentUserId(CancellationToken cancellationToken = default)
         {
             var claimsPrincipal = _httpContextAccessor.HttpContext?.User;
@@ -67,6 +76,22 @@ namespace DaraAds.Infrastructure.Identity
             if (identityResult.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, request.Role);
+
+                var confiramtionToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                var encodedToken = HttpUtility.UrlEncode(confiramtionToken);
+
+                var message = $"<a href=\"{_configuration["ApiUri"]}api/v1/users/confirm?userId={newUser.Id}&token={encodedToken}\">Подтвердить email</a>";
+
+                try
+                {
+                    await _mailService.Send(request.Email, "Подтвердите Email!", message, cancellationToken);
+                }
+                catch(Exception ex)
+                {
+                    await _userManager.DeleteAsync(newUser);
+                    throw new SendingMailException("Произошла ошибка!" + ex.Message);
+                }
+
                 return new CreateUser.Response
                 {
                     IsSuccess = true,
@@ -120,9 +145,17 @@ namespace DaraAds.Infrastructure.Identity
              };
         }
 
-        public Task ConfirmEmail(string userId, string token, CancellationToken cancellationToken = default)
+        public async Task<bool> ConfirmEmail(string userId, string token, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+                throw new NoUserFoundException("Пользователь не найден");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            return result.Succeeded;
         }
     }
 }
