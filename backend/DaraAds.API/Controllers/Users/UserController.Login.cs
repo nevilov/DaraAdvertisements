@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DaraAds.Application.Services.User.Interfaces;
 using System.Threading;
+using DaraAds.Application.Services.User.Contracts;
+using System.Net;
+using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Identity.Contracts;
-using DaraAds.API.Dto.Users;
 
 namespace DaraAds.API.Controllers.Users
 {
@@ -20,5 +24,13 @@ namespace DaraAds.API.Controllers.Users
 
             return Ok(token);
         }
+    }
+    
+    public sealed class UserLoginRequest {
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
     }
 }
