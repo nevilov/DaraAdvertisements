@@ -54,14 +54,8 @@ namespace DaraAds.Domain
         public string OwnerId { get; set; }
 
         /// <summary>
-        /// Код категории объявления
+        /// Категория объявления
         /// </summary>
-        public string Category { get; set; }
-
-        /// <summary>
-        /// Код подкатегории товаров
-        /// </summary>
-        public string SubCategory { get; set; }
-
+        public Category Category { get; set; }
     }
 }
