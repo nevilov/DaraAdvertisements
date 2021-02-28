@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DaraAds.Application.Common;
 using DaraAds.Infrastructure.DataAccess.EntitiesConfiguration;
-using DaraAds.Domain;
 
 namespace DaraAds.Infrastructure
 {
@@ -75,8 +74,8 @@ namespace DaraAds.Infrastructure
                 });
             });
 
-            var passwordHasher = new PasswordHasher<Microsoft.AspNetCore.Identity.IdentityUser>();
-            var adminUser = new Microsoft.AspNetCore.Identity.IdentityUser
+            var passwordHasher = new PasswordHasher<IdentityUser>();
+            var adminUser = new IdentityUser
             {
                 Id = ADMIN_ID,
                 UserName = "admin",
