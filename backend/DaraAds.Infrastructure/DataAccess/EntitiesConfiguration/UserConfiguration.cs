@@ -20,7 +20,6 @@ namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
             builder.Property(i => i.CreatedDate).IsRequired();
             builder.Property(i => i.UpdatedDate).IsRequired(false);
             builder.Property(i => i.RemovedDate).IsRequired(false);
-
         }
     }
 }

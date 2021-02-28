@@ -16,6 +16,7 @@ namespace DaraAds.Infrastructure
         public DbSet<Domain.Advertisement> Advertisements { get; set; }
         public DbSet<User> DomainUsers { get; set; }
         public DbSet<Abuse> Abuses { get; set; }
+        public DbSet<Category> Categories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Domain.Advertisement>(builder =>
@@ -34,17 +35,16 @@ namespace DaraAds.Infrastructure
                 .WithMany()
                 .HasForeignKey(s => s.OwnerId)
                 .HasPrincipalKey(u => u.Id);
-
-
             });
-
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
 
             modelBuilder.Entity<Abuse>(builder =>
             {
                 builder.HasKey(x => x.Id);
                 builder.Property(x => x.AbuseText).IsRequired(false).HasMaxLength(1000);
             });
+            
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
 
             SeedIdentity(modelBuilder);
             base.OnModelCreating(modelBuilder);
