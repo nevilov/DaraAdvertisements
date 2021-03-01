@@ -10,6 +10,8 @@ namespace DaraAds.Application.Repositories
 {
     public interface IAdvertisementRepository: IRepository<Domain.Advertisement, int>
     {
-        public Task<Domain.Advertisement> FindByIdWithUser(int id, CancellationToken cancellationToken); 
+        public Task<Domain.Advertisement> FindByIdWithUser(int id, CancellationToken cancellationToken);
+
+        public Task<Domain.Advertisement> FindByIdWithUserAndCategory(int id, CancellationToken cancellationToken);
     }
 }

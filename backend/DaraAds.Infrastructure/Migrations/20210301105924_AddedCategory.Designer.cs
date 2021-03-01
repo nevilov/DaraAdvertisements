@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DaraAds.Infrastructure.Migrations
 {
     [DbContext(typeof(DaraAdsDbContext))]
-    [Migration("20210228215552_AddedCategories")]
-    partial class AddedCategories
+    [Migration("20210301105924_AddedCategory")]
+    partial class AddedCategory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -418,14 +418,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5be228f2-bc49-4f4d-bbdb-4ceb03c4cc15",
+                            ConcurrencyStamp = "5098095d-2060-43d5-b657-5a5510d1eef8",
                             Email = "admin",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE0VuDd8E0fRF0KLkW+Ls/h1ryB/Bo+9XuxzsANNyulAZgS2La2Oa4h/SJVmecBckw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEK2hDiMaSHtkcmNp31VE4dGkvuzM0xV794AGRWRiySyZtKz4f3RezcDQzzdmAkxlrg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "641e0377-12fc-4031-987c-940e041f97ca",
+                            SecurityStamp = "dd67e11c-257d-4937-80c6-9832ff0d047c",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -460,14 +460,14 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "12719819-9659-42ab-8606-b008dd438377",
+                            ConcurrencyStamp = "cfa71d75-36ff-4678-8614-5250a8406ffe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "156daf2c-6918-4b30-9f59-066986fb227b",
+                            ConcurrencyStamp = "9a98d792-16d3-4e60-bfb7-5f641afda441",
                             Name = "User",
                             NormalizedName = "USER"
                         });
