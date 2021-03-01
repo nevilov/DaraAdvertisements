@@ -114,6 +114,12 @@ namespace DaraAds.Infrastructure.Identity
                 throw new NoRightsException("Неправильный логин или пароль");
             }
 
+            var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(identityUser);
+            if (!isEmailConfirmed)
+            {
+                throw new NoRightsException("Подтвердите почту, чтобы войти!");
+            }
+
             var claims = new List<Claim>
              {
                  new(ClaimTypes.Email, request.Email),
