@@ -10,5 +10,6 @@ namespace DaraAds.Application.Identity.Interfaces
         Task<bool> IsInRole(string userId, string role, CancellationToken cancellationToken = default);
         Task<CreateUser.Response> CreateUser(CreateUser.Request request, CancellationToken cancellationToken = default);
         Task<CreateToken.Response> CreateToken(CreateToken.Request request, CancellationToken cancellationToken = default);
+        Task<bool> ConfirmEmail(string userId, string token, CancellationToken cancellationToken = default);
     }
 }
