@@ -57,5 +57,10 @@ namespace DaraAds.Domain
         /// Категория объявления
         /// </summary>
         public virtual Category Category { get; set; }
+
+        /// <summary>
+        /// Id категории
+        /// </summary>
+        public int CategoryId { get; set; }
     }
 }

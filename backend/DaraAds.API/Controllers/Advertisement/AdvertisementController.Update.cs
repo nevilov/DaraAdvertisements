@@ -22,11 +22,10 @@ namespace DaraAds.API.Controllers.Advertisement
                 Title = request.Title,
                 Description = request.Description,
                 Price = request.Price,
-                Cover = request.Cover
+                Cover = request.Cover,
+                CategoryId = request.CategoryId
             }, cancellationToken);
-
             return Ok(response.Id);
-
         }
     }
 
@@ -48,5 +47,7 @@ namespace DaraAds.API.Controllers.Advertisement
         [Required]
         [MaxLength(300)]
         public string Cover { get; set; }
+
+        public int CategoryId { get; set; }
     }
 }

@@ -41,7 +41,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Cover = request.Cover,
                 OwnerId = userId,
                 Status = Domain.Advertisement.Statuses.Created,
-                CreatedDate = DateTime.UtcNow
+                CreatedDate = DateTime.UtcNow,
+                CategoryId = request.CategoryId
             };
 
             await _repository.Save(ad, cancellationToken);
@@ -53,17 +54,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<Get.Response> Get(Get.Request request, CancellationToken cancellationToken)
         {
-            // var ad = await _repository.FindByIdWithUser(request.Id, cancellationToken);
-            
             var ad = await _repository.FindById(request.Id, cancellationToken);
-
-            var subcategory = ad.Category.ChildCategories;
-            Console.WriteLine($"Имя категории  {ad.Category.Name}");
-            
-            foreach (var c in subcategory)
-            {
-                Console.WriteLine($"Имя подкатегории {c.Name}");
-            }
             
             if (ad == null)
             {
@@ -78,16 +69,19 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Price = ad.Price,
                 Cover = ad.Cover,
                 
-                Cat = new Get.Response.Category
+                Category = new Get.Response.CategoryResponse
                 {
+                    ParentId = ad.Category.ParentCategory.Id,
+                    ParentName = ad.Category.ParentCategory.Name,
                     Id = ad.Category.Id,
-                    Name = ad.Category.Name,
+                    Name = ad.Category.Name
                 },
                 
                 Owner = new Get.Response.OwnerResponse
                 {
                     Id = ad.OwnerUser.Id,
                     Name  = ad.OwnerUser.Name,
+                    Email = ad.OwnerUser.Email,
                     LastName = ad.OwnerUser.LastName
                 }
             };
@@ -169,7 +163,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 throw new NoUserFoundException($"Пользователь не найден");
             }
 
-            var advertisement = await _repository.FindByIdWithUser(request.Id, cancellationToken);
+            var advertisement = await _repository.FindById(request.Id, cancellationToken);
             
             if (advertisement == null)
             {
@@ -188,7 +182,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             advertisement.Price = request.Price;
             advertisement.Cover = request.Cover;
             advertisement.UpdatedDate = DateTime.UtcNow;
-           //Status = (Enum.Parse<Domain.Advertisement.Statuses>(request.Status)).ToString;
+            advertisement.CategoryId = request.CategoryId;
 
             await _repository.Save(advertisement, cancellationToken);
 
