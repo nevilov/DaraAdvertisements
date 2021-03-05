@@ -53,7 +53,18 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<Get.Response> Get(Get.Request request, CancellationToken cancellationToken)
         {
-            var ad = await _repository.FindByIdWithUser(request.Id, cancellationToken);
+            // var ad = await _repository.FindByIdWithUser(request.Id, cancellationToken);
+            
+            var ad = await _repository.FindById(request.Id, cancellationToken);
+
+            var subcategory = ad.Category.ChildCategories;
+            Console.WriteLine($"Имя категории  {ad.Category.Name}");
+            
+            foreach (var c in subcategory)
+            {
+                Console.WriteLine($"Имя подкатегории {c.Name}");
+            }
+            
             if (ad == null)
             {
                 throw new NoAdFoundException(request.Id);
@@ -66,6 +77,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Status = ad.Status.ToString(),
                 Price = ad.Price,
                 Cover = ad.Cover,
+                
+                Cat = new Get.Response.Category
+                {
+                    Id = ad.Category.Id,
+                    Name = ad.Category.Name,
+                },
                 
                 Owner = new Get.Response.OwnerResponse
                 {

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DaraAds.Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class UpdateSeedCategories : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,6 +64,29 @@ namespace DaraAds.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    ParentCategoryId = table.Column<int>(type: "integer", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    RemovedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Categories_Categories_ParentCategoryId",
+                        column: x => x.ParentCategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -204,8 +227,7 @@ namespace DaraAds.Infrastructure.Migrations
                     Status = table.Column<int>(type: "integer", nullable: false),
                     Cover = table.Column<string>(type: "text", nullable: true),
                     OwnerId = table.Column<string>(type: "text", nullable: true),
-                    Category = table.Column<string>(type: "text", nullable: true),
-                    SubCategory = table.Column<string>(type: "text", nullable: true),
+                    CategoryId = table.Column<int>(type: "integer", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     RemovedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
@@ -213,6 +235,12 @@ namespace DaraAds.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Advertisements", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Advertisements_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Advertisements_DomainUsers_OwnerId",
                         column: x => x.OwnerId,
@@ -226,19 +254,34 @@ namespace DaraAds.Infrastructure.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7ca197bb-d569-4fb9-b214-7f719973050e", "1358b7f5-6c62-4ee8-8d2b-7de36907b130", "Admin", "ADMIN" },
-                    { "b09f2dce-4821-4cf3-aa27-37f9d920bc01", "fc57bf98-fc0e-4b8b-aea6-40ae1afd1e45", "User", "USER" }
+                    { "7ca197bb-d569-4fb9-b214-7f719973050e", "255da44f-1049-45d7-b416-b2e6954fd3ea", "Admin", "ADMIN" },
+                    { "b09f2dce-4821-4cf3-aa27-37f9d920bc01", "3204c607-9225-4439-822f-b2b6fe0ac9b5", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e4266faa-8fc0-4972-bf1c-14533f1ccffd", 0, "d9e41649-6486-4ff2-9551-b067d0af7fc9", null, false, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEOszj7vDCoiLNgORwVaF13STuyNowoSz4ep6YmA8E1w/c8jX6vxeopFOoXq87hcukQ==", null, false, "744dbda5-9dbb-4fbd-9a16-a6601e2a301d", false, "admin" });
+                values: new object[] { "e4266faa-8fc0-4972-bf1c-14533f1ccffd", 0, "ce257c4f-06bb-4461-b8d0-8f303e06dcea", "admin", false, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEE4NOX4k8sEF6pJHXLFoNAz3aDe2UPNPleVqtBDSC/uaFzlmEelljoFgZYyBQBQbGQ==", null, false, "cceb871f-42a1-4646-be29-017c72c1d0d4", false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "CreatedDate", "Name", "ParentCategoryId", "RemovedDate", "UpdatedDate" },
+                values: new object[] { 100, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Транспорт", null, null, null });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { "7ca197bb-d569-4fb9-b214-7f719973050e", "e4266faa-8fc0-4972-bf1c-14533f1ccffd" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "CreatedDate", "Name", "ParentCategoryId", "RemovedDate", "UpdatedDate" },
+                values: new object[] { 200, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Недвижимость", 100, null, null });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Advertisements_CategoryId",
+                table: "Advertisements",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Advertisements_OwnerId",
@@ -281,6 +324,11 @@ namespace DaraAds.Infrastructure.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_ParentCategoryId",
+                table: "Categories",
+                column: "ParentCategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -305,6 +353,9 @@ namespace DaraAds.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "DomainUsers");

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DaraAds.Infrastructure.Migrations
 {
     [DbContext(typeof(DaraAdsDbContext))]
-    [Migration("20210301105924_AddedCategory")]
-    partial class AddedCategory
+    [Migration("20210305171526_UpdateSeedCategoriesV1")]
+    partial class UpdateSeedCategoriesV1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -138,167 +138,167 @@ namespace DaraAds.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 100,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Транспорт"
                         },
                         new
                         {
-                            Id = 2,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Автомобили",
-                            ParentCategoryId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Мотоциклы",
-                            ParentCategoryId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Спецтехника",
-                            ParentCategoryId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Запчасти",
-                            ParentCategoryId = 1
-                        },
-                        new
-                        {
-                            Id = 6,
+                            Id = 200,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Недвижимость"
                         },
                         new
                         {
-                            Id = 7,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Квартиры",
-                            ParentCategoryId = 6
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Дома",
-                            ParentCategoryId = 6
-                        },
-                        new
-                        {
-                            Id = 9,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Новостройки",
-                            ParentCategoryId = 6
-                        },
-                        new
-                        {
-                            Id = 10,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Гаражи",
-                            ParentCategoryId = 6
-                        },
-                        new
-                        {
-                            Id = 11,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Участки",
-                            ParentCategoryId = 6
-                        },
-                        new
-                        {
-                            Id = 12,
+                            Id = 300,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Бытовая Техника"
                         },
                         new
                         {
-                            Id = 13,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Аудио и видео",
-                            ParentCategoryId = 12
-                        },
-                        new
-                        {
-                            Id = 14,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Игры, приставки",
-                            ParentCategoryId = 12
-                        },
-                        new
-                        {
-                            Id = 15,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Компьютеры",
-                            ParentCategoryId = 12
-                        },
-                        new
-                        {
-                            Id = 16,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Ноутбуки",
-                            ParentCategoryId = 12
-                        },
-                        new
-                        {
-                            Id = 17,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Телефоны, планшеты",
-                            ParentCategoryId = 12
-                        },
-                        new
-                        {
-                            Id = 18,
-                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Фототехника",
-                            ParentCategoryId = 12
-                        },
-                        new
-                        {
-                            Id = 19,
+                            Id = 400,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Животные"
                         },
                         new
                         {
-                            Id = 20,
+                            Id = 1,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Автомобили",
+                            ParentCategoryId = 100
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Мотоциклы",
+                            ParentCategoryId = 100
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Спецтехника",
+                            ParentCategoryId = 100
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Запчасти",
+                            ParentCategoryId = 100
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Квартиры",
+                            ParentCategoryId = 200
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Дома",
+                            ParentCategoryId = 200
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Новостройки",
+                            ParentCategoryId = 200
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Гаражи",
+                            ParentCategoryId = 200
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Участки",
+                            ParentCategoryId = 200
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Аудио и видео",
+                            ParentCategoryId = 300
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Игры, приставки",
+                            ParentCategoryId = 300
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Компьютеры",
+                            ParentCategoryId = 300
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Ноутбуки",
+                            ParentCategoryId = 300
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Телефоны, планшеты",
+                            ParentCategoryId = 300
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Фототехника",
+                            ParentCategoryId = 300
+                        },
+                        new
+                        {
+                            Id = 16,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Собаки",
-                            ParentCategoryId = 19
+                            ParentCategoryId = 400
                         },
                         new
                         {
-                            Id = 21,
+                            Id = 17,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Кошки",
-                            ParentCategoryId = 19
+                            ParentCategoryId = 400
                         },
                         new
                         {
-                            Id = 22,
+                            Id = 18,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Птицы",
-                            ParentCategoryId = 19
+                            ParentCategoryId = 400
                         },
                         new
                         {
-                            Id = 23,
+                            Id = 19,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Аквариум",
-                            ParentCategoryId = 19
+                            ParentCategoryId = 400
                         },
                         new
                         {
-                            Id = 24,
+                            Id = 20,
                             CreatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Товары для животных",
-                            ParentCategoryId = 19
+                            ParentCategoryId = 400
                         });
                 });
 
@@ -418,14 +418,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5098095d-2060-43d5-b657-5a5510d1eef8",
+                            ConcurrencyStamp = "4889847a-37d0-4678-9035-2dfdbf100cdf",
                             Email = "admin",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK2hDiMaSHtkcmNp31VE4dGkvuzM0xV794AGRWRiySyZtKz4f3RezcDQzzdmAkxlrg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECm+0+0bLeMVO2EXnxA7WNKLTOJtNdjU8as7EjFVarPcRIIjCA7/8bbhAY32+zJQMw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dd67e11c-257d-4937-80c6-9832ff0d047c",
+                            SecurityStamp = "342582a9-b287-4c33-be6a-245e8b17ae2e",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -460,14 +460,14 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "cfa71d75-36ff-4678-8614-5250a8406ffe",
+                            ConcurrencyStamp = "3cbab563-4d18-42c4-9a64-d1a1f15d7763",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "9a98d792-16d3-4e60-bfb7-5f641afda441",
+                            ConcurrencyStamp = "c029b083-23e0-4b48-8b36-0d3a80ddb5eb",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -603,7 +603,8 @@ namespace DaraAds.Infrastructure.Migrations
                 {
                     b.HasOne("DaraAds.Domain.Category", "ParentCategory")
                         .WithMany("ChildCategories")
-                        .HasForeignKey("ParentCategoryId");
+                        .HasForeignKey("ParentCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ParentCategory");
                 });

@@ -5,7 +5,7 @@ namespace DaraAds.Domain
      /// <summary>
      /// Сущность жалобы
      /// </summary>
-    public sealed class Abuse : MutableEntity<int>
+    public class Abuse : MutableEntity<int>
     {
 
         /// <summary>

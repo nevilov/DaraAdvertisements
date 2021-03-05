@@ -5,7 +5,7 @@ namespace DaraAds.Domain
     /// <summary>
     /// Сущность пользователь
     /// </summary>
-    public sealed class User : MutableEntity<string>
+    public class User : MutableEntity<string>
     {
         /// <summary>
         /// Никнейм юзера
