@@ -11,7 +11,7 @@ using Xunit;
 
 namespace DaraAds.Application.Tests
 {
-    public class AdvertisementServiceTest
+    public partial class AdvertisementServiceTest
     {
         private Mock<IAdvertisementRepository> _advertisementRepositoryMock;
         private Mock<IIdentityService> _identityServiceMock;
@@ -23,37 +23,6 @@ namespace DaraAds.Application.Tests
             _identityServiceMock = new Mock<IIdentityService>();
 
             advertisementService = new AdvertisementService(_advertisementRepositoryMock.Object, _identityServiceMock.Object);
-        }
-
-        [Theory]
-        [AutoData]
-        public async Task Create_Response_Success(
-            Create.Request request, CancellationToken cancellationToken,
-            int userId, int adId)
-        {
-            ConfigureMoqEnvironment(userId.ToString(), adId);
-
-            // Act
-            var response = await advertisementService.Create(request, cancellationToken);
-
-            // Assert
-            _identityServiceMock.Verify();
-            Assert.NotNull(response);
-            Assert.NotEqual(default, response.Id);
-        }
-
-
-        [Theory]
-        [InlineAutoData(null)]
-        public async Task Throw_Exception_If_Request_Failure(
-            Create.Request request, CancellationToken cancellationToken,
-            int userId, int adId)
-        {
-            ConfigureMoqEnvironment(userId.ToString(), adId);
-
-            // Assert
-            await Assert.ThrowsAsync<NullReferenceException>(async () => await advertisementService.Create(request, cancellationToken));
-            _identityServiceMock.Verify();
         }
 
         private void ConfigureMoqEnvironment(string userId, int adId)
