@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DaraAds.Application\DaraAds.Application.csproj" />
+    <ProjectReference Include="..\..\DaraAds.Application\DaraAds.Application.csproj" />
   </ItemGroup>
 
 </Project>
