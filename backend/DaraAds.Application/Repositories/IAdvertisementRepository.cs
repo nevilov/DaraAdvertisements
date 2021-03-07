@@ -12,6 +12,6 @@ namespace DaraAds.Application.Repositories
     {
         public Task<Domain.Advertisement> FindByIdWithUser(int id, CancellationToken cancellationToken);
 
-        public Task<Domain.Advertisement> FindByIdWithUserAndCategory(int id, CancellationToken cancellationToken);
+        public Task<IEnumerable<Domain.Advertisement>> FindByCategory(int id, int limit, int offset, CancellationToken cancellationToken);
     }
 }

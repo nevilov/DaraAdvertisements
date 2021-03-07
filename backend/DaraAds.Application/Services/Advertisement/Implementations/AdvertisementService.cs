@@ -191,5 +191,36 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Id = request.Id
             };    
         }
+
+        public async Task<GetPagesByCategory.Responce> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
+        {
+            var total = await _repository.Count(cancellationToken);
+            if (total == 0)
+            {
+                return new GetPagesByCategory.Responce
+                {
+                    Total = 0,
+                    Offset = request.Offset,
+                    Limit = request.Limit
+                };
+            }
+
+            var result = await _repository.FindByCategory(request.idCategory, request.Limit, request.Offset, cancellationToken);
+            return new GetPagesByCategory.Responce
+            {
+                Items = result.Select(a => new GetPagesByCategory.Responce.Item
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                    Cover = a.Cover,
+                    Price = a.Price,
+                    Status = a.Status.ToString()
+                }),
+                Total = total,
+                Offset = request.Offset,
+                Limit = request.Limit
+            };
+        }
     }
 }

@@ -14,21 +14,16 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
     {
         public AdvertisementRepository(DaraAdsDbContext context): base(context) { }
 
+        public async Task<IEnumerable<Domain.Advertisement>> FindByCategory(int id, int limit, int offset, CancellationToken cancellationToken)
+        {
+            return await _context.Advertisements.Where(e => e.CategoryId == id).Take(limit).Skip(offset).ToListAsync(cancellationToken);
+        }
+
         public async Task<Domain.Advertisement> FindByIdWithUser(int id, CancellationToken cancellationToken)
         {
             return await _context.Advertisements
                 .Include(a => a.OwnerUser)
                 .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
-        }
-
-        public async Task<Domain.Advertisement> FindByIdWithUserAndCategory(int id, CancellationToken cancellationToken)
-        {
-            return await _context.Advertisements
-                .Include(a => a.OwnerUser)
-                .Include(a => a.Category)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(a => a.Id == id);
-
         }
     }
 }

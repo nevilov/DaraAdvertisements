@@ -31,7 +31,7 @@ namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
 
         private static IEnumerable<Category> SeedData()
         {
-            using var r = new StreamReader((@"..\DaraAds.Infrastructure\test.json"));
+            using var r = new StreamReader((@"..\DaraAds.Infrastructure\DataAccess\EntitiesConfiguration\Categories.json"));
             var json = r.ReadToEnd();
             var categories = JsonConvert.DeserializeObject<List<Category>>(json);
             return categories;
