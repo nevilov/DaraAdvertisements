@@ -1,5 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using DaraAds.Application.Services.Advertisement.Contracts;
+using Moq;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,9 +14,9 @@ namespace DaraAds.Application.Tests
         [AutoData]
         public async Task Create_Response_Success(
             Create.Request request, CancellationToken cancellationToken,
-            int userId, int adId)
+            int userId)
         {
-            ConfigureMoqEnvironment(userId.ToString(), adId);
+            ConfigureMoqEnvironment(userId.ToString(), 1);
 
             // Act
             var response = await advertisementService.Create(request, cancellationToken);
@@ -39,5 +40,18 @@ namespace DaraAds.Application.Tests
             await Assert.ThrowsAsync<NullReferenceException>(async () => await advertisementService.Create(request, cancellationToken));
             _identityServiceMock.Verify();
         }
+
+        private void ConfigureMoqEnvironment(string userId, int adId)
+        {
+            _identityServiceMock
+                .Setup(_ => _.GetCurrentUserId(It.IsAny<CancellationToken>()))
+                .ReturnsAsync(userId)
+                .Verifiable();
+
+            _advertisementRepositoryMock
+                .Setup(_ => _.Save(It.IsAny<Domain.Advertisement>(), It.IsAny<CancellationToken>()))
+                .Callback((Domain.Advertisement ad, CancellationToken cancellationToken) => ad.Id = adId);
+        }
+
     }
 }

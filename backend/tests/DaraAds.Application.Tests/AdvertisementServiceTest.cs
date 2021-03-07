@@ -25,17 +25,7 @@ namespace DaraAds.Application.Tests
             advertisementService = new AdvertisementService(_advertisementRepositoryMock.Object, _identityServiceMock.Object);
         }
 
-        private void ConfigureMoqEnvironment(string userId, int adId)
-        {
-            _identityServiceMock
-                .Setup(_ => _.GetCurrentUserId(It.IsAny<CancellationToken>()))
-                .ReturnsAsync(userId)
-                .Verifiable();
 
-            _advertisementRepositoryMock
-                .Setup(_ => _.Save(It.IsAny<Domain.Advertisement>(), It.IsAny<CancellationToken>()))
-                .Callback((Domain.Advertisement ad, CancellationToken cancellationToken) => ad.Id = adId);
-        }
 
     }
 }
