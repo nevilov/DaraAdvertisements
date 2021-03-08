@@ -12,11 +12,10 @@ namespace DaraAds.API.Controllers.Advertisement
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             CancellationToken cancellationToken,
-            [FromServices] IAdvertisementService service,
             [FromRoute] int id,
             AdvertisementUpdateRequest request)
         {
-            var response = await service.Update(new Update.Request
+            var response = await _service.Update(new Update.Request
             {
                 Id = id,
                 Title = request.Title,

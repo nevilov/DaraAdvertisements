@@ -15,10 +15,9 @@ namespace DaraAds.API.Controllers.Advertisement
         [ProducesResponseType(typeof(GetPages.Response), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll(
             [FromQuery] GetAllRequest request,
-            [FromServices] IAdvertisementService adService,
             CancellationToken cancellationToken)
         {
-            return Ok(await adService.GetPages(new GetPages.Request
+            return Ok(await _service.GetPages(new GetPages.Request
             {
                 Limit = request.Limit,
                 Offset = request.Offset

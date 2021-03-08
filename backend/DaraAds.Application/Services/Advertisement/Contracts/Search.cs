@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace DaraAds.Application.Services.Advertisement.Contracts
 {
-    public static class GetPagesByCategory
+    public static class Search
     {
         public class Request
         {
-            public int idCategory { get; set; }
-
-            public int Limit { get; set; } = 10;
+            public string KeyWord { get; set; }
 
             public int Offset { get; set; } = 0;
+
+            public int Limit { get; set; } = 10;
         }
 
         public class Responce
@@ -24,14 +24,16 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public int Id { get; set; }
                 public string Title { get; set; }
                 public string Description { get; set; }
-                public string Cover { get; set; }
                 public decimal Price { get; set; }
+                public string Cover { get; set; }
                 public string Status { get; set; }
             }
 
             public int Total { get; set; }
-            public int Offset { get; set; }
+
             public int Limit { get; set; }
+
+            public int Offset { get; set; }
 
             public IEnumerable<Item> Items { get; set; } = Enumerable.Empty<Item>();
         }

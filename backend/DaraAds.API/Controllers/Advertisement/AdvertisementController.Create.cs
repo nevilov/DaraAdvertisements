@@ -15,11 +15,10 @@ namespace DaraAds.API.Controllers.Advertisement
        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(
             AdvertisementCreateRequest request,
-            [FromServices] IAdvertisementService service,
             CancellationToken cancellationToken
         )
         {
-            var response = await service.Create(new Create.Request
+            var response = await _service.Create(new Create.Request
             {
                 Title = request.Title,
                 Description = request.Description,
@@ -28,7 +27,7 @@ namespace DaraAds.API.Controllers.Advertisement
                 CategoryId = request.CategoryId
             }, cancellationToken);
 
-            return Created($"api/advertisements/auto/{response.Id}", new { });
+            return Created($"api/advertisements/{response.Id}", new { });
         }
 
         public sealed class AdvertisementCreateRequest

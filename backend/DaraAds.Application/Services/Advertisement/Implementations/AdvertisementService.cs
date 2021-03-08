@@ -222,5 +222,38 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Limit = request.Limit
             };
         }
+
+        public async Task<Search.Responce> Search(Search.Request request, CancellationToken cancellationToken)
+        {
+            var total = await _repository.Count(cancellationToken);
+            if (total == 0)
+            {
+                return new Search.Responce
+                {
+                    Total = 0,
+                    Offset = request.Offset,
+                    Limit = request.Limit
+                };
+            }
+
+            var result = await _repository.Search(x => x.Title.Contains(request.KeyWord)
+            || x.Description.Contains(request.KeyWord), request.Limit,request.Offset, cancellationToken);
+
+            return new Search.Responce
+            {
+                Items = result.Select(a => new Search.Responce.Item
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                    Cover = a.Cover,
+                    Price = a.Price,
+                    Status = a.Status.ToString()
+                }),
+                Total = total,
+                Offset = request.Offset,
+                Limit = request.Limit
+            };
+        }
     }
 }

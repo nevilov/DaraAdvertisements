@@ -10,11 +10,10 @@ namespace DaraAds.API.Controllers.Advertisement
     {
         [AllowAnonymous]
         [HttpGet("category")]
-        public async Task<IActionResult> GetByCategory([FromQuery] GetByCategoryRequest request, 
-            [FromServices] IAdvertisementService service,
+        public async Task<IActionResult> GetByCategory([FromQuery] GetByCategoryRequest request,
             CancellationToken cancellationToken)
         {
-            var result = await service.GetPagesByCategory(new GetPagesByCategory.Request
+            var result = await _service.GetPagesByCategory(new GetPagesByCategory.Request
             {
                idCategory = request.idCategory,
                Limit = request.Limit,
