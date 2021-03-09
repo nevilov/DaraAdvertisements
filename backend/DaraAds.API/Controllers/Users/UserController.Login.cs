@@ -5,23 +5,24 @@ using DaraAds.Application.Services.User.Interfaces;
 using System.Threading;
 using DaraAds.Application.Services.User.Contracts;
 using System.Net;
+using DaraAds.Application.Identity.Interfaces;
+using DaraAds.Application.Identity.Contracts;
 
 namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController : ControllerBase
     {
         [HttpPost("login")]
-        [ProducesResponseType(typeof(Login.Response), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Login(
-            [FromBody] UserLoginRequest request,
-            [FromServices] IUserService service,
+        public async Task<IActionResult> Login(UserLoginRequest request,
             CancellationToken cancellationToken)
         {
-            return Ok(await service.Login(new Login.Request
+            var token = await _identityService.CreateToken(new CreateToken.Request
             {
                 Email = request.Email,
                 Password = request.Password
-            }, cancellationToken)); ;
+            }, cancellationToken);
+
+            return Ok(token);
         }
     }
     

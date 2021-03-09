@@ -2,32 +2,33 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.Application.Common;
+using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Extantions;
-using DaraAds.Application.Services.User.Interfaces;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
     public sealed class AdvertisementService : IAdvertisementService
     {
         private readonly IAdvertisementRepository _repository;
-        private readonly IUserService _userService;
+        private readonly IIdentityService _identityService;
 
-        public AdvertisementService(IAdvertisementRepository repository, IUserService userService)
+        public AdvertisementService(IAdvertisementRepository repository, IIdentityService identityService)
         {
             _repository = repository;
-            _userService = userService;
+            _identityService = identityService;
         }
 
 
         public async Task<Create.Response> Create(Create.Request request, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetCurrent(cancellationToken);
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
 
-            if (user == null)
+            if (string.IsNullOrEmpty(userId))
             {
                 throw new NoUserForAdCreationException($"Попытка создания объявления [{request.Title}] без пользователя.");
             }
@@ -38,9 +39,10 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Description = request.Description,
                 Price = request.Price,
                 Cover = request.Cover,
-                OwnerId = user.Id,
+                OwnerId = userId,
                 Status = Domain.Advertisement.Statuses.Created,
-                CreatedDate = DateTime.UtcNow
+                CreatedDate = DateTime.UtcNow,
+                CategoryId = request.CategoryId
             };
 
             await _repository.Save(ad, cancellationToken);
@@ -52,7 +54,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<Get.Response> Get(Get.Request request, CancellationToken cancellationToken)
         {
-            var ad = await _repository.FindByIdWithUser(request.Id, cancellationToken);
+            var ad = await _repository.FindById(request.Id, cancellationToken);
+            
             if (ad == null)
             {
                 throw new NoAdFoundException(request.Id);
@@ -66,10 +69,19 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Price = ad.Price,
                 Cover = ad.Cover,
                 
+                Category = new Get.Response.CategoryResponse
+                {
+                    ParentId = ad.Category.ParentCategory.Id,
+                    ParentName = ad.Category.ParentCategory.Name,
+                    Id = ad.Category.Id,
+                    Name = ad.Category.Name
+                },
+                
                 Owner = new Get.Response.OwnerResponse
                 {
                     Id = ad.OwnerUser.Id,
                     Name  = ad.OwnerUser.Name,
+                    Email = ad.OwnerUser.Email,
                     LastName = ad.OwnerUser.LastName
                 }
             };
@@ -77,37 +89,37 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task Delete(Delete.Request request, CancellationToken cancellationToken)
         {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NoUserFoundException($"Пользователь не найден");
+            }
+
             var ad = await _repository.FindById(request.Id, cancellationToken);
 
             if (ad == null)
             {
                 throw new NoAdFoundException(request.Id);
             }
-
-            var user = await _userService.GetCurrent(cancellationToken);
-
-            if (user == null)
-            {
-                throw new NoUserForAdCreationException($"Попытка удаления без пользователя.");
-            }
-
+            
             if (ad.Status != Domain.Advertisement.Statuses.Created)
             {
                 throw new AdShouldBeInCreatedStateForClosingException(ad.Id);
             }
+            
+            var isAdmin = await _identityService.IsInRole(userId, RoleConstants.AdminRole, cancellationToken);
 
-            if (user.Id == ad.OwnerUser.Id)
+            if (!isAdmin && ad.OwnerId != userId)
             {
-
-                ad.Status = Domain.Advertisement.Statuses.Closed;
-                ad.UpdatedDate = DateTime.UtcNow;
-
-                await _repository.Save(ad, cancellationToken);
-
-            } else
-            {
-                throw new NoUserForAdCreationException($"Нельзя удалить чужое объявление");
+                throw new NoRightsException("Нет прав для выполнения операции.");
             }
+            
+            ad.Status = Domain.Advertisement.Statuses.Closed;
+            ad.UpdatedDate = DateTime.UtcNow;
+            
+            await _repository.Save(ad, cancellationToken);
+            
         }
 
         public async Task<GetPages.Response> GetPages(GetPages.Request request, CancellationToken cancellationToken)
@@ -144,30 +156,33 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<Update.Response> Update(Update.Request request, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetCurrent(cancellationToken);
-            var advertisement = await _repository.FindByIdWithUser(request.Id, cancellationToken);
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
 
-            if (user == null)
+            if (string.IsNullOrEmpty(userId))
             {
                 throw new NoUserFoundException($"Пользователь не найден");
             }
 
+            var advertisement = await _repository.FindById(request.Id, cancellationToken);
+            
             if (advertisement == null)
             {
                 throw new NoAdFoundException(request.Id);
             }
 
-            if (user.Id != advertisement.OwnerUser.Id)
-            {
-                throw new NoRightsException($"Нет прав отредактировать объявление с id [{request.Id}]");
-            }
+            var isAdmin = await _identityService.IsInRole(userId, RoleConstants.AdminRole, cancellationToken);
 
+            if (!isAdmin && advertisement.OwnerId != userId)
+            {
+                throw new NoRightsException("Нет прав для выполнения операции.");
+            }
+            
             advertisement.Title = request.Title;
             advertisement.Description = request.Description;
             advertisement.Price = request.Price;
             advertisement.Cover = request.Cover;
             advertisement.UpdatedDate = DateTime.UtcNow;
-            //Status = (Enum.Parse<Domain.Advertisement.Statuses>(request.Status)).ToString;
+            advertisement.CategoryId = request.CategoryId;
 
             await _repository.Save(advertisement, cancellationToken);
 
@@ -175,6 +190,70 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             {
                 Id = request.Id
             };    
+        }
+
+        public async Task<GetPagesByCategory.Responce> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
+        {
+            var total = await _repository.Count(cancellationToken);
+            if (total == 0)
+            {
+                return new GetPagesByCategory.Responce
+                {
+                    Total = 0,
+                    Offset = request.Offset,
+                    Limit = request.Limit
+                };
+            }
+
+            var result = await _repository.FindByCategory(request.idCategory, request.Limit, request.Offset, cancellationToken);
+            return new GetPagesByCategory.Responce
+            {
+                Items = result.Select(a => new GetPagesByCategory.Responce.Item
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                    Cover = a.Cover,
+                    Price = a.Price,
+                    Status = a.Status.ToString()
+                }),
+                Total = total,
+                Offset = request.Offset,
+                Limit = request.Limit
+            };
+        }
+
+        public async Task<Search.Responce> Search(Search.Request request, CancellationToken cancellationToken)
+        {
+            var total = await _repository.Count(cancellationToken);
+            if (total == 0)
+            {
+                return new Search.Responce
+                {
+                    Total = 0,
+                    Offset = request.Offset,
+                    Limit = request.Limit
+                };
+            }
+
+            var result = await _repository.Search(x => x.Title.Contains(request.KeyWord)
+            || x.Description.Contains(request.KeyWord), request.Limit,request.Offset, cancellationToken);
+
+            return new Search.Responce
+            {
+                Items = result.Select(a => new Search.Responce.Item
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                    Cover = a.Cover,
+                    Price = a.Price,
+                    Status = a.Status.ToString()
+                }),
+                Total = total,
+                Offset = request.Offset,
+                Limit = request.Limit
+            };
         }
     }
 }

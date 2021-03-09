@@ -3,24 +3,19 @@ using DaraAds.Application.Services.Abuse.Interfaces;
 using DaraAds.Application.Services.User.Implementations;
 using DaraAds.Application.Services.User.Interfaces;
 using DaraAds.Infrastructure;
-using DaraAds.Infrastructure.DataAccess;
-using DaraAds.Infrastructure.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
-using System.Text;
 using DaraAds.Application.Services.Advertisement.Implementations;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.API.Controllers;
 using DaraAds.Infrastructure.DataAccess.Repositories;
 using DaraAds.Application.Repositories;
+using DaraAds.Application.Services.Mail.Interfaces;
+using DaraAds.Infrastructure.Mail;
 
 namespace DaraAds.API
 {
@@ -35,43 +30,32 @@ namespace DaraAds.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAdvertisementService, AdvertisementService>();
-            services.AddScoped<IAbuseService, AbuseService>();
+            services
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IAdvertisementService, AdvertisementService>()
+            .AddScoped<IAbuseService, AbuseService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
-             .AddScoped<IRepository<Domain.User, int>, Repository<Domain.User, int>>()
+             .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
              .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>();
 
             services
-            .AddHttpContextAccessor()
-            .AddScoped<IClaimsAccessor, HttpContextClaimsAccessor>();
+            .AddHttpContextAccessor();
+
+            services.AddScoped<IMailService, MailService>();
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+
+            services.AddIdentity(Configuration);
 
             services.AddControllers();
 
             services.AddSwaggerModule();
-
-            //JWT-token settings
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
-                {
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateActor = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidateIssuer = false,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"]))
-                    };
-                });
-
+                        
             //Our db
             services.AddDbContext<DaraAdsDbContext>(p =>
             {
-                p.UseNpgsql(Configuration.GetConnectionString("PostgreDB"));
+                p.UseNpgsql(Configuration.GetConnectionString("PostgreDB")).UseLazyLoadingProxies();
             });
 
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });

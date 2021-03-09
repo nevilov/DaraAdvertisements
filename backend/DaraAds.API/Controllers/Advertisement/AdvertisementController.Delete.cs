@@ -11,11 +11,10 @@ namespace DaraAds.API.Controllers.Advertisement
         [HttpDelete("{id:int}")]
             public async Task<IActionResult> Delete(
             [FromRoute] int id,
-            [FromServices] IAdvertisementService service,
             CancellationToken cancellationToken
             )
         {
-            await service.Delete(new Delete.Request
+            await _service.Delete(new Delete.Request
             {
                 Id = id
             }, cancellationToken);
