@@ -55,7 +55,7 @@ namespace DaraAds.API
             //Our db
             services.AddDbContext<DaraAdsDbContext>(p =>
             {
-                p.UseNpgsql(Configuration.GetConnectionString("PostgreDB"));
+                p.UseNpgsql(Configuration.GetConnectionString("PostgreDB")).UseLazyLoadingProxies();
             });
 
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });

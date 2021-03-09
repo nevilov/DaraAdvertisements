@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DaraAds.Application.Common;
 using DaraAds.Infrastructure.DataAccess.EntitiesConfiguration;
-using DaraAds.Domain;
 
 namespace DaraAds.Infrastructure
 {
@@ -16,6 +15,13 @@ namespace DaraAds.Infrastructure
         public DbSet<Domain.Advertisement> Advertisements { get; set; }
         public DbSet<User> DomainUsers { get; set; }
         public DbSet<Abuse> Abuses { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Domain.Advertisement>(builder =>
@@ -34,17 +40,16 @@ namespace DaraAds.Infrastructure
                 .WithMany()
                 .HasForeignKey(s => s.OwnerId)
                 .HasPrincipalKey(u => u.Id);
-
-
             });
-
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
 
             modelBuilder.Entity<Abuse>(builder =>
             {
                 builder.HasKey(x => x.Id);
                 builder.Property(x => x.AbuseText).IsRequired(false).HasMaxLength(1000);
             });
+            
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
 
             SeedIdentity(modelBuilder);
             base.OnModelCreating(modelBuilder);
@@ -75,8 +80,8 @@ namespace DaraAds.Infrastructure
                 });
             });
 
-            var passwordHasher = new PasswordHasher<Microsoft.AspNetCore.Identity.IdentityUser>();
-            var adminUser = new Microsoft.AspNetCore.Identity.IdentityUser
+            var passwordHasher = new PasswordHasher<IdentityUser>();
+            var adminUser = new IdentityUser
             {
                 Id = ADMIN_ID,
                 UserName = "admin",

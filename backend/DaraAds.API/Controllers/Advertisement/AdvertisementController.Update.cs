@@ -12,21 +12,19 @@ namespace DaraAds.API.Controllers.Advertisement
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             CancellationToken cancellationToken,
-            [FromServices] IAdvertisementService service,
             [FromRoute] int id,
             AdvertisementUpdateRequest request)
         {
-            var response = await service.Update(new Update.Request
+            var response = await _service.Update(new Update.Request
             {
                 Id = id,
                 Title = request.Title,
                 Description = request.Description,
                 Price = request.Price,
-                Cover = request.Cover
+                Cover = request.Cover,
+                CategoryId = request.CategoryId
             }, cancellationToken);
-
             return Ok(response.Id);
-
         }
     }
 
@@ -48,5 +46,7 @@ namespace DaraAds.API.Controllers.Advertisement
         [Required]
         [MaxLength(300)]
         public string Cover { get; set; }
+
+        public int CategoryId { get; set; }
     }
 }

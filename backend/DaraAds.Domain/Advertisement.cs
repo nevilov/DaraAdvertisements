@@ -6,7 +6,7 @@ namespace DaraAds.Domain
     /// <summary>
     /// Сущность объявление
     /// </summary>
-    public sealed class Advertisement : MutableEntity<int>
+    public class Advertisement : MutableEntity<int>
     {
         /// <summary>
         /// Статусы объявления
@@ -46,7 +46,7 @@ namespace DaraAds.Domain
         /// <summary>
         /// Автор объявления
         /// </summary>
-        public User OwnerUser { get; set; }
+        public virtual User OwnerUser { get; set; }
 
         /// <summary>
         /// Id автора объявления
@@ -54,14 +54,13 @@ namespace DaraAds.Domain
         public string OwnerId { get; set; }
 
         /// <summary>
-        /// Код категории объявления
+        /// Категория объявления
         /// </summary>
-        public string Category { get; set; }
+        public virtual Category Category { get; set; }
 
         /// <summary>
-        /// Код подкатегории товаров
+        /// Id категории
         /// </summary>
-        public string SubCategory { get; set; }
-
+        public int CategoryId { get; set; }
     }
 }

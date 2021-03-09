@@ -1,0 +1,120 @@
+[
+  {
+    "Id": "100",
+    "Name": "Транспорт"
+  },
+  {
+    "Id": "200",
+    "Name": "Недвижимость"
+  },
+  {
+    "Id": "300",
+    "Name": "Бытовая Техника"
+  },
+  {
+    "Id": "400",
+    "Name": "Животные"
+  },
+  {
+    "Id": "1",
+    "Name": "Автомобили",
+    "ParentCategoryId": "100"
+  },
+  {
+    "Id": "2",
+    "Name": "Мотоциклы",
+    "ParentCategoryId": "100"
+  },
+  {
+    "Id": "3",
+    "Name": "Спецтехника",
+    "ParentCategoryId": "100"
+  },
+  {
+    "Id": "4",
+    "Name": "Запчасти",
+    "ParentCategoryId": "100"
+  },
+  {
+    "Id": "5",
+    "Name": "Квартиры",
+    "ParentCategoryId": "200"
+  },
+  {
+    "Id": "6",
+    "Name": "Дома",
+    "ParentCategoryId": "200"
+  },
+  {
+    "Id": "7",
+    "Name": "Новостройки",
+    "ParentCategoryId": "200"
+  },
+  {
+    "Id": "8",
+    "Name": "Гаражи",
+    "ParentCategoryId": "200"
+  },
+  {
+    "Id": "9",
+    "Name": "Участки",
+    "ParentCategoryId": "200"
+  },
+
+  {
+    "Id": "10",
+    "Name": "Аудио и видео",
+    "ParentCategoryId": "300"
+  },
+  {
+    "Id": "11",
+    "Name": "Игры, приставки",
+    "ParentCategoryId": "300"
+  },
+  {
+    "Id": "12",
+    "Name": "Компьютеры",
+    "ParentCategoryId": "300"
+  },
+  {
+    "Id": "13",
+    "Name": "Ноутбуки",
+    "ParentCategoryId": "300"
+  },
+  {
+    "Id": "14",
+    "Name": "Телефоны, планшеты",
+    "ParentCategoryId": "300"
+  },
+  {
+    "Id": "15",
+    "Name": "Фототехника",
+    "ParentCategoryId": "300"
+  },
+
+  {
+    "Id": "16",
+    "Name": "Собаки",
+    "ParentCategoryId": "400"
+  },
+  {
+    "Id": "17",
+    "Name": "Кошки",
+    "ParentCategoryId": "400"
+  },
+  {
+    "Id": "18",
+    "Name": "Птицы",
+    "ParentCategoryId": "400"
+  },
+  {
+    "Id": "19",
+    "Name": "Аквариум",
+    "ParentCategoryId": "400"
+  },
+  {
+    "Id": "20",
+    "Name": "Товары для животных",
+    "ParentCategoryId": "400"
+  }
+]

@@ -13,6 +13,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             public string Cover { get; set; }
             public Statuses Status { get; set; }
             public DateTime UpdateDate = DateTime.UtcNow;
+            public int CategoryId { get; set; }
         }
         
         public sealed class Response

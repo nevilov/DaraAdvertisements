@@ -124,8 +124,8 @@ namespace DaraAds.Infrastructure.Identity
 
             var claims = new List<Claim>
              {
-                 new(ClaimTypes.Email, request.Email),
-                 new(ClaimTypes.NameIdentifier, identityUser.Id)
+                 new Claim(ClaimTypes.Email, request.Email),
+                 new Claim(ClaimTypes.NameIdentifier, identityUser.Id)
              };
 
             var userRoles = await _userManager.GetRolesAsync(identityUser);

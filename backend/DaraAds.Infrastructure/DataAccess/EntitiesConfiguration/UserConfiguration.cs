@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
 {
-    class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
@@ -20,7 +20,6 @@ namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
             builder.Property(i => i.CreatedDate).IsRequired();
             builder.Property(i => i.UpdatedDate).IsRequired(false);
             builder.Property(i => i.RemovedDate).IsRequired(false);
-
         }
     }
 }
