@@ -20,8 +20,9 @@ namespace DaraAds.API.Controllers.Abuse
         {
             var response = await abuseService.CreateAbuse(new CreateAbuse.Request
             {
+                AbuseAdvId = abuseBinding.AdvId,
                 AbuseText = abuseBinding.AbuseText,
-            }, cancellationToken);
+            }, cancellationToken);;
             return Created($"api/v1/abuse/{response.Id}", new { });
         }
     }
