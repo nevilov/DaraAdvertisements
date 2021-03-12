@@ -36,5 +36,41 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 .Skip(offset)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<IEnumerable<Domain.Advertisement>> GetPageByFilterSortSearch(int categoryId, string searchString, string sortOrder, int offset, int limit,
+            CancellationToken cancellationToken)
+        {
+            var ads = from advertisement in _context.Advertisements select advertisement;
+            
+            // Фильтрация
+            if (categoryId != 0)
+            {
+                ads = ads.Where(a => a.CategoryId == categoryId);    
+            }
+            
+            // Поиск
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var lowerCaseSearchString = searchString.ToLower();
+                
+                ads = ads.Where(a =>
+                    a.Title.ToLower().Contains(lowerCaseSearchString) ||
+                    a.Description.ToLower().Contains(lowerCaseSearchString));
+            }
+            
+            // Сортировка
+            var descending = false;
+            if (sortOrder.EndsWith("_desc"))
+            {
+                sortOrder = sortOrder.Substring(0, sortOrder.Length - 5);
+                descending = true;
+            }
+            
+            ads = @descending
+                ? ads.OrderByDescending(a => EF.Property<object>(a, sortOrder))
+                : ads.OrderBy(a => EF.Property<object>(a, sortOrder));
+
+            return await ads.Take(limit).Skip(offset).ToListAsync(cancellationToken);
+        }
     }
 }

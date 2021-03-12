@@ -135,8 +135,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 };
             }
 
-            var ads = await _repository.GetPaged(request.Offset, request.Limit, cancellationToken);
-
+            var ads = await _repository.GetPageByFilterSortSearch(request.CategoryId, request.SearchString, request.SortOrder, request.Offset, request.Limit, cancellationToken);
+            
             return new GetPages.Response
             {
                 Items = ads.Select(a => new GetPages.Response.Item
@@ -150,7 +150,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 }),
                 Total = total,
                 Offset = request.Offset,
-                Limit = request.Limit
+                Limit = request.Limit,
             };
         }
 
