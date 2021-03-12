@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.Application.Common;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DaraAds.API.Controllers.Advertisement
 {
-    public partial class AdvertisementController : ControllerBase
+    public partial class AdvertisementController
     {
         [HttpGet]
         [AllowAnonymous]
@@ -17,11 +18,17 @@ namespace DaraAds.API.Controllers.Advertisement
             [FromQuery] GetAllRequest request,
             CancellationToken cancellationToken)
         {
-            return Ok(await _service.GetPages(new GetPages.Request
+            
+            var response = await _service.GetPages(new GetPages.Request
             {
                 Limit = request.Limit,
-                Offset = request.Offset
-            }, cancellationToken));
+                Offset = request.Offset,
+                SortOrder = request.SortOrder,
+                SearchString = request.SearchString,
+                CategoryId = request.CategoryId
+            }, cancellationToken);
+            
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -44,12 +51,27 @@ namespace DaraAds.API.Controllers.Advertisement
             /// <summary>
             /// Количество возвращаемых объявлений
             /// </summary>
-            public int Limit { get; set; } = 10;
-
+            public int Limit { get; set; } = AdvertisementConstants.PaginationLimit;
+            
             /// <summary>
-            /// Смещение начиная с котрого возвращаются объявления
+            /// Смещение, начиная с котрого возвращаются объявления
             /// </summary>
-            public int Offset { get; set; } = 0;
+            public int Offset { get; set; } = AdvertisementConstants.PaginationOffset;
+            
+            /// <summary>
+            /// Критерий сортировки, по умолчанию по Id
+            /// </summary>
+            public string SortOrder { get; set; } = AdvertisementConstants.SortOrderByIdAsc;
+            
+            /// <summary>
+            /// Строка для поиска объявлений по названию или описанию
+            /// </summary>
+            public string SearchString { get; set; }
+            
+            /// <summary>
+            /// Идентификатор категории для фильтрации объявлений
+            /// </summary>
+            public int CategoryId { get; set; }
         }
     }
 }
