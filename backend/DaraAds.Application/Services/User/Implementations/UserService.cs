@@ -2,13 +2,12 @@
 using System;
 using DaraAds.Application.Services.User.Contracts;
 using DaraAds.Application.Services.User.Interfaces;
-using Microsoft.Extensions.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Common;
 using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Interfaces;
-using DaraAds.Application.Services.User.Contracts.Extantions;
+using DaraAds.Application.Services.User.Contracts.Exceptions;
 
 namespace DaraAds.Application.Services.User.Implementations
 {
@@ -25,7 +24,7 @@ namespace DaraAds.Application.Services.User.Implementations
 
         public async Task<Register.Response> Register(Register.Request request, CancellationToken cancellationToken)
         {
-            //TODO Проверка на дупликаты
+            //TODO Проверка на дубликаты
             var response = await _identity.CreateUser(new CreateUser.Request
             {
                 Username = request.Username,

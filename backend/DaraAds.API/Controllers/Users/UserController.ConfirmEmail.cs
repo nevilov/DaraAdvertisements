@@ -13,7 +13,7 @@ namespace DaraAds.API.Controllers.Users
             {
                 return Ok("Почта подтверждена");
             }
-            return BadRequest("Неправильный токен или индификатор пользователя");
+            return BadRequest("Неправильный токен или идентификатор пользователя");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DaraAds.Application.Services.User.Contracts.Extantions;
+﻿using DaraAds.Application.Services.User.Contracts.Exceptions;
 using DaraAds.Domain.Shared.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
