@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DaraAds.Application.Services.User.Contracts.Extantions
+namespace DaraAds.Application.Services.User.Contracts.Exceptions
 {
     public sealed class NoUserFoundException : NotFoundException
     {

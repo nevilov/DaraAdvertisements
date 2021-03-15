@@ -1,6 +1,6 @@
 ﻿using DaraAds.Domain.Shared.Exceptions;
 
-namespace DaraAds.Application.Services.Advertisement.Contracts.Exeptions
+namespace DaraAds.Application.Services.Advertisement.Contracts.Exceptions
 {
     public sealed class AdShouldBeInCreatedStateForClosingException : EntityNotValidStateException
     {

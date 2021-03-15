@@ -6,9 +6,9 @@ using DaraAds.Application.Common;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
-using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;
+using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
-using DaraAds.Application.Services.User.Contracts.Extantions;
+using DaraAds.Application.Services.User.Contracts.Exceptions;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DaraAds.Application.Services.Mail.Exception
+namespace DaraAds.Application.Services.Mail.Contracts.Exceptions
 {
     public class SendingMailException : DomainException
     {

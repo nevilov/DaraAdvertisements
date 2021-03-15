@@ -4,7 +4,7 @@ using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.User.Contracts;
-using DaraAds.Application.Services.User.Contracts.Extantions;
+using DaraAds.Application.Services.User.Contracts.Exceptions;
 using DaraAds.Application.Services.User.Implementations;
 using Moq;
 using System;

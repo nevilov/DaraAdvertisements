@@ -1,6 +1,6 @@
 using DaraAds.Domain.Shared.Exceptions;
 
-namespace DaraAds.Application.Services.User.Contracts.Extantions
+namespace DaraAds.Application.Services.User.Contracts.Exceptions
 {
     public class DuplicateException: ConflictException
     {
