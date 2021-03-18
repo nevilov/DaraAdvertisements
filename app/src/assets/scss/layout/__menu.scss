@@ -1,5 +1,13 @@
 @import '../../../assets/scss/main.scss';
 
+app-submenu {
+    display: none;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 78px;
+}
+
 .menu {
     display: flex;
     justify-content: space-between;
@@ -27,22 +35,37 @@
         justify-content: space-between;
         align-items: center;
         font-size: 18px;
+        height: 100%;
 
-        & * {
-            display: flex;
-            align-items: center;
+        & .menu__item {
+            height: 100%;
+            // background-color: red;
             margin-right: 15px;
+
+            & a, & span {
+                display: flex;
+                align-items: center;
+            }
 
             &:last-child {
                 margin-right: 0px;
             }
         }
 
-        & *:hover {
+        & .menu__item:hover > span, & .menu__item:hover > a {
             letter-spacing: 0px;
             font-weight: bold;
-            // text-shadow: 0 0 .85px #222, 0 0 .85px #222;
         }
+
+        // & .menu__item-opened:hover {
+
+        //     & a img {
+        //        transform: rotate(360deg);
+        //     }
+        //     // & app-submenu {
+        //     //     display: block;
+        //     // }
+        // }
     }
 
     &__itemArrow {

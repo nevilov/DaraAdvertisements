@@ -6,23 +6,24 @@
   </div>
   <div class="menu__content-centered">
     <ul class="menu__items">
-      <li class="">
-        <a href="">Категории <img class="menu__itemArrow menu__itemArrow-up"
-            src="./../../../../assets/images/icons/menu_arrow.svg"></a>
+      <li class="" class="menu__item menu__item-opened" (click)="showSubmenu()">
+        <span href="">Категории <img #btnShowsSubmenu class="menu__itemArrow menu__itemArrow-up"
+            src="./../../../../assets/images/icons/menu_arrow.svg"></span>
+        <app-submenu #submenu></app-submenu>
       </li>
-      <li>
+      <li class="menu__item">
         <a href="" title="Item">Item</a>
       </li>
-      <li>
+      <li class="menu__item">
         <a href="" title="Item">Item</a>
       </li>
-      <li>
+      <li class="menu__item">
         <a href="" title="Item">Item</a>
       </li>
-      <li>
+      <li class="menu__item">
         <a href="" title="Item">Item</a>
       </li>
-      <li>
+      <li class="menu__item">
         <a href="" title="Item">Item</a>
       </li>
     </ul>
@@ -32,7 +33,7 @@
 
   <div class="menu__userInfo">
     <div class="menu__notification">
-      <img src="./../../../../assets/images/icons/notification on.svg" alt="">
+      <img src="./../../../../assets/images/icons/notification.svg" alt="">
     </div>
     <div class="menu__settings">
       <img src="./../../../../assets/images/icons/settings.svg" alt="">

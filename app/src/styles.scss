@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import './assets/scss/main.scss';
 
+* {
+    transition: all ease 0.7s;
+}
+
 .pointer {
     cursor: pointer;
 }
