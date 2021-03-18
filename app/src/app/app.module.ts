@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 
 import { MenuComponent } from './@shared/components/menu/menu.component';
 import { SubmenuComponent } from './@shared/components/submenu/submenu.component';
+import { FooterComponent } from './@shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    SubmenuComponent
+    SubmenuComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

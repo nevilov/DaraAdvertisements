@@ -1,9 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import './assets/scss/main.scss';
-
-* {
-    transition: all ease 0.7s;
-}
+@import "./assets/scss/main.scss";
 
 .pointer {
     cursor: pointer;
@@ -11,7 +7,7 @@
 
 figure {
     overflow: hidden;
-    background-size: 100%; 
+    background-size: 100%;
     background-position: 50% 50%;
 }
 
