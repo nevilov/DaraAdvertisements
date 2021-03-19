@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DaraAds.Infrastructure.Migrations
 {
     [DbContext(typeof(DaraAdsDbContext))]
-    [Migration("20210319154230_AddModeratorRole")]
+    [Migration("20210319161604_AddModeratorRole")]
     partial class AddModeratorRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -418,14 +418,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d678f707-17c5-47d8-a45b-0d8559a5411c",
+                            ConcurrencyStamp = "45c0c8b3-ee2c-467c-9060-d69fa8180664",
                             Email = "admin",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAnmwTQ81RxrfsobrcO14rD8PgJnNVaASOftCUKKzoRr7/WNESN+S1csXpILRZGpnw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBV8/12kmRwO/y/rLKAbcG/ka869WY82TUCrmf/+GrpwSp/pGw23A3ubtamduOxUMQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e39d76b8-9e57-4d8b-b5b8-0b9a2a8f0a0e",
+                            SecurityStamp = "5a1efe47-87b9-4ba5-a5d2-e55ae09f118d",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -460,21 +460,21 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "9511e941-1fd7-40e5-9e80-ba72ad2915b7",
+                            ConcurrencyStamp = "7e164e4c-cbd3-4b93-a08d-fdc573436710",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "084e4d39-e185-4677-bd28-8f3f0408e1c2",
+                            ConcurrencyStamp = "19f1c75c-d480-4f16-889f-ad4e4e2a43ab",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "E8E08651-ED1B-468E-A931-F73E2563CD85",
-                            ConcurrencyStamp = "46033dcc-0ed9-41b7-9857-4e6d5ab534d9",
+                            ConcurrencyStamp = "87ac7a3d-4662-4fa6-9915-00f3d5b2df35",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         });

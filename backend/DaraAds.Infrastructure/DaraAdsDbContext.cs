@@ -93,6 +93,7 @@ namespace DaraAds.Infrastructure
                 Id = ADMIN_ID,
                 UserName = "admin",
                 Email = "admin",
+                EmailConfirmed = true,
                 NormalizedUserName = "ADMIN"
             };
 

@@ -18,7 +18,7 @@ namespace DaraAds.API.Controllers.Users
         {
             var token = await _identityService.CreateToken(new CreateToken.Request
             {
-                Email = request.Email,
+                Login = request.Login,
                 Password = request.Password
             }, cancellationToken);
 
@@ -28,7 +28,7 @@ namespace DaraAds.API.Controllers.Users
     
     public sealed class UserLoginRequest {
         [Required]
-        public string Email { get; set; }
+        public string Login { get; set; }
 
         [Required]
         public string Password { get; set; }
