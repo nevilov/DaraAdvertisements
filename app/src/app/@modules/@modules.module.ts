@@ -1,14 +1,16 @@
+import { sharedModule } from 'src/app/@shared/@shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeModule } from '../home/home.module';
-
-
+import { HomePageComponent } from './homePage/homePage.component';
+import { TuiBreadcrumbs } from '../@shared/components/TuiBreadcrumbs/TuiBreadcrumbs';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    HomePageComponent
+  ],
   imports: [
     CommonModule,
-    HomeModule
+    sharedModule
   ]
 })
-export class @modulesModule { }
+export class modulesModule { }
