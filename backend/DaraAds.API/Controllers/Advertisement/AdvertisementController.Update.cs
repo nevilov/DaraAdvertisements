@@ -4,11 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DaraAds.API.Controllers.Advertisement
 {
     public partial class AdvertisementController : ControllerBase
     {
+        [Authorize(Roles = "User")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             CancellationToken cancellationToken,
