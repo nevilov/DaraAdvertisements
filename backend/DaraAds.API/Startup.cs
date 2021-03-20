@@ -39,7 +39,7 @@ namespace DaraAds.API
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
              .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
              .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>();
-
+            
             services
             .AddHttpContextAccessor();
 

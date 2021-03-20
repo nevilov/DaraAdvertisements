@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Advertisement.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Identity.Contracts;
+using DaraAds.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Services.Mail;
 using DaraAds.Application.Services.Mail.Contracts.Exceptions;
@@ -27,13 +28,19 @@ namespace DaraAds.Infrastructure.Identity
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
         private readonly IMailService _mailService;
+        private readonly RoleManager<IdentityRole> _roleManeger;
 
-        public IdentityService(UserManager<IdentityUser> userManager, IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IMailService mailService)
+        public IdentityService(UserManager<IdentityUser> userManager, 
+            IHttpContextAccessor httpContextAccessor,
+            IConfiguration configuration,
+            IMailService mailService,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
             _mailService = mailService;
+            _roleManeger = roleManager;
         }
         public Task<string> GetCurrentUserId(CancellationToken cancellationToken = default)
         {
@@ -162,6 +169,38 @@ namespace DaraAds.Infrastructure.Identity
             }
             var result = await _userManager.ConfirmEmailAsync(user, token);
             return result.Succeeded;
+        }
+
+        public async Task ChangeRole(ChangeRole.Request request, CancellationToken cancellationToken = default)
+        {
+            var identityUser = await _userManager.FindByEmailAsync(request.Email);
+
+            if (identityUser == null)
+            {
+                throw new IdentityUserNotFoundException("Пользователь не найден");
+            }
+
+            var newRole = await _roleManeger.FindByNameAsync(request.NewRole);
+            if(newRole == null)
+            {
+                throw new RoleNotFoundException("Роль не найдена");
+            }
+
+            var oldRolIsNew = await _userManager.IsInRoleAsync(identityUser, request.NewRole);
+            if (oldRolIsNew)
+            {
+                throw new RoleException("Пользователь уже пренадлежит данной роли");
+            }
+
+            var oldRole = await _userManager.GetRolesAsync(identityUser);
+
+            var removeRoleResult = await _userManager.RemoveFromRolesAsync(identityUser, oldRole);
+            if (!removeRoleResult.Succeeded)
+            {
+                throw new RoleException("Произошла ошибка, при удалении роли пользователя" + removeRoleResult.Errors.Select(e => e.Description).ToList());
+            }
+
+            var addNewRoleResult = await _userManager.AddToRoleAsync(identityUser, request.NewRole);
         }
     }
 }
