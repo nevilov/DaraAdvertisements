@@ -12,6 +12,12 @@ namespace DaraAds.API.Controllers.Advertisement
     
     public partial class AdvertisementController : ControllerBase
     {
+       /// <summary>
+       /// Создать объявление. (Пользователь)
+       /// </summary>
+       /// <param name="request"></param>
+       /// <param name="cancellationToken"></param>
+       /// <returns></returns>
        [Authorize(Roles = "User")]
        [HttpPost]
        [ProducesResponseType(StatusCodes.Status201Created)]

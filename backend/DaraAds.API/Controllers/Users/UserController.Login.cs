@@ -12,6 +12,12 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController : ControllerBase
     {
+        /// <summary>
+        /// Вход
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginRequest request,
             CancellationToken cancellationToken)

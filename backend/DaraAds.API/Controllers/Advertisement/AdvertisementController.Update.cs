@@ -10,6 +10,13 @@ namespace DaraAds.API.Controllers.Advertisement
 {
     public partial class AdvertisementController : ControllerBase
     {
+        /// <summary>
+        /// Обновить объявление. (Пользователь)
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [Authorize(Roles = "User")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(

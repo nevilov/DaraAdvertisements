@@ -8,6 +8,12 @@ namespace DaraAds.API.Controllers.Advertisement
 {
     public partial class AdvertisementController : ControllerBase
     {
+        /// <summary>
+        /// Получить объявления по категории
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("category")]
         public async Task<IActionResult> GetByCategory([FromQuery] GetByCategoryRequest request,
