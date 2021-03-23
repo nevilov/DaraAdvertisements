@@ -10,6 +10,12 @@ namespace DaraAds.API.Controllers.Advertisement
 {
     public partial class AdvertisementController : ControllerBase
     {
+        /// <summary>
+        /// Получить все объявления
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(GetPages.Response), (int)HttpStatusCode.OK)]
@@ -24,6 +30,13 @@ namespace DaraAds.API.Controllers.Advertisement
             }, cancellationToken));
         }
 
+        /// <summary>
+        /// Получить объявление по Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Get.Response), (int)HttpStatusCode.OK)]
         [AllowAnonymous]

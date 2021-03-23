@@ -223,12 +223,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             };
         }
 
-        public async Task<Search.Responce> Search(Search.Request request, CancellationToken cancellationToken)
+        public async Task<Search.Response> Search(Search.Request request, CancellationToken cancellationToken)
         {
             var total = await _repository.Count(cancellationToken);
             if (total == 0)
             {
-                return new Search.Responce
+                return new Search.Response
                 {
                     Total = 0,
                     Offset = request.Offset,
@@ -239,9 +239,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             var result = await _repository.Search(x => x.Title.Contains(request.KeyWord)
             || x.Description.Contains(request.KeyWord), request.Limit,request.Offset, cancellationToken);
 
-            return new Search.Responce
+            return new Search.Response
             {
-                Items = result.Select(a => new Search.Responce.Item
+                Items = result.Select(a => new Search.Response.Item
                 {
                     Id = a.Id,
                     Title = a.Title,

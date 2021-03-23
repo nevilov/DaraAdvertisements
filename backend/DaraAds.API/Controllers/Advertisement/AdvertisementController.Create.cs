@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,13 @@ namespace DaraAds.API.Controllers.Advertisement
     
     public partial class AdvertisementController : ControllerBase
     {
+       /// <summary>
+       /// Создать объявление. (Пользователь)
+       /// </summary>
+       /// <param name="request"></param>
+       /// <param name="cancellationToken"></param>
+       /// <returns></returns>
+       [Authorize(Roles = "User")]
        [HttpPost]
        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(

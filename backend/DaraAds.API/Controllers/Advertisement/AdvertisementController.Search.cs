@@ -8,6 +8,12 @@ namespace DaraAds.API.Controllers.Advertisement
 {
     public partial class AdvertisementController : ControllerBase
     {
+        /// <summary>
+        /// Поиск объявления
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery]SearchRequest request, CancellationToken cancellationToken)

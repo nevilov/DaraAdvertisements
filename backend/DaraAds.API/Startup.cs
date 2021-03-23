@@ -16,6 +16,9 @@ using DaraAds.Infrastructure.DataAccess.Repositories;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Infrastructure.Mail;
+using System.Reflection;
+using System.IO;
+using System;
 
 namespace DaraAds.API
 {
@@ -39,7 +42,7 @@ namespace DaraAds.API
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
              .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
              .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>();
-
+            
             services
             .AddHttpContextAccessor();
 
@@ -59,6 +62,7 @@ namespace DaraAds.API
             });
 
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -17,7 +17,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             public int Limit { get; set; } = 10;
         }
 
-        public class Responce
+        public class Response
         {
             public class Item
             {

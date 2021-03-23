@@ -12,13 +12,19 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController : ControllerBase
     {
+        /// <summary>
+        /// Вход
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginRequest request,
             CancellationToken cancellationToken)
         {
             var token = await _identityService.CreateToken(new CreateToken.Request
             {
-                Email = request.Email,
+                Login = request.Login,
                 Password = request.Password
             }, cancellationToken);
 
@@ -28,7 +34,7 @@ namespace DaraAds.API.Controllers.Users
     
     public sealed class UserLoginRequest {
         [Required]
-        public string Email { get; set; }
+        public string Login { get; set; }
 
         [Required]
         public string Password { get; set; }

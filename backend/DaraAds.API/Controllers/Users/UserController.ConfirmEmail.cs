@@ -5,6 +5,12 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController : ControllerBase
     {
+        /// <summary>
+        /// Подтверждение почты
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         [HttpGet("confirm")]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
