@@ -1,26 +1,9 @@
-<tui-root class="container">
-    <!-- content of your app -->
-    <div class="container">
-        <app-menu></app-menu>
-        <div class="content">
-            <router-outlet></router-outlet>
-        </div>
+<div class="container">
+    <app-menu></app-menu>
 
-        <app-footer></app-footer>
+    <div class="content">
+        <router-outlet></router-outlet>
     </div>
-    <!--
-     If you need, you can add something between Taiga portal layers:
-    -->
-    <ng-container ngProjectAs="tuiOverDialogs">
-        <!-- Content over dialogs-->
-    </ng-container>
-    <ng-container ngProjectAs="tuiOverNotifications">
-        <!-- Content over notifications -->
-    </ng-container>
-    <ng-container ngProjectAs="tuiOverPortals">
-        <!-- Content over dropdowns -->
-    </ng-container>
-    <ng-container ngProjectAs="tuiOverHints">
-        <!-- Content over hints -->
-    </ng-container>
-</tui-root>
+
+    <app-footer></app-footer>
+</div>

@@ -42,6 +42,12 @@ app-submenu {
             & span {
                 display: flex;
                 align-items: center;
+                transition: all ease 0.1s;
+            }
+
+            & a span:hover {
+                transition: all ease 0.5s;
+                font-weight: bold;
             }
 
             &:last-child {

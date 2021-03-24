@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomePageComponent } from './@modules/homePage/homePage.component';
+import { AdvertisementPageComponent } from './layout/advertisement/advertisementPage/advertisementPage.component';
 
 const routes: Routes = [
-  { path: '', component: HomePageComponent }
+  { path: '', component: AdvertisementPageComponent },
+  // { path: 'registration', component: RegistrationPageComponent },
+  // { path: 'autorization', component: RegistrationPageComponent },
+  // { path: 'help', component: RegistrationPageComponent },
+  // { path: 'contact', component: RegistrationPageComponent },
 ];
 
 @NgModule({
