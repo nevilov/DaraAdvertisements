@@ -1,0 +1,244 @@
+@import '../../../assets/scss/main.scss';
+
+footer{
+  padding: 15px 200px 15px 200px;
+}
+
+.news__subscription__section{
+  .news__subscription__title{
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    font-family: $main-font;
+    width: inherit;
+    height: inherit;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 20px;
+  }
+}
+
+.submenu {
+  padding: 60px 200px;
+  font-family: $main-font;
+  background: #fff;
+
+  &__main {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  &__categories {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+    flex-grow: 1;
+  }
+
+  &__categorie {}
+
+  &__categoryHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    & img {
+      margin-right: 5px;
+    }
+    & span {
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 20px;
+    }
+  }
+
+  &__categoryItems {
+    margin-left: 29px;
+    width: inherit;
+    height: inherit;
+  }
+
+  &__categoryItem {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 18px;
+    width: inherit;
+    height: inherit;
+
+    & span {
+      position: relative;
+      &::before {
+        opacity: 0;
+      }
+      &:hover::before {
+        content: ' ';
+        transition: opacity 1s;
+        display: block;
+        opacity: 1;
+        height: 30%;
+        width: 110%;
+        margin-left: -3px;
+        margin-right: -3px;
+        position: absolute;
+        background: rgba($main-blue, $alpha: 0.2);
+        transform: skew(-25deg);
+        left: -3%;
+        bottom: 0;
+        padding: 10px 3px 3px 10px;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
+  }
+
+  &__ad {
+    display: flex;
+    flex-direction: column;
+    & img {
+      max-height: 180px;
+      max-width: 200px;
+      margin-bottom: 15px;
+    }
+    & .btn {}
+  }
+
+  &__listItem {
+  }
+
+  &__btns {
+    display: flex;
+
+    & .btn:last-child {
+      margin-left: 15px;
+    }
+  }
+
+  &__best {
+    width: 100%;
+
+    & h1 {
+      font-size: 36px;
+      font-weight: 600;
+      margin: 30px 0;
+    }
+  }
+
+  &__categoriesPreview {
+    display: flex;
+    justify-content: space-between;
+
+    & img {
+      width: 100%;
+      margin-bottom: 15px;
+      height: 200px;
+    }
+
+    & span {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+
+  &__categoriesPreviewContent {
+    flex-basis: 0;
+    flex-grow: 1;
+    width: 25%;
+
+    // flex-grow: 1;
+    margin-bottom: 30px;
+    margin-right: 20px;
+
+    & figure {
+      width: 100%;
+      min-height: 220px;
+      overflow: hidden;
+      margin: 0;
+      margin-bottom: 15px;
+      position: relative;
+      background-color: #cfcfd6;
+      & img {
+        position: absolute;
+        left: 0%;
+        min-height: 100%;
+        min-width: 100%;
+        transition: all ease 0.5s;
+        object-fit: cover;
+      }
+      & img:hover {
+        transition: all ease 0.5s;
+        transform: scale(1.2);
+      }
+    }
+
+    &:last-child {
+      margin-right: 0px;
+    }
+  }
+
+  &__content {
+    display: flex;
+  }
+
+  &__list {}
+
+  &__listItem {
+    padding: 20px 15px 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba($main-grey, $alpha: 0.5);
+    box-sizing: border-box;
+
+    &:last-child {
+      border: none;
+    }
+
+    & p {
+      flex-grow: 1;
+    }
+  }
+
+  &__listImage {
+    margin-right: 15px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+
+  &__listArrow {
+    transform: rotate(90deg);
+    margin-left: 10px;
+  }
+
+  &__adPreview {
+    margin-left: 20px;
+    flex-grow: 3;
+    display: flex;
+    flex-direction: column;
+
+    & figure {
+      width: 100%;
+      height: 40%;
+      flex-grow: 1;
+      margin-bottom: 25px;
+      overflow: hidden;
+
+      & img {
+        width: 100%;
+      }
+    }
+
+    & h2 {
+      font-size: 40px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    & p {
+      color: #79797C;
+      margin-bottom: 25px;
+    }
+  }
+
+  &__adBtn {}
+}
