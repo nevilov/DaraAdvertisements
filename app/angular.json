@@ -31,17 +31,10 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "node_modules/@taiga-ui/icons/src",
-                "output": "assets/taiga-ui/icons"
-              }
+              "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "node_modules/@taiga-ui/core/styles/taiga-ui-global.less",
-              "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less"
+              "src/styles.scss"
             ],
             "scripts": []
           },

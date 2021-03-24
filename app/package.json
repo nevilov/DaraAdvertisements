@@ -24,10 +24,6 @@
     "@taiga-ui/addon-mobile": "^2.6.2",
     "@taiga-ui/addon-table": "^2.6.2",
     "@taiga-ui/addon-tablebars": "^2.6.2",
-    "@taiga-ui/cdk": "^2.6.2",
-    "@taiga-ui/core": "^2.6.2",
-    "@taiga-ui/icons": "^2.6.2",
-    "@taiga-ui/kit": "^2.6.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
