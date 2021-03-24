@@ -9,10 +9,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class LoginPageComponent implements OnInit {
 
   autorizeForm = new FormGroup({
-    name: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5)
-    ]),
     email: new FormControl('', [
       Validators.required,
       Validators.minLength(5)
