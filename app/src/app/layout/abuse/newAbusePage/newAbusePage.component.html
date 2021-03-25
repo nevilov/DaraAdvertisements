@@ -1,0 +1,14 @@
+<div class="container">
+  <form class="container__content content" [formGroup]="abuseForm" (ngSubmit)="onSubmit()">
+    <div class="content__header header">
+      <h1>Новая жалоба</h1>
+    </div>
+    <div class="content__form">
+      <input formControlName="name" class="content__formInput" type="text" name="name" placeholder="Ваше имя">
+      <textarea formControlName="abuseText" class="content__formInput" name="abuseText" cols="30" rows="10"
+        placeholder="Опишете суть вашей жалобы"></textarea>
+      <button>Отправить жалобу <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
+          style="color: white;"></span></button>
+    </div>
+  </form>
+</div>
