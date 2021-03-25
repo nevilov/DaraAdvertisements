@@ -5,12 +5,12 @@ footer{
 }
 
 .news__subscription__section{
+  width: 30%;
   .news__subscription__title{
     display: flex;
     align-items: center;
     margin-bottom: 30px;
     font-family: $main-font;
-    width: inherit;
     height: inherit;
     text-transform: uppercase;
     font-weight: 600;
@@ -155,6 +155,25 @@ footer{
   border-top: solid 0.7px;
   padding-top: 30px;
   margin-bottom: 30px;
+}
+
+
+.news__subscription__form{
+
+  form{
+    margin-top: 10px;
+  }
+
+  button{
+    border: none;
+    margin-left: 5px;
+  }
+
+  .email__input{
+    padding: 7px 16px;
+    border: 1px solid #D3D3D4;
+  }
+
 }
 
 .lower__footer{

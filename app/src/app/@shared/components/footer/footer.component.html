@@ -101,7 +101,10 @@
           <span>Подписка на новости</span></div>
         <div class="news__subscription__form">
           <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia, numquam!</span>
-          <form action=""></form>
+          <form [formGroup]="MailingForm">
+            <input formControlName="email" type="email" class="email__input" placeholder="Your email adress">
+            <button (click)="onSubscribe()" class="btn-main">Подписаться</button>
+          </form>
         </div>
       </div>
   </div>
