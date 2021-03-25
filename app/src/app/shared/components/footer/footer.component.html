@@ -1,3 +1,136 @@
-<p>
-  footer works!
-</p>
+<footer>
+  <div class="upper__footer">
+    <div class="submenu__main">
+        <div class="submenu__categories">
+          <div class="submenu__categorie">
+            <a href="" class="submenu__categoryHeader">
+              <img src="./../../../assets/images/icons/car.svg" alt="">
+              <span>Транспорт</span>
+            </a>
+            <div class="submenu__categoryItems">
+              <a href="" class="submenu__categoryItem">
+                <span>Автомобили</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Мотоциклы</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Спецтехника</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Запчасти</span>
+              </a>
+            </div>
+          </div>
+          <div class="submenu__categorie">
+            <a href="" class="submenu__categoryHeader">
+              <img src="./../../../assets/images/icons/house.svg" alt="">
+              <span>Недвижимость</span>
+            </a>
+            <div class="submenu__categoryItems">
+              <a href="" class="submenu__categoryItem">
+                <span>Квартиры</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Дома</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Новостройки</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Гаражи</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Участки</span>
+              </a>
+            </div>
+          </div>
+          <div class="submenu__categorie">
+            <a href="" class="submenu__categoryHeader">
+              <img src="./../../../assets/images/icons/laptop.svg" alt="">
+              <span>Бытовая техника</span>
+            </a>
+            <div class="submenu__categoryItems">
+              <a href="" class="submenu__categoryItem">
+                <span>Аудио и видео</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Игры, приставки</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Компьютеры</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Ноутбуки</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Телефоны, планшеты</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Фототехника</span>
+              </a>
+            </div>
+          </div>
+          <div class="submenu__categorie">
+            <a href="" class="submenu__categoryHeader">
+              <img src="./../../../assets/images/icons/pets.svg" alt="">
+              <span>Животные</span>
+            </a>
+            <div class="submenu__categoryItems">
+              <a href="" class="submenu__categoryItem">
+                <span>Собаки</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Кошки</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Птицы</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Аквариум</span>
+              </a>
+              <a href="" class="submenu__categoryItem">
+                <span>Аксессуары</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      <div class="news__subscription__section">
+        <div class="news__subscription__title">
+          <img src="./assets/images/icons/notification.svg" alt="">
+          <span>Подписка на новости</span></div>
+        <div class="news__subscription__form">
+          <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia, numquam!</span>
+          <form [formGroup]="MailingForm">
+            <input formControlName="email" type="email" class="email__input" placeholder="Your email adress">
+            <button (click)="onSubscribe()" class="btn-main">Подписаться</button>
+          </form>
+        </div>
+      </div>
+  </div>
+  </div>
+  <div class="lower__footer">
+    <div class="footer__copyright">
+      <span>DaraAds 2021</span>
+    </div>
+
+    <div class="footer_social__links">
+      <img src="./assets/images/icons/house.svg" alt="">
+      <img src="./assets/images/icons/house.svg" alt="">
+      <img src="./assets/images/icons/house.svg" alt="">
+      <img src="./assets/images/icons/house.svg" alt="">
+      <img src="./assets/images/icons/house.svg" alt="">
+
+      <div class="visits">
+        <span>Посещений за сегодня: лям</span>
+      </div>
+    </div>
+
+    <div class="footer__links">
+      <a href="">Техподдержка</a>
+      <a href="">Terms</a>
+      <a href="">Privacy</a>
+      <a href="">Cookies</a>
+    </div>
+  </div>
+</footer>
