@@ -63,6 +63,7 @@ namespace DaraAds.API
 
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
 
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -80,6 +81,15 @@ namespace DaraAds.API
 
             app.UseHttpsRedirection();
             app.UseApplicationException();
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .WithMethods("GET", "POST", "PUT")
+                .AllowCredentials();
+            });
+
             app.UseRouting();
 
             app.UseAuthentication();
