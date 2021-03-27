@@ -70,11 +70,16 @@ namespace DaraAds.Application.Services.User.Implementations
             {
                 throw new NoRightsException("Нет прав");
             }
-
+            
             domainUser.Name = request.Name;
             domainUser.LastName = request.LastName;
-            domainUser.Avatar = request.Avatar;
             domainUser.UpdatedDate = DateTime.UtcNow;
+            domainUser.Phone = request.Phone;
+
+            if (request.Avatar != null)
+            {
+                domainUser.Avatar = request.Avatar;
+            }
 
             await _repository.Save(domainUser, cancellationToken);
         }
