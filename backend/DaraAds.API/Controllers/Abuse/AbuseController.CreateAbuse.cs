@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.API.Dto.Abuse;
 
 namespace DaraAds.API.Controllers.Abuse
 {
@@ -33,10 +34,5 @@ namespace DaraAds.API.Controllers.Abuse
             return Created($"api/v1/abuse/{response.Id}", new { });
         }
     }
-    public sealed class CreateAbuseBinding
-    {
-        public int AdvId { get; set; }
-        [Required, MinLength(5), MaxLength(300)]
-        public string AbuseText { get; set; }
-    }
+    
 }

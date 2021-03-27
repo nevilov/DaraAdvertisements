@@ -19,6 +19,8 @@ using DaraAds.Infrastructure.Mail;
 using System.Reflection;
 using System.IO;
 using System;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace DaraAds.API
 {
@@ -63,6 +65,8 @@ namespace DaraAds.API
 
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
 
+            services.ValidatorModule();
+            
             services.AddCors();
         }
 

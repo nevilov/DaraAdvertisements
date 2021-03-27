@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.API.Dto.Users;
 
 namespace DaraAds.API.Controllers.Users
 {
@@ -25,12 +26,5 @@ namespace DaraAds.API.Controllers.Users
 
             return Ok();
         }
-    }
-
-    public class ChangeRoleRequest
-    {
-        public string Email { get; set; }
-
-        public string NewRole { get; set; }
     }
 }

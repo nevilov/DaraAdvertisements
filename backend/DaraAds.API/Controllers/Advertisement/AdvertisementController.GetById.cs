@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.API.Controllers.Abuse;
+using DaraAds.API.Dto.Advertisement;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +22,7 @@ namespace DaraAds.API.Controllers.Advertisement
         [AllowAnonymous]
         [ProducesResponseType(typeof(GetPages.Response), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll(
-            [FromQuery] GetAllRequest request,
+            [FromQuery] GetAllAdvertisementRequest request,
             CancellationToken cancellationToken)
         {
             return Ok(await _service.GetPages(new GetPages.Request
@@ -50,19 +52,6 @@ namespace DaraAds.API.Controllers.Advertisement
             {
                 Id = id
             }, cancellationToken));
-        }
-
-        public sealed class GetAllRequest
-        {
-            /// <summary>
-            /// Количество возвращаемых объявлений
-            /// </summary>
-            public int Limit { get; set; } = 10;
-
-            /// <summary>
-            /// Смещение начиная с котрого возвращаются объявления
-            /// </summary>
-            public int Offset { get; set; } = 0;
         }
     }
 }
