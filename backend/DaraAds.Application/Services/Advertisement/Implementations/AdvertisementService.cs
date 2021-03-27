@@ -205,7 +205,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 };
             }
 
-            var result = await _repository.FindByCategory(request.idCategory, request.Limit, request.Offset, cancellationToken);
+            var result = await _repository.FindByCategory(request.IdCategory, request.Limit, request.Offset, cancellationToken);
             return new GetPagesByCategory.Responce
             {
                 Items = result.Select(a => new GetPagesByCategory.Responce.Item

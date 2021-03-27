@@ -10,7 +10,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
     {
         public class Request
         {
-            public int idCategory { get; set; }
+            public int IdCategory { get; set; }
 
             public int Limit { get; set; } = 10;
 
