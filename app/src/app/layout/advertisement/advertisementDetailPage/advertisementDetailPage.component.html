@@ -1,3 +1,150 @@
-<p>
-  advertisementDetailPage works!
-</p>
+<app-breadcrumbs></app-breadcrumbs>
+<div class="container">
+  <div class="container__head">
+    <h1>Toyota Camry, 2019 advertisement id = {{id}}</h1>
+    <div class="container__slider slider">
+      <figure class="slider__mainImage">
+        <span class="container__iconify" data-icon="fluent:thumb-like-16-filled" data-inline="false"
+          style="color: #79797C;"></span>
+        <img src="./../../../../assets/images/advertisement/car.png" alt="">
+      </figure>
+      <div class="slider__images">
+        <img src="./../../../../assets/images/advertisement/car.png" alt="">
+        <img src="./../../../../assets/images/advertisement/car.png" alt="">
+        <img src="./../../../../assets/images/advertisement/car.png" alt="">
+        <img src="./../../../../assets/images/advertisement/car.png" alt="">
+        <img src="./../../../../assets/images/advertisement/car.png" alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="container__info container__rows">
+    <div class="container__characteristics">
+      <h2>Характеристики</h2>
+      <div class="container__characteristicsItems">
+        <div class="container__characteristicsItem">
+          <span>Состояние</span>
+          <span class="container__characteristicsItemState">б / у</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Двигатель</span>
+          <span class="container__characteristicsItemState">бензин, 3.5 л</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Мощность, л.с.</span>
+          <span class="container__characteristicsItemState">249</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Трансмиссия</span>
+          <span class="container__characteristicsItemState">автомат</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Тип кузова</span>
+          <span class="container__characteristicsItemState">седан</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Пробег, км</span>
+          <span class="container__characteristicsItemState">66039</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Руль</span>
+          <span class="container__characteristicsItemState">левый</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Комплектация</span>
+          <span class="container__characteristicsItemState">3.5 AT Executive Safety</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Розыск</span>
+          <span class="container__characteristicsItemState">нет</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Город</span>
+          <span class="container__characteristicsItemState">Севастополь</span>
+        </div>
+      </div>
+      <div class="container__description">
+        <p>Дополнительно:
+          <span>Продаю Toyota Camry в максимальном комплектации, я сам собственник. Купил в 2019 году в автосалоне за
+            наличный расчет. Все чеки имеются, автомобиль на гарантии у дилера. Сделал хорошую шумоизоляцию, дорогая
+            охранная система с автозапуском, хорошая зимняя резина, летняя в подарок. Машина не битая и не крашенная.
+            Продаю Toyota Camry в максимальном комплектации, я сам собственник. Купил в 2019 году в автосалоне за
+            наличный расчет. Все чеки имеются, автомобиль на гарантии у дилера. Сделал хорошую шумоизоляцию, дорогая
+            охранная система с автозапуском, хорошая зимняя резина, летняя в подарок. Машина не битая и не
+            крашенная.</span>
+        </p>
+      </div>
+    </div>
+    <div class="container__commonInfo">
+      <h2>Цена: $475 000</h2>
+      <div class="container__userInfo user">
+
+        <div class="user__info">
+          <figure class="user__avatar">
+            <img src="./../../../../assets/images/menu/avatar.png" alt="">
+          </figure>
+          <div class="user__container">
+            <span class="user__name">Владимирова Ирина</span>
+            <span class="user__phone">+7 (978) 459-87-92</span>
+          </div>
+        </div>
+
+        <a routerLink="/newAdvertisement" class="btn btn-main">Написать продавцу</a>
+
+        <div class="container__mainActions">
+          <div class="container__action">
+            <span class="iconify" data-height="24px" data-icon="fluent:thumb-like-16-filled" data-inline="false"
+              style="color: #1890FF;"></span>
+            <span>Добавить в избранное</span>
+          </div>
+          <div class="container__action">
+            <span class="iconify" data-height="24px" data-icon="fluent:thumb-dislike-20-filled" data-inline="false"
+              style="color: #1890FF;"></span>
+            <span>Пожаловаться на объявление</span>
+          </div>
+          <div class="container__action">
+            <span class="iconify" data-height="24px" data-icon="bi:share-fill" data-inline="false"
+              style="color: #1890FF;"></span>
+            <span>Поделиться объявлением</span>
+          </div>
+          <div class="container__action">
+            <span class="iconify" data-height="24px" data-icon="fa-solid:rocket" data-inline="false"
+              style="color: #1890FF;"></span>
+            <span>Продвинуть объявление</span>
+          </div>
+        </div>
+
+        <span class="advertisement__info">Объявление 544583258 от 25.01.2021</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container__advertisements">
+    <h2>Объявления этого автора</h2>
+    <div class="container__row">
+      <app-advertisement [routerLink]="['advertisements', '2']">
+      </app-advertisement>
+      <app-advertisement [routerLink]="['advertisements', '2']">
+      </app-advertisement>
+      <app-advertisement [routerLink]="['advertisements', '2']">
+      </app-advertisement>
+      <app-advertisement [routerLink]="['advertisements', '2']">
+      </app-advertisement>
+    </div>
+    <h2>Похожие объявления</h2>
+    <div class="container__row">
+      <app-advertisement [routerLink]="['advertisements', '2']">
+      </app-advertisement>
+      <app-advertisement [routerLink]="['advertisements', '2']">
+      </app-advertisement>
+      <app-advertisement [routerLink]="['advertisements', '2']">
+      </app-advertisement>
+      <app-advertisement [routerLink]="['advertisements', '2']">
+      </app-advertisement>
+    </div>
+  </div>
+
+  <div class="container__map">
+    <h2>Расположение</h2>
+  </div>
+</div>
