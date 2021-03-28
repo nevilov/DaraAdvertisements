@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from './components/footer/footer.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { SubmenuComponent } from './components/submenu/submenu.component';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 
 @NgModule({
   imports: [
@@ -15,12 +17,16 @@ import { SubmenuComponent } from './components/submenu/submenu.component';
   declarations: [
     FooterComponent,
     MenuComponent,
-    SubmenuComponent
+    SubmenuComponent,
+    BreadcrumbsComponent,
+    AdvertisementComponent
   ],
   exports: [
     FooterComponent,
     MenuComponent,
-    SubmenuComponent
+    SubmenuComponent,
+    BreadcrumbsComponent,
+    AdvertisementComponent
   ]
 })
 export class SharedModule { }
