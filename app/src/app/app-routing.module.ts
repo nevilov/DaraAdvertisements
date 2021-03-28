@@ -20,9 +20,9 @@ const routes: Routes = [
   { path: 'abuse', component: AbusePageComponent },
   { path: 'newAbuse', component: NewAbusePageComponent },
   { path: 'advertisements', component: AdvertisementPageComponent },
-  { path: 'advertisements:id', component: AdvertisementDetailPageComponent },
+  { path: 'advertisements/:id', component: AdvertisementDetailPageComponent },
   { path: 'newAdvertisement', component: NewAdvertisementPageComponent },
-  { path: 'editAdvertisements', component: EditAdvertisementPageComponent },
+  { path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent },
 ];
 
 @NgModule({
