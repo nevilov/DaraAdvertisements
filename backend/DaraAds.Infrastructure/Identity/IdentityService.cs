@@ -202,5 +202,30 @@ namespace DaraAds.Infrastructure.Identity
 
             var addNewRoleResult = await _userManager.AddToRoleAsync(identityUser, request.NewRole);
         }
+
+        public async Task ChangePassword(ChangePassword.Request request, CancellationToken cancellationToken = default)
+        {
+            var identityUserId = await GetCurrentUserId(cancellationToken);
+            if (identityUserId == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь не найден");
+            }
+            
+            var identityUser = await _userManager.FindByIdAsync(identityUserId);
+            
+            var checkPassword = await _userManager.CheckPasswordAsync(identityUser, request.OldPassword);
+            if (!checkPassword)
+            {
+                throw new HaveNoRightException("Старый пароль неверный");
+            }
+            
+            var token = await _userManager.GeneratePasswordResetTokenAsync(identityUser);
+            var result = await _userManager.ResetPasswordAsync(identityUser, token, request.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new IdentityServiceException("Произошла ошибка!" + result.Errors.Select(x => x.Description).ToList());
+            }
+        }
     }
 }
