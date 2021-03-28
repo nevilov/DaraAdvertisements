@@ -28,10 +28,6 @@ export class MenuComponent implements OnInit {
       this.span.nativeElement.style.transform = "rotate(360deg)";
       this.isSubmenuShown = true;
     }
-
-    // this.tref.nativeElement.textContent
-    // this.tref.nativeElement.textContent
-    // document.querySelector("app-submenu").setAttribute("style", "background:red; dispplay: block;");
   }
 
   public userLogout() {
