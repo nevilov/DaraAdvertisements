@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-advertisementDetailPage',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdvertisementDetailPageComponent implements OnInit {
 
-  constructor() { }
+  id: number = 0;
 
-  ngOnInit() {
-  }
-
+    constructor(private route: ActivatedRoute){}
+    ngOnInit() {
+        this.route.paramMap.pipe(
+            switchMap(params => params.getAll('id'))
+        )
+        .subscribe(data=> this.id = +data);
+      }
 }

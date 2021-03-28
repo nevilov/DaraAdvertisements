@@ -1,76 +1,69 @@
-@import '../../../assets/scss/main.scss';
+@import "../../../assets/scss/main.scss";
 
-footer{
-  padding: 15px 200px 15px 200px;
-}
-
-.news__subscription__section{
-  width: 30%;
-  .news__subscription__title{
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
-    font-family: $main-font;
-    height: inherit;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 20px;
-  }
-}
-
-.submenu {
-  padding: 60px 200px;
+.footer {
+  margin: 20px 200px 20px 200px;
   font-family: $main-font;
-  background: #fff;
 
-  &__main {
-    display: flex;
-    justify-content: space-between;
+  &_socialLinks {
+    & svg {
+      margin-right: 20px;
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+
+  &__mainSection {
     width: 100%;
-  }
-  &__categories {
-    display: flex;
-    justify-content: space-between;
-    margin-right: 20px;
-    flex-grow: 1;
+    padding: 40px 0;
+    border-top: 1px solid #c4c4c4;
+    border-bottom: 1px solid #c4c4c4;
+    margin-bottom: 20px;
   }
 
-  &__categorie {}
+  &__cols {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 20px;
+  }
 
-  &__categoryHeader {
+  &__col {
+  }
+
+  &__colHeader {
     display: flex;
     align-items: center;
     margin-bottom: 30px;
+
     & img {
       margin-right: 5px;
     }
     & span {
-      text-transform: uppercase;
-      font-weight: 600;
       font-size: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
     }
   }
 
-  &__categoryItems {
+  &__colItems {
+    display: flex;
+    flex-direction: column;
     margin-left: 29px;
-    width: inherit;
-    height: inherit;
   }
 
-  &__categoryItem {
+  &__colItem {
     display: block;
     margin-bottom: 20px;
     font-size: 18px;
     width: inherit;
     height: inherit;
-
     & span {
       position: relative;
       &::before {
         opacity: 0;
       }
-      &:hover::before {
-        content: ' ';
+      &:not(.inactive):hover::before {
+        content: " ";
         transition: opacity 1s;
         display: block;
         opacity: 1;
@@ -92,111 +85,57 @@ footer{
     }
   }
 
-  &__ad {
-    display: flex;
-    flex-direction: column;
-    & img {
-      max-height: 180px;
-      max-width: 200px;
-      margin-bottom: 15px;
-    }
-    & .btn {}
-  }
-
-  &__listItem {
-  }
-
-  &__btns {
-    display: flex;
-
-    & .btn:last-child {
-      margin-left: 15px;
-    }
-  }
-
-  &__content {
-    display: flex;
-  }
-
-  &__list {}
-
-  &__listItem {
-    padding: 20px 15px 20px 0;
+  &__infoSection {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba($main-grey, $alpha: 0.5);
-    box-sizing: border-box;
+  }
 
+  &__copyright {
+    font-size: 16px;
+  }
+
+  &__helps {
+  }
+}
+.email {
+  &__input {
+  }
+}
+.btn-main {
+}
+.helpSection {
+  &__link {
+    padding-bottom: 5px;
+    margin-right: 20px;
     &:last-child {
-      border: none;
+      margin-right: 0px;
     }
-
-    & p {
-      flex-grow: 1;
+    &:hover {
+      border-bottom: 1px solid #c4c4c4;
     }
-  }
-
-  &__listImage {
-    margin-right: 15px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-  }
-
-  &__listArrow {
-    transform: rotate(90deg);
-    margin-left: 10px;
-  }
-
-}
-
-.upper__footer{
-  border-top: solid 0.7px;
-  padding-top: 30px;
-  margin-bottom: 30px;
-}
-
-
-.news__subscription__form{
-
-  form{
-    margin-top: 10px;
-  }
-
-  button{
-    border: none;
-    margin-left: 5px;
-  }
-
-  .email__input{
-    padding: 7px 16px;
-    border: 1px solid #D3D3D4;
-  }
-
-}
-
-.lower__footer{
-  border-top: solid 0.7px;
-  padding-top: 15px;
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-
-  .footer__links{
-    a{
-      margin-left: 5px;
-    }
-  }
-
-  .footer_social__links{
-    img{
-      margin: 0 5px;
-    }
-  }
-
-  .visits{
-
   }
 }
 
+.subscribeForm {
+  &__item {
+    display: flex;
+    flex-direction: row;
+    & span {
+      line-height: 25px;
+      text-align: justify;
+    }
+    & form {
+      display: flex;
+      width: 100%;
+    }
+  }
+  &__input {
+    max-width: 180px;
+    padding: 8px 15px;
+    flex-grow: 1;
+    margin-right: 5px;
+    border: 1px solid #d3d3d4;
+    color: #79797c;
+    font-size: 16px;
+  }
+}
