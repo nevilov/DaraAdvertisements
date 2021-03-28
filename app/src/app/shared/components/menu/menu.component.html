@@ -26,6 +26,10 @@
   </div>
 
   <div class="menu__userInfo" *ngIf='isAutorized'>
+    <!-- remove or refactor before producting-->
+    <span>{{ currentUserName }}</span>
+    <button (click)="userLogout()">Выйти</button>
+    <!-- remove or refactor before producting-->
     <div class="menu__notification">
       <img src="./../../../../assets/images/icons/notification.svg" alt="">
     </div>

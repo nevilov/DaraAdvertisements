@@ -24,6 +24,7 @@
     "@taiga-ui/addon-mobile": "^2.6.2",
     "@taiga-ui/addon-table": "^2.6.2",
     "@taiga-ui/addon-tablebars": "^2.6.2",
+    "ngx-cookie-service": "^11.0.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
