@@ -1,7 +1,7 @@
 <app-breadcrumbs></app-breadcrumbs>
 <div class="container">
   <div class="container__head">
-    <h1>Toyota Camry, 2019 advertisement id = {{id}}</h1>
+    <h1>{{advertisement?.title}}</h1>
     <div class="container__slider slider">
       <figure class="slider__mainImage">
         <span class="container__iconify" data-icon="fluent:thumb-like-16-filled" data-inline="false"
@@ -65,18 +65,12 @@
       </div>
       <div class="container__description">
         <p>Дополнительно:
-          <span>Продаю Toyota Camry в максимальном комплектации, я сам собственник. Купил в 2019 году в автосалоне за
-            наличный расчет. Все чеки имеются, автомобиль на гарантии у дилера. Сделал хорошую шумоизоляцию, дорогая
-            охранная система с автозапуском, хорошая зимняя резина, летняя в подарок. Машина не битая и не крашенная.
-            Продаю Toyota Camry в максимальном комплектации, я сам собственник. Купил в 2019 году в автосалоне за
-            наличный расчет. Все чеки имеются, автомобиль на гарантии у дилера. Сделал хорошую шумоизоляцию, дорогая
-            охранная система с автозапуском, хорошая зимняя резина, летняя в подарок. Машина не битая и не
-            крашенная.</span>
+          <span>{{advertisement?.description}}</span>
         </p>
       </div>
     </div>
     <div class="container__commonInfo">
-      <h2>Цена: $475 000</h2>
+      <h2>Цена: {{advertisement?.price}}</h2>
       <div class="container__userInfo user">
 
         <div class="user__info">
@@ -84,7 +78,7 @@
             <img src="./../../../../assets/images/menu/avatar.png" alt="">
           </figure>
           <div class="user__container">
-            <span class="user__name">Владимирова Ирина</span>
+            <span class="user__name">{{advertisement?.owner?.name + ' ' + advertisement?.owner?.lastName}}</span>
             <span class="user__phone">+7 (978) 459-87-92</span>
           </div>
         </div>
@@ -114,7 +108,7 @@
           </div>
         </div>
 
-        <span class="advertisement__info">Объявление 544583258 от 25.01.2021</span>
+        <span class="advertisement__info">Объявление {{id}} от 25.01.2021</span>
       </div>
     </div>
   </div>
