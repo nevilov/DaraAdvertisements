@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using System.ComponentModel.DataAnnotations;
+using DaraAds.API.Dto.Advertisement;
 using Microsoft.AspNetCore.Authorization;
 
 namespace DaraAds.API.Controllers.Advertisement
@@ -35,27 +36,5 @@ namespace DaraAds.API.Controllers.Advertisement
             }, cancellationToken);
             return Ok(response.Id);
         }
-    }
-
-    public sealed class AdvertisementUpdateRequest
-    {
-
-        [Required]
-        [MaxLength(100)]
-        public string Title { get; set; }
-
-        [Required]
-        [MaxLength(10000)]
-        public string Description { get; set; }
-
-        [Required]
-        [Range(0, 100_000_000_000)]
-        public decimal Price { get; set; }
-
-        [Required]
-        [MaxLength(300)]
-        public string Cover { get; set; }
-
-        public int CategoryId { get; set; }
     }
 }

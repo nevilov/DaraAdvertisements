@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using DaraAds.Application.Services.User.Interfaces;
 using System.Threading;
+using DaraAds.API.Dto.Users;
 using DaraAds.Application.Services.User.Contracts;
 using DaraAds.Application.Identity.Interfaces;
 
@@ -48,22 +49,5 @@ namespace DaraAds.API.Controllers.Users
         }        
     }
     
-    public sealed class UserRegisterRequest
-    {
-        public string Username { get; set; }
-
-        [Required(ErrorMessage = "Имя пользователя - обязательно")]
-        public string Name { get; set; }
-
-        public string LastName { get; set; }
-
-        [Required(ErrorMessage = "Email пользователя - обязательно")]
-        public string Email { get; set; }
-
-        public string Phone { get; set; }
-
-        [MaxLength(30)]
-        [MinLength(6)]
-        public string Password { get; set; }
-    }
+    
 }

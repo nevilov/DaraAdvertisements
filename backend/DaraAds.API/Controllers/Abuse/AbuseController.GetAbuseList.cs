@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.API.Dto.Abuse;
 
 
 namespace DaraAds.API.Controllers.Abuse
@@ -19,7 +20,7 @@ namespace DaraAds.API.Controllers.Abuse
         [Authorize(Roles = "Moderator")]
         [HttpGet]
         public async Task<IActionResult> GetAbuseList(
-            [FromQuery] GetAllRequest request,
+            [FromQuery] GetAllAbuseRequest request,
             CancellationToken cancellationToken)
         {
             return Ok(await _abuseService.GetAbusePages(new GetAbusePages.Request
@@ -28,18 +29,5 @@ namespace DaraAds.API.Controllers.Abuse
                 Offset = request.Offset
             }, cancellationToken));
         }
-    }
-
-    public sealed class GetAllRequest
-    {
-        /// <summary>
-        /// Количество возвращаемых жалоб
-        /// </summary>
-        public int Limit { get; set; } = 10;
-
-        /// <summary>
-        /// Смещение с которого возвращаются жалобы
-        /// </summary>
-        public int Offset { get; set; } = 0;
     }
 }
