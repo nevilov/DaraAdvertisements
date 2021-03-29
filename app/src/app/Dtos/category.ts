@@ -1,3 +1,3 @@
-export class Category {
-  Name: string;
+export interface Category {
+  name: string;
 }

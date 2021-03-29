@@ -8,25 +8,8 @@
 
     <div class="content__advertisements">
 
-      <app-advertisement [routerLink]="['advertisements', '1']">
-      </app-advertisement>
-
-      <app-advertisement [routerLink]="['advertisements', '2']">
-      </app-advertisement>
-
-      <app-advertisement [routerLink]="['advertisements', '3']">
-      </app-advertisement>
-
-      <app-advertisement [routerLink]="['advertisements', '4']">
-      </app-advertisement>
-
-      <app-advertisement [routerLink]="['advertisements', '5']">
-      </app-advertisement>
-
-      <app-advertisement [routerLink]="['advertisements', '6']">
-      </app-advertisement>
-
-      <app-advertisement [routerLink]="['advertisements', '7']">
+      <app-advertisement *ngFor="let advertisement of advertisements;"
+        [routerLink]="['advertisements', advertisement.id]">
       </app-advertisement>
 
     </div>
