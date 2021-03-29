@@ -11,7 +11,7 @@ namespace DaraAds.API.Dto.Users.Validators
                 .Matches("[a-z]").WithMessage("Пароль должен содержать буквы с нижним регистром")
                 .Matches("[0-9]").WithMessage("Пароль должен содержать цифры")
                 .Matches("[^a-zA-Z0-9]").WithMessage("Пароль должен содержать особый символы")
-                .Equal(x => x.RepeatNewPassword).WithMessage("Пароли не совпадают");
+                .Equal(x => x.RepeatedNewPassword).WithMessage("Пароли не совпадают");
 
             RuleFor(x => x.OldPassword)
                 .NotEmpty();

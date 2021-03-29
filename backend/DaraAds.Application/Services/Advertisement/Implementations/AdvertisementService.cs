@@ -117,6 +117,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             
             ad.Status = Domain.Advertisement.Statuses.Closed;
             ad.UpdatedDate = DateTime.UtcNow;
+            ad.RemovedDate = DateTime.UtcNow;
             
             await _repository.Save(ad, cancellationToken);
             

@@ -58,17 +58,12 @@ namespace DaraAds.Application.Services.User.Implementations
 
         public async Task Update(Update.Request request, CancellationToken cancellationToken)
         {
-            var domainUser = await _repository.FindById(request.Id, cancellationToken);
+            var currentUserId = await _identity.GetCurrentUserId(cancellationToken);
+            var domainUser = await _repository.FindById(currentUserId, cancellationToken);
+
             if (domainUser == null)
             {
                 throw new NoUserFoundException("Пользователя не существует");
-            }
-
-            var currentUser = await _identity.GetCurrentUserId(cancellationToken);
-
-            if (domainUser.Id != currentUser)
-            {
-                throw new NoRightsException("Нет прав");
             }
             
             domainUser.Name = request.Name;

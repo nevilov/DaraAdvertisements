@@ -4,7 +4,8 @@ namespace DaraAds.API.Dto.Users
     {
         public string NewPassword { get; set; }
         
-        public string RepeatNewPassword { get; set; }
+        public string RepeatedNewPassword { get; set; }
+
         public string OldPassword { get; set; }
     }
 }

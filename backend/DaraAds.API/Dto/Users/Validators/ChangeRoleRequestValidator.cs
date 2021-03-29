@@ -4,10 +4,11 @@ namespace DaraAds.API.Dto.Users.Validators
 {
     public class ChangeRoleRequestValidator: AbstractValidator<ChangeRoleRequest>
     {
+
         public ChangeRoleRequestValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email не может быть пустым")
+                .EmailAddress().WithMessage("Введите Email")
                 .MaximumLength(100).WithMessage("Email может содержать не более 100 символов");
                 
             RuleFor(x => x.NewRole)

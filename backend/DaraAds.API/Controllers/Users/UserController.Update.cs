@@ -21,13 +21,11 @@ namespace DaraAds.API.Controllers.Users
         {
             await _userService.Update(new Update.Request
             {
-                Id = request.Id,
                 Name = request.Name,
                 LastName = request.LastName,
                 Avatar = request.Avatar,
                 Phone = request.Phone,
             }, cancellationToken);
-
             return Ok("Пользователь обновлен");
         }
     }

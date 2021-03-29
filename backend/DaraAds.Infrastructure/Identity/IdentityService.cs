@@ -213,8 +213,8 @@ namespace DaraAds.Infrastructure.Identity
             
             var identityUser = await _userManager.FindByIdAsync(identityUserId);
             
-            var checkPassword = await _userManager.CheckPasswordAsync(identityUser, request.OldPassword);
-            if (!checkPassword)
+            var isPasswordValid = await _userManager.CheckPasswordAsync(identityUser, request.OldPassword);
+            if (!isPasswordValid)
             {
                 throw new HaveNoRightException("Старый пароль неверный");
             }
