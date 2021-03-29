@@ -13,6 +13,15 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
 
         public sealed class Response
         {
+            public sealed class OwnerResponse
+            {
+                public string Id { get; set; }
+                public string Email { get; set; }
+                public string Name { get; set; }
+                public string LastName { get; set; }
+                public string Username { get; set; }
+            }
+
             public sealed class Item
             {
                 public int Id { get; set; }
@@ -21,8 +30,9 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Cover { get; set; }
                 public decimal Price { get; set; }
                 public string Status { get; set; }
-            }
 
+                public OwnerResponse Owner { get; set; }
+            }
             public int Total { get; set; }
             public int Offset { get; set; }
             public int Limit { get; set; }

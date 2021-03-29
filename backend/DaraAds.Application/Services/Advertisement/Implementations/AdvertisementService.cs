@@ -9,6 +9,7 @@ using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
+using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Response;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
@@ -147,7 +148,16 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
-                    Status = a.Status.ToString()
+                    Status = a.Status.ToString(),
+
+                    Owner = new OwnerResponse
+                    {
+                        Id = a.OwnerId,
+                        Username = a.OwnerUser.Username,
+                        Email = a.OwnerUser.Email,
+                        Name = a.OwnerUser.Name,
+                        LastName = a.OwnerUser.LastName,  
+                    },
                 }),
                 Total = total,
                 Offset = request.Offset,
