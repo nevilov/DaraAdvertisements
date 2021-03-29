@@ -23,7 +23,7 @@ namespace DaraAds.API.Controllers.Advertisement
         {
             var result = await _service.GetPagesByCategory(new GetPagesByCategory.Request
             {
-               IdCategory = request.IdCategory,
+               CategoryId = request.CategoryId,
                Limit = request.Limit,
                Offset = request.Offset
             }, cancellationToken);
