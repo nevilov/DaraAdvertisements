@@ -9,7 +9,13 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController
     {
-        [HttpPatch("update")]
+        /// <summary>
+        /// Обновить доменного пользователя
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPatch("update/domainuser")]
         [Authorize]
         public async Task<IActionResult> UpdateDomainUser(DomainUserUpdateRequest request, CancellationToken cancellationToken)
         {

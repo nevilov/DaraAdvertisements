@@ -9,6 +9,12 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController
     {
+        /// <summary>
+        /// Изменить пароль
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPatch("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordRequest request, CancellationToken cancellationToken)
