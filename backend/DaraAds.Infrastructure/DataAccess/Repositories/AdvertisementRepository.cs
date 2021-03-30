@@ -35,5 +35,15 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 .Skip(offset)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<IEnumerable<Domain.Advertisement>> FindUserAdvertisements(string userId, int limit, int offset, CancellationToken cancellationToken)
+        {
+            return await _context.Advertisements
+                .Where(x => x.OwnerId == userId)
+                .OrderBy(x => x.CreatedDate)
+                .Take(limit)
+                .Skip(offset)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

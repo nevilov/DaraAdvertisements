@@ -17,5 +17,7 @@ namespace DaraAds.Application.Identity.Interfaces
         Task<bool> ConfirmEmail(string userId, string token, CancellationToken cancellationToken = default);
 
         Task ChangeRole(ChangeRole.Request request, CancellationToken cancellationToken = default);
+
+        Task ChangePassword(ChangePassword.Request request, CancellationToken cancellationToken = default);
     }
 }

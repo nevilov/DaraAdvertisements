@@ -9,6 +9,7 @@ using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
+using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Response;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
@@ -117,6 +118,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             
             ad.Status = Domain.Advertisement.Statuses.Closed;
             ad.UpdatedDate = DateTime.UtcNow;
+            ad.RemovedDate = DateTime.UtcNow;
             
             await _repository.Save(ad, cancellationToken);
             
@@ -146,7 +148,16 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
-                    Status = a.Status.ToString()
+                    Status = a.Status.ToString(),
+
+                    Owner = new OwnerResponse
+                    {
+                        Id = a.OwnerId,
+                        Username = a.OwnerUser.Username,
+                        Email = a.OwnerUser.Email,
+                        Name = a.OwnerUser.Name,
+                        LastName = a.OwnerUser.LastName,  
+                    },
                 }),
                 Total = total,
                 Offset = request.Offset,
@@ -205,7 +216,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 };
             }
 
-            var result = await _repository.FindByCategory(request.idCategory, request.Limit, request.Offset, cancellationToken);
+            var result = await _repository.FindByCategory(request.CategoryId, request.Limit, request.Offset, cancellationToken);
             return new GetPagesByCategory.Responce
             {
                 Items = result.Select(a => new GetPagesByCategory.Responce.Item
@@ -251,6 +262,34 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Status = a.Status.ToString()
                 }),
                 Total = total,
+                Offset = request.Offset,
+                Limit = request.Limit
+            };
+        }
+
+        public async Task<GetUserAdvertisements.Response> GetUserAdvertisements(GetUserAdvertisements.Request request, CancellationToken cancellationToken)
+        {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NoUserFoundException($"Пользователь не найден");
+            }
+
+            var result = await _repository.FindUserAdvertisements(userId, request.Limit, request.Offset, cancellationToken);
+
+            return new GetUserAdvertisements.Response
+            {
+                Items = result.Select(a => new GetUserAdvertisements.Response.Item
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                    Cover = a.Cover,
+                    Price = a.Price,
+                    Status = a.Status.ToString()
+                }),
+                Total = result.Count(),
                 Offset = request.Offset,
                 Limit = request.Limit
             };
