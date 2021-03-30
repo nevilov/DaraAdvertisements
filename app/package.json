@@ -18,6 +18,7 @@
     "@angular/platform-browser": "~11.2.5",
     "@angular/platform-browser-dynamic": "~11.2.5",
     "@angular/router": "~11.2.5",
+    "@ngneat/until-destroy": "^8.0.4",
     "@taiga-ui/addon-charts": "^2.6.2",
     "@taiga-ui/addon-commerce": "^2.6.2",
     "@taiga-ui/addon-editor": "^2.6.2",

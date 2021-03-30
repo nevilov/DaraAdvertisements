@@ -6,12 +6,14 @@ import { EditAdvertisementPageComponent } from './editAdvertisementPage/editAdve
 import { AdvertisementPageComponent } from './advertisementPage/advertisementPage.component';
 import { AdvertisementDetailPageComponent } from './advertisementDetailPage/advertisementDetailPage.component';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ],
   declarations: [
     NewAdvertisementPageComponent,

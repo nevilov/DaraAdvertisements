@@ -1,15 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
 import { SignService } from './../../../services/sign.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-registrationPage',
   templateUrl: './registrationPage.component.html',
   styleUrls: ['./registrationPage.component.scss']
 })
-export class RegistrationPageComponent implements OnInit, OnDestroy {
+export class RegistrationPageComponent implements OnInit {
 
   private sub: Subscription;
 
@@ -35,7 +37,7 @@ export class RegistrationPageComponent implements OnInit, OnDestroy {
     formValue.lastName = formValue.name;
 //    console.log("User registration info", this.registrationForm.value);
 
-    this.sub = this.signService.register(formValue).subscribe(() => {
+    this.sub = this.signService.register(formValue).pipe(untilDestroyed(this)).subscribe(() => {
       this.router.navigateByUrl('/autorization');
     });
 
@@ -46,10 +48,6 @@ export class RegistrationPageComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
 }
