@@ -22,7 +22,7 @@ export class AdvertisementService{
      }
 
      getAllAdvertisements(): Observable<ListOfItems<Advertisement>> {
-      return this.http.get<ListOfItems<Advertisement>>(AppComponent.backendAddress + '/api/Advertisement?limit=10&offset=0');
+      return this.http.get<ListOfItems<Advertisement>>(AppComponent.backendAddress + '/api/Advertisement?limit=100&offset=0');
     }
 
     getAdvertisementById(id:number): Observable<Advertisement> {

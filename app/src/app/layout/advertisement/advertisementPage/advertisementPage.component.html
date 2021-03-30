@@ -9,7 +9,7 @@
     <div class="content__advertisements">
 
       <app-advertisement *ngFor="let advertisement of advertisements;"
-        [routerLink]="['advertisements', advertisement.id]">
+        [routerLink]="['advertisements', advertisement.id]" [title]="advertisement.title" [price]="advertisement.price">
       </app-advertisement>
 
     </div>
