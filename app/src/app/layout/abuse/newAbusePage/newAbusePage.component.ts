@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NewAbuse } from 'src/app/Dtos/abuse';
 import { AbuseService } from './../../../services/abuse.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-newAbusePage',
   templateUrl: './newAbusePage.component.html',
@@ -31,6 +33,7 @@ export class NewAbusePageComponent implements OnInit {
     };
 
     this.abuseService.createAbuse(abuse)
+    .pipe(untilDestroyed(this))
     .subscribe((r) => {});
   }
 

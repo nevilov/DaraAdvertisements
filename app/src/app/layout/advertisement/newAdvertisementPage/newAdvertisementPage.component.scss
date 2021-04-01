@@ -17,40 +17,6 @@
         // background-color: red;
     }
 
-    &__socials {
-        background-color: #fafafa;
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 32px;
-    }
-    &__socialsText {
-        margin-right: 50px;
-    }
-
-    &__col {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    &__socialIcon {
-        padding: 6px;
-        background-color: #ffffff;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-right: 8px;
-
-        &:last-child {
-            margin-right: 0px;
-        }
-        & img {
-            width: 24px;
-            height: 24px;
-        }
-    }
-
     &__form {
         padding: 24px 32px 32px 32px;
         display: flex;
@@ -129,6 +95,17 @@
         }
     }
 }
+
 textarea {
-    min-width: 400px;
+    min-width: 600px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
