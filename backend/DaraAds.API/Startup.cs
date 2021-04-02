@@ -50,6 +50,8 @@ namespace DaraAds.API
 
             services.AddScoped<IMailService, MailService>();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            
+            services.AddS3(Configuration);
 
             services.AddIdentity(Configuration);
 
