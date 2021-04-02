@@ -14,6 +14,13 @@ namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
             builder.Property(i => i.CreatedDate).IsRequired();
             builder.Property(i => i.UpdatedDate).IsRequired(false);
             builder.Property(i => i.RemovedDate).IsRequired(false);
+            
+            builder
+                .HasOne(i=> i.Advertisement)
+                .WithMany(a=>a.Images)
+                .HasForeignKey(i => i.AdvertisementId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

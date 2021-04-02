@@ -1,4 +1,5 @@
-﻿using DaraAds.Domain.Shared;
+﻿using System.Collections.Generic;
+using DaraAds.Domain.Shared;
 
 namespace DaraAds.Domain
 {
@@ -42,6 +43,8 @@ namespace DaraAds.Domain
         /// Обложка объявления
         /// </summary>
         public string Cover { get; set; }
+        
+        public virtual ICollection<Image> Images { get; set; }
 
         /// <summary>
         /// Автор объявления
