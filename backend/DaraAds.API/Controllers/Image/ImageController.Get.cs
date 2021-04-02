@@ -1,7 +1,7 @@
-using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.API.Dto.Image;
+using DaraAds.Application.Services.Image.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

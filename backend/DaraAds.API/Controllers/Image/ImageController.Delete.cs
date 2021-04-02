@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.API.Dto.Image;
+using DaraAds.Application.Services.Image.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DaraAds.API.Controllers.Image

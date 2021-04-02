@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
-using Amazon.S3.Model;
 using DaraAds.API.Dto.Image;
-using Microsoft.AspNetCore.Http;
+using DaraAds.Application.Services.Image.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DaraAds.API.Controllers.Image
