@@ -21,6 +21,13 @@ namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
                 .HasForeignKey(i => i.AdvertisementId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            builder
+                .HasOne(i=> i.User)
+                .WithMany(u=> u.Images)
+                .HasForeignKey(i => i.UserId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
