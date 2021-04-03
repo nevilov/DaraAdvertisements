@@ -12,7 +12,7 @@ namespace DaraAds.API.Controllers.Image
         [HttpPost]
         [Display(Name="Image")]
         public async Task<IActionResult> Upload(
-            ImageUploadRequest request, 
+            [FromForm]  ImageUploadRequest request,
             CancellationToken cancellationToken)
         {
             var response = await _imageService.Upload(new Upload.Request
@@ -20,7 +20,7 @@ namespace DaraAds.API.Controllers.Image
                 Image = request.Image    
             }, cancellationToken);
 
-            return Ok(response);
+            return Created($"api/images/{response.Id}", new {});
         }
     }
 }

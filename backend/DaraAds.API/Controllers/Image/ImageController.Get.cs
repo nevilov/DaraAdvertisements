@@ -10,11 +10,12 @@ namespace DaraAds.API.Controllers.Image
     public partial class ImageController
     {
         [AllowAnonymous]
-        [HttpGet("{id}")]  
+        [HttpGet("{Id}")]  
         public async Task<IActionResult> Get(
-            [FromRoute] ImageGetRequest request, 
+            [FromRoute] ImageGetRequest request,
             CancellationToken cancellationToken)
         {
+            var a = request.Id;
             var response = await _imageService.GetImageUrl(new Get.Request
             {
                 Id = request.Id
