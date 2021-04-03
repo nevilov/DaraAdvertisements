@@ -24,7 +24,6 @@ namespace DaraAds.Application.Services.User.Implementations
 
         public async Task<Register.Response> Register(Register.Request request, CancellationToken cancellationToken)
         {
-            //TODO Проверка на дубликаты
             var response = await _identity.CreateUser(new CreateUser.Request
             {
                 Username = request.Username,
@@ -77,6 +76,42 @@ namespace DaraAds.Application.Services.User.Implementations
             }
 
             await _repository.Save(domainUser, cancellationToken);
+        }
+
+        public async Task<Get.Response> GetUser(Get.Request request, CancellationToken cancellationToken)
+        {
+            string userId;
+
+            if (string.IsNullOrEmpty(request.Id))
+            {
+                var userIdFromClaims = await _identity.GetCurrentUserId(cancellationToken);
+                if (string.IsNullOrEmpty(userIdFromClaims))
+                {
+                    throw new NoUserFoundException("Пользователь не найден");
+                }
+                userId = userIdFromClaims;
+            }
+            else
+            {
+                userId = request.Id;
+            }
+
+            var user = await _repository.FindById(userId, cancellationToken);
+
+            if(user == null)
+            {
+                throw new NoUserFoundException("Пользователь не найден");
+            }
+            return new Get.Response
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                Lastname = user.LastName,
+                Avatar = user.Avatar,
+                Phone = user.Phone,
+                Username = user.Username
+            };
         }
     }
 }

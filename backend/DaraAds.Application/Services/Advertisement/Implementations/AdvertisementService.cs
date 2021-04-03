@@ -287,6 +287,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
             var result = await _repository.FindUserAdvertisements(userId, request.Limit, request.Offset, cancellationToken);
 
+            if (result == null)
+            {
+                throw new NoUserAdFoundException($"Объявления пользователя с Id = {userId} не найдены");
+            }
+
             return new GetUserAdvertisements.Response
             {
                 Items = result.Select(a => new GetUserAdvertisements.Response.Item
