@@ -96,6 +96,8 @@ namespace DaraAds.Application.Services.Image.Implementations
             {
                 await _repository.Delete(image, cancellationToken);
             }
+            
+            //TODO Добавить обработку ошибки удаления
         }
     }
 }

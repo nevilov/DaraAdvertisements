@@ -1,24 +1,21 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Services.Advertisement.Contracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DaraAds.API.Controllers.Advertisement
 {
     public partial class AdvertisementController
     {
-        [HttpPatch("{id}/images")]
-        public async Task<IActionResult> AddImage(
-            int id,
-            IFormFile image, 
+        [HttpDelete("{id}/images/{imageId}")]
+        public async Task<IActionResult> DeleteImage(
+            int id, string imageId, 
             CancellationToken cancellationToken)
         {
-
-            await _service.AddImage(new AddImage.Request
+            await _service.DeleteImage(new DeleteImage.Request
             {
                 Id = id,
-                Image = image
+                ImageId = imageId
             }, cancellationToken);
             
             return NoContent();

@@ -10,6 +10,7 @@ using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.Application.Services.Image.Contracts;
 using DaraAds.Application.Services.Image.Interfaces;
+using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Response;
 using Delete = DaraAds.Application.Services.Advertisement.Contracts.Delete;
@@ -23,20 +24,22 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         private readonly IIdentityService _identityService;
         private readonly IRepository<Domain.Image, string> _imageRepository;
         private readonly IImageService _imageService;
+        private readonly IS3Service _s3Service;
 
         public AdvertisementService(
             IAdvertisementRepository repository,
             IIdentityService identityService,
             IImageService imageService,
-            IRepository<Domain.Image, string> imageRepository)
+            IRepository<Domain.Image, string> imageRepository, IS3Service s3Service)
         {
             _repository = repository;
             _identityService = identityService;
             _imageService = imageService;
             _imageRepository = imageRepository;
+            _s3Service = s3Service;
         }
 
-        private const string ImageUrl = "https://storage.yandexcloud.net/dara-ads-images/";        
+        private const string S3Url = "https://storage.yandexcloud.net/dara-ads-images/";        
         
         public async Task<Create.Response> Create(Create.Request request, CancellationToken cancellationToken)
         {
@@ -84,7 +87,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Images = ad.Images.Select(i => new Get.Response.ImageResponse
                 {
                     Id = i.Id,
-                    ImageUrl =  $"https://storage.yandexcloud.net/dara-ads-images/{i.Name}",
+                    ImageUrl =  S3Url + i.Name,
                     ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                 }),
                 
@@ -341,6 +344,31 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             
             await _repository.Save(advertisement, cancellationToken);
             
+        }
+
+        public async Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken)
+        {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NoUserFoundException($"Пользователь не найден");
+            }
+
+            var advertisement = await _repository.FindById(request.Id, cancellationToken);
+            
+            if (advertisement == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+            
+            var image = await _imageRepository.FindById(request.ImageId, cancellationToken);
+            
+            advertisement.Images.Remove(image);
+            // TODO добавить проверки на успешное удаление
+            await _s3Service.DeleteFile(image.Name, cancellationToken);
+            
+            await _repository.Save(advertisement, cancellationToken);
         }
     }
 }
