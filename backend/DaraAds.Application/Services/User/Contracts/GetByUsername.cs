@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DaraAds.Application.Services.User.Contracts
 {
-    public static class Get
+    public static class GetByUsername
     {
         public class Request
         {
-            public string? Id { get; set; }
+            public string Username { get; set; }
         }
 
         public class Response
