@@ -2,13 +2,12 @@
 using System;
 using DaraAds.Application.Services.User.Contracts;
 using DaraAds.Application.Services.User.Interfaces;
-using Microsoft.Extensions.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Common;
 using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Interfaces;
-using DaraAds.Application.Services.User.Contracts.Extantions;
+using DaraAds.Application.Services.User.Contracts.Exceptions;
 
 namespace DaraAds.Application.Services.User.Implementations
 {
@@ -25,7 +24,6 @@ namespace DaraAds.Application.Services.User.Implementations
 
         public async Task<Register.Response> Register(Register.Request request, CancellationToken cancellationToken)
         {
-            //TODO Проверка на дупликаты
             var response = await _identity.CreateUser(new CreateUser.Request
             {
                 Username = request.Username,
@@ -59,25 +57,84 @@ namespace DaraAds.Application.Services.User.Implementations
 
         public async Task Update(Update.Request request, CancellationToken cancellationToken)
         {
-            var domainUser = await _repository.FindById(request.Id, cancellationToken);
+            var currentUserId = await _identity.GetCurrentUserId(cancellationToken);
+            var domainUser = await _repository.FindById(currentUserId, cancellationToken);
+
             if (domainUser == null)
             {
                 throw new NoUserFoundException("Пользователя не существует");
             }
-
-            var currentUser = await _identity.GetCurrentUserId(cancellationToken);
-
-            if (domainUser.Id != currentUser)
-            {
-                throw new NoRightsException("Нет прав");
-            }
-
+            
             domainUser.Name = request.Name;
             domainUser.LastName = request.LastName;
-            domainUser.Avatar = request.Avatar;
             domainUser.UpdatedDate = DateTime.UtcNow;
+            domainUser.Phone = request.Phone;
+
+            if (request.Avatar != null)
+            {
+                domainUser.Avatar = request.Avatar;
+            }
 
             await _repository.Save(domainUser, cancellationToken);
+        }
+
+        public async Task<Get.Response> GetUser(Get.Request request, CancellationToken cancellationToken)
+        {
+            string userId;
+
+            if (string.IsNullOrEmpty(request.Id))
+            {
+                var userIdFromClaims = await _identity.GetCurrentUserId(cancellationToken);
+                if (string.IsNullOrEmpty(userIdFromClaims))
+                {
+                    throw new NoUserFoundException("Пользователь не найден");
+                }
+                userId = userIdFromClaims;
+            }
+            else
+            {
+                userId = request.Id;
+            }
+
+            var user = await _repository.FindById(userId, cancellationToken);
+
+            if(user == null)
+            {
+                throw new NoUserFoundException("Пользователь не найден");
+            }
+            return new Get.Response
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                Lastname = user.LastName,
+                Avatar = user.Avatar,
+                Phone = user.Phone,
+                Username = user.Username,
+                CreatedDate = user.CreatedDate
+            };
+        }
+
+        public async Task<GetByUsername.Response> GetByUsername(GetByUsername.Request request, CancellationToken cancellationToken)
+        {
+            var user = await _repository.FindWhere(a => a.Username == request.Username, cancellationToken);
+
+            if (user == null)
+            {
+                throw new NoUserFoundException("Пользователь не найден");
+            }
+
+            return new GetByUsername.Response
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                Lastname = user.LastName,
+                Avatar = user.Avatar,
+                Phone = user.Phone,
+                Username = user.Username,
+                CreatedDate = user.CreatedDate,
+            };
         }
     }
 }

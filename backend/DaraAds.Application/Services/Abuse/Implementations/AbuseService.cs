@@ -1,7 +1,7 @@
 ﻿using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Abuse.Contracts;
 using DaraAds.Application.Services.Abuse.Interfaces;
-using DaraAds.Application.Services.User.Contracts.Extantions;
+using DaraAds.Application.Services.User.Contracts.Exceptions;
 using DaraAds.Application.Services.User.Interfaces;
 using DaraAds.Domain.Shared.Exceptions;
 using System;

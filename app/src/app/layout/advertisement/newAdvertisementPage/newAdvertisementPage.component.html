@@ -1,0 +1,17 @@
+<div class="container">
+  <form class="container__content content" [formGroup]="advertisementForm" (ngSubmit)="onSubmit()">
+    <div class="content__header header">
+      <h1>Новое объявление</h1>
+    </div>
+    <div class="content__form">
+      <input formControlName="title" class="content__formInput" type="text" name="title" placeholder="Введите название объявления">
+      <textarea formControlName="description" class="content__formInput" name="description" cols="30" rows="5"
+        placeholder="Введите описание"></textarea>
+      <input formControlName="price" class="content__formInput" type="number" name="title" placeholder="Введите стоимость (в рублях)">
+      <input formControlName="cover" class="content__formInput" type="text" name="cover" placeholder="Введите {обложку}">  
+      <input formControlName="categoryId" class="content__formInput" type="number" name="categoryId" placeholder="Введите {категорию}">  
+      <button>Создать объявление <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
+          style="color: white;"></span></button>
+    </div>
+  </form>
+</div>

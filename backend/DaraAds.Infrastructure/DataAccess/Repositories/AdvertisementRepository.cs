@@ -1,5 +1,4 @@
 ﻿using DaraAds.Application.Repositories;
-using DaraAds.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -32,6 +31,16 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
             return await _context.Advertisements
                 .Where(predicate)
                 .OrderBy(x => x.Id)
+                .Take(limit)
+                .Skip(offset)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<Domain.Advertisement>> FindUserAdvertisements(string userId, int limit, int offset, CancellationToken cancellationToken)
+        {
+            return await _context.Advertisements
+                .Where(x => x.OwnerId == userId)
+                .OrderBy(x => x.CreatedDate)
                 .Take(limit)
                 .Skip(offset)
                 .ToListAsync(cancellationToken);

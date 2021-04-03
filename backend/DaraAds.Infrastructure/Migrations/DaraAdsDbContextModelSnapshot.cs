@@ -416,14 +416,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "afb24637-38c1-4b37-85f1-9b0b4442a601",
+                            ConcurrencyStamp = "45c0c8b3-ee2c-467c-9060-d69fa8180664",
                             Email = "admin",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEGIbGdMzyjNxzJhjoiZgqQsT0B5Fj4MamYNWyCe3sJ2wT45c3YTpS3ouqAC8lvGeg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBV8/12kmRwO/y/rLKAbcG/ka869WY82TUCrmf/+GrpwSp/pGw23A3ubtamduOxUMQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3d3347dc-28ed-4eeb-b790-c3218f8b5721",
+                            SecurityStamp = "5a1efe47-87b9-4ba5-a5d2-e55ae09f118d",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -458,16 +458,23 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "9519f318-778e-43c2-996f-8144b5afa2f5",
+                            ConcurrencyStamp = "7e164e4c-cbd3-4b93-a08d-fdc573436710",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "54b0c08d-f809-44a3-b186-3581e72dbaaa",
+                            ConcurrencyStamp = "19f1c75c-d480-4f16-889f-ad4e4e2a43ab",
                             Name = "User",
                             NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "E8E08651-ED1B-468E-A931-F73E2563CD85",
+                            ConcurrencyStamp = "87ac7a3d-4662-4fa6-9915-00f3d5b2df35",
+                            Name = "Moderator",
+                            NormalizedName = "MODERATOR"
                         });
                 });
 

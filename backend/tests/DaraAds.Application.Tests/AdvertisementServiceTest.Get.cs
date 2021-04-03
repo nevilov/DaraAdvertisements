@@ -1,6 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using DaraAds.Application.Services.Advertisement.Contracts;
-using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;
+using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using Moq;
 using System;
 using System.Threading;
