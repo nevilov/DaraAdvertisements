@@ -110,7 +110,30 @@ namespace DaraAds.Application.Services.User.Implementations
                 Lastname = user.LastName,
                 Avatar = user.Avatar,
                 Phone = user.Phone,
-                Username = user.Username
+                Username = user.Username,
+                CreatedDate = user.CreatedDate
+            };
+        }
+
+        public async Task<GetByUsername.Response> GetByUsername(GetByUsername.Request request, CancellationToken cancellationToken)
+        {
+            var user = await _repository.FindWhere(a => a.Username == request.Username, cancellationToken);
+
+            if (user == null)
+            {
+                throw new NoUserFoundException("Пользователь не найден");
+            }
+
+            return new GetByUsername.Response
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                Lastname = user.LastName,
+                Avatar = user.Avatar,
+                Phone = user.Phone,
+                Username = user.Username,
+                CreatedDate = user.CreatedDate,
             };
         }
     }

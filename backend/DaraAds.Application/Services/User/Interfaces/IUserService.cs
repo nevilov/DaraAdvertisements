@@ -11,5 +11,7 @@ namespace DaraAds.Application.Services.User.Interfaces
         Task Update(Update.Request request, CancellationToken cancellationToken);
 
         Task<Get.Response> GetUser(Get.Request request, CancellationToken cancellationToken);
+
+        Task<GetByUsername.Response> GetByUsername(GetByUsername.Request request, CancellationToken cancellationToken);
     } 
 }
