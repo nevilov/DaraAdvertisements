@@ -8,8 +8,12 @@ using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
+using DaraAds.Application.Services.Image.Contracts;
+using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Response;
+using Delete = DaraAds.Application.Services.Advertisement.Contracts.Delete;
+using Get = DaraAds.Application.Services.Advertisement.Contracts.Get;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
@@ -17,14 +21,23 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
     {
         private readonly IAdvertisementRepository _repository;
         private readonly IIdentityService _identityService;
+        private readonly IRepository<Domain.Image, string> _imageRepository;
+        private readonly IImageService _imageService;
 
-        public AdvertisementService(IAdvertisementRepository repository, IIdentityService identityService)
+        public AdvertisementService(
+            IAdvertisementRepository repository,
+            IIdentityService identityService,
+            IImageService imageService,
+            IRepository<Domain.Image, string> imageRepository)
         {
             _repository = repository;
             _identityService = identityService;
+            _imageService = imageService;
+            _imageRepository = imageRepository;
         }
 
-
+        private const string ImageUrl = "https://storage.yandexcloud.net/dara-ads-images/";        
+        
         public async Task<Create.Response> Create(Create.Request request, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
@@ -52,14 +65,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Id = ad.Id
             };
         }
-
         public async Task<Get.Response> Get(Get.Request request, CancellationToken cancellationToken)
         {
             var ad = await _repository.FindById(request.Id, cancellationToken);
-            
+
             if (ad == null)
             {
-                throw new NoAdFoundException(request.Id);
+                throw new AdNotFoundException(request.Id);
             }
 
             return new Get.Response
@@ -69,6 +81,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Status = ad.Status.ToString(),
                 Price = ad.Price,
                 Cover = ad.Cover,
+                Images = ad.Images.Select(i => new Get.Response.ImageResponse
+                {
+                    Id = i.Id,
+                    ImageUrl =  $"https://storage.yandexcloud.net/dara-ads-images/{i.Name}",
+                    ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                }),
                 
                 Category = new Get.Response.CategoryResponse
                 {
@@ -101,7 +119,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
             if (ad == null)
             {
-                throw new NoAdFoundException(request.Id);
+                throw new AdNotFoundException(request.Id);
             }
             
             if (ad.Status != Domain.Advertisement.Statuses.Created)
@@ -149,7 +167,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Cover = a.Cover,
                     Price = a.Price,
                     Status = a.Status.ToString(),
-
+                    
                     Owner = new OwnerResponse
                     {
                         Id = a.OwnerId,
@@ -178,7 +196,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             
             if (advertisement == null)
             {
-                throw new NoAdFoundException(request.Id);
+                throw new AdNotFoundException(request.Id);
             }
 
             var isAdmin = await _identityService.IsInRole(userId, RoleConstants.AdminRole, cancellationToken);
@@ -293,6 +311,36 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Offset = request.Offset,
                 Limit = request.Limit
             };
+        }
+
+        public async Task AddImage(AddImage.Request request, CancellationToken cancellationToken)
+        {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NoUserFoundException($"Пользователь не найден");
+            }
+
+            var advertisement = await _repository.FindById(request.Id, cancellationToken);
+            
+            if (advertisement == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
+            var response = await _imageService.Upload(
+                new Upload.Request
+                {
+                    Image = request.Image
+                }, cancellationToken);
+
+            var image = await _imageRepository.FindById(response.Id, cancellationToken);
+            
+            advertisement.Images.Add(image);
+            
+            await _repository.Save(advertisement, cancellationToken);
+            
         }
     }
 }
