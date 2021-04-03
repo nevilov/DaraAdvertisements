@@ -203,12 +203,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             };    
         }
 
-        public async Task<GetPagesByCategory.Responce> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
+        public async Task<GetPagesByCategory.Response> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
         {
-            var total = await _repository.Count(cancellationToken);
+            var total = await _repository.Count(a => a.CategoryId == request.CategoryId,cancellationToken);
             if (total == 0)
             {
-                return new GetPagesByCategory.Responce
+                return new GetPagesByCategory.Response
                 {
                     Total = 0,
                     Offset = request.Offset,
@@ -217,9 +217,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             }
 
             var result = await _repository.FindByCategory(request.CategoryId, request.Limit, request.Offset, cancellationToken);
-            return new GetPagesByCategory.Responce
+            return new GetPagesByCategory.Response
             {
-                Items = result.Select(a => new GetPagesByCategory.Responce.Item
+                Items = result.Select(a => new GetPagesByCategory.Response.Item
                 {
                     Id = a.Id,
                     Title = a.Title,
@@ -269,14 +269,28 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<GetUserAdvertisements.Response> GetUserAdvertisements(GetUserAdvertisements.Request request, CancellationToken cancellationToken)
         {
-            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+            string userId;
 
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(request.Id))
             {
-                throw new NoUserFoundException($"Пользователь не найден");
+                var userIdFromClaims = await _identityService.GetCurrentUserId(cancellationToken);
+                if (string.IsNullOrEmpty(userIdFromClaims))
+                {
+                    throw new NoUserFound("Пользователь не найден");
+                }
+                userId = userIdFromClaims;
+            }
+            else
+            {
+                userId = request.Id;
             }
 
             var result = await _repository.FindUserAdvertisements(userId, request.Limit, request.Offset, cancellationToken);
+
+            if (result == null)
+            {
+                throw new NoUserAdFoundException($"Объявления пользователя с Id = {userId} не найдены");
+            }
 
             return new GetUserAdvertisements.Response
             {

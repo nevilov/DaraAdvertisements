@@ -10,6 +10,8 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
     {
         public class Request
         {
+            public string Id { get; set; }
+
             public int Limit { get; set; }
 
             public int Offset { get; set; }

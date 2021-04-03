@@ -17,7 +17,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             public int Offset { get; set; } = 0;
         }
 
-        public class Responce
+        public class Response
         {
             public class Item
             {
