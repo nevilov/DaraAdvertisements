@@ -104,7 +104,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Id = ad.OwnerUser.Id,
                     Name  = ad.OwnerUser.Name,
                     Email = ad.OwnerUser.Email,
-                    LastName = ad.OwnerUser.LastName
+                    LastName = ad.OwnerUser.LastName,
+                    Images = ad.OwnerUser.Images.Select(i => new Get.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    })
                 }
             };
         }
@@ -177,7 +183,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Username = a.OwnerUser.Username,
                         Email = a.OwnerUser.Email,
                         Name = a.OwnerUser.Name,
-                        LastName = a.OwnerUser.LastName,  
+                        LastName = a.OwnerUser.LastName,
+                        Images = a.OwnerUser.Images.Select(i=> new ImageResponse
+                        {
+                            Id = i.Id,
+                            ImageUrl =  S3Url + i.Name,
+                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        })
                     },
                     
                     Images = a.Images.Select(i => new ImageResponse

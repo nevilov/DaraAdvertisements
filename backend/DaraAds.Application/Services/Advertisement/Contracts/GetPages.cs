@@ -5,13 +5,11 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
 {
     public static class GetPages
     {
-        public sealed class Request
+        public sealed class Request : Paged.Request
         {
-            public int Offset { get; set; } = 0;
-            public int Limit { get; set; } = 10;
         }
 
-        public sealed class Response
+        public sealed class Response : Paged.Response<Response.Item>
         {
             public sealed class OwnerResponse
             {
@@ -20,6 +18,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Name { get; set; }
                 public string LastName { get; set; }
                 public string Username { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
             }
             
             public sealed class ImageResponse
@@ -40,11 +39,6 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public OwnerResponse Owner { get; set; }
                 public IEnumerable<ImageResponse> Images { get; set; }
             }
-            public int Total { get; set; }
-            public int Offset { get; set; }
-            public int Limit { get; set; }
-
-            public IEnumerable<Item> Items { get; set; } = Enumerable.Empty<Item>();
         }
     }
 }
