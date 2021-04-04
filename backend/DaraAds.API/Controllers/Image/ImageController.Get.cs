@@ -15,7 +15,7 @@ namespace DaraAds.API.Controllers.Image
             [FromRoute] ImageGetRequest request,
             CancellationToken cancellationToken)
         {
-            var response = await _imageService.GetImage(new Get.Request
+            var response = await _imageService.GetImage(new GetImage.Request
             {
                 Id = request.Id
             }, cancellationToken);

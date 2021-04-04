@@ -22,7 +22,7 @@ namespace DaraAds.Application.Services.Image.Implementations
             _s3Service = s3Service;
         }
 
-        public async Task<Upload.Response> Upload(Upload.Request request, CancellationToken cancellationToken)
+        public async Task<UploadImage.Response> Upload(UploadImage.Request request, CancellationToken cancellationToken)
         {
 
             if (request.Image.Length <= 0)
@@ -62,14 +62,14 @@ namespace DaraAds.Application.Services.Image.Implementations
                
             await _repository.Save(image, cancellationToken);
             
-            return new Upload.Response
+            return new UploadImage.Response
             {
                 Id = image.Id
             };
         }
       
 
-        public async Task<Get.Response> GetImage(Get.Request request, CancellationToken cancellationToken)
+        public async Task<GetImage.Response> GetImage(GetImage.Request request, CancellationToken cancellationToken)
         {
             var image = await _repository.FindById(request.Id, cancellationToken);
             
@@ -80,14 +80,14 @@ namespace DaraAds.Application.Services.Image.Implementations
 
             var imageUrl = $"https://storage.yandexcloud.net/dara-ads-images/{image.Name}";
 
-            return new Get.Response
+            return new GetImage.Response
             {
                 ImageUrl = imageUrl,
                 ImageBlob = Convert.ToBase64String(image.ImageBlob) 
             };
         }
 
-        public async Task Delete(Delete.Request request, CancellationToken cancellationToken)
+        public async Task Delete(DeleteImage.Request request, CancellationToken cancellationToken)
         {
             var image = await _repository.FindById(request.Id, cancellationToken);
 

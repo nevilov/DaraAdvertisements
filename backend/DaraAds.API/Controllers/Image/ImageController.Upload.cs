@@ -15,7 +15,7 @@ namespace DaraAds.API.Controllers.Image
             [FromForm]  ImageUploadRequest request,
             CancellationToken cancellationToken)
         {
-            var response = await _imageService.Upload(new Upload.Request
+            var response = await _imageService.Upload(new UploadImage.Request
             {
                 Image = request.Image    
             }, cancellationToken);

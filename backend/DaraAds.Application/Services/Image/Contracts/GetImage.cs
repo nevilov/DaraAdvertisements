@@ -1,6 +1,6 @@
 namespace DaraAds.Application.Services.Image.Contracts
 {
-    public static class Get
+    public static class GetImage
     {
         public sealed class Request
         {

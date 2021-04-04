@@ -11,12 +11,12 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
         public class Request : Paged.Request
         {
             public int CategoryId { get; set; }
-            
+
         }
 
         public class Response : Paged.Response<Response.Item>
         {
-            
+
             public sealed class ImageResponse
             {
                 public string Id { get; set; }

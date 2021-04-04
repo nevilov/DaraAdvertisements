@@ -12,6 +12,14 @@ export interface Advertisement {
   owner: User;
 }
 
+export interface NewAdvertisement {
+  title: string;
+  description: string;
+  price: number;
+  cover: string;
+  categoryId: number;
+}
+
 export interface ListOfItems<T> {
   limit: number,
   offset: number,

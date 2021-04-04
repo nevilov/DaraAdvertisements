@@ -21,7 +21,7 @@ namespace DaraAds.API.Controllers.Abuse
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User,Moderator")]
         public async Task<IActionResult> CreateAbuse(
             [FromBody] CreateAbuseBinding abuseBinding,
             CancellationToken cancellationToken)

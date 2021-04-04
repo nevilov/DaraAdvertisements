@@ -7,8 +7,8 @@ namespace DaraAds.Application.Services.Image.Interfaces
 {
     public interface IImageService
     {
-        Task<Upload.Response> Upload(Upload.Request request, CancellationToken cancellationToken);
-        Task<Get.Response> GetImage(Get.Request request, CancellationToken cancellationToken);
-        Task Delete(Delete.Request request, CancellationToken cancellationToken);
+        Task<UploadImage.Response> Upload(UploadImage.Request request, CancellationToken cancellationToken);
+        Task<GetImage.Response> GetImage(GetImage.Request request, CancellationToken cancellationToken);
+        Task Delete(DeleteImage.Request request, CancellationToken cancellationToken);
     }
 }

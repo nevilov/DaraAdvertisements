@@ -14,7 +14,7 @@ namespace DaraAds.API.Controllers.Image
             CancellationToken cancellationToken
         )
         {
-            await _imageService.Delete(new Delete.Request
+            await _imageService.Delete(new DeleteImage.Request
             {
                 Id = request.Id
             }, cancellationToken);

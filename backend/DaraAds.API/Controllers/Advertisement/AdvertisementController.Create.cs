@@ -16,7 +16,7 @@ namespace DaraAds.API.Controllers.Advertisement
        /// <param name="request"></param>
        /// <param name="cancellationToken"></param>
        /// <returns></returns>
-       [Authorize(Roles = "User")]
+       [Authorize(Roles = "User,Moderator")]
        [HttpPost]
        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(
@@ -33,7 +33,9 @@ namespace DaraAds.API.Controllers.Advertisement
                 CategoryId = request.CategoryId
             }, cancellationToken);
 
-            return Created($"api/advertisements/{response.Id}", new { });
+            return Created($"api/advertisements/{response.Id}", new {
+                redirectId = response.Id
+            });
         }
     }
 }

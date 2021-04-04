@@ -15,12 +15,13 @@ namespace DaraAds.API.Controllers.Advertisement
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpGet("get/useradvertisements")]
-        [Authorize]
+        [HttpGet("get/useradv")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserAdvertisements([FromQuery] GetUserAdvertisementsRequest request, CancellationToken cancellationToken)
         {
             var result = await _service.GetUserAdvertisements(new GetUserAdvertisements.Request
             {
+                Id = request.Id,
                 Offset = request.Offset,
                 Limit = request.Limit
             }, cancellationToken);

@@ -15,6 +15,7 @@ using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Response;
 using Delete = DaraAds.Application.Services.Advertisement.Contracts.Delete;
+using DeleteImage = DaraAds.Application.Services.Advertisement.Contracts.DeleteImage;
 using Get = DaraAds.Application.Services.Advertisement.Contracts.Get;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
@@ -246,7 +247,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<GetPagesByCategory.Response> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
         {
-            var total = await _repository.Count(cancellationToken);
+            var total = await _repository.Count(a => a.CategoryId == request.CategoryId,cancellationToken);
             if (total == 0)
             {
                 return new GetPagesByCategory.Response
@@ -322,14 +323,28 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<GetUserAdvertisements.Response> GetUserAdvertisements(GetUserAdvertisements.Request request, CancellationToken cancellationToken)
         {
-            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+            string userId;
 
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(request.Id))
             {
-                throw new NoUserFoundException($"Пользователь не найден");
+                var userIdFromClaims = await _identityService.GetCurrentUserId(cancellationToken);
+                if (string.IsNullOrEmpty(userIdFromClaims))
+                {
+                    throw new NoUserFound("Пользователь не найден");
+                }
+                userId = userIdFromClaims;
+            }
+            else
+            {
+                userId = request.Id;
             }
 
             var result = await _repository.FindUserAdvertisements(userId, request.Limit, request.Offset, cancellationToken);
+
+            if (result == null)
+            {
+                throw new NoUserAdFoundException($"Объявления пользователя с Id = {userId} не найдены");
+            }
 
             return new GetUserAdvertisements.Response
             {
@@ -370,7 +385,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             }
 
             var response = await _imageService.Upload(
-                new Upload.Request
+                new UploadImage.Request
                 {
                     Image = request.Image
                 }, cancellationToken);

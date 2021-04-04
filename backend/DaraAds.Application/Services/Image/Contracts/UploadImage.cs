@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace DaraAds.Application.Services.Image.Contracts
 {
-    public static class Upload
+    public static class UploadImage
     {
         public sealed class Request
         {
