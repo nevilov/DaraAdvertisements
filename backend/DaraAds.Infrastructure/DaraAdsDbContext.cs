@@ -16,6 +16,7 @@ namespace DaraAds.Infrastructure
         public DbSet<User> DomainUsers { get; set; }
         public DbSet<Abuse> Abuses { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
