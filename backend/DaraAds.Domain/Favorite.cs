@@ -7,7 +7,7 @@ namespace DaraAds.Domain
         /// <summary>
         /// Избранное объявления
         /// </summary>
-        public Advertisement Advertisement { get; set; }
+        public virtual Advertisement Advertisement { get; set; }
         
         /// <summary>
         /// Уникальный идентификатор избранного объявления
@@ -17,7 +17,7 @@ namespace DaraAds.Domain
         /// <summary>
         /// Пользователь, которому пренадлежит это объявление
         /// </summary>
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         /// <summary>
         /// Уникальный идентификатор пользователя, кокоторому пренадлежит это объявление

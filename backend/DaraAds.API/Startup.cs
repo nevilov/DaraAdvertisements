@@ -16,7 +16,8 @@ using DaraAds.Infrastructure.DataAccess.Repositories;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Infrastructure.Mail;
-
+using DaraAds.Application.Services.Favorite.Interfaces;
+using DaraAds.Application.Services.Favorite.Implementations;
 
 namespace DaraAds.API
 {
@@ -34,12 +35,14 @@ namespace DaraAds.API
             services
             .AddScoped<IUserService, UserService>()
             .AddScoped<IAdvertisementService, AdvertisementService>()
-            .AddScoped<IAbuseService, AbuseService>();
+            .AddScoped<IAbuseService, AbuseService>()
+            .AddScoped<IFavoriteService, FavoriteService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
              .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
-             .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>();
+             .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
+             .AddScoped<IRepository<Domain.Favorite, int>, Repository<Domain.Favorite, int>>();
             
             services
             .AddHttpContextAccessor();
