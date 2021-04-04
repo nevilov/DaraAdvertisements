@@ -13,12 +13,12 @@ using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Respo
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
-    public sealed class AdvertisementService : IAdvertisementService
+    public sealed class AdvertisementService : Interfaces.IAdvertisementService
     {
-        private readonly IAdvertisementRepository _repository;
+        private readonly Repositories.IAdvertisementRepository _repository;
         private readonly IIdentityService _identityService;
 
-        public AdvertisementService(IAdvertisementRepository repository, IIdentityService identityService)
+        public AdvertisementService(Repositories.IAdvertisementRepository repository, IIdentityService identityService)
         {
             _repository = repository;
             _identityService = identityService;

@@ -16,11 +16,7 @@ using DaraAds.Infrastructure.DataAccess.Repositories;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Infrastructure.Mail;
-using System.Reflection;
-using System.IO;
-using System;
-using FluentValidation;
-using FluentValidation.AspNetCore;
+
 
 namespace DaraAds.API
 {
