@@ -19,6 +19,12 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
 
         public class Response
         {
+            public sealed class ImageResponse
+            {
+                public string Id { get; set; }
+                public string ImageUrl { get; set; }
+                public string ImageBase64 { get; set; }
+            }
             public class Item
             {
                 public int Id { get; set; }
@@ -27,6 +33,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public decimal Price { get; set; }
                 public string Cover { get; set; }
                 public string Status { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
             }
 
             public int Total { get; set; }

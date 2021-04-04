@@ -21,6 +21,13 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string LastName { get; set; }
                 public string Username { get; set; }
             }
+            
+            public sealed class ImageResponse
+            {
+                public string Id { get; set; }
+                public string ImageUrl { get; set; }
+                public string ImageBase64 { get; set; }
+            }
 
             public sealed class Item
             {
@@ -30,8 +37,8 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Cover { get; set; }
                 public decimal Price { get; set; }
                 public string Status { get; set; }
-
                 public OwnerResponse Owner { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
             }
             public int Total { get; set; }
             public int Offset { get; set; }

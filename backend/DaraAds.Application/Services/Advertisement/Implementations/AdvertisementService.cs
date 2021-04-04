@@ -162,7 +162,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
             return new GetPages.Response
             {
-                Items = ads.Select(a => new GetPages.Response.Item
+                Items = ads.Select(a => new Item
                 {
                     Id = a.Id,
                     Title = a.Title,
@@ -179,6 +179,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Name = a.OwnerUser.Name,
                         LastName = a.OwnerUser.LastName,  
                     },
+                    
+                    Images = a.Images.Select(i => new ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    }),
                 }),
                 Total = total,
                 Offset = request.Offset,
@@ -224,12 +231,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             };    
         }
 
-        public async Task<GetPagesByCategory.Responce> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
+        public async Task<GetPagesByCategory.Response> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
         {
             var total = await _repository.Count(cancellationToken);
             if (total == 0)
             {
-                return new GetPagesByCategory.Responce
+                return new GetPagesByCategory.Response
                 {
                     Total = 0,
                     Offset = request.Offset,
@@ -238,16 +245,22 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             }
 
             var result = await _repository.FindByCategory(request.CategoryId, request.Limit, request.Offset, cancellationToken);
-            return new GetPagesByCategory.Responce
+            return new GetPagesByCategory.Response
             {
-                Items = result.Select(a => new GetPagesByCategory.Responce.Item
+                Items = result.Select(a => new GetPagesByCategory.Response.Item
                 {
                     Id = a.Id,
                     Title = a.Title,
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
-                    Status = a.Status.ToString()
+                    Status = a.Status.ToString(),
+                    Images = a.Images.Select(i => new GetPagesByCategory.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    })
                 }),
                 Total = total,
                 Offset = request.Offset,
@@ -280,7 +293,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
-                    Status = a.Status.ToString()
+                    Status = a.Status.ToString(),
+                    Images = a.Images.Select(i=>new Search.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob), 
+                    })
                 }),
                 Total = total,
                 Offset = request.Offset,
