@@ -10,6 +10,8 @@ namespace DaraAds.Application.Services.Image.Contracts
         public sealed class Response
         {
             public string ImageUrl { get; set; }
+            
+            public string ImageBlob { get; set; }
         }
     }
 }

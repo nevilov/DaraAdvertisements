@@ -10,6 +10,7 @@ using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.Application.Services.Image.Contracts;
 using DaraAds.Application.Services.Image.Interfaces;
+using DaraAds.Application.Services.S3.Contracts.Exceptions;
 using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Response;
@@ -363,6 +364,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 throw new AdNotFoundException(request.Id);
             }
 
+            if (advertisement.OwnerId != userId)
+            {
+                throw new NoRightsException("Нет прав для выполнения операции.");
+            }
+
             var response = await _imageService.Upload(
                 new Upload.Request
                 {
@@ -393,13 +399,25 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 throw new AdNotFoundException(request.Id);
             }
             
+            if (advertisement.OwnerId != userId)
+            {
+                throw new NoRightsException("Нет прав для выполнения операции.");
+            }
+            
             var image = await _imageRepository.FindById(request.ImageId, cancellationToken);
-            
+
+            if (advertisement.Id != image.AdvertisementId)
+            {
+                throw new DeletingImageException(
+                    $"Изображение c id [{image.Id}] не может быть удалено из объявления с Id [{advertisement.Id}]."); 
+            }
+
             advertisement.Images.Remove(image);
-            // TODO добавить проверки на успешное удаление
-            await _s3Service.DeleteFile(image.Name, cancellationToken);
             
+            await _s3Service.DeleteFile(image.Name, cancellationToken);
+                
             await _repository.Save(advertisement, cancellationToken);
+            
         }
     }
 }

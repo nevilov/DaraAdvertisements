@@ -69,7 +69,7 @@ namespace DaraAds.Application.Services.Image.Implementations
         }
       
 
-        public async Task<Get.Response> GetImageUrl(Get.Request request, CancellationToken cancellationToken)
+        public async Task<Get.Response> GetImage(Get.Request request, CancellationToken cancellationToken)
         {
             var image = await _repository.FindById(request.Id, cancellationToken);
             
@@ -82,7 +82,8 @@ namespace DaraAds.Application.Services.Image.Implementations
 
             return new Get.Response
             {
-                ImageUrl = imageUrl
+                ImageUrl = imageUrl,
+                ImageBlob = Convert.ToBase64String(image.ImageBlob) 
             };
         }
 
@@ -90,14 +91,9 @@ namespace DaraAds.Application.Services.Image.Implementations
         {
             var image = await _repository.FindById(request.Id, cancellationToken);
 
-            var isDeleted = await _s3Service.DeleteFile(image.Name, cancellationToken);
+            await _s3Service.DeleteFile(image.Name, cancellationToken);
 
-            if (isDeleted)
-            {
-                await _repository.Delete(image, cancellationToken);
-            }
-            
-            //TODO Добавить обработку ошибки удаления
+            await _repository.Delete(image, cancellationToken);
         }
     }
 }

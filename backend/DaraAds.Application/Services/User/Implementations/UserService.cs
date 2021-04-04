@@ -9,6 +9,7 @@ using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Services.Image.Contracts;
 using DaraAds.Application.Services.Image.Interfaces;
+using DaraAds.Application.Services.S3.Contracts.Exceptions;
 using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 
@@ -129,12 +130,13 @@ namespace DaraAds.Application.Services.User.Implementations
             var user = await _repository.FindById(userId, cancellationToken);
 
             var image = await _imageRepository.FindById(request.ImageId, cancellationToken);
-            
+
             user.Images.Remove(image);
-            // TODO добавить проверки на успешное удаление
-            await _s3Service.DeleteFile(image.Name, cancellationToken);
             
+            await _s3Service.DeleteFile(image.Name, cancellationToken);
+                
             await _repository.Save(user, cancellationToken);
+
         }
     }
 }
