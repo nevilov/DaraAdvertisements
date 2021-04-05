@@ -7,19 +7,34 @@ using System.Threading.Tasks;
 using DaraAds.Application.Common;
 using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Interfaces;
+using DaraAds.Application.Services.Image.Contracts;
+using DaraAds.Application.Services.Image.Interfaces;
+using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
+using DeleteImage = DaraAds.Application.Services.User.Contracts.DeleteImage;
 
 namespace DaraAds.Application.Services.User.Implementations
 {
     public sealed class UserService : IUserService
     {
         private readonly IRepository<Domain.User, string> _repository;
+        private readonly IRepository<Domain.Image, string> _imageRepository;
         private readonly IIdentityService _identity;
+        private readonly IImageService _imageService;
+        private readonly IS3Service _s3Service;
 
-        public UserService(IRepository<Domain.User, string> repository, IIdentityService identity)
+        public UserService(
+            IRepository<Domain.User, string> repository,
+            IIdentityService identity,
+            IImageService imageService,
+            IS3Service s3Service,
+            IRepository<Domain.Image, string> imageRepository)
         {
             _repository = repository;
             _identity = identity;
+            _imageService = imageService;
+            _s3Service = s3Service;
+            _imageRepository = imageRepository;
         }
 
         public async Task<Register.Response> Register(Register.Request request, CancellationToken cancellationToken)
@@ -64,7 +79,7 @@ namespace DaraAds.Application.Services.User.Implementations
             {
                 throw new NoUserFoundException("Пользователя не существует");
             }
-            
+
             domainUser.Name = request.Name;
             domainUser.LastName = request.LastName;
             domainUser.UpdatedDate = DateTime.UtcNow;
@@ -78,63 +93,107 @@ namespace DaraAds.Application.Services.User.Implementations
             await _repository.Save(domainUser, cancellationToken);
         }
 
-        public async Task<Get.Response> GetUser(Get.Request request, CancellationToken cancellationToken)
+        public async Task AddImage(AddImage.Request request, CancellationToken cancellationToken)
         {
-            string userId;
+            var userId = await _identity.GetCurrentUserId(cancellationToken);
 
-            if (string.IsNullOrEmpty(request.Id))
+            if (string.IsNullOrEmpty(userId))
             {
-                var userIdFromClaims = await _identity.GetCurrentUserId(cancellationToken);
-                if (string.IsNullOrEmpty(userIdFromClaims))
-                {
-                    throw new NoUserFoundException("Пользователь не найден");
-                }
-                userId = userIdFromClaims;
+                throw new NoUserFoundException($"Пользователь не найден");
             }
-            else
+
+            var response = await _imageService.Upload(
+                new UploadImage.Request
+                {
+                    Image = request.Image
+                }, cancellationToken);
+
+            var image = await _imageRepository.FindById(response.Id, cancellationToken);
+
+            var user = await _repository.FindById(userId, cancellationToken);
+
+            user.Images.Add(image);
+
+            await _repository.Save(user, cancellationToken);
+        }
+
+        public async Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken)
+        {
+            var userId = await _identity.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
             {
-                userId = request.Id;
+                throw new NoUserFoundException($"Пользователь не найден");
             }
 
             var user = await _repository.FindById(userId, cancellationToken);
 
-            if(user == null)
-            {
-                throw new NoUserFoundException("Пользователь не найден");
-            }
-            return new Get.Response
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Name = user.Name,
-                Lastname = user.LastName,
-                Avatar = user.Avatar,
-                Phone = user.Phone,
-                Username = user.Username,
-                CreatedDate = user.CreatedDate
-            };
+            var image = await _imageRepository.FindById(request.ImageId, cancellationToken);
+
+            user.Images.Remove(image);
+
+            await _s3Service.DeleteFile(image.Name, cancellationToken);
+
+            await _repository.Save(user, cancellationToken);
         }
 
-        public async Task<GetByUsername.Response> GetByUsername(GetByUsername.Request request, CancellationToken cancellationToken)
-        {
-            var user = await _repository.FindWhere(a => a.Username == request.Username, cancellationToken);
-
-            if (user == null)
+        public async Task<Get.Response> GetUser(Get.Request request, CancellationToken cancellationToken)
             {
-                throw new NoUserFoundException("Пользователь не найден");
+                string userId;
+
+                if (string.IsNullOrEmpty(request.Id))
+                {
+                    var userIdFromClaims = await _identity.GetCurrentUserId(cancellationToken);
+                    if (string.IsNullOrEmpty(userIdFromClaims))
+                    {
+                        throw new NoUserFoundException("Пользователь не найден");
+                    }
+                    userId = userIdFromClaims;
+                }
+                else
+                {
+                    userId = request.Id;
+                }
+
+                var user = await _repository.FindById(userId, cancellationToken);
+
+                if (user == null)
+                {
+                    throw new NoUserFoundException("Пользователь не найден");
+                }
+                return new Get.Response
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Name = user.Name,
+                    Lastname = user.LastName,
+                    Avatar = user.Avatar,
+                    Phone = user.Phone,
+                    Username = user.Username,
+                    CreatedDate = user.CreatedDate
+                };
             }
 
-            return new GetByUsername.Response
+            public async Task<GetByUsername.Response> GetByUsername(GetByUsername.Request request, CancellationToken cancellationToken)
             {
-                Id = user.Id,
-                Email = user.Email,
-                Name = user.Name,
-                Lastname = user.LastName,
-                Avatar = user.Avatar,
-                Phone = user.Phone,
-                Username = user.Username,
-                CreatedDate = user.CreatedDate,
-            };
+                var user = await _repository.FindWhere(a => a.Username == request.Username, cancellationToken);
+
+                if (user == null)
+                {
+                    throw new NoUserFoundException("Пользователь не найден");
+                }
+
+                return new GetByUsername.Response
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Name = user.Name,
+                    Lastname = user.LastName,
+                    Avatar = user.Avatar,
+                    Phone = user.Phone,
+                    Username = user.Username,
+                    CreatedDate = user.CreatedDate,
+                };
+            }
         }
     }
-}

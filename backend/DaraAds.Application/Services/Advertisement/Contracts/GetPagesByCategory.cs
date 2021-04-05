@@ -8,17 +8,21 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
 {
     public static class GetPagesByCategory
     {
-        public class Request
+        public class Request : Paged.Request
         {
             public int CategoryId { get; set; }
 
-            public int Limit { get; set; } = 10;
-
-            public int Offset { get; set; } = 0;
         }
 
-        public class Response
+        public class Response : Paged.Response<Response.Item>
         {
+
+            public sealed class ImageResponse
+            {
+                public string Id { get; set; }
+                public string ImageUrl { get; set; }
+                public string ImageBase64 { get; set; }
+            }
             public class Item
             {
                 public int Id { get; set; }
@@ -27,13 +31,8 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Cover { get; set; }
                 public decimal Price { get; set; }
                 public string Status { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
             }
-
-            public int Total { get; set; }
-            public int Offset { get; set; }
-            public int Limit { get; set; }
-
-            public IEnumerable<Item> Items { get; set; } = Enumerable.Empty<Item>();
         }
     }
 }

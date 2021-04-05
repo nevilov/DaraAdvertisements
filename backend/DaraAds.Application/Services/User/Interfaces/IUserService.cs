@@ -9,6 +9,9 @@ namespace DaraAds.Application.Services.User.Interfaces
         Task<Register.Response> Register(Register.Request request, CancellationToken cancellationToken);
 
         Task Update(Update.Request request, CancellationToken cancellationToken);
+        
+        Task AddImage(AddImage.Request request, CancellationToken cancellationToken);
+        Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken);
 
         Task<Get.Response> GetUser(Get.Request request, CancellationToken cancellationToken);
 
