@@ -17,6 +17,7 @@ namespace DaraAds.Infrastructure
         public DbSet<Abuse> Abuses { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<Image> Image { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -51,7 +52,8 @@ namespace DaraAds.Infrastructure
             
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-
+            modelBuilder.ApplyConfiguration(new ImageConfiguration());
+            
             SeedIdentity(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }

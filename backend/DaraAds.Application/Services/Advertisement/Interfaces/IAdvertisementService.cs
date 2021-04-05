@@ -21,5 +21,8 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
         Task<Search.Response> Search(Search.Request request, CancellationToken cancellationToken);
 
         Task<GetUserAdvertisements.Response> GetUserAdvertisements(GetUserAdvertisements.Request request,CancellationToken cancellationToken);
+        
+        Task AddImage(AddImage.Request request, CancellationToken cancellationToken);
+        Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken);
     }
 }

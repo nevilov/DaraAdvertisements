@@ -39,10 +39,18 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task Delete(TEntity entity, CancellationToken cancellationToken)
+        {
+            
+            _context.Set<TEntity>().Remove(entity);
+
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task<TEntity> FindWhere(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
         {
             var data = _context.Set<TEntity>().AsNoTracking();
-
+            
             return await data.Where(predicate).FirstOrDefaultAsync(cancellationToken);
         }
 

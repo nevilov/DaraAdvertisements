@@ -12,6 +12,7 @@ namespace DaraAds.Application.Repositories
     {
         Task<TEntity> FindById(TId id, CancellationToken cancellationToken);
         Task Save(TEntity entity, CancellationToken cancellationToken);
+        Task Delete(TEntity entity, CancellationToken cancellationToken);
         Task<TEntity> FindWhere(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
         Task<int> Count(CancellationToken cancellationToken);
         Task<int> Count(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);

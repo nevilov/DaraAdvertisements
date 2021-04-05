@@ -10,6 +10,12 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController
     {
+        /// <summary>
+        /// Получить пользователя по Username
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("get/{Username}")]
         public async Task<IActionResult> GetByUsername([FromRoute] string Username, CancellationToken cancellationToken)
         {

@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  & h1 {
+    margin: 0px 0 60px;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: initial;
+  }
+}
+.container-left {
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.userInfo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  &__avatar {
+    border-radius: 50%;
+    overflow: hidden;
+    max-width: 150px;
+    max-height: 150px;
+    margin-bottom: 15px;
+    & img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__name {
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  &__date {
+    margin-top: 15px;
+  }
+}
+.menu {
+  &__btn {
+  }
+}
+.btn-main {
+}
+.container-right {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}

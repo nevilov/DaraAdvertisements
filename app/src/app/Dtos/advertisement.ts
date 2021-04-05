@@ -1,5 +1,5 @@
 import { Category } from './category';
-import { User } from "./user";
+import { User } from './user';
 
 export interface Advertisement {
   id: string;
@@ -10,6 +10,7 @@ export interface Advertisement {
   price: number;
   category: Category;
   owner: User;
+  createdDate: Date;
 }
 
 export interface NewAdvertisement {
@@ -21,7 +22,7 @@ export interface NewAdvertisement {
 }
 
 export interface ListOfItems<T> {
-  limit: number,
-  offset: number,
-  items: T[]
+  limit: number;
+  offset: number;
+  items: T[];
 }
