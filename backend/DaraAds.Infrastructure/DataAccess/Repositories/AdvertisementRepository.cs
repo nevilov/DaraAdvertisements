@@ -12,7 +12,7 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
 {
     public class AdvertisementRepository : Repository<Domain.Advertisement, int>, IAdvertisementRepository
     {
-        public AdvertisementRepository(DaraAdsDbContext context): base(context) { }
+        public AdvertisementRepository(DaraAdsDbContext context) : base(context) { }
 
         public async Task<IEnumerable<Domain.Advertisement>> FindByCategory(int id, int limit, int offset, CancellationToken cancellationToken)
         {
@@ -36,28 +36,27 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-<<<<<<< HEAD
         public async Task<IEnumerable<Domain.Advertisement>> GetPageByFilterSortSearch(int categoryId, string searchString, string sortOrder, int offset, int limit,
             CancellationToken cancellationToken)
         {
             var ads = from advertisement in _context.Advertisements select advertisement;
-            
+
             // Фильтрация
             if (categoryId != 0)
             {
-                ads = ads.Where(a => a.CategoryId == categoryId);    
+                ads = ads.Where(a => a.CategoryId == categoryId);
             }
-            
+
             // Поиск
             if (!string.IsNullOrEmpty(searchString))
             {
                 var lowerCaseSearchString = searchString.ToLower();
-                
+
                 ads = ads.Where(a =>
                     a.Title.ToLower().Contains(lowerCaseSearchString) ||
                     a.Description.ToLower().Contains(lowerCaseSearchString));
             }
-            
+
             // Сортировка
             var descending = false;
             if (sortOrder.EndsWith("_desc"))
@@ -65,13 +64,13 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 sortOrder = sortOrder.Substring(0, sortOrder.Length - 5);
                 descending = true;
             }
-            
+
             ads = @descending
                 ? ads.OrderByDescending(a => EF.Property<object>(a, sortOrder))
                 : ads.OrderBy(a => EF.Property<object>(a, sortOrder));
 
             return await ads.Take(limit).Skip(offset).ToListAsync(cancellationToken);
-=======
+        }
         public async Task<IEnumerable<Domain.Advertisement>> FindUserAdvertisements(string userId, int limit, int offset, CancellationToken cancellationToken)
         {
             return await _context.Advertisements
@@ -80,7 +79,6 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 .Take(limit)
                 .Skip(offset)
                 .ToListAsync(cancellationToken);
->>>>>>> dc3aa1a887f5304cc3d4c0eb4a3315982ee6938a
         }
     }
 }
