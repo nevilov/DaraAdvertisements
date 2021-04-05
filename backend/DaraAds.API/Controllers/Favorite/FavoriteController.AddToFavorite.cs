@@ -11,12 +11,20 @@ namespace DaraAds.API.Controllers.Favorite
 {
     public partial class FavoriteController : ControllerBase
     {
+        /// <summary>
+        /// Добавить объявление в избранное
+        /// </summary>
+        /// <param name="advertisementId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [Authorize(Roles = "User")]
-        [Route("create")]
+        [Route("add")]
         [HttpPost]
-        public async Task<IActionResult> CreateFavorite(int advertisementId, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddToFavorite(int advertisementId, CancellationToken cancellationToken)
         {
-            var result = await _service.CreateFavorite(new CreateFavorite.Request
+            var getMyFavorite = await _service.GetFavorites(cancellationToken); //It for tests
+
+            var result = await _service.AddToFavorite(new CreateFavorite.Request
             {
                 AdvertisementId = advertisementId
             }, cancellationToken);

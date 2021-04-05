@@ -6,6 +6,8 @@ namespace DaraAds.Application.Services.Favorite.Interfaces
 {
     public interface IFavoriteService
     {
-        public Task<CreateFavorite.Response> CreateFavorite(CreateFavorite.Request request, CancellationToken cancellationToken);
+        public Task<CreateFavorite.Response> AddToFavorite(CreateFavorite.Request request, CancellationToken cancellationToken);
+
+        public Task<GetFavorites.Reponse> GetFavorites(CancellationToken cancellationToken);
     }
 }
