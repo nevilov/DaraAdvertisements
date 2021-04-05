@@ -300,6 +300,41 @@ namespace DaraAds.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DaraAds.Domain.Image", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("AdvertisementId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<byte[]>("ImageBlob")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("RemovedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdvertisementId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Image");
+                });
+
             modelBuilder.Entity("DaraAds.Domain.User", b =>
                 {
                     b.Property<string>("Id")
@@ -416,14 +451,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "afb24637-38c1-4b37-85f1-9b0b4442a601",
+                            ConcurrencyStamp = "2cec64a3-83af-43e4-b910-91fbf8d31748",
                             Email = "admin",
-                            EmailConfirmed = false,
+                            EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEGIbGdMzyjNxzJhjoiZgqQsT0B5Fj4MamYNWyCe3sJ2wT45c3YTpS3ouqAC8lvGeg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGailyxCI+4vGypgtyU/ejL2uZ5/01UREw2eo7lqdVzT4N48PjswX+BSjlrdTK5M+g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3d3347dc-28ed-4eeb-b790-c3218f8b5721",
+                            SecurityStamp = "1fbfb93b-9ba7-4d43-acaa-0dfc5c988ebc",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -458,16 +493,23 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "9519f318-778e-43c2-996f-8144b5afa2f5",
+                            ConcurrencyStamp = "46594e14-d697-4567-9242-146d8705a1df",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "54b0c08d-f809-44a3-b186-3581e72dbaaa",
+                            ConcurrencyStamp = "799c946f-cdf1-4cfa-980b-f6986ee90551",
                             Name = "User",
                             NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "E8E08651-ED1B-468E-A931-F73E2563CD85",
+                            ConcurrencyStamp = "a6b8d3dc-55d8-409a-a9f7-941df8d13c38",
+                            Name = "Moderator",
+                            NormalizedName = "MODERATOR"
                         });
                 });
 
@@ -609,6 +651,21 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Navigation("ParentCategory");
                 });
 
+            modelBuilder.Entity("DaraAds.Domain.Image", b =>
+                {
+                    b.HasOne("DaraAds.Domain.Advertisement", "Advertisement")
+                        .WithMany("Images")
+                        .HasForeignKey("AdvertisementId");
+
+                    b.HasOne("DaraAds.Domain.User", "User")
+                        .WithMany("Images")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Advertisement");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -660,9 +717,19 @@ namespace DaraAds.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DaraAds.Domain.Advertisement", b =>
+                {
+                    b.Navigation("Images");
+                });
+
             modelBuilder.Entity("DaraAds.Domain.Category", b =>
                 {
                     b.Navigation("ChildCategories");
+                });
+
+            modelBuilder.Entity("DaraAds.Domain.User", b =>
+                {
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

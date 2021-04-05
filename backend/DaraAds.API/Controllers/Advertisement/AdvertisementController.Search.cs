@@ -3,11 +3,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.API.Dto.Advertisement;
 
 namespace DaraAds.API.Controllers.Advertisement
 {
     public partial class AdvertisementController : ControllerBase
     {
+        /// <summary>
+        /// Поиск объявления
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery]SearchRequest request, CancellationToken cancellationToken)
@@ -20,16 +27,6 @@ namespace DaraAds.API.Controllers.Advertisement
             }, cancellationToken);
 
             return Ok(result);
-        }
-
-        public class SearchRequest
-        {
-            public string KeyWord { get; set; }
-
-            public int Offset { get; set; } = 0;
-
-            public int Limit { get; set; } = 10;
-
         }
     }
 }

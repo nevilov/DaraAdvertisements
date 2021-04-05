@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DaraAds.Application.Common;
 
@@ -6,17 +7,32 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
 {
     public static class GetPages
     {
-        public sealed class Request
+        public sealed class Request : Paged.Request
         {
-            public int Limit { get; set; } = AdvertisementConstants.PaginationLimit;
-            public int Offset { get; set; } = AdvertisementConstants.PaginationOffset;
             public string SortOrder { get; set; } = AdvertisementConstants.SortOrderByIdAsc;
             public string SearchString { get; set; }
             public int CategoryId { get; set; }
         }
 
-        public sealed class Response
+        public sealed class Response : Paged.Response<Response.Item>
         {
+            public sealed class OwnerResponse
+            {
+                public string Id { get; set; }
+                public string Email { get; set; }
+                public string Name { get; set; }
+                public string Lastname { get; set; }
+                public string Username { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
+            }
+
+            public sealed class ImageResponse
+            {
+                public string Id { get; set; }
+                public string ImageUrl { get; set; }
+                public string ImageBase64 { get; set; }
+            }
+
             public sealed class Item
             {
                 public int Id { get; set; }
@@ -25,13 +41,10 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Cover { get; set; }
                 public decimal Price { get; set; }
                 public string Status { get; set; }
+                public DateTime CreatedDate { get; set; }
+                public OwnerResponse Owner { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
             }
-
-            public int Total { get; set; }
-            public int Offset { get; set; }
-            public int Limit { get; set; }
-
-            public IEnumerable<Item> Items { get; set; } = Enumerable.Empty<Item>();
         }
     }
 }

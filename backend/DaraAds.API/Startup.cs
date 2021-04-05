@@ -16,6 +16,13 @@ using DaraAds.Infrastructure.DataAccess.Repositories;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Infrastructure.Mail;
+using System.Reflection;
+using System.IO;
+using System;
+using DaraAds.Application.Services.Image.Implementations;
+using DaraAds.Application.Services.Image.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace DaraAds.API
 {
@@ -33,18 +40,22 @@ namespace DaraAds.API
             services
             .AddScoped<IUserService, UserService>()
             .AddScoped<IAdvertisementService, AdvertisementService>()
-            .AddScoped<IAbuseService, AbuseService>();
+            .AddScoped<IAbuseService, AbuseService>()
+            .AddScoped<IImageService, ImageService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
              .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
-             .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>();
-
+             .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
+             .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>();
+            
             services
             .AddHttpContextAccessor();
 
             services.AddScoped<IMailService, MailService>();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            
+            services.AddS3(Configuration);
 
             services.AddIdentity(Configuration);
 
@@ -59,6 +70,10 @@ namespace DaraAds.API
             });
 
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
+
+            services.ValidatorModule();
+            
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -76,6 +91,15 @@ namespace DaraAds.API
 
             app.UseHttpsRedirection();
             app.UseApplicationException();
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .WithMethods("GET", "POST", "PUT")
+                .AllowCredentials();
+            });
+
             app.UseRouting();
 
             app.UseAuthentication();

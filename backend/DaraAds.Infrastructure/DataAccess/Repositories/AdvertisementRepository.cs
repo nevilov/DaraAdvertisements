@@ -1,5 +1,4 @@
 ﻿using DaraAds.Application.Repositories;
-using DaraAds.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,6 +36,7 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 .ToListAsync(cancellationToken);
         }
 
+<<<<<<< HEAD
         public async Task<IEnumerable<Domain.Advertisement>> GetPageByFilterSortSearch(int categoryId, string searchString, string sortOrder, int offset, int limit,
             CancellationToken cancellationToken)
         {
@@ -71,6 +71,16 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 : ads.OrderBy(a => EF.Property<object>(a, sortOrder));
 
             return await ads.Take(limit).Skip(offset).ToListAsync(cancellationToken);
+=======
+        public async Task<IEnumerable<Domain.Advertisement>> FindUserAdvertisements(string userId, int limit, int offset, CancellationToken cancellationToken)
+        {
+            return await _context.Advertisements
+                .Where(x => x.OwnerId == userId)
+                .OrderBy(x => x.CreatedDate)
+                .Take(limit)
+                .Skip(offset)
+                .ToListAsync(cancellationToken);
+>>>>>>> dc3aa1a887f5304cc3d4c0eb4a3315982ee6938a
         }
     }
 }

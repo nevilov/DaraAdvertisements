@@ -1,0 +1,64 @@
+<div class="menu">
+  <div class="menu__logo">
+    <a href="">
+      <img src="./../../../../assets/images/logo.svg" alt="DaraAds">
+    </a>
+  </div>
+  <div class="menu__content-centered">
+    <ul class="menu__items">
+      <li class="" class="menu__item menu__item-opened" (click)="showSubmenu()">
+        <a><span>Категории <img #btnShowsSubmenu class="menu__itemArrow menu__itemArrow-up"
+              src="./../../../../assets/images/icons/menu_arrow.svg"></span></a>
+      </li>
+      <li class="menu__item">
+        <a routerLink="/contact" routerLinkActive="router-link-active" title="Item">
+          <span>Контакты</span>
+        </a>
+      </li>
+      <li class="menu__item">
+        <a routerLink="/help" title="Item">
+          <span>Помощь</span>
+        </a>
+      </li>
+      <li class="menu__item">
+        <a routerLink="/profile/danka150706" title="Item">
+          <span>Публичный профиль ТЕСТ</span>
+        </a>
+      </li>
+    </ul>
+    <span class="menu__divider"></span>
+    <a routerLink="/newAdvertisement" class="menu__btn btn-main">Добавить объявление</a>
+  </div>
+
+  <div class="menu__userInfo" *ngIf='isAutorized'>
+    <!-- remove or refactor before producting-->
+    <span>{{ currentUserName }}</span>
+    <button (click)="userLogout()">Выйти</button>
+    <!-- remove or refactor before producting-->
+    <div class="menu__notification">
+      <img src="./../../../../assets/images/icons/notification.svg" alt="">
+    </div>
+    <div class="menu__settings">
+      <img src="./../../../../assets/images/icons/settings.svg" alt="">
+    </div>
+    <div class="menu__userAvatar">
+      <img src="./../../../../assets/images/menu/avatar.png" alt="">
+    </div>
+  </div>
+
+  <div class="menu__auth" *ngIf='!isAutorized'>
+    <ul class="menu__items">
+      <li class="menu__item">
+        <a routerLink="/autorization">
+          <span>Вход</span>
+        </a>
+      </li>
+      <li class="menu__item">
+        <a routerLink="/registration">
+          <span>Регистрация</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<app-submenu #submenu></app-submenu>

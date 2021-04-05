@@ -1,0 +1,125 @@
+@import "../../../assets/scss/main.scss";
+
+app-submenu {
+    display: none;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 200px 15px 200px;
+    width: 100%;
+    @include box_shadow(1);
+
+    &__logo {
+        max-height: 30px;
+        & img {
+            max-height: 30px;
+            height: 100%;
+        }
+    }
+
+    &__content-centered {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__items {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+        height: 100%;
+
+        & .menu__item {
+            height: 100%;
+            // background-color: red;
+            margin-right: 15px;
+
+            & a,
+            & span {
+                display: flex;
+                align-items: center;
+                transition: all ease 0.1s;
+            }
+
+            & a span:hover {
+                transition: all ease 0.5s;
+                font-weight: bold;
+            }
+
+            &:last-child {
+                margin-right: 0px;
+            }
+        }
+
+        & .menu__item:hover > span,
+        & .menu__item:hover > a {
+            letter-spacing: 0px;
+            font-weight: bold;
+        }
+
+        // & .menu__item-opened:hover {
+
+        //     & a img {
+        //        transform: rotate(360deg);
+        //     }
+        //     // & app-submenu {
+        //     //     display: block;
+        //     // }
+        // }
+    }
+
+    &__itemArrow {
+        margin-left: 5px;
+        transform: rotate(180deg);
+    }
+
+    &__itemArrow-up {
+    }
+
+    &__divider {
+        width: 1px;
+        background-color: $main-grey;
+        margin: 0 15px;
+        height: 100%;
+        min-height: 45px;
+    }
+
+    &__btn {
+    }
+
+    &__userInfo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        & * {
+            margin-right: 20px;
+        }
+        & :last-child {
+            margin-right: 0px;
+        }
+    }
+
+    &__notification {
+    }
+
+    &__settings {
+    }
+
+    &__userAvatar {
+        border-radius: 50%;
+        max-width: 48px;
+        max-height: 48px;
+        min-width: 28px;
+        min-height: 28px;
+
+        & img {
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+}

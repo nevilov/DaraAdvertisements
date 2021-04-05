@@ -12,17 +12,14 @@ using System.Threading.Tasks;
 namespace DaraAds.API.Controllers.Abuse
 {
     [ApiController]
-    [Authorize]
     [Route("api/[controller]")]
     public sealed partial class AbuseController : ControllerBase
     {
-        public sealed class CreateAbuseBinding
-        {
-            public int AdvId { get; set; }
-            [Required, MinLength(5), MaxLength(300)]
-            public string AbuseText { get; set; }
-        }
- 
+        private readonly IAbuseService _abuseService;
 
+        public AbuseController(IAbuseService abuseService)
+        {
+            _abuseService = abuseService;
+        }
     }
 }

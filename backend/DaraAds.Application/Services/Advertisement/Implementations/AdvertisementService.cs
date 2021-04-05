@@ -6,9 +6,17 @@ using DaraAds.Application.Common;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
-using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;
+using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
-using DaraAds.Application.Services.User.Contracts.Extantions;
+using DaraAds.Application.Services.Image.Contracts;
+using DaraAds.Application.Services.Image.Interfaces;
+using DaraAds.Application.Services.S3.Contracts.Exceptions;
+using DaraAds.Application.Services.S3.Interfaces;
+using DaraAds.Application.Services.User.Contracts.Exceptions;
+using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Response;
+using Delete = DaraAds.Application.Services.Advertisement.Contracts.Delete;
+using DeleteImage = DaraAds.Application.Services.Advertisement.Contracts.DeleteImage;
+using Get = DaraAds.Application.Services.Advertisement.Contracts.Get;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
@@ -16,14 +24,25 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
     {
         private readonly IAdvertisementRepository _repository;
         private readonly IIdentityService _identityService;
+        private readonly IRepository<Domain.Image, string> _imageRepository;
+        private readonly IImageService _imageService;
+        private readonly IS3Service _s3Service;
 
-        public AdvertisementService(IAdvertisementRepository repository, IIdentityService identityService)
+        public AdvertisementService(
+            IAdvertisementRepository repository,
+            IIdentityService identityService,
+            IImageService imageService,
+            IRepository<Domain.Image, string> imageRepository, IS3Service s3Service)
         {
             _repository = repository;
             _identityService = identityService;
+            _imageService = imageService;
+            _imageRepository = imageRepository;
+            _s3Service = s3Service;
         }
 
-
+        private const string S3Url = "https://storage.yandexcloud.net/dara-ads-images/";        
+        
         public async Task<Create.Response> Create(Create.Request request, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
@@ -51,14 +70,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Id = ad.Id
             };
         }
-
         public async Task<Get.Response> Get(Get.Request request, CancellationToken cancellationToken)
         {
             var ad = await _repository.FindById(request.Id, cancellationToken);
-            
+
             if (ad == null)
             {
-                throw new NoAdFoundException(request.Id);
+                throw new AdNotFoundException(request.Id);
             }
 
             return new Get.Response
@@ -68,6 +86,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Status = ad.Status.ToString(),
                 Price = ad.Price,
                 Cover = ad.Cover,
+                CreatedDate = ad.CreatedDate,
+                Images = ad.Images.Select(i => new Get.Response.ImageResponse
+                {
+                    Id = i.Id,
+                    ImageUrl =  S3Url + i.Name,
+                    ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                }),
                 
                 Category = new Get.Response.CategoryResponse
                 {
@@ -82,7 +107,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Id = ad.OwnerUser.Id,
                     Name  = ad.OwnerUser.Name,
                     Email = ad.OwnerUser.Email,
-                    LastName = ad.OwnerUser.LastName
+                    Lastname = ad.OwnerUser.LastName,
+                    Images = ad.OwnerUser.Images.Select(i => new Get.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    })
                 }
             };
         }
@@ -100,7 +131,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
             if (ad == null)
             {
-                throw new NoAdFoundException(request.Id);
+                throw new AdNotFoundException(request.Id);
             }
             
             if (ad.Status != Domain.Advertisement.Statuses.Created)
@@ -117,6 +148,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             
             ad.Status = Domain.Advertisement.Statuses.Closed;
             ad.UpdatedDate = DateTime.UtcNow;
+            ad.RemovedDate = DateTime.UtcNow;
             
             await _repository.Save(ad, cancellationToken);
             
@@ -139,14 +171,37 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             
             return new GetPages.Response
             {
-                Items = ads.Select(a => new GetPages.Response.Item
+                Items = ads.Select(a => new Item
                 {
                     Id = a.Id,
                     Title = a.Title,
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
-                    Status = a.Status.ToString()
+                    CreatedDate = a.CreatedDate,
+                    Status = a.Status.ToString(),
+                    
+                    Owner = new OwnerResponse
+                    {
+                        Id = a.OwnerId,
+                        Username = a.OwnerUser.Username,
+                        Email = a.OwnerUser.Email,
+                        Name = a.OwnerUser.Name,
+                        Lastname = a.OwnerUser.LastName,
+                        Images = a.OwnerUser.Images.Select(i=> new ImageResponse
+                        {
+                            Id = i.Id,
+                            ImageUrl =  S3Url + i.Name,
+                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        })
+                    },
+                    
+                    Images = a.Images.Select(i => new ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    }),
                 }),
                 Total = total,
                 Offset = request.Offset,
@@ -167,7 +222,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             
             if (advertisement == null)
             {
-                throw new NoAdFoundException(request.Id);
+                throw new AdNotFoundException(request.Id);
             }
 
             var isAdmin = await _identityService.IsInRole(userId, RoleConstants.AdminRole, cancellationToken);
@@ -192,12 +247,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             };    
         }
 
-        public async Task<GetPagesByCategory.Responce> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
+        public async Task<GetPagesByCategory.Response> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
         {
-            var total = await _repository.Count(cancellationToken);
+            var total = await _repository.Count(a => a.CategoryId == request.CategoryId,cancellationToken);
             if (total == 0)
             {
-                return new GetPagesByCategory.Responce
+                return new GetPagesByCategory.Response
                 {
                     Total = 0,
                     Offset = request.Offset,
@@ -205,17 +260,23 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 };
             }
 
-            var result = await _repository.FindByCategory(request.idCategory, request.Limit, request.Offset, cancellationToken);
-            return new GetPagesByCategory.Responce
+            var result = await _repository.FindByCategory(request.CategoryId, request.Limit, request.Offset, cancellationToken);
+            return new GetPagesByCategory.Response
             {
-                Items = result.Select(a => new GetPagesByCategory.Responce.Item
+                Items = result.Select(a => new GetPagesByCategory.Response.Item
                 {
                     Id = a.Id,
                     Title = a.Title,
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
-                    Status = a.Status.ToString()
+                    Status = a.Status.ToString(),
+                    Images = a.Images.Select(i => new GetPagesByCategory.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    })
                 }),
                 Total = total,
                 Offset = request.Offset,
@@ -223,12 +284,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             };
         }
 
-        public async Task<Search.Responce> Search(Search.Request request, CancellationToken cancellationToken)
+        public async Task<Search.Response> Search(Search.Request request, CancellationToken cancellationToken)
         {
             var total = await _repository.Count(cancellationToken);
             if (total == 0)
             {
-                return new Search.Responce
+                return new Search.Response
                 {
                     Total = 0,
                     Offset = request.Offset,
@@ -239,21 +300,143 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             var result = await _repository.Search(x => x.Title.Contains(request.KeyWord)
             || x.Description.Contains(request.KeyWord), request.Limit,request.Offset, cancellationToken);
 
-            return new Search.Responce
+            return new Search.Response
             {
-                Items = result.Select(a => new Search.Responce.Item
+                Items = result.Select(a => new Search.Response.Item
                 {
                     Id = a.Id,
                     Title = a.Title,
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
-                    Status = a.Status.ToString()
+                    Status = a.Status.ToString(),
+                    Images = a.Images.Select(i=>new Search.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob), 
+                    })
                 }),
                 Total = total,
                 Offset = request.Offset,
                 Limit = request.Limit
             };
+        }
+
+        public async Task<GetUserAdvertisements.Response> GetUserAdvertisements(GetUserAdvertisements.Request request, CancellationToken cancellationToken)
+        {
+            string userId;
+
+            if (string.IsNullOrEmpty(request.Id))
+            {
+                var userIdFromClaims = await _identityService.GetCurrentUserId(cancellationToken);
+                if (string.IsNullOrEmpty(userIdFromClaims))
+                {
+                    throw new NoUserFound("Пользователь не найден");
+                }
+                userId = userIdFromClaims;
+            }
+            else
+            {
+                userId = request.Id;
+            }
+
+            var result = await _repository.FindUserAdvertisements(userId, request.Limit, request.Offset, cancellationToken);
+
+            if (result == null)
+            {
+                throw new NoUserAdFoundException($"Объявления пользователя с Id = {userId} не найдены");
+            }
+
+            return new GetUserAdvertisements.Response
+            {
+                Items = result.Select(a => new GetUserAdvertisements.Response.Item
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Description = a.Description,
+                    Cover = a.Cover,
+                    CreatedDate = a.CreatedDate,
+                    Price = a.Price,
+                    
+                    Status = a.Status.ToString()
+                }),
+                Total = result.Count(),
+                Offset = request.Offset,
+                Limit = request.Limit
+            };
+        }
+
+        public async Task AddImage(AddImage.Request request, CancellationToken cancellationToken)
+        {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NoUserFoundException($"Пользователь не найден");
+            }
+
+            var advertisement = await _repository.FindById(request.Id, cancellationToken);
+            
+            if (advertisement == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
+            if (advertisement.OwnerId != userId)
+            {
+                throw new NoRightsException("Нет прав для выполнения операции.");
+            }
+
+            var response = await _imageService.Upload(
+                new UploadImage.Request
+                {
+                    Image = request.Image
+                }, cancellationToken);
+
+            var image = await _imageRepository.FindById(response.Id, cancellationToken);
+            
+            advertisement.Images.Add(image);
+            
+            await _repository.Save(advertisement, cancellationToken);
+            
+        }
+
+        public async Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken)
+        {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NoUserFoundException($"Пользователь не найден");
+            }
+
+            var advertisement = await _repository.FindById(request.Id, cancellationToken);
+            
+            if (advertisement == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+            
+            if (advertisement.OwnerId != userId)
+            {
+                throw new NoRightsException("Нет прав для выполнения операции.");
+            }
+            
+            var image = await _imageRepository.FindById(request.ImageId, cancellationToken);
+
+            if (advertisement.Id != image.AdvertisementId)
+            {
+                throw new DeletingImageException(
+                    $"Изображение c id [{image.Id}] не может быть удалено из объявления с Id [{advertisement.Id}]."); 
+            }
+
+            advertisement.Images.Remove(image);
+            
+            await _s3Service.DeleteFile(image.Name, cancellationToken);
+                
+            await _repository.Save(advertisement, cancellationToken);
+            
         }
     }
 }

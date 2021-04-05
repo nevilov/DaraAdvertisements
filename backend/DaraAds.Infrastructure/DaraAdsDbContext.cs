@@ -16,11 +16,7 @@ namespace DaraAds.Infrastructure
         public DbSet<User> DomainUsers { get; set; }
         public DbSet<Abuse> Abuses { get; set; }
         public DbSet<Category> Categories { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseLazyLoadingProxies();
-        }
+        public DbSet<Image> Image { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,7 +46,8 @@ namespace DaraAds.Infrastructure
             
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-
+            modelBuilder.ApplyConfiguration(new ImageConfiguration());
+            
             SeedIdentity(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
@@ -60,6 +57,7 @@ namespace DaraAds.Infrastructure
             var ADMIN_ROLE_ID = "7ca197bb-d569-4fb9-b214-7f719973050e";
             var ADMIN_ID = "e4266faa-8fc0-4972-bf1c-14533f1ccffd";
             var USER_ROLE_ID = "b09f2dce-4821-4cf3-aa27-37f9d920bc01";
+            var MODERATOR_ROLE_ID = "E8E08651-ED1B-468E-A931-F73E2563CD85";
 
             modelBuilder.Entity<IdentityRole>(x =>
             {
@@ -76,6 +74,12 @@ namespace DaraAds.Infrastructure
                         Id = USER_ROLE_ID,
                         Name = RoleConstants.UserRole,
                         NormalizedName = "USER"
+                    },
+                    new IdentityRole()
+                    {
+                        Id = MODERATOR_ROLE_ID,
+                        Name = RoleConstants.ModeratorRole,
+                        NormalizedName = "MODERATOR"
                     }
                 });
             });
@@ -86,6 +90,7 @@ namespace DaraAds.Infrastructure
                 Id = ADMIN_ID,
                 UserName = "admin",
                 Email = "admin",
+                EmailConfirmed = true,
                 NormalizedUserName = "ADMIN"
             };
 

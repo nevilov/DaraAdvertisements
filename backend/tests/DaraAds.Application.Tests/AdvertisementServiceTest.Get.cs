@@ -1,6 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using DaraAds.Application.Services.Advertisement.Contracts;
-using DaraAds.Application.Services.Advertisement.Contracts.Exeptions;
+using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using Moq;
 using System;
 using System.Threading;
@@ -56,7 +56,7 @@ namespace DaraAds.Application.Tests
             advertisementServiceGetConfigure(adResponse);
 
             // Act
-            await Assert.ThrowsAsync<NoAdFoundException>(async () => await advertisementService.Get(getRequest, new CancellationToken()));
+            await Assert.ThrowsAsync<AdNotFoundException>(async () => await advertisementService.Get(getRequest, new CancellationToken()));
 
         }
 
