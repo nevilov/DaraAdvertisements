@@ -22,6 +22,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Title { get; set; }
                 public string Description { get; set; }
                 public string Cover { get; set; }
+                public DateTime CreatedDate { get; set; }
                 public decimal Price { get; set; }
                 public string Status { get; set; }
             }

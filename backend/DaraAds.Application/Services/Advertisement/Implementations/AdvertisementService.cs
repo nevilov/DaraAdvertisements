@@ -86,6 +86,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Status = ad.Status.ToString(),
                 Price = ad.Price,
                 Cover = ad.Cover,
+                CreatedDate = ad.CreatedDate,
                 Images = ad.Images.Select(i => new Get.Response.ImageResponse
                 {
                     Id = i.Id,
@@ -106,7 +107,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Id = ad.OwnerUser.Id,
                     Name  = ad.OwnerUser.Name,
                     Email = ad.OwnerUser.Email,
-                    LastName = ad.OwnerUser.LastName,
+                    Lastname = ad.OwnerUser.LastName,
                     Images = ad.OwnerUser.Images.Select(i => new Get.Response.ImageResponse
                     {
                         Id = i.Id,
@@ -177,6 +178,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
+                    CreatedDate = a.CreatedDate,
                     Status = a.Status.ToString(),
                     
                     Owner = new OwnerResponse
@@ -185,7 +187,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Username = a.OwnerUser.Username,
                         Email = a.OwnerUser.Email,
                         Name = a.OwnerUser.Name,
-                        LastName = a.OwnerUser.LastName,
+                        Lastname = a.OwnerUser.LastName,
                         Images = a.OwnerUser.Images.Select(i=> new ImageResponse
                         {
                             Id = i.Id,
@@ -354,7 +356,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Title = a.Title,
                     Description = a.Description,
                     Cover = a.Cover,
+                    CreatedDate = a.CreatedDate,
                     Price = a.Price,
+                    
                     Status = a.Status.ToString()
                 }),
                 Total = result.Count(),
