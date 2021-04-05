@@ -9,6 +9,12 @@ namespace DaraAds.API.Controllers.Image
 {
     public partial class ImageController
     {
+        /// <summary>
+        /// Загрузить картинку
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
         [Display(Name="Image")]
         public async Task<IActionResult> Upload(

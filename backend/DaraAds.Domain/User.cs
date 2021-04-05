@@ -33,6 +33,9 @@ namespace DaraAds.Domain
         /// </summary>
         public string Avatar { get; set; }
         
+        /// <summary>
+        /// Список картинок
+        /// </summary>
         public virtual ICollection<Image> Images { get; set; }
 
         /// <summary>

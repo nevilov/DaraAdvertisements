@@ -9,6 +9,12 @@ namespace DaraAds.API.Controllers.Image
 {
     public partial class ImageController
     {
+        /// <summary>
+        /// Получить картинку по идентификатору
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("{Id}")]  
         public async Task<IActionResult> Get(

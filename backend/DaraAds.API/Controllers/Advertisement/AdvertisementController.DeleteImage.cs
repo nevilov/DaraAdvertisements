@@ -7,6 +7,13 @@ namespace DaraAds.API.Controllers.Advertisement
 {
     public partial class AdvertisementController
     {
+        /// <summary>
+        /// Удалить картинку из объявления (Пользователь)
+        /// </summary>
+        /// <param name="id">Идентификатор объявления</param>
+        /// <param name="imageId">Идентификатор картинки</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete("{id}/images/{imageId}")]
         public async Task<IActionResult> DeleteImage(
             int id, string imageId, 

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Services.User.Contracts;
@@ -9,10 +10,16 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController
     {
+        /// <summary>
+        /// Добавить аватар
+        /// </summary>
+        /// <param name="image">Картинка</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPatch("images")]
         public async Task<IActionResult> AddImage(
-            IFormFile image, 
+            [Required] IFormFile image, 
             CancellationToken cancellationToken)
         {
 

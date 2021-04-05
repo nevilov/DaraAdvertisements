@@ -8,6 +8,12 @@ namespace DaraAds.API.Controllers.Image
 {
     public partial class ImageController
     {
+        /// <summary>
+        /// Удалить картинку по идентификатору
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete("{Id}")]
         public async Task<IActionResult> Delete(
             [FromRoute] ImageDeleteRequest request,
