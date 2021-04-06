@@ -22,8 +22,6 @@ namespace DaraAds.API.Controllers.Favorite
         [HttpPost]
         public async Task<IActionResult> AddToFavorite(int advertisementId, CancellationToken cancellationToken)
         {
-            var getMyFavorite = await _service.GetFavorites(cancellationToken); //It for tests
-
             var result = await _service.AddToFavorite(new CreateFavorite.Request
             {
                 AdvertisementId = advertisementId

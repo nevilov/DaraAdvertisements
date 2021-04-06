@@ -8,6 +8,6 @@ namespace DaraAds.Application.Services.Favorite.Interfaces
     {
         public Task<CreateFavorite.Response> AddToFavorite(CreateFavorite.Request request, CancellationToken cancellationToken);
 
-        public Task<GetFavorites.Reponse> GetFavorites(CancellationToken cancellationToken);
+        public Task<GetFavorites.Reponse> GetFavorites(GetFavorites.Request request, CancellationToken cancellationToken);
     }
 }
