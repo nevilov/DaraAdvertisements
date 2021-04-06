@@ -13,16 +13,16 @@ namespace DaraAds.Application.Services.Favorite.Implementations
     public class FavoriteService : IFavoriteService
     {
         private readonly IFavoriteRepository _repository;
-        private readonly IAdvertisementRepository _advertisementService;
+        private readonly IAdvertisementRepository _advertisementRepository;
         private readonly IIdentityService _identityService;
 
         public FavoriteService(IFavoriteRepository repository,
             IIdentityService identityService,
-            IAdvertisementRepository advertisementService)
+            IAdvertisementRepository advertisementRepository)
         {
             _repository = repository;
             _identityService = identityService;
-            _advertisementService = advertisementService;
+            _advertisementRepository = advertisementRepository;
         }
 
         public async Task<CreateFavorite.Response> AddToFavorite(CreateFavorite.Request request, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ namespace DaraAds.Application.Services.Favorite.Implementations
                 throw new DuplicateFavoriteException($"Объявление с id = {request.AdvertisementId} уже содержится в избранных пользователя");
             }
 
-            var advertisement = await _advertisementService.FindById(request.AdvertisementId, cancellationToken);
+            var advertisement = await _advertisementRepository.FindById(request.AdvertisementId, cancellationToken);
             if (advertisement == null)
             {
                 throw new AdvertisementNotFoundException($"Объявление с Id = {request.AdvertisementId} не было найдено");
@@ -75,12 +75,13 @@ namespace DaraAds.Application.Services.Favorite.Implementations
                 };
             }
 
-            var items = await _repository.FindFavorites(userId, 0, 100, cancellationToken);
+            var items = await _repository.FindFavorites(userId, request.Offset, request.Limit, cancellationToken);
 
             return new GetFavorites.Reponse
             {
                 Items = items.Select(a => new GetFavorites.Item
                 {
+                    Id = a.AdvertisementId,
                     Title = a.Advertisement.Title,
                     Description = a.Advertisement.Description,
                     CreatedDate = a.Advertisement.CreatedDate,
@@ -92,6 +93,29 @@ namespace DaraAds.Application.Services.Favorite.Implementations
                 Limit = request.Limit,
                 Offset = request.Offset
             };
+        }
+
+        public async Task RemoveFromFavorite(RemoveFromFavorite.Request request, CancellationToken cancellationToken)
+        {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new UserNotFoundException("Пользователь не найден");
+            }
+
+            var advertisement = await _advertisementRepository.FindById(request.AdvertisementId, cancellationToken);
+            if (advertisement == null)
+            {
+                throw new AdvertisementNotFoundException($"Объявление с Id = {request.AdvertisementId} не было найдено");
+            }
+
+            var favorite = await _repository.FindWhere(a => a.AdvertisementId == request.AdvertisementId && a.UserId == userId, cancellationToken);
+            if(favorite == null)
+            {
+                throw new FavoriteNotFoundException($"Избранное объявление id = {request.AdvertisementId} у пользователя с id {userId} не было найдено");
+            }
+
+            await _repository.Delete(favorite, cancellationToken);
         }
     }
 }

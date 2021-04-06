@@ -17,9 +17,9 @@ namespace DaraAds.API.Controllers.Favorite
         /// <param name="advertisementId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [Authorize(Roles = "User")]
-        [Route("add")]
         [HttpPost]
+        [Authorize]
+        [Route("add")]
         public async Task<IActionResult> AddToFavorite(int advertisementId, CancellationToken cancellationToken)
         {
             var result = await _service.AddToFavorite(new CreateFavorite.Request
