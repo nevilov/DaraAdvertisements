@@ -227,5 +227,33 @@ namespace DaraAds.Infrastructure.Identity
                 throw new IdentityServiceException("Произошла ошибка!" + result.Errors.Select(x => x.Description).ToList());
             }
         }
+
+        public async Task<SendResetPasswordToken.Response> SendResetPasswordToken(SendResetPasswordToken.Request request, CancellationToken cancellationToken = default)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if(user == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с Email {request.Email} не найден ");
+            }
+
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = HttpUtility.UrlEncode(resetToken);
+            var message = MessageToResetPassword.Message(user.Id, encodedToken, _configuration["ApiUri"]);
+
+            try
+            {
+                await _mailService.Send(request.Email, "Восстановление пароля на DaraAds", message, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new SendingMailException("Произошла ошибка!" + ex.Message + new SendResetPasswordToken.Response { IsSuccess = false});
+            }
+
+            return new SendResetPasswordToken.Response
+            {
+                IsSuccess = true,
+                UserId = user.Id
+            };
+        }
     }
 }
