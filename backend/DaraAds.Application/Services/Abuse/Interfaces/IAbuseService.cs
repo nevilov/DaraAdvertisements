@@ -1,4 +1,5 @@
 ﻿using DaraAds.Application.Services.Abuse.Contracts;
+using DaraAds.Application.Services.Advertisement.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace DaraAds.Application.Services.Abuse.Interfaces
     {
         Task<CreateAbuse.Response> CreateAbuse(CreateAbuse.Request request, CancellationToken cancellationToken);
         Task<GetAbusePages.Response> GetAbusePages(GetAbusePages.Request request, CancellationToken cancellationToken);
+        Task CloseAbuse(CloseAbuse.Request request, CancellationToken cancellationToken);
     }
 }

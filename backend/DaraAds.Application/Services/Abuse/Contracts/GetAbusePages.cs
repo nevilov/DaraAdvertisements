@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DaraAds.Application.Services.Abuse.Contracts
@@ -20,6 +21,7 @@ namespace DaraAds.Application.Services.Abuse.Contracts
                 public int AbuseAdvId { get; set; }
                 public int Priority { get; set; }
                 public string AbuseText { get; set; }
+                public DateTime? RemovedDate { get; set; }
             }
 
             public int Total { get; set; }
