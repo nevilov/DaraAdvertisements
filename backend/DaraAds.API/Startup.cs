@@ -23,6 +23,9 @@ using DaraAds.Application.Services.Image.Implementations;
 using DaraAds.Application.Services.Image.Interfaces;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using DaraAds.Application.Services.Favorite.Interfaces;
+using DaraAds.Application.Services.Favorite.Implementations;
+
 
 namespace DaraAds.API
 {
@@ -41,13 +44,15 @@ namespace DaraAds.API
             .AddScoped<IUserService, UserService>()
             .AddScoped<IAdvertisementService, AdvertisementService>()
             .AddScoped<IAbuseService, AbuseService>()
-            .AddScoped<IImageService, ImageService>();
+            .AddScoped<IImageService, ImageService>()
+            .AddScoped<IFavoriteService, FavoriteService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
              .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
              .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
-             .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>();
+             .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>()
+             .AddScoped<IFavoriteRepository, FavoriteRepository>();
             
             services
             .AddHttpContextAccessor();

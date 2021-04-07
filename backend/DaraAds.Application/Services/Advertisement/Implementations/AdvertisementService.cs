@@ -20,9 +20,9 @@ using Get = DaraAds.Application.Services.Advertisement.Contracts.Get;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
-    public sealed class AdvertisementService : IAdvertisementService
+    public sealed class AdvertisementService : Interfaces.IAdvertisementService
     {
-        private readonly IAdvertisementRepository _repository;
+        private readonly Repositories.IAdvertisementRepository _repository;
         private readonly IIdentityService _identityService;
         private readonly IRepository<Domain.Image, string> _imageRepository;
         private readonly IImageService _imageService;

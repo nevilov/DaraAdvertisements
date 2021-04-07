@@ -7,6 +7,12 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController
     {
+        /// <summary>
+        /// Получить пользователя по Id или по claims
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpGet("get")]
         public async Task<IActionResult> GetUser(string? Id, CancellationToken cancellationToken)
         {
