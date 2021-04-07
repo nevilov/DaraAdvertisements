@@ -33,16 +33,16 @@ namespace DaraAds.Application.Services.Favorite.Implementations
                 throw new UserNotFoundException("Пользователь не найден"); 
             }
 
-            var advertisementInFavoriteCurrentUser = await _repository.FindWhere(a => a.UserId == userId && a.AdvertisementId == request.AdvertisementId, cancellationToken);
-            if (advertisementInFavoriteCurrentUser != null)
-            {
-                throw new DuplicateFavoriteException($"Объявление с id = {request.AdvertisementId} уже содержится в избранных пользователя");
-            }
-
             var advertisement = await _advertisementRepository.FindById(request.AdvertisementId, cancellationToken);
             if (advertisement == null)
             {
                 throw new AdvertisementNotFoundException($"Объявление с Id = {request.AdvertisementId} не было найдено");
+            }
+
+            var advertisementInFavoriteCurrentUser = await _repository.FindWhere(a => a.UserId == userId && a.AdvertisementId == request.AdvertisementId, cancellationToken);
+            if (advertisementInFavoriteCurrentUser != null)
+            {
+                throw new DuplicateFavoriteException($"Объявление с id = {request.AdvertisementId} уже содержится в избранных пользователя");
             }
 
             var favorite = new Domain.Favorite
@@ -63,6 +63,10 @@ namespace DaraAds.Application.Services.Favorite.Implementations
         public async Task<GetFavorites.Reponse> GetFavorites(GetFavorites.Request request, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new UserNotFoundException("Пользователь не найден");
+            }
 
             var total = await _repository.Count(a => a.UserId == userId, cancellationToken);
             if (total == 0)
