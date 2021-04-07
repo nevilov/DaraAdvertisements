@@ -1,3 +1,39 @@
-<p>
-  userProfile works!
-</p>
+<div class="container">
+  <div class="container__menu menu">
+    <div class="menu__block">
+      <div class="menu__header">Аккаунт</div>
+      <div class="menu__item">
+        <span class="iconify menu__icon" data-icon="bx:bxs-user-account" data-inline="false"
+          style="color: #222222;"></span>
+        <a routerLink="personal" class="menu__text">Персональная информация</a>
+      </div>
+      <div class="menu__item">
+        <span class="iconify menu__icon" data-icon="ri:lock-password-fill" data-inline="false"
+          style="color: #222222;"></span>
+        <a routerLink="changeinfo" class="menu__text">Логин & Пароль</a>
+      </div>
+      <div class="menu__item">
+        <span class="iconify menu__icon" data-icon="clarity:settings-solid" data-inline="false"
+          style="color: #222222;"></span>
+        <a routerLink="settings" class="menu__text">Настройки</a>
+      </div>
+      <div class="menu__item">
+        <span class="iconify menu__icon" data-icon="icomoon-free:exit" data-inline="false"
+          style="color: #222222;"></span>
+        <a class="menu__text">Выход</a>
+      </div>
+    </div>
+
+    <div class="menu__block">
+      <div class="menu__header">Объявления</div>
+      <div class="menu__item">
+        <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+          style="color: #222222;"></span>
+        <a routerLink="advertisements" class="menu__text">Мои объявления</a>
+      </div>
+    </div>
+  </div>
+  <div class="container__content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
