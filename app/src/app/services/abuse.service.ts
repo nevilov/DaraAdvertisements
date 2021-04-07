@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AppComponent } from '../app.component';
 import { Abuse, NewAbuse, ListOfItems } from "../Dtos/abuse";
 import { CookieService } from 'ngx-cookie-service';
@@ -17,7 +17,7 @@ export class AbuseService {
     }
 
     public getAbuses() {
-        return this.http.get<ListOfItems<Abuse>>(AppComponent.backendAddress + '/api/Abuse?limit=10&offset=0', {
+        return this.http.get<ListOfItems<Abuse>>(AppComponent.backendAddress + '/api/Abuse?limit=20&offset=0', {
             headers: new HttpHeaders({
                 Authorization: 'Bearer ' + this.cookieService.get('AuthToken')
             })
@@ -31,6 +31,17 @@ export class AbuseService {
             })
         })
         .pipe(catchError(this.checkError));
+    }
+
+    public closeAbuse(closeId: number) {
+        console.log("service called with id" + closeId);
+        return this.http.delete(AppComponent.backendAddress + '/api/Abuse/' + closeId, {
+            headers: new HttpHeaders({
+                Authorization: 'Bearer ' + this.cookieService.get('AuthToken')
+            })
+        })
+        .pipe(catchError(this.checkError));;
+        console.log(closeId);
     }
 
     public checkError(error: any) {
