@@ -1,4 +1,5 @@
-﻿using DaraAds.Application.Identity.Contracts;
+﻿using DaraAds.API.Dto.Users;
+using DaraAds.Application.Identity.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -24,6 +25,24 @@ namespace DaraAds.API.Controllers.Users
             }, cancellationToken);
 
             return Ok("Ссылка для подтверждения пароля отправлена на почту");
+        }
+
+        [HttpPost("resetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _identityService.ResetPassword(new ResetUserPassword.Request
+            {
+                UserId = request.UserId,
+                Token = request.Token,
+                NewPassword = request.NewPassword
+            }, cancellationToken);
+
+            if (!result.isSuccess)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(result);
         }
     }
 }

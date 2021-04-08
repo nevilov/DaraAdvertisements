@@ -21,5 +21,7 @@ namespace DaraAds.Application.Identity.Interfaces
         Task ChangePassword(ChangePassword.Request request, CancellationToken cancellationToken = default);
 
         Task<SendResetPasswordToken.Response> SendResetPasswordToken(SendResetPasswordToken.Request request, CancellationToken cancellationToken = default);
+
+        Task<ResetUserPassword.Response> ResetPassword(ResetUserPassword.Request request, CancellationToken cancellationToken = default);
     }
 }

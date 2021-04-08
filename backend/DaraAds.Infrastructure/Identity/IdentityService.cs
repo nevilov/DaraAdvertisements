@@ -237,8 +237,7 @@ namespace DaraAds.Infrastructure.Identity
             }
 
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var encodedToken = HttpUtility.UrlEncode(resetToken);
-            var message = MessageToResetPassword.Message(user.Id, encodedToken, _configuration["ApiUri"]);
+            var message = MessageToResetPassword.Message(user.Id, resetToken, _configuration["ApiUri"]);
 
             try
             {
@@ -253,6 +252,30 @@ namespace DaraAds.Infrastructure.Identity
             {
                 IsSuccess = true,
                 UserId = user.Id
+            };
+        }
+
+        public async Task<ResetUserPassword.Response> ResetPassword(ResetUserPassword.Request request, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId);
+            if(user == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с id = {request.UserId} не найден");
+            }
+
+            var resetPasswordResult = await _userManager.ResetPasswordAsync(user, request.Token, request.NewPassword);
+            if (!resetPasswordResult.Succeeded)
+            {
+                return new ResetUserPassword.Response
+                {
+                    isSuccess = false,
+                    Errors = resetPasswordResult.Errors.Select(a => a.Description).ToList()
+                };
+            }
+
+            return new ResetUserPassword.Response
+            {
+                isSuccess = true
             };
         }
     }
