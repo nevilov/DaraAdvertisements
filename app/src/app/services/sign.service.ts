@@ -46,4 +46,10 @@ export class SignService {
         this.cookieService.deleteAll();
         this.dataSharingService.isUserLoggedIn.next(true);
     }
+
+    public forgotPassword(email: string): Observable<any>{
+      return this.http
+        .get(AppComponent.backendAddress + '/api/User/forgotPassword/' + email);
+      console.log('Отправлено на почту ' + email);
+  }
 }

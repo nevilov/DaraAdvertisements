@@ -14,7 +14,7 @@ namespace DaraAds.API.Controllers.Users
         /// <param name="email"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpGet("reset/password/{email}")]
+        [HttpGet("forgotPassword/{email}")]
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(string email, CancellationToken cancellationToken)
         {

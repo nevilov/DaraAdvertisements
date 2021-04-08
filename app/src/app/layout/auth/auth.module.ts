@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginPageComponent } from './loginPage/loginPage.component';
 import { RegistrationPageComponent } from './registrationPage/registrationPage.component';
+import { ForgotPasswordPageComponent } from './forgotPasswordPage/forgotPasswordPage.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -13,11 +14,13 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   declarations: [
     RegistrationPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    ForgotPasswordPageComponent
   ],
   exports: [
     RegistrationPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    ForgotPasswordPageComponent
   ]
 })
 export class AuthModule { }
