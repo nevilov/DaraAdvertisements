@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using DaraAds.Application.Common;
 
-namespace DaraAds.Application
+namespace DaraAds.Application 
 {
     public static class Paged
     {

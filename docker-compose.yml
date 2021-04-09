@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: "postgres" # use latest official postgres version
+    restart: always
+    environment: # configure postgres 
+        - POSTGRES_USER=postgres
+        - POSTGRES_DB=DaraAds
+        - POSTGRES_PASSWORD=12345678
+    ports: 
+        - "5432:5432"
+    volumes: # persist data even if container shuts down
+        - postgres_data:/var/lib/postgresql/data/
+
+#  mssql:
+#    container_name: mssql_db_container
+#    image: microsoft/mssql-server-linux
+#    restart: always
+#    environment:
+#      SA_PASSWORD: password123
+#      ACCEPT_EULA: Y
+#    ports:
+#      - "1433:1433"
+#    volumes: # persist data even if container shuts down
+#      - mssql_data:/var/opt/mssql/
+      
+volumes: # named volumes can be managed easier using docker-compose
+  postgres_data:
+#  mssql_data:

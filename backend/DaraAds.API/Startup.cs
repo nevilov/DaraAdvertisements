@@ -19,8 +19,10 @@ using DaraAds.Infrastructure.Mail;
 using System.Reflection;
 using System.IO;
 using System;
+using DaraAds.Application.Helpers;
 using DaraAds.Application.Services.Image.Implementations;
 using DaraAds.Application.Services.Image.Interfaces;
+using DaraAds.Infrastructure.Helpers;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 
@@ -44,13 +46,15 @@ namespace DaraAds.API
             .AddScoped<IImageService, ImageService>();
 
             services
-             .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
-             .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
-             .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
-             .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>();
-            
+                .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
+                .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
+                .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
+                .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>();
+
             services
-            .AddHttpContextAccessor();
+                .AddScoped<ISortHelper<Domain.Advertisement>, SortHelper<Domain.Advertisement>>();
+
+            services.AddHttpContextAccessor();
 
             services.AddScoped<IMailService, MailService>();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));

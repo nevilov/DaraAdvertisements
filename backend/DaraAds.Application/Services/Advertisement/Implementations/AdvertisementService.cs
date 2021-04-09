@@ -167,12 +167,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 };
             }
 
-            var ads = await _repository.GetPageByFilterSortSearch(request.CategoryId, request.SearchString, request.SortOrder, request.Offset, request.Limit, cancellationToken);
+            var ads = await _repository.GetPageByFilterSortSearch(request, cancellationToken);
             
             return new GetPages.Response
             {
                 Items = ads.Select(a => new Item
-                {
+                {    
                     Id = a.Id,
                     Title = a.Title,
                     Description = a.Description,

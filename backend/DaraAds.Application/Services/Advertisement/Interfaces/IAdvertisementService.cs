@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
 
 namespace DaraAds.Application.Services.Advertisement.Interfaces
