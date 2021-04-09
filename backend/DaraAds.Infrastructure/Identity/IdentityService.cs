@@ -17,6 +17,7 @@ using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -237,7 +238,14 @@ namespace DaraAds.Infrastructure.Identity
             }
 
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var message = MessageToResetPassword.Message(user.Id, resetToken, _configuration["ApiUri"]);
+            var param = new Dictionary<string, string>
+            {
+                {"token", resetToken },
+                {"userId", user.Id }
+            };
+
+            var callback = QueryHelpers.AddQueryString(_configuration["ResetPasswordFrontendUri"], param);
+            var message = MessageToResetPassword.Message(callback);
 
             try
             {

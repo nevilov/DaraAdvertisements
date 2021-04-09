@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AppComponent } from '../app.component';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, tap } from 'rxjs/operators';
 import { DataSharingService } from './datasharing.service';
+import { resetPassword } from './../Dtos/resetPassword';
 
 
 @Injectable({
@@ -51,5 +52,15 @@ export class SignService {
       return this.http
         .get(AppComponent.backendAddress + '/api/User/forgotPassword/' + email);
       console.log('Отправлено на почту ' + email);
-  }
+    }
+
+    public resetPassword(resetPasswordRequest: resetPassword): Observable<any>{
+      return this.http
+        .post(AppComponent.backendAddress + '/api/user/resetPassword', resetPasswordRequest).pipe(
+          tap((response: any) => {
+            this.cookieService.set('LatestRedirectId', '/');
+          }),
+          catchError(this.checkError)
+        );
+    }
 }
