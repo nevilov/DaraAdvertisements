@@ -174,3 +174,32 @@ button {
   color: white;
   font-size: 16px;
 }
+.avatar__block {
+  position: relative;
+
+  &:hover {
+    // filter: brightness(70%);
+  }
+  &:hover .avatar_template {
+    cursor: pointer;
+    transition: all ease 0.5s;
+    filter: brightness(100%);
+    opacity: 1;
+    z-index: 1000;
+  }
+  &:hover > .container__userAvatar {
+    cursor: pointer;
+    transition: all ease 0.5s;
+    opacity: 1;
+    filter: brightness(70%);
+  }
+  & .avatar_template {
+    transition: all ease 0.5s;
+    font-size: 36px;
+    position: absolute;
+    top: calc(50% - 18px);
+    left: calc(50% - 26px);
+    opacity: 0;
+    color: #fff;
+  }
+}

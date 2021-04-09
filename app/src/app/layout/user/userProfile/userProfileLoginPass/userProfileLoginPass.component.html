@@ -3,19 +3,19 @@
     <h1 class="header__title">Изменение Email или пароля</h1>
   </div>
   <div class="container__content">
-    <div class="container__input input">
+    <div class="container__input input" *ngIf="!isPasswordChanges">
       <label for="email" class="container__label">Email</label>
       <div class="input__value">
         <input name="email" type="email" placeholder="exampla@gmail.com">
-        <button (click)="isEmailChanges=true; isPasswordChanges=false;">Изменить Email <span class="iconify"
+        <button (click)="isEmailChanges=false; isPasswordChanges=true;">Изменить Email <span class="iconify"
             data-icon="bi:arrow-right" data-inline="false" style="color: white;"></span></button>
       </div>
     </div>
-    <div class="container__input input">
+    <div class="container__input input" *ngIf="!isEmailChanges">
       <label for="password" class="container__label">Пароль</label>
       <div class="input__value">
         <input name="password" type="password" placeholder="********">
-        <button (click)="isPasswordChanges=true; isEmailChanges=false;">Изменить пароль <span class="iconify"
+        <button (click)="isPasswordChanges=false; isEmailChanges=true;">Изменить пароль <span class="iconify"
             data-icon="bi:arrow-right" data-inline="false" style="color: white;"></span></button>
       </div>
     </div>

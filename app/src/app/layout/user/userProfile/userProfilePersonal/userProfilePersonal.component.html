@@ -5,9 +5,14 @@
   <div class="container__content">
     <div class="container__userStatus">
 
-      <figure class="container__userAvatar">
-        <img src="./../../../../../assets/images/menu/avatar.png" alt="">
-      </figure>
+      <div class="avatar__block" (click)="avatarChange()">
+        <!-- <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/gif"> -->
+        <span class="iconify avatar_template" data-icon="akar-icons:image" data-inline="false"></span>
+        <figure class="container__userAvatar">
+          <img src="./../../../../../assets/images/menu/avatar.png" alt="">
+        </figure>
+      </div>
+
 
       <div class="container__userAvatarInfo">
         <span class="container__userName">
@@ -25,12 +30,12 @@
         <form action="">
 
           <div class="container__accountType-row">
-            <input type="radio" name="personalAccount" value="personal">
+            <input type="radio" name="account" value="personal">
             <label for="personalAccount">Персональный аккаунт</label>
           </div>
 
           <div class="container__accountType-row">
-            <input type="radio" name="corporativeAccount" value="corporative">
+            <input type="radio" name="account" value="corporative">
             <label for="corporativeAccount">Корпоративный аккаунт</label>
           </div>
 
