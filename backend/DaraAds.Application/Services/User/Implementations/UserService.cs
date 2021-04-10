@@ -138,62 +138,62 @@ namespace DaraAds.Application.Services.User.Implementations
         }
 
         public async Task<Get.Response> GetUser(Get.Request request, CancellationToken cancellationToken)
+        {
+            string userId;
+
+            if (request.isCurrent)
             {
-                string userId;
-
-                if (string.IsNullOrEmpty(request.Id))
-                {
-                    var userIdFromClaims = await _identity.GetCurrentUserId(cancellationToken);
-                    if (string.IsNullOrEmpty(userIdFromClaims))
-                    {
-                        throw new NoUserFoundException("Пользователь не найден");
-                    }
-                    userId = userIdFromClaims;
-                }
-                else
-                {
-                    userId = request.Id;
-                }
-
-                var user = await _repository.FindById(userId, cancellationToken);
-
-                if (user == null)
+                var userIdFromClaims = await _identity.GetCurrentUserId(cancellationToken);
+                if (string.IsNullOrEmpty(userIdFromClaims))
                 {
                     throw new NoUserFoundException("Пользователь не найден");
                 }
-                return new Get.Response
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    Name = user.Name,
-                    Lastname = user.LastName,
-                    Avatar = user.Avatar,
-                    Phone = user.Phone,
-                    Username = user.Username,
-                    CreatedDate = user.CreatedDate
-                };
+                userId = userIdFromClaims;
             }
-
-            public async Task<GetByUsername.Response> GetByUsername(GetByUsername.Request request, CancellationToken cancellationToken)
+            else
             {
-                var user = await _repository.FindWhere(a => a.Username == request.Username, cancellationToken);
-
-                if (user == null)
-                {
-                    throw new NoUserFoundException("Пользователь не найден");
-                }
-
-                return new GetByUsername.Response
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    Name = user.Name,
-                    Lastname = user.LastName,
-                    Avatar = user.Avatar,
-                    Phone = user.Phone,
-                    Username = user.Username,
-                    CreatedDate = user.CreatedDate,
-                };
+                userId = request.Id;
             }
+
+            var user = await _repository.FindById(userId, cancellationToken);
+
+            if (user == null)
+            {
+                throw new NoUserFoundException("Пользователь не найден");
+            }
+            return new Get.Response
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                Lastname = user.LastName,
+                Avatar = user.Avatar,
+                Phone = user.Phone,
+                Username = user.Username,
+                CreatedDate = user.CreatedDate
+            };
+        }
+
+        public async Task<GetByUsername.Response> GetByUsername(GetByUsername.Request request, CancellationToken cancellationToken)
+        {
+            var user = await _repository.FindWhere(a => a.Username == request.Username, cancellationToken);
+
+            if (user == null)
+            {
+                throw new NoUserFoundException("Пользователь не найден");
+            }
+
+            return new GetByUsername.Response
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                Lastname = user.LastName,
+                Avatar = user.Avatar,
+                Phone = user.Phone,
+                Username = user.Username,
+                CreatedDate = user.CreatedDate,
+            };
         }
     }
+}
