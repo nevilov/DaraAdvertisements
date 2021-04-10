@@ -24,7 +24,7 @@ namespace DaraAds.API.Controllers.Users
                 Email = email
             }, cancellationToken);
 
-            return Ok("Ссылка для подтверждения пароля отправлена на почту");
+            return Ok();
         }
 
         [HttpPost("resetPassword")]

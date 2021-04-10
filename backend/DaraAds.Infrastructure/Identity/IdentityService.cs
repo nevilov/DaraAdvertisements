@@ -244,7 +244,8 @@ namespace DaraAds.Infrastructure.Identity
                 {"userId", user.Id }
             };
 
-            var callback = QueryHelpers.AddQueryString(_configuration["ResetPasswordFrontendUri"], param);
+            var resetPasswordUri = $"{_configuration["FrontendUri"]}resetPassword";
+            var callback = QueryHelpers.AddQueryString(resetPasswordUri, param);
             var message = MessageToResetPassword.Message(callback);
 
             try

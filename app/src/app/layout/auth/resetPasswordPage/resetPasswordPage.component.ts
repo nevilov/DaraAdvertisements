@@ -15,26 +15,26 @@ import {resetPassword} from "../../../Dtos/resetPassword";
 
 export class ResetPasswordPageComponent{
   private sub: Subscription;
-  private resetPasswordRequest: resetPassword | undefined;
-  private token: string = ' s';
-  private userId: string = ' s';
+  private token: string = ' ';
+  private userId: string = ' ';
 
   resetPasswordForm = new FormGroup({
     newPassword: new FormControl(),
     repeatedPassword: new FormControl()
   });
 
-  onSubmit(): void
-  {
+  onSubmit(): void{
     const formValue = this.resetPasswordForm.value;
-    this.resetPasswordRequest = {
+
+    const resetPasswordRequest: resetPassword = {
       userId: this.userId,
       token: this.token,
       newPassword: formValue.newPassword,
       repeatedPassword: formValue.repeatedPassword
     };
-    console.log(this.resetPasswordRequest);
-    this.sub = this.service.resetPassword(this.resetPasswordRequest).pipe(untilDestroyed(this)).subscribe(() => {
+
+    console.log(resetPasswordRequest);
+    this.sub = this.service.resetPassword(resetPasswordRequest).pipe(untilDestroyed(this)).subscribe(() => {
       this.router.navigateByUrl('/');
     });
   }

@@ -50,15 +50,18 @@ export class SignService {
 
     public forgotPassword(email: string): Observable<any>{
       return this.http
-        .get(AppComponent.backendAddress + '/api/User/forgotPassword/' + email);
-      console.log('Отправлено на почту ' + email);
+        .get(AppComponent.backendAddress + '/api/User/forgotPassword/' + email).pipe(
+        tap((response: any) => {
+          this.cookieService.set('LatestRedirectId', '/');
+        }),
+        catchError(this.checkError));
     }
 
     public resetPassword(resetPasswordRequest: resetPassword): Observable<any>{
       return this.http
         .post(AppComponent.backendAddress + '/api/user/resetPassword', resetPasswordRequest).pipe(
           tap((response: any) => {
-            this.cookieService.set('LatestRedirectId', '/');
+            this.cookieService.set('redirect', '/');
           }),
           catchError(this.checkError)
         );
