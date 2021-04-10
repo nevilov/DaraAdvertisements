@@ -25,6 +25,7 @@ namespace DaraAds.API.Controllers.Users
                 Password = request.Password
             }, cancellationToken);
 
+
             return Ok(token);
         }
     }

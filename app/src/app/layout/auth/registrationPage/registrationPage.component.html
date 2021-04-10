@@ -28,10 +28,14 @@
       </div>
     </div>
     <div class="content__form">
-      <input formControlName="name" class="content__formInput" type="text" name="login" placeholder="Ваше имя">
-      <input formControlName="email" class="content__formInput" type="email" name="email" placeholder="Ваш email">
-      <input formControlName="password" class="content__formInput" type="password" name="password"
-        placeholder="Ваш пароль">
+      <div class="content__form_main_values">
+      <input formControlName="username" class="content__formInput" type="text" name="login" placeholder="Укажите Ваш будущий логин">
+      <input formControlName="password" class="content__formInput" type="password" name="password" placeholder="Ваш пароль">
+      </div>
+      <input formControlName="name" class="content__formInput" type="text" name="login" placeholder="Укажите Ваше имя">
+      <input formControlName="lastName" class="content__formInput" type="text" name="login" placeholder="Укажите Вашу фамилию">
+      <input formControlName="email" class="content__formInput" type="email" name="email" placeholder="Укажите Ваш email">
+      <input formControlName="phone" class="content__formInput" type="text" name="login" placeholder="Укажите телефонный номер для объявлений">
       <button>Регистрация <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
           style="color: white;"></span></button>
     </div>

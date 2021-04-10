@@ -122,7 +122,6 @@ namespace DaraAds.Infrastructure.Identity
                 identityUser = identityUserFindByEmail;
             }
 
-
             var passwordCheck = await _userManager.CheckPasswordAsync(identityUser, request.Password);
             if (!passwordCheck)
             {
@@ -154,10 +153,14 @@ namespace DaraAds.Infrastructure.Identity
                     SecurityAlgorithms.HmacSha256
                 )
             );
+
+            var rolesList = await _userManager.GetRolesAsync(identityUser).ConfigureAwait(false);
+
             return new CreateToken.Response
             {
-                Token = new JwtSecurityTokenHandler().WriteToken(token)
-            };
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                UserRole = rolesList[0]
+        };
         }
 
         public async Task<bool> ConfirmEmail(string userId, string token, CancellationToken cancellationToken = default)
