@@ -15,8 +15,8 @@ import {resetPassword} from "../../../Dtos/resetPassword";
 
 export class ResetPasswordPageComponent{
   private sub: Subscription;
-  private token: string = ' ';
-  private userId: string = ' ';
+  private token: string = '';
+  private userId: string = '';
 
   resetPasswordForm = new FormGroup({
     newPassword: new FormControl(),
