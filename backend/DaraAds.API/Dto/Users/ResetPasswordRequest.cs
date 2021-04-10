@@ -8,7 +8,6 @@
 
         public string NewPassword { get; set; }
 
-        //TODO провалидировать!
         public string RepeatedPassword { get; set; }
     }
 }

@@ -21,7 +21,8 @@ namespace DaraAds.API
                 .AddTransient<IValidator<UserRegisterRequest>, UserRegisterRequestValidator>()
                 .AddTransient<IValidator<ChangeRoleRequest>,ChangeRoleRequestValidator>()
                 .AddTransient<IValidator<DomainUserUpdateRequest>, DomainUserUpdateRequestValidator>()
-                .AddTransient<IValidator<ChangePasswordRequest>, ChangePasswordRequestValidator>();
+                .AddTransient<IValidator<ChangePasswordRequest>, ChangePasswordRequestValidator>()
+                .AddTransient<IValidator<ResetPasswordRequest>, ResetPasswordRequestValidator>();
             
             services
                 .AddTransient<IValidator<AdvertisementCreateRequest>, AdvertisementCreateRequestValidator>()

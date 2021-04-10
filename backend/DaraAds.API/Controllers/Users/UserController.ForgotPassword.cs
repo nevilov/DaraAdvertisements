@@ -27,6 +27,12 @@ namespace DaraAds.API.Controllers.Users
             return Ok();
         }
 
+        /// <summary>
+        /// Восстановить пароль
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("resetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordRequest request, CancellationToken cancellationToken)
         {
