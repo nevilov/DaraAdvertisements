@@ -30,18 +30,21 @@ namespace DaraAds.Infrastructure.Identity
         private readonly IConfiguration _configuration;
         private readonly IMailService _mailService;
         private readonly RoleManager<IdentityRole> _roleManeger;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
         public IdentityService(UserManager<IdentityUser> userManager, 
             IHttpContextAccessor httpContextAccessor,
             IConfiguration configuration,
             IMailService mailService,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
             _mailService = mailService;
             _roleManeger = roleManager;
+            _signInManager = signInManager;
         }
         public Task<string> GetCurrentUserId(CancellationToken cancellationToken = default)
         {
@@ -122,10 +125,14 @@ namespace DaraAds.Infrastructure.Identity
             {
                 identityUser = identityUserFindByEmail;
             }
+            var resultSignIn = await _signInManager.PasswordSignInAsync(identityUser, request.Password, true, true);
 
+            if (resultSignIn.IsLockedOut)
+            {
+                throw new UserIsBlockedException($"Пользователь с Id({identityUser.Id}) заблокирован до {identityUser.LockoutEnd}");
+            }
 
-            var passwordCheck = await _userManager.CheckPasswordAsync(identityUser, request.Password);
-            if (!passwordCheck)
+            if (!resultSignIn.Succeeded)
             {
                 throw new NoRightsException("Неправильный логин или пароль");
             }

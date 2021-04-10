@@ -25,7 +25,7 @@ namespace DaraAds.Infrastructure
             {
                 options.Lockout.AllowedForNewUsers = true;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.MaxFailedAccessAttempts = 5;
 
                 // Default Password settings.
                 options.Password.RequireDigit = true;
