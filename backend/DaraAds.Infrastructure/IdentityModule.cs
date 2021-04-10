@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,6 +17,9 @@ namespace DaraAds.Infrastructure
             services.AddIdentity<Identity.IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<DaraAdsDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt => 
+            opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.Configure<IdentityOptions>(options =>
             {
