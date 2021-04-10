@@ -151,10 +151,6 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             ad.RemovedDate = DateTime.UtcNow;
             
             await _repository.Save(ad, cancellationToken);
-            await _repository.Save(ad, cancellationToken);
-            await _repository.Save(ad, cancellationToken);
-            
-            
         }
 
         public async Task<GetPages.Response> GetPages(GetPages.Request request, CancellationToken cancellationToken)
