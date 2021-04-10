@@ -2,15 +2,13 @@
 using DaraAds.Application.Services.Abuse.Contracts;
 using DaraAds.Application.Services.Abuse.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
-using DaraAds.Application.Services.User.Interfaces;
-using DaraAds.Domain.Shared.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Identity.Interfaces;
+using DaraAds.Application.Services.Advertisement.Contracts;
+using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 
 namespace DaraAds.Application.Services.Abuse.Implementations
 {
@@ -23,6 +21,27 @@ namespace DaraAds.Application.Services.Abuse.Implementations
         {
             _repository = repository;
             _identityService = identityService;
+        }
+
+        public async Task CloseAbuse(CloseAbuse.Request request, CancellationToken cancellationToken)
+        {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new NoUserFoundException($"Нет прав");
+            }
+
+            var abuse = await _repository.FindById(request.Id, cancellationToken);
+
+            if (abuse == null)
+            {
+                throw new AbuseNotFoundException(request.Id);
+            }
+
+            abuse.RemovedDate = DateTime.UtcNow;
+
+            await _repository.Save(abuse, cancellationToken);
         }
 
         public async Task<CreateAbuse.Response> CreateAbuse(
@@ -76,7 +95,8 @@ namespace DaraAds.Application.Services.Abuse.Implementations
                     AuthorId = a.AuthorId,
                     AbuseAdvId = a.AbuseAdvId,
                     Priority = a.Priority,
-                    AbuseText = a.AbuseText
+                    AbuseText = a.AbuseText,
+                    RemovedDate = a.RemovedDate
                 }),
                 Total = 10,
                 Offset = request.Offset,
