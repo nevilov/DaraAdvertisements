@@ -151,6 +151,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             ad.RemovedDate = DateTime.UtcNow;
             
             await _repository.Save(ad, cancellationToken);
+            await _repository.Save(ad, cancellationToken);
+            await _repository.Save(ad, cancellationToken);
+            
             
         }
 
@@ -203,7 +206,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     }),
                 }),
-                Total = total,
+                Total = ads.Total,
                 Offset = request.Offset,
                 Limit = request.Limit,
             };
