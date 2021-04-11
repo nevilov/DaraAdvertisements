@@ -32,6 +32,7 @@ export class SignService {
             tap((response: any) => {
                         this.cookieService.set('AuthUsername', user.login);
                         this.cookieService.set('AuthToken', response.token);
+                        this.cookieService.set('UserRole', response.userRole);
                         this.dataSharingService.isUserLoggedIn.next(true);
             }),
             catchError(this.checkError));
