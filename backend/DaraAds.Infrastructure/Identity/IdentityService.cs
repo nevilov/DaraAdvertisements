@@ -260,6 +260,10 @@ namespace DaraAds.Infrastructure.Identity
         public async Task<ChangeEmail.Response> ChangeEmail(ChangeEmail.Request request, CancellationToken cancellationToken = default)
         {
             var user = await _userManager.FindByIdAsync(request.UserId);
+            if (user == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с id {request.UserId} не найден");
+            }
             var result = await _userManager.ChangeEmailAsync(user, request.NewEmail, request.Token);
             if (!result.Succeeded)
             {

@@ -23,17 +23,17 @@ namespace DaraAds.API.Controllers.Users
             return Ok();
         }
 
-        [HttpPut("changeEmail")]
-        public async Task<IActionResult> ChangeEmail(ChangeEmailRequest request,
+        [HttpPost("changeEmail")]
+        public async Task<IActionResult> ChangeEmail([FromQuery]ChangeEmailRequest request,
             CancellationToken cancellationToken)
         {
-            var result = await _identityService.ChangeEmail(new ChangeEmail.Request()
+            var result = await _identityService.ChangeEmail(new ChangeEmail.Request
             {
-                NewEmail = request.NewEmail,
+                UserId = request.UserId,
                 Token = request.Token,
-                UserId = request.UserId
+                NewEmail = request.NewEmail
             }, cancellationToken);
-            return Ok();
+            return Ok(request);
         }
     }
 }
