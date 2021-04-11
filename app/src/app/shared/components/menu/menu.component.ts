@@ -12,6 +12,7 @@ import { SignService} from './../../../services/sign.service';
 export class MenuComponent implements OnInit {
 
   currentUserName: string = '';
+  currentUserRole: string = '';
   isAutorized: boolean = false;
 
   @ViewChild("submenu", { read: ElementRef }) SubmenuComponent!: ElementRef;
@@ -37,7 +38,8 @@ export class MenuComponent implements OnInit {
   public checkAuthorized() {
     if(this.cookieService.get('AuthToken') != '') {
       this.isAutorized = true;
-      this.currentUserName = this.cookieService.get('AuthUsername')
+      this.currentUserName = this.cookieService.get('AuthUsername');
+      this.currentUserRole = this.cookieService.get('UserRole');
     } else {
       this.isAutorized = false;
     }

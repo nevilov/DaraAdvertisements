@@ -4,15 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.Application.Helpers;
+using DaraAds.Application.Services.Advertisement.Contracts;
+using DaraAds.Infrastructure.Helpers;
 
 namespace DaraAds.Infrastructure.DataAccess.Repositories
 {
     public class AdvertisementRepository : Repository<Domain.Advertisement, int>, IAdvertisementRepository
     {
-        public AdvertisementRepository(DaraAdsDbContext context): base(context) { }
+        private ISortHelper<Domain.Advertisement> _sortHelper;
+        public AdvertisementRepository(DaraAdsDbContext context, ISortHelper<Domain.Advertisement> sortHelper) : base(context)
+        {
+            _sortHelper = sortHelper;
+        }
 
         public async Task<IEnumerable<Domain.Advertisement>> FindByCategory(int id, int limit, int offset, CancellationToken cancellationToken)
         {
@@ -34,6 +40,42 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 .Take(limit)
                 .Skip(offset)
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<PagedList<Domain.Advertisement>> GetPageByFilterSortSearch(GetPages.Request parameters, CancellationToken cancellationToken)
+         {
+             var ads = from advertisement in _context.Advertisements select advertisement;
+ 
+             var isCategorySet = parameters.CategoryId != 0; 
+             if (isCategorySet)
+             {
+                 ads = ads.Where(a => a.CategoryId == parameters.CategoryId);
+             }
+             
+             ads = ads.Where(a=> 
+                 a.Price >= parameters.MinPrice && 
+                 a.Price <= parameters.MaxPrice &&
+                 a.CreatedDate.Date >= parameters.MinDate &&
+                 a.CreatedDate.Date <= parameters.MaxDate);
+ 
+             
+             SearchByTitleOrDescription(ref ads, parameters.SearchString);
+             
+             var sortAds = _sortHelper.ApplySort(ads, parameters.SortOrder);
+
+             return await PagedList<Domain.Advertisement>.ToPagedListAsync(sortAds, parameters.Limit, parameters.Offset,
+                 cancellationToken);
+         }
+
+        private static void SearchByTitleOrDescription(ref IQueryable<Domain.Advertisement> ads, string searchString)
+        {
+            if (!ads.Any() || string.IsNullOrWhiteSpace(searchString)) return;
+            
+            var lowerCaseSearchString = searchString.Trim().ToLower();
+            
+            ads = ads.Where(a => 
+                a.Title.ToLower().Contains(lowerCaseSearchString) || 
+                a.Description.ToLower().Contains(lowerCaseSearchString));
         }
 
         public async Task<IEnumerable<Domain.Advertisement>> FindUserAdvertisements(string userId, int limit, int offset, CancellationToken cancellationToken)

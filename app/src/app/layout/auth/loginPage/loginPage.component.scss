@@ -88,6 +88,13 @@
             margin-bottom: 0px;
         }
     }
+
+    &__forgotPassword{
+        padding: 15px 5px;
+        a{
+          color: #0f81ec;
+        }
+    }
 }
 .header {
     & h1 {

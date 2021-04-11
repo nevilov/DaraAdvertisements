@@ -32,7 +32,10 @@
 
   <div class="menu__userInfo" *ngIf='isAutorized'>
     <!-- remove or refactor before producting-->
-    <span>{{ currentUserName }}</span>
+    <div style="max-width: 100px">
+      <span>{{ currentUserName }}</span><br>
+      <span style="font-size: 10px; color: red;">{{ currentUserRole }}</span>
+    </div>
     <button (click)="userLogout()">Выйти</button>
     <!-- remove or refactor before producting-->
     <div class="menu__notification">
