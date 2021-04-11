@@ -19,14 +19,14 @@ import { AdvertisementComponent } from './components/advertisement/advertisement
 		MenuComponent,
 		SubmenuComponent,
 		BreadcrumbsComponent,
-		AdvertisementComponent
+		AdvertisementComponent,
 	],
 	exports: [
 		FooterComponent,
 		MenuComponent,
 		SubmenuComponent,
 		BreadcrumbsComponent,
-		AdvertisementComponent
+		AdvertisementComponent,
 	]
 })
 export class SharedModule { }

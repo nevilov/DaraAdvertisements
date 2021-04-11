@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './../../../services/datasharing.service';
 import { SignService } from './../../../services/sign.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-menu',
@@ -44,7 +45,6 @@ export class MenuComponent implements OnInit {
 	public userLogout() {
 		this.signService.logout();
 		this.isAutorized = false;
-		// alert();
 	}
 
 	public checkAuthorized() {
@@ -59,7 +59,8 @@ export class MenuComponent implements OnInit {
 	constructor(
 		private cookieService: CookieService,
 		private dataSharingService: DataSharingService,
-		private signService: SignService
+		private signService: SignService,
+		public toastr: ToastrService
 	) {
 		this.dataSharingService.isUserLoggedIn.subscribe(() => {
 			this.checkAuthorized();

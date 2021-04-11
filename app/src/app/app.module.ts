@@ -8,6 +8,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './services/datasharing.service';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -17,7 +20,17 @@ import { DataSharingService } from './services/datasharing.service';
 		AppRoutingModule,
 		LayoutModule,
 		SharedModule,
-		HttpClientModule
+		HttpClientModule,
+		BrowserAnimationsModule,
+		ToastrModule.forRoot({
+			timeOut: 3000,
+			extendedTimeOut: 1000,
+			progressBar: true,
+			enableHtml: true,
+			closeButton: true,
+			tapToDismiss: true,
+			progressAnimation: 'increasing',
+		})
 	],
 	providers: [
 		CookieService,
