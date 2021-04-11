@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace DaraAds.Application.Identity.Contracts
 {
-    public static class ChangeEmail
+    public static class ConfirmChangeEmail
     {
         public class Request
         {

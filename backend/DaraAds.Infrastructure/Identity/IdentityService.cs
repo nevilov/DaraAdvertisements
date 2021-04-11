@@ -15,7 +15,6 @@ using DaraAds.Application.Services.Favorite.Contracts.Exceptions;
 using DaraAds.Application.Services.Mail;
 using DaraAds.Application.Services.Mail.Contracts.Exceptions;
 using DaraAds.Application.Services.Mail.Interfaces;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -241,9 +240,9 @@ namespace DaraAds.Infrastructure.Identity
             {
                 {"userId", user.Id },
                 {"token", token },
-                {"email", newEmail }
+                {"newEmail", newEmail }
             };
-            var callback = QueryHelpers.AddQueryString($"{_configuration["ApiUri"]}api/user/changeEmail", param);
+            var callback = QueryHelpers.AddQueryString($"{_configuration["ApiUri"]}api/user/confirmСhangeEmail", param);
 
             var message = MessageToChangeEmail.Message(callback);
             
@@ -257,7 +256,7 @@ namespace DaraAds.Infrastructure.Identity
             }
         }
 
-        public async Task<ChangeEmail.Response> ChangeEmail(ChangeEmail.Request request, CancellationToken cancellationToken = default)
+        public async Task<ConfirmChangeEmail.Response> ConfirmChangeEmail(ConfirmChangeEmail.Request request, CancellationToken cancellationToken = default)
         {
             var user = await _userManager.FindByIdAsync(request.UserId);
             if (user == null)
@@ -267,11 +266,14 @@ namespace DaraAds.Infrastructure.Identity
             var result = await _userManager.ChangeEmailAsync(user, request.NewEmail, request.Token);
             if (!result.Succeeded)
             {
-                throw new IdentityServiceException("Произошла ошибка" +
-                                                   result.Errors.Select(x => x.Description).ToList());
+                return new ConfirmChangeEmail.Response
+                {
+                    isSuccess = false,
+                    Errors = result.Errors.Select(a => a.Description).ToList()
+                };
             }
 
-            return new ChangeEmail.Response
+            return new ConfirmChangeEmail.Response
             {
                 isSuccess = true
             };

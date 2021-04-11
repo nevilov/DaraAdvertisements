@@ -20,7 +20,7 @@ namespace DaraAds.Application.Identity.Interfaces
 
         Task SendEmailChangeToken(string newEmail, CancellationToken cancellationToken = default);
 
-        Task<ChangeEmail.Response> ChangeEmail(ChangeEmail.Request request,
+        Task<ConfirmChangeEmail.Response> ConfirmChangeEmail(ConfirmChangeEmail.Request request,
             CancellationToken cancellationToken = default);
         
         Task ChangePassword(ChangePassword.Request request, CancellationToken cancellationToken = default);

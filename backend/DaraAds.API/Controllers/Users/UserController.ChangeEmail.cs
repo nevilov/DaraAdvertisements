@@ -12,28 +12,40 @@ namespace DaraAds.API.Controllers.Users
         /// <summary>
         /// Отправить токен для изменения почты
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="newEmail"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("send/changeEmailToken")]
         [Authorize]
-        public async Task<IActionResult> SendEmailChangeToken(string email, CancellationToken cancellationToken)
+        public async Task<IActionResult> SendEmailChangeToken(string newEmail, CancellationToken cancellationToken)
         {
-            await _identityService.SendEmailChangeToken(email, cancellationToken);
+            await _identityService.SendEmailChangeToken(newEmail, cancellationToken);
             return Ok();
         }
-
-        [HttpPost("changeEmail")]
-        public async Task<IActionResult> ChangeEmail([FromQuery]ChangeEmailRequest request,
+        
+        /// <summary>
+        /// Подтвердить изменение почты
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("confirmChangeEmail")]
+        public async Task<IActionResult> ConfirmChangeEmail([FromQuery]ChangeEmailRequest request,
             CancellationToken cancellationToken)
         {
-            var result = await _identityService.ChangeEmail(new ChangeEmail.Request
+            var result = await _identityService.ConfirmChangeEmail(new ConfirmChangeEmail.Request
             {
                 UserId = request.UserId,
                 Token = request.Token,
                 NewEmail = request.NewEmail
             }, cancellationToken);
-            return Ok(request);
+
+            if (!result.isSuccess)
+            {
+                return BadRequest("Токен или маил не верные");
+            }
+
+            return Ok($"Почта изменена на {request.NewEmail}");
         }
     }
 }
