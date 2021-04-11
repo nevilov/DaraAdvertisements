@@ -8,17 +8,15 @@ import { UserPrivateChatComponent } from './userPrivateChat/userPrivateChat.comp
 import { UserChatsComponent } from './userChats/userChats.component';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, RouterModule, UserProfileModule],
-  declarations: [
-    // UserProfileComponent,
-    UserPrivateChatComponent,
-    UserChatsComponent,
-    PublicProfileComponent,
-  ],
-  exports: [
-    // UserProfileComponent,
-    UserPrivateChatComponent,
-    UserChatsComponent,
-  ],
+	imports: [CommonModule, SharedModule, RouterModule, UserProfileModule],
+	declarations: [
+		UserPrivateChatComponent,
+		UserChatsComponent,
+		PublicProfileComponent,
+	],
+	exports: [
+		UserPrivateChatComponent,
+		UserChatsComponent,
+	],
 })
-export class UserModule {}
+export class UserModule { }

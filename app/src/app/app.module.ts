@@ -9,20 +9,20 @@ import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './services/datasharing.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    LayoutModule,
-    SharedModule,
-    HttpClientModule
-  ],
-  providers: [
-    CookieService,
-    DataSharingService
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		LayoutModule,
+		SharedModule,
+		HttpClientModule
+	],
+	providers: [
+		CookieService,
+		DataSharingService
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

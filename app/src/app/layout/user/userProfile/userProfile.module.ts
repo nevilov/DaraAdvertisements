@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,20 +10,20 @@ import { UserProfilePersonalComponent } from './userProfilePersonal/userProfileP
 import { UserProfileSettingsComponent } from './userProfileSettings/userProfileSettings.component';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, RouterModule],
-  declarations: [
-    UserProfileComponent,
-    UserProfileAdvertisementsComponent,
-    UserProfileLoginPassComponent,
-    UserProfilePersonalComponent,
-    UserProfileSettingsComponent,
-  ],
-  exports: [
-    UserProfileComponent,
-    UserProfileAdvertisementsComponent,
-    UserProfileLoginPassComponent,
-    UserProfilePersonalComponent,
-    UserProfileSettingsComponent,
-  ],
+	imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
+	declarations: [
+		UserProfileComponent,
+		UserProfileAdvertisementsComponent,
+		UserProfileLoginPassComponent,
+		UserProfilePersonalComponent,
+		UserProfileSettingsComponent,
+	],
+	exports: [
+		UserProfileComponent,
+		UserProfileAdvertisementsComponent,
+		UserProfileLoginPassComponent,
+		UserProfilePersonalComponent,
+		UserProfileSettingsComponent,
+	],
 })
-export class UserProfileModule {}
+export class UserProfileModule { }

@@ -7,16 +7,14 @@ import { AdvertisementModule } from './advertisement/advertisement.module';
 import { AbuseModule } from './abuse/abuse.module';
 
 @NgModule({
-  declarations: [
-
-  ],
-  imports: [
-    CommonModule,
-    UserModule,
-    AuthModule,
-    AdvertisementModule,
-    AbuseModule,
-    SharedModule
-  ]
+	declarations: [],
+	imports: [
+		CommonModule,
+		UserModule,
+		AuthModule,
+		AdvertisementModule,
+		AbuseModule,
+		SharedModule
+	]
 })
 export class LayoutModule { }

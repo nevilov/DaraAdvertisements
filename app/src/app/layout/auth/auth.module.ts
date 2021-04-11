@@ -6,18 +6,18 @@ import { RegistrationPageComponent } from './registrationPage/registrationPage.c
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule
-  ],
-  declarations: [
-    RegistrationPageComponent,
-    LoginPageComponent
-  ],
-  exports: [
-    RegistrationPageComponent,
-    LoginPageComponent
-  ]
+	imports: [
+		CommonModule,
+		RouterModule,
+		ReactiveFormsModule
+	],
+	declarations: [
+		RegistrationPageComponent,
+		LoginPageComponent
+	],
+	exports: [
+		RegistrationPageComponent,
+		LoginPageComponent
+	]
 })
 export class AuthModule { }

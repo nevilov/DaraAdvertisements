@@ -9,24 +9,23 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    SharedModule,
-    ReactiveFormsModule
-  ],
-  declarations: [
-    NewAdvertisementPageComponent,
-    EditAdvertisementPageComponent,
-    AdvertisementPageComponent,
-    AdvertisementDetailPageComponent
-  ],
-  exports: [
-    NewAdvertisementPageComponent,
-    EditAdvertisementPageComponent,
-    AdvertisementPageComponent,
-    AdvertisementDetailPageComponent
-  ],
-
+	imports: [
+		CommonModule,
+		RouterModule,
+		SharedModule,
+		ReactiveFormsModule
+	],
+	declarations: [
+		NewAdvertisementPageComponent,
+		EditAdvertisementPageComponent,
+		AdvertisementPageComponent,
+		AdvertisementDetailPageComponent
+	],
+	exports: [
+		NewAdvertisementPageComponent,
+		EditAdvertisementPageComponent,
+		AdvertisementPageComponent,
+		AdvertisementDetailPageComponent
+	],
 })
 export class AdvertisementModule { }

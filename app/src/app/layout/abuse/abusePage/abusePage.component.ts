@@ -5,24 +5,22 @@ import { AbuseService } from './../../../services/abuse.service';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-abusePage',
-  templateUrl: './abusePage.component.html',
-  styleUrls: ['./abusePage.component.scss']
+	selector: 'app-abusePage',
+	templateUrl: './abusePage.component.html',
+	styleUrls: ['./abusePage.component.scss']
 })
 export class AbusePageComponent implements OnInit {
 
-  abuseItems: Abuse[] = [];
+	abuseItems: Abuse[] = [];
 
-  constructor(private abuseService: AbuseService) { 
-  }
+	constructor(private abuseService: AbuseService) {
+	}
 
-  ngOnInit(): void {
-    this.abuseService.getAbuses()
-    .pipe(untilDestroyed(this))
-    .subscribe(data => {
-      this.abuseItems = data.items;
-    });
-  }
-
-
+	ngOnInit(): void {
+		this.abuseService.getAbuses()
+			.pipe(untilDestroyed(this))
+			.subscribe(data => {
+				this.abuseItems = data.items;
+			});
+	}
 }

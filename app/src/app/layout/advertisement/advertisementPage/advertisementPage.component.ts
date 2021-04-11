@@ -3,25 +3,24 @@ import { Advertisement } from 'src/app/Dtos/advertisement';
 import { AdvertisementService } from 'src/app/services/advertisements.service';
 
 @Component({
-  selector: 'app-advertisementPage',
-  templateUrl: './advertisementPage.component.html',
-  styleUrls: ['./../../../../assets/scss/pages/__home.scss'],
-  providers: [AdvertisementService],
+	selector: 'app-advertisementPage',
+	templateUrl: './advertisementPage.component.html',
+	styleUrls: ['./../../../../assets/scss/pages/__home.scss'],
+	providers: [AdvertisementService],
 })
 export class AdvertisementPageComponent implements OnInit {
-  advertisements: Advertisement[] = []; // массив объяв
+	advertisements: Advertisement[] = [];
 
-  constructor(private advertisementService: AdvertisementService) {}
+	constructor(private advertisementService: AdvertisementService) { }
 
-  ngOnInit() {
-    this.loadAdvertisements(); // загрузка данных при старте компонента
-  }
+	ngOnInit() {
+		this.loadAdvertisements();
+	}
 
-  // получаем данные через сервис
-  loadAdvertisements() {
-    this.advertisementService.getAllAdvertisements().subscribe((data) => {
-      this.advertisements = data.items;
-      console.log(this.advertisements);
-    });
-  }
+	loadAdvertisements() {
+		this.advertisementService.getAllAdvertisements().subscribe((data) => {
+			this.advertisements = data.items;
+			console.log(this.advertisements);
+		});
+	}
 }

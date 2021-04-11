@@ -1,17 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-advertisement',
-  templateUrl: './advertisement.component.html',
-  styleUrls: ['./advertisement.component.scss'],
+	selector: 'app-advertisement',
+	templateUrl: './advertisement.component.html',
+	styleUrls: ['./advertisement.component.scss'],
 })
 export class AdvertisementComponent implements OnInit {
-  @Input() title: string = '';
-  @Input() price: number = 0;
-  @Input() ownerName: string = 'Доменный Юзер';
-  @Input() createdDate: Date = new Date();
+	@Input() title: string = '';
+	@Input() price: number = 0;
+	@Input() ownerName: string = 'Доменный Юзер';
+	@Input() createdDate: Date = new Date();
 
-  constructor() {}
+	constructor() { }
 
-  ngOnInit() {}
+	ngOnInit() { }
 }
