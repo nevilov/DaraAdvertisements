@@ -151,7 +151,6 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             ad.RemovedDate = DateTime.UtcNow;
             
             await _repository.Save(ad, cancellationToken);
-            
         }
 
         public async Task<GetPages.Response> GetPages(GetPages.Request request, CancellationToken cancellationToken)
@@ -167,12 +166,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 };
             }
 
-            var ads = await _repository.GetPaged(request.Offset, request.Limit, cancellationToken);
-
+            var ads = await _repository.GetPageByFilterSortSearch(request, cancellationToken);
+            
             return new GetPages.Response
             {
                 Items = ads.Select(a => new Item
-                {
+                {    
                     Id = a.Id,
                     Title = a.Title,
                     Description = a.Description,
@@ -203,9 +202,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     }),
                 }),
-                Total = total,
+                Total = ads.Total,
                 Offset = request.Offset,
-                Limit = request.Limit
+                Limit = request.Limit,
             };
         }
 

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.Application.Common;
 using DaraAds.API.Controllers.Abuse;
 using DaraAds.API.Dto.Advertisement;
 using DaraAds.Application.Services.Advertisement.Contracts;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DaraAds.API.Controllers.Advertisement
 {
-    public partial class AdvertisementController : ControllerBase
+    public partial class AdvertisementController
     {
         /// <summary>
         /// Получить все объявления
@@ -22,21 +23,42 @@ namespace DaraAds.API.Controllers.Advertisement
         [AllowAnonymous]
         [ProducesResponseType(typeof(GetPages.Response), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAll(
-            [FromQuery] GetAllAdvertisementRequest request,
+            [FromQuery] AdvertisementGetRequest request,
             CancellationToken cancellationToken)
         {
-            return Ok(await _service.GetPages(new GetPages.Request
+            var isValidPriceRange = request.MaxPrice > request.MinPrice;
+            if (!isValidPriceRange)
+            {
+                return BadRequest("Максимальная цена не может быть меньше минимальной цены");
+            }
+            
+            var isValidDateRange = request.MaxDate > request.MinDate;
+            if (!isValidDateRange)
+            {
+                return BadRequest("Максимальная дата не может быть меньше минимальной даты");
+            }
+            
+            var response = await _service.GetPages(new GetPages.Request
             {
                 Limit = request.Limit,
-                Offset = request.Offset
-            }, cancellationToken));
+                Offset = request.Offset,
+                SortOrder = request.OrderBy,
+                SearchString = request.SearchString,
+                CategoryId = request.CategoryId,
+                MinPrice = request.MinPrice,
+                MaxPrice = request.MaxPrice,
+                MinDate = request.MinDate,
+                MaxDate = request.MaxDate
+                
+            }, cancellationToken);
+
+            return Ok(response);
         }
 
         /// <summary>
         /// Получить объявление по Id
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="service"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
@@ -44,11 +66,10 @@ namespace DaraAds.API.Controllers.Advertisement
         [AllowAnonymous]
         public async Task<IActionResult> GetById(
             [FromRoute] int id,
-            [FromServices] IAdvertisementService service,
             CancellationToken cancellationToken
         )
         {
-            return Ok(await service.Get(new Get.Request
+            return Ok(await _service.Get(new Get.Request
             {
                 Id = id
             }, cancellationToken));
