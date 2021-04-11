@@ -1,61 +1,63 @@
 <div class="container">
-  <div class="container__header header">
-    <h1 class="header__title">Изменение Email или пароля</h1>
-  </div>
-  <div class="container__content">
-    <div class="container__input input" *ngIf="!isPasswordChanges">
-      <label for="email" class="container__label">Email</label>
-      <div class="input__value">
-        <input name="email" type="email" placeholder="exampla@gmail.com">
-        <button (click)="isEmailChanges=false; isPasswordChanges=true;">Изменить Email <span class="iconify"
-            data-icon="bi:arrow-right" data-inline="false" style="color: white;"></span></button>
-      </div>
-    </div>
-    <div class="container__input input" *ngIf="!isEmailChanges">
-      <label for="password" class="container__label">Пароль</label>
-      <div class="input__value">
-        <input name="password" type="password" placeholder="********">
-        <button (click)="isPasswordChanges=false; isEmailChanges=true;">Изменить пароль <span class="iconify"
-            data-icon="bi:arrow-right" data-inline="false" style="color: white;"></span></button>
-      </div>
-    </div>
-    <div class="container__action changePassword" *ngIf="isEmailChanges">
-      <h2>Редактирование</h2>
-      <form action="">
-        <div class="container__input input">
-          <label for="passwordActive" class="container__label">Текущий пароль</label>
-          <div class="input__value">
-            <input name="passwordActive" type="password" placeholder="********">
-          </div>
-        </div>
-        <div class="container__input input">
-          <label for="passwordNew" class="container__label">Новый пароль</label>
-          <div class="input__value">
-            <input name="passwordNew" type="password" placeholder="********">
-          </div>
-        </div>
-        <div class="container__input input">
-          <label for="passwordConfirm" class="container__label">Подтверждение пароля</label>
-          <div class="input__value">
-            <input name="passwordConfirm" type="password" placeholder="********">
-          </div>
-        </div>
-        <button>Изменить пароль <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
-            style="color: white;"></span></button>
-      </form>
-    </div>
-    <div class="container__action changeEmail" *ngIf="isPasswordChanges">
-      <h2>Редактирование</h2>
-      <form action="">
-        <div class="container__input input">
-          <label for="email" class="container__label">Новый email</label>
-          <div class="input__value">
-            <input name="email" type="email" placeholder="Email">
-          </div>
-        </div>
-        <button>Изменить email <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
-            style="color: white;"></span></button>
-      </form>
-    </div>
-  </div>
+	<div class="container__header header">
+		<h1 class="header__title">Изменение Email или пароля</h1>
+	</div>
+	<div class="container__content">
+		<div class="container__input input" *ngIf="!isPasswordChanges">
+			<label for="email" class="container__label">Email</label>
+			<div class="input__value">
+				<input name="email" type="email" placeholder="exampla@gmail.com">
+				<button (click)="isEmailChanges=false; isPasswordChanges=true;">Изменить Email <span class="iconify"
+						data-icon="bi:arrow-right" data-inline="false" style="color: white;"></span></button>
+			</div>
+		</div>
+		<div class="container__input input" *ngIf="!isEmailChanges">
+			<label for="password" class="container__label">Пароль</label>
+			<div class="input__value">
+				<input name="password" type="password" placeholder="********">
+				<button (click)="isPasswordChanges=false; isEmailChanges=true;">Изменить пароль <span class="iconify"
+						data-icon="bi:arrow-right" data-inline="false" style="color: white;"></span></button>
+			</div>
+		</div>
+		<div class="container__action changePassword" *ngIf="isEmailChanges">
+			<h2>Редактирование</h2>
+			<form action="" [formGroup]="changePasswordForm" (ngSubmit)="onSubmit('password')">
+				<div class="container__input input">
+					<label for="passwordActive" class="container__label">Текущий пароль</label>
+					<div class="input__value">
+						<input formControlName="oldPassword" name="passwordActive" type="password"
+							placeholder="********">
+					</div>
+				</div>
+				<div class="container__input input">
+					<label for="passwordNew" class="container__label">Новый пароль</label>
+					<div class="input__value">
+						<input formControlName="newPassword" name="passwordNew" type="password" placeholder="********">
+					</div>
+				</div>
+				<div class="container__input input">
+					<label for="passwordConfirm" class="container__label">Подтверждение пароля</label>
+					<div class="input__value">
+						<input formControlName="repeatedNewPassword" name="passwordConfirm" type="password"
+							placeholder="********">
+					</div>
+				</div>
+				<button>Изменить пароль <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
+						style="color: white;"></span></button>
+			</form>
+		</div>
+		<div class="container__action changeEmail" *ngIf="isPasswordChanges">
+			<h2>Редактирование</h2>
+			<form action="" [formGroup]="changeEmailForm" (ngSubmit)="onSubmit('email')">
+				<div class="container__input input">
+					<label for="email" class="container__label">Новый email</label>
+					<div class="input__value">
+						<input formControlName="email" name="email" type="email" placeholder="Email">
+					</div>
+				</div>
+				<button>Изменить email <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
+						style="color: white;"></span></button>
+			</form>
+		</div>
+	</div>
 </div>
