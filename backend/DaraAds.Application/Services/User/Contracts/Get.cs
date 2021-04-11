@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DaraAds.Application.Services.User.Contracts
 {
     public static class Get
     {
         public class Request
         {
-            public string? Id { get; set; }
+            public string Id { get; set; }
+            public bool isCurrent { get; set; }
         }
 
         public class Response

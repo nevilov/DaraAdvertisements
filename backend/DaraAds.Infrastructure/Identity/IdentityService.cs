@@ -17,6 +17,7 @@ using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -29,18 +30,21 @@ namespace DaraAds.Infrastructure.Identity
         private readonly IConfiguration _configuration;
         private readonly IMailService _mailService;
         private readonly RoleManager<IdentityRole> _roleManeger;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
         public IdentityService(UserManager<IdentityUser> userManager, 
             IHttpContextAccessor httpContextAccessor,
             IConfiguration configuration,
             IMailService mailService,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
             _mailService = mailService;
             _roleManeger = roleManager;
+            _signInManager = signInManager;
         }
         public Task<string> GetCurrentUserId(CancellationToken cancellationToken = default)
         {
@@ -121,9 +125,14 @@ namespace DaraAds.Infrastructure.Identity
             {
                 identityUser = identityUserFindByEmail;
             }
+            var resultSignIn = await _signInManager.PasswordSignInAsync(identityUser, request.Password, true, true);
 
-            var passwordCheck = await _userManager.CheckPasswordAsync(identityUser, request.Password);
-            if (!passwordCheck)
+            if (resultSignIn.IsLockedOut)
+            {
+                throw new UserIsBlockedException($"Пользователь с Id({identityUser.Id}) заблокирован до {identityUser.LockoutEnd}");
+            }
+
+            if (!resultSignIn.Succeeded)
             {
                 throw new NoRightsException("Неправильный логин или пароль");
             }
@@ -229,6 +238,65 @@ namespace DaraAds.Infrastructure.Identity
             {
                 throw new IdentityServiceException("Произошла ошибка!" + result.Errors.Select(x => x.Description).ToList());
             }
+        }
+
+        public async Task<SendResetPasswordToken.Response> SendResetPasswordToken(SendResetPasswordToken.Request request, CancellationToken cancellationToken = default)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if(user == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с Email {request.Email} не найден ");
+            }
+
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var param = new Dictionary<string, string>
+            {
+                {"token", resetToken },
+                {"userId", user.Id }
+            };
+
+            var resetPasswordUri = $"{_configuration["FrontendUri"]}resetPassword";
+            var callback = QueryHelpers.AddQueryString(resetPasswordUri, param);
+            var message = MessageToResetPassword.Message(callback);
+
+            try
+            {
+                await _mailService.Send(request.Email, "Восстановление пароля на DaraAds", message, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new SendingMailException("Произошла ошибка!" + ex.Message + new SendResetPasswordToken.Response { IsSuccess = false});
+            }
+
+            return new SendResetPasswordToken.Response
+            {
+                IsSuccess = true,
+                UserId = user.Id
+            };
+        }
+
+        public async Task<ResetUserPassword.Response> ResetPassword(ResetUserPassword.Request request, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId);
+            if(user == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с id = {request.UserId} не найден");
+            }
+
+            var resetPasswordResult = await _userManager.ResetPasswordAsync(user, request.Token, request.NewPassword);
+            if (!resetPasswordResult.Succeeded)
+            {
+                return new ResetUserPassword.Response
+                {
+                    isSuccess = false,
+                    Errors = resetPasswordResult.Errors.Select(a => a.Description).ToList()
+                };
+            }
+
+            return new ResetUserPassword.Response
+            {
+                isSuccess = true
+            };
         }
     }
 }
