@@ -16,7 +16,7 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
             var data =  _context.Messages
                 .AsNoTracking()
-                .Where(m => m.AdvertisementId == advertisementId && m.CustomerId == customerId);
+                .Where(m => m.AdvertisementId == advertisementId && m.CustomerId == ownerId);
 
             if (customerId != null)
             {
