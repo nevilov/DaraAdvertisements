@@ -1,4 +1,5 @@
-﻿using DaraAds.Infrastructure.SignalR;
+﻿using DaraAds.Application.SignalR.Interfaces;
+using DaraAds.Infrastructure.SignalR;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +10,10 @@ namespace DaraAds.Infrastructure
         public static IServiceCollection AddSignalRModule(this IServiceCollection services)
         {
             services.AddSignalR();
-            services.AddSingleton<IUserIdProvider, UserIdProvider>();
+            services
+                .AddSingleton<IUserIdProvider, UserIdProvider>()
+                .AddScoped<ISignalRService, SignalRService>();
+               
 
             return services;
         }

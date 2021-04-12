@@ -22,7 +22,7 @@ using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Infrastructure.Helpers;
 using DaraAds.Application.Services.Favorite.Interfaces;
 using DaraAds.Application.Services.Favorite.Implementations;
-
+using DaraAds.Infrastructure.SignalR.Hubs;
 
 namespace DaraAds.API
 {
@@ -114,6 +114,7 @@ namespace DaraAds.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/signalr/chat");
             });
         }
     }
