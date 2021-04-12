@@ -18,6 +18,7 @@ namespace DaraAds.Infrastructure
         public DbSet<Category> Categories { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Image> Image { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
