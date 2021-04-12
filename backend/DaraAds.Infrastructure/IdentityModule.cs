@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -52,6 +53,21 @@ namespace DaraAds.Infrastructure
                         ValidateIssuerSigningKey = true,
                         ValidateIssuer = false,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token:Key"]))
+                    };
+
+                    jwtBearerOptions.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+
+                            if (!string.IsNullOrWhiteSpace(accessToken) && path.StartsWithSegments("/signalr/chat")){
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
