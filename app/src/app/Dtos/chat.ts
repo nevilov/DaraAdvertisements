@@ -2,10 +2,10 @@ export class ChatResponse{
   chats?: Array<Chat>;
 }
 
-export class Chat{
-  customerId?: string;
-  customerName?: string;
-  messages?: Array<ChatMessage>;
+export interface Chat{
+  customerId: string;
+  customerName: string;
+  messages: Array<ChatMessage>;
 }
 
 export class ChatMessage{

@@ -11,10 +11,10 @@ export class ChatService{
   }
 
   public getChat(advertisementId: number){
-    return this.http.get(AppComponent.backendAddress + `api/chat/get/${advertisementId}`);
+    return this.http.get(`/api/chat/get/${advertisementId}`);
   }
 
   public save(advertisementId: number, text: string, customerId?: string){
-    return this.http.post(AppComponent.backendAddress + 'api/chat/save', {advertisementId, text, customerId});
+    return this.http.post('/api/chat/save', {advertisementId, text, customerId});
   }
 }

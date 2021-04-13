@@ -2,7 +2,7 @@ import { Category } from './category';
 import { User } from './user';
 
 export interface Advertisement {
-  id: string;
+  id: number;
   title: string;
   description: string;
   cover: string;
