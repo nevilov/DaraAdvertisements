@@ -6,14 +6,8 @@ namespace DaraAds.Domain
     {
         public string Text { get; set; }
 
-        public int AdvertisementId { get; set; }
+        public Chat Chat { get; set; }
 
-        public virtual Advertisement Advertisement { get; set; }
-
-        public string CustomerId { get; set; }
-
-        public virtual User Customer { get; set; }
-
-        public bool IsSenderCustomer { get; set; }
+        public long ChatId { get; set; }
     }
 }

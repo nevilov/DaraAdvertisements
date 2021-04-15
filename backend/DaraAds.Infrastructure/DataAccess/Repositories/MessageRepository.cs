@@ -2,6 +2,7 @@
 using DaraAds.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DaraAds.Infrastructure.DataAccess.Repositories
@@ -12,16 +13,9 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
         }
 
-        public async Task<Message[]> FindByAdvertisementAndUsers(int advertisementId, string ownerId, string customerId = null)
+        public Task SaveMessage(long chatId, string Text, CancellationToken cancellationToken)
         {
-            var data =  _context.Messages
-                .Where(m => m.AdvertisementId == advertisementId && m.Advertisement.OwnerId == ownerId);
-
-            if (customerId != null)
-            {
-                data.Where(m => m.CustomerId == customerId);
-            }
-            return await data.ToArrayAsync();
+            throw new System.NotImplementedException();
         }
     }
 }

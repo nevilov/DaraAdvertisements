@@ -331,74 +331,6 @@ namespace DaraAds.Infrastructure.Migrations
                     b.ToTable("Favorites");
                 });
 
-            modelBuilder.Entity("DaraAds.Domain.Image", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("AdvertisementId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<byte[]>("ImageBlob")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("RemovedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdvertisementId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Image");
-                });
-
-            modelBuilder.Entity("DaraAds.Domain.Message", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("AdvertisementId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("CustomerId")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsSenderCustomer")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AdvertisementId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Messages");
-                });
-
             modelBuilder.Entity("DaraAds.Domain.User", b =>
                 {
                     b.Property<string>("Id")
@@ -515,14 +447,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "786d2676-2605-4180-aa46-12051c65ab69",
+                            ConcurrencyStamp = "2f4bce19-29b9-4411-9d0e-75834a9bf40c",
                             Email = "admin",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGLBC3wiNC0HDYuJl79WE8dd4YR5WWDBGCe0G2PuWWphfwcArVazs1gwNCL/C+arvA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ80DBjL0/gTUd1St35E1MTnsVecNwI3WZNjIJe5lw7TAyApA0CZ3e6+tMOq8/RIWg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "86dc884a-48fe-44a8-9e6b-eda238ed51b3",
+                            SecurityStamp = "6db823b5-e1ab-4d1d-b41f-bcccb9f8d6b9",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -557,21 +489,21 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "8d7e236f-be5c-4686-92dc-78dc9719fe03",
+                            ConcurrencyStamp = "0b3e25bb-f11f-472c-8a40-05c5dccdf39e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "3d56d68d-20d3-4e09-9cb4-834b9159da19",
+                            ConcurrencyStamp = "bb4d1e3c-0ff4-4272-9457-5130364e2314",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "E8E08651-ED1B-468E-A931-F73E2563CD85",
-                            ConcurrencyStamp = "4faf1a7f-b8e3-450f-a73b-b88060f11792",
+                            ConcurrencyStamp = "b0c1d982-f368-43e8-9a51-e9fd6a744850",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         });
@@ -732,40 +664,6 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DaraAds.Domain.Image", b =>
-                {
-                    b.HasOne("DaraAds.Domain.Advertisement", "Advertisement")
-                        .WithMany("Images")
-                        .HasForeignKey("AdvertisementId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DaraAds.Domain.User", "User")
-                        .WithMany("Images")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Advertisement");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DaraAds.Domain.Message", b =>
-                {
-                    b.HasOne("DaraAds.Domain.Advertisement", "Advertisement")
-                        .WithMany()
-                        .HasForeignKey("AdvertisementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DaraAds.Domain.User", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-
-                    b.Navigation("Advertisement");
-
-                    b.Navigation("Customer");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -817,11 +715,6 @@ namespace DaraAds.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DaraAds.Domain.Advertisement", b =>
-                {
-                    b.Navigation("Images");
-                });
-
             modelBuilder.Entity("DaraAds.Domain.Category", b =>
                 {
                     b.Navigation("ChildCategories");
@@ -830,8 +723,6 @@ namespace DaraAds.Infrastructure.Migrations
             modelBuilder.Entity("DaraAds.Domain.User", b =>
                 {
                     b.Navigation("Favorites");
-
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }
