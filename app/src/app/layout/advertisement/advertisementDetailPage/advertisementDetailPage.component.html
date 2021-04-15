@@ -150,7 +150,7 @@
   <br>
   <div *ngIf="!chats.length && isNotAuthor()">
     <span>Написать продацу</span>
-    <input #messageText (keyup.enter)="sendMessage(messageText.value, 'c3afb418-9eae-4a6b-a6fd-0b6a37cef924')" >
+    <input #messageText (keyup.enter)="sendMessage(messageText.value, null)" >
   </div>
 
   <div *ngIf="chats.length">
@@ -160,7 +160,7 @@
         <a ngbNavLink *ngIf="isNotAuthor()">Чат с продавцом</a>
         <ng-template ngbNavContent>
           <span>Сообщение</span>
-          <input #messageText (keyup.enter)="sendMessage(messageText.value, chat?.customerId)">
+          <input #messageText (keyup.enter)="sendMessage(messageText.value, chat.customerId)">
           <br />
           <br />
           <div *ngFor="let message of chat.messages">

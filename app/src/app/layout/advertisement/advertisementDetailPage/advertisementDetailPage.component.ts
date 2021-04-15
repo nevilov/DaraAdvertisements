@@ -7,8 +7,8 @@ import { AdvertisementService } from 'src/app/services/advertisements.service';
 import {SignalrService} from '../../../services/signalr.service';
 import {ChatService} from '../../../services/chat.service';
 import {Chat, ChatMessage, ChatResponse, Message} from '../../../Dtos/chat';
-import jwtDecode from "jwt-decode";
-import {CookieService} from "ngx-cookie-service";
+import jwtDecode from 'jwt-decode';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-advertisementDetailPage',
@@ -43,23 +43,27 @@ export class AdvertisementDetailPageComponent implements OnInit {
               console.log(data);
             });
 
+        console.log(this.signalrService);
         this.signalrService.startConnection();
         this.signalrService.on('message', (message: Message) => this._handlerMessage(message));
 
-
         this.chatService.getChat(this.id).subscribe(({chats}: ChatResponse) => {
           this.chats = chats!;
+          console.log(this.chats);
         });
     }
 
-    public sendMessage(text: string, customerId: string | undefined){
-      this.chatService.save(this.id, text, customerId);
+    public sendMessage(text: string, customerId: string | null){
+      console.log(text, customerId!);
+      this.chatService.save(this.id, text, customerId!);
+      console.log(this.signalrService.on('message', (message: Message) => this._handlerMessage(message)));
+      console.log(this.chats.length);
     }
 
   public isNotAuthor() {
-    if (!this.advertisement) return false;
+    if (!this.advertisement) { return false; }
 
-    let token: any = jwtDecode<object>(this.cookieService.get('AuthToken'));
+    const token: any = jwtDecode<object>(this.cookieService.get('AuthToken'));
 
     for (const key in token) {
       if (key.includes('nameidentifier')) {
@@ -71,14 +75,14 @@ export class AdvertisementDetailPageComponent implements OnInit {
   }
 
     private _handlerMessage = (message: Message) => {
-      let chatMessage = {
+      const chatMessage = {
         text: message.text,
         senderName: message.senderName,
         created: message.createdDate
       } as ChatMessage;
 
       if (this.chats.length) {
-        let chat = this.chats?.find(c => c.customerId === message.customerId);
+        const chat = this.chats?.find(c => c.customerId === message.customerId);
         if (chat) {
           chat.messages = [chatMessage, ...chat.messages];
           return;

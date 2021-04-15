@@ -65,17 +65,6 @@ namespace DaraAds.API
 
             services.AddSignalRModule();
 
-            
-            services
-                .AddSignalRModule()
-                .AddCors(opt => opt.AddDefaultPolicy(
-                    builder => builder
-                        .WithOrigins("http://localhost:4200")
-                        .AllowAnyHeader()
-                        .WithMethods()
-                        .AllowCredentials()
-                ));
-
             services.AddS3(Configuration);
 
             services.AddIdentity(Configuration);
@@ -112,8 +101,15 @@ namespace DaraAds.API
             app.UseHttpsRedirection();
             app.UseApplicationException();
 
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .WithMethods("GET", "POST")
+                    .AllowCredentials();
+            });
+
             app.UseRouting();
-            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

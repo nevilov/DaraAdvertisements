@@ -12,17 +12,16 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
         }
 
-        public Task<Message[]> FindByAdvertisementAndUsers(int advertisementId, string ownerId, string customerId = null)
+        public async Task<Message[]> FindByAdvertisementAndUsers(int advertisementId, string ownerId, string customerId = null)
         {
             var data =  _context.Messages
-                .AsNoTracking()
-                .Where(m => m.AdvertisementId == advertisementId && m.CustomerId == ownerId);
+                .Where(m => m.AdvertisementId == advertisementId && m.Advertisement.OwnerId == ownerId);
 
             if (customerId != null)
             {
                 data.Where(m => m.CustomerId == customerId);
             }
-            return data.ToArrayAsync();
+            return await data.ToArrayAsync();
         }
     }
 }

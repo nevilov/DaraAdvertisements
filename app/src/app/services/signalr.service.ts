@@ -14,7 +14,7 @@ export class SignalrService{
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:5000/signalr/chat", {
+      .withUrl("https://localhost:5001/signalr/chat", {
         accessTokenFactory: () => {
           return this.cookieService.get('AuthToken');
         }
@@ -29,7 +29,6 @@ export class SignalrService{
 
   public on = (methodName: string, handler: (data: any) => void) => {
     this.hubConnection?.on(methodName, data => handler(data));
-    console.log(this.hubConnection);
   }
 
 }
