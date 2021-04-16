@@ -17,7 +17,7 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
         
         Task<GetPages.Response> GetPages(GetPages.Request request, CancellationToken cancellationToken);
 
-        Task<GetPagesByCategory.Response> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken);
+        Task<GetPagedByCategory.Response> GetPagedByCategory(GetPagedByCategory.Request request, CancellationToken cancellationToken);
 
         Task<Search.Response> Search(Search.Request request, CancellationToken cancellationToken);
 
