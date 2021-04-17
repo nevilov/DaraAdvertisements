@@ -13,7 +13,9 @@ import { AdvertisementPageComponent } from './layout/advertisement/advertisement
 import { PublicProfileComponent } from './layout/user/publicProfile/publicProfile.component';
 import {ForgotPasswordPageComponent} from './layout/auth/forgotPasswordPage/forgotPasswordPage.component';
 import {ResetPasswordPageComponent} from "./layout/auth/resetPasswordPage/resetPasswordPage.component";
+import {UserChatsComponent} from "./layout/user/userChats/userChats.component";
 
+// @ts-ignore
 const routes: Routes = [
   { path: '', component: AdvertisementPageComponent },
   { path: 'registration', component: RegistrationPageComponent },
@@ -29,6 +31,7 @@ const routes: Routes = [
   { path: 'profile/:Username', component: PublicProfileComponent },
   { path: 'forgotPassword', component: ForgotPasswordPageComponent},
   { path: 'resetPassword', component: ResetPasswordPageComponent },
+  { path: 'chats', component: UserChatsComponent},
   {
     path: 'profile/:Username/advertisements/:id',
     pathMatch: 'full',
