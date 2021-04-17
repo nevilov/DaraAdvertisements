@@ -7,45 +7,45 @@ import { SignService } from './../../../services/sign.service';
 
 @UntilDestroy()
 @Component({
-	selector: 'app-registrationPage',
-	templateUrl: './registrationPage.component.html',
-	styleUrls: ['./registrationPage.component.scss']
+    selector: 'app-registrationPage',
+    templateUrl: './registrationPage.component.html',
+    styleUrls: ['./registrationPage.component.scss']
 })
 export class RegistrationPageComponent implements OnInit {
 
-	private sub: Subscription;
+    private sub: Subscription;
 
-	registrationForm = new FormGroup({
-		name: new FormControl('', [
-			Validators.required,
-			Validators.minLength(5)
-		]),
-		email: new FormControl('', [
-			Validators.required,
-			Validators.minLength(5)
-		]),
-		password: new FormControl('', [
-			Validators.required,
-			Validators.minLength(6)
-		]),
-	});
+    registrationForm = new FormGroup({
+        name: new FormControl('', [
+            Validators.required,
+            Validators.minLength(5)
+        ]),
+        email: new FormControl('', [
+            Validators.required,
+            Validators.minLength(5)
+        ]),
+        password: new FormControl('', [
+            Validators.required,
+            Validators.minLength(6)
+        ]),
+    });
 
-	onSubmit() {
-		const formValue = this.registrationForm.value;
-		//TODO REMOVE AFTER FIX BACK
-		formValue.username = formValue.name;
-		formValue.lastName = formValue.name;
+    onSubmit() {
+        const formValue = this.registrationForm.value;
+        //TODO REMOVE AFTER FIX BACK
+        formValue.username = formValue.name;
+        formValue.lastName = formValue.name;
 
-		this.sub = this.signService.register(formValue).pipe(untilDestroyed(this)).subscribe(() => {
-			this.router.navigateByUrl('/autorization');
-		});
-	}
+        this.sub = this.signService.register(formValue).pipe(untilDestroyed(this)).subscribe(() => {
+            this.router.navigateByUrl('/autorization');
+        });
+    }
 
-	constructor(private signService: SignService, private router: Router) {
-		this.sub = new Subscription;
-	}
+    constructor(private signService: SignService, private router: Router) {
+        this.sub = new Subscription;
+    }
 
-	ngOnInit() {
-	}
+    ngOnInit() {
+    }
 
 }

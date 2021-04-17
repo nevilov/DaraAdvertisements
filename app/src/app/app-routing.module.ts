@@ -16,47 +16,50 @@ import { UserProfileComponent } from './layout/user/userProfile/userProfile.comp
 import { UserProfileSettingsComponent } from './layout/user/userProfile/userProfileSettings/userProfileSettings.component';
 import { UserProfileAdvertisementsComponent } from './layout/user/userProfile/userProfileAdvertisements/userProfileAdvertisements.component';
 import { UserProfileLoginPassComponent } from './layout/user/userProfile/userProfileLoginPass/userProfileLoginPass.component';
+import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
 
 const routes: Routes = [
-	// { path: '**', component: PageNotFoundComponent }
-	{ path: '', component: AdvertisementPageComponent },
-	{ path: 'registration', component: RegistrationPageComponent },
-	{ path: 'autorization', component: LoginPageComponent },
-	{ path: 'help', component: HelpComponent },
-	{ path: 'contact', component: ContactsComponent },
-	{ path: 'abuse', component: AbusePageComponent },
-	{ path: 'newAbuse', component: NewAbusePageComponent },
-	{ path: 'advertisements', component: AdvertisementPageComponent },
-	{ path: 'advertisements/:id', component: AdvertisementDetailPageComponent },
-	{ path: 'newAdvertisement', component: NewAdvertisementPageComponent },
-	{ path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent },
-	{ path: 'profile/:Username', component: PublicProfileComponent },
-	{
-		path: 'cabinet',
-		component: UserProfileComponent,
-		children: [
-			{
-				path: 'personal',
-				component: UserProfilePersonalComponent,
-			},
-			{
-				path: 'changeinfo',
-				component: UserProfileLoginPassComponent,
-			},
-			{
-				path: 'advertisements',
-				component: UserProfileAdvertisementsComponent,
-			},
-			{
-				path: 'settings',
-				component: UserProfileSettingsComponent,
-			},
-		],
-	},
+    // { path: '**', component: PageNotFoundComponent }
+    { path: '', component: AdvertisementPageComponent },
+    { path: 'registration', component: RegistrationPageComponent },
+    { path: 'autorization', component: LoginPageComponent },
+    { path: 'help', component: HelpComponent },
+    { path: 'contact', component: ContactsComponent },
+    { path: 'abuse', component: AbusePageComponent },
+    { path: 'newAbuse', component: NewAbusePageComponent },
+    { path: 'advertisements', component: AdvertisementPageComponent },
+    { path: 'advertisements/:id', component: AdvertisementPageComponent },
+    { path: 'filtered_advertisements/:id', component: AdvertisementPageWithSubCategoriesComponent },
+    { path: 'advertisement/:id', component: AdvertisementDetailPageComponent },
+    { path: 'newAdvertisement', component: NewAdvertisementPageComponent },
+    { path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent },
+    { path: 'profile/:Username', component: PublicProfileComponent },
+    {
+        path: 'cabinet',
+        component: UserProfileComponent,
+        children: [
+            {
+                path: 'personal',
+                component: UserProfilePersonalComponent,
+            },
+            {
+                path: 'changeinfo',
+                component: UserProfileLoginPassComponent,
+            },
+            {
+                path: 'advertisements',
+                component: UserProfileAdvertisementsComponent,
+            },
+            {
+                path: 'settings',
+                component: UserProfileSettingsComponent,
+            },
+        ],
+    },
 ];
 
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
-	exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
 export class AppRoutingModule { }

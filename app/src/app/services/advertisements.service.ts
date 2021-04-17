@@ -9,47 +9,53 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 
 @Injectable({
-	providedIn: 'root',
+    providedIn: 'root',
 })
 export class AdvertisementService {
-	// public adv$: BehaviorSubject<Advertisement[]>
+    // public adv$: BehaviorSubject<Advertisement[]>
 
-	constructor(private http: HttpClient, private cookieService: CookieService) {
-		// this.adv$ = new BehaviorSubject(null);
-	}
+    constructor(private http: HttpClient, private cookieService: CookieService) {
+        // this.adv$ = new BehaviorSubject(null);
+    }
 
-	public getAllAdvertisements(): Observable<ListOfItems<Advertisement>> {
-		return this.http.get<ListOfItems<Advertisement>>(
-			AppComponent.backendAddress + '/api/Advertisement?limit=100&offset=0'
-		);
-	}
+    public getAllAdvertisements(): Observable<ListOfItems<Advertisement>> {
+        return this.http.get<ListOfItems<Advertisement>>(
+            AppComponent.backendAddress + '/api/Advertisement?limit=100&offset=0'
+        );
+    }
 
-	public getAdvertisementById(id: number): Observable<Advertisement> {
-		return this.http.get<Advertisement>(
-			AppComponent.backendAddress + '/api/Advertisement/' + id
-		);
-	}
+    public getAdvertisementById(id: number): Observable<Advertisement> {
+        return this.http.get<Advertisement>(
+            AppComponent.backendAddress + '/api/Advertisement/' + id
+        );
+    }
 
-	public createAdvertisement(advertisement: NewAdvertisement) {
-		console.log('service called');
+    public getAdvertisementByCategoryId(id: number): Observable<ListOfItems<Advertisement>> {
+        return this.http.get<ListOfItems<Advertisement>>(
+            AppComponent.backendAddress + '/api/Advertisement/category?CategoryId=' + id + '&Limit=10000&Offset=0'
+        );
+    }
 
-		return this.http
-			.post(AppComponent.backendAddress + '/api/Advertisement', advertisement, {
-				headers: new HttpHeaders({
-					Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
-				}),
-			})
-			.pipe(
-				tap((response: any) => {
-					this.cookieService.set('LatestRedirectId', response.redirectId);
-				}),
-				catchError(this.checkError)
-			);
-	}
+    public createAdvertisement(advertisement: NewAdvertisement) {
+        console.log('service called');
 
-	public checkError(error: any) {
-		alert('Произошла ошибка: ' + error.error.error);
-		console.log(error);
-		return error;
-	}
+        return this.http
+            .post(AppComponent.backendAddress + '/api/Advertisement', advertisement, {
+                headers: new HttpHeaders({
+                    Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+                }),
+            })
+            .pipe(
+                tap((response: any) => {
+                    this.cookieService.set('LatestRedirectId', response.redirectId);
+                }),
+                catchError(this.checkError)
+            );
+    }
+
+    public checkError(error: any) {
+        alert('Произошла ошибка: ' + error.error.error);
+        console.log(error);
+        return error;
+    }
 }
