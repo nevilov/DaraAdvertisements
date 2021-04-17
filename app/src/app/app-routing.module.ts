@@ -10,6 +10,9 @@ import { RegistrationPageComponent } from './layout/auth/registrationPage/regist
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdvertisementPageComponent } from './layout/advertisement/advertisementPage/advertisementPage.component';
+import { PublicProfileComponent } from './layout/user/publicProfile/publicProfile.component';
+import {ForgotPasswordPageComponent} from './layout/auth/forgotPasswordPage/forgotPasswordPage.component';
+import {ResetPasswordPageComponent} from "./layout/auth/resetPasswordPage/resetPasswordPage.component";
 
 const routes: Routes = [
   { path: '', component: AdvertisementPageComponent },
@@ -23,10 +26,18 @@ const routes: Routes = [
   { path: 'advertisements/:id', component: AdvertisementDetailPageComponent },
   { path: 'newAdvertisement', component: NewAdvertisementPageComponent },
   { path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent },
+  { path: 'profile/:Username', component: PublicProfileComponent },
+  { path: 'forgotPassword', component: ForgotPasswordPageComponent},
+  { path: 'resetPassword', component: ResetPasswordPageComponent },
+  {
+    path: 'profile/:Username/advertisements/:id',
+    pathMatch: 'full',
+    redirectTo: 'advertisements/:id',
+  }, // TODO Fix this redirect
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

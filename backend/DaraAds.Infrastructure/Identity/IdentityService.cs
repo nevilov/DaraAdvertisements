@@ -11,12 +11,13 @@ using Advertisement.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Identity.Interfaces;
+using DaraAds.Application.Services.Favorite.Contracts.Exceptions;
 using DaraAds.Application.Services.Mail;
 using DaraAds.Application.Services.Mail.Contracts.Exceptions;
 using DaraAds.Application.Services.Mail.Interfaces;
-using DaraAds.Application.Services.User.Contracts.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -28,19 +29,22 @@ namespace DaraAds.Infrastructure.Identity
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
         private readonly IMailService _mailService;
-        private readonly RoleManager<IdentityRole> _roleManeger;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
         public IdentityService(UserManager<IdentityUser> userManager, 
             IHttpContextAccessor httpContextAccessor,
             IConfiguration configuration,
             IMailService mailService,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
             _mailService = mailService;
-            _roleManeger = roleManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
         }
         public Task<string> GetCurrentUserId(CancellationToken cancellationToken = default)
         {
@@ -121,18 +125,22 @@ namespace DaraAds.Infrastructure.Identity
             {
                 identityUser = identityUserFindByEmail;
             }
+            var resultSignIn = await _signInManager.PasswordSignInAsync(identityUser, request.Password, true, true);
 
-
-            var passwordCheck = await _userManager.CheckPasswordAsync(identityUser, request.Password);
-            if (!passwordCheck)
+            if (resultSignIn.IsLockedOut)
             {
-                throw new NoRightsException("Неправильный логин или пароль");
+                throw new UserIsBlockedException($"Пользователь с Id({identityUser.Id}) заблокирован до {identityUser.LockoutEnd}");
+            }
+
+            if (!resultSignIn.Succeeded)
+            {
+                throw new HaveNoRightException("Неправильный логин или пароль");
             }
 
             var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(identityUser);
             if (!isEmailConfirmed)
             {
-                throw new NoRightsException("Подтвердите почту, чтобы войти!");
+                throw new HaveNoRightException("Подтвердите почту, чтобы войти!");
             }
 
             var claims = new List<Claim>
@@ -154,10 +162,14 @@ namespace DaraAds.Infrastructure.Identity
                     SecurityAlgorithms.HmacSha256
                 )
             );
+
+            var rolesList = await _userManager.GetRolesAsync(identityUser).ConfigureAwait(false);
+
             return new CreateToken.Response
             {
-                Token = new JwtSecurityTokenHandler().WriteToken(token)
-            };
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                UserRole = rolesList[0]
+        };
         }
 
         public async Task<bool> ConfirmEmail(string userId, string token, CancellationToken cancellationToken = default)
@@ -180,7 +192,7 @@ namespace DaraAds.Infrastructure.Identity
                 throw new IdentityUserNotFoundException("Пользователь не найден");
             }
 
-            var newRole = await _roleManeger.FindByNameAsync(request.NewRole);
+            var newRole = await _roleManager.FindByNameAsync(request.NewRole);
             if(newRole == null)
             {
                 throw new RoleNotFoundException("Роль не найдена");
@@ -201,6 +213,70 @@ namespace DaraAds.Infrastructure.Identity
             }
 
             var addNewRoleResult = await _userManager.AddToRoleAsync(identityUser, request.NewRole);
+        }
+
+        public async Task SendEmailChangeToken(string newEmail, CancellationToken cancellationToken = default)
+        {
+            var userId = await GetCurrentUserId(cancellationToken);
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new UserNotFoundException("Пользователь не найден");
+            }
+            
+            var anotherUserHaveThisEmail = await _userManager.FindByEmailAsync(newEmail);
+            if (anotherUserHaveThisEmail != null)
+            {
+                throw new IdentityServiceException($"Другой пользователь имеет данную почту {newEmail}");
+            }
+            
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user.Email.Equals(newEmail))
+            {
+                throw new DuplicateException($"Новая почта равна текущей {newEmail}");
+            }
+            
+            var token = await _userManager.GenerateChangeEmailTokenAsync(user, newEmail);
+            var param = new Dictionary<string, string>
+            {
+                {"userId", user.Id },
+                {"token", token },
+                {"newEmail", newEmail }
+            };
+            var callback = QueryHelpers.AddQueryString($"{_configuration["ApiUri"]}api/user/confirmСhangeEmail", param);
+
+            var message = MessageToChangeEmail.Message(callback);
+            
+            try
+            {
+                await _mailService.Send(newEmail, "Изменение почты на DaraAds", message, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new SendingMailException("Произошла ошибка!" + ex.Message + new SendResetPasswordToken.Response { IsSuccess = false});
+            }
+        }
+
+        public async Task<ConfirmChangeEmail.Response> ConfirmChangeEmail(ConfirmChangeEmail.Request request, CancellationToken cancellationToken = default)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId);
+            if (user == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с id {request.UserId} не найден");
+            }
+            var result = await _userManager.ChangeEmailAsync(user, request.NewEmail, request.Token);
+            if (!result.Succeeded)
+            {
+                return new ConfirmChangeEmail.Response
+                {
+                    isSuccess = false,
+                    Errors = result.Errors.Select(a => a.Description).ToList()
+                };
+            }
+
+            return new ConfirmChangeEmail.Response
+            {
+                isSuccess = true
+            };
         }
 
         public async Task ChangePassword(ChangePassword.Request request, CancellationToken cancellationToken = default)
@@ -227,5 +303,65 @@ namespace DaraAds.Infrastructure.Identity
                 throw new IdentityServiceException("Произошла ошибка!" + result.Errors.Select(x => x.Description).ToList());
             }
         }
+
+        public async Task<SendResetPasswordToken.Response> SendResetPasswordToken(SendResetPasswordToken.Request request, CancellationToken cancellationToken = default)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            if(user == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с Email {request.Email} не найден ");
+            }
+
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var param = new Dictionary<string, string>
+            {
+                {"token", resetToken },
+                {"userId", user.Id }
+            };
+
+            var resetPasswordUri = $"{_configuration["FrontendUri"]}resetPassword";
+            var callback = QueryHelpers.AddQueryString(resetPasswordUri, param);
+            var message = MessageToResetPassword.Message(callback);
+
+            try
+            {
+                await _mailService.Send(request.Email, "Восстановление пароля на DaraAds", message, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new SendingMailException("Произошла ошибка!" + ex.Message + new SendResetPasswordToken.Response { IsSuccess = false});
+            }
+
+            return new SendResetPasswordToken.Response
+            {
+                IsSuccess = true,
+                UserId = user.Id
+            };
+        }
+
+        public async Task<ResetUserPassword.Response> ResetPassword(ResetUserPassword.Request request, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId);
+            if(user == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с id = {request.UserId} не найден");
+            }
+
+            var resetPasswordResult = await _userManager.ResetPasswordAsync(user, request.Token, request.NewPassword);
+            if (!resetPasswordResult.Succeeded)
+            {
+                return new ResetUserPassword.Response
+                {
+                    isSuccess = false,
+                    Errors = resetPasswordResult.Errors.Select(a => a.Description).ToList()
+                };
+            }
+
+            return new ResetUserPassword.Response
+            {
+                isSuccess = true
+            };
+        }
+
     }
 }

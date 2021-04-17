@@ -61,7 +61,7 @@ namespace DaraAds.Application.Tests
                 .ReturnsAsync(adResponse);
 
             // Act
-            await Assert.ThrowsAsync<NoAdFoundException>(async () => await advertisementService.Update(request, new CancellationToken()));
+            await Assert.ThrowsAsync<AdNotFoundException>(async () => await advertisementService.Update(request, new CancellationToken()));
 
         }
 

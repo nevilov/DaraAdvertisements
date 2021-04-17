@@ -1,25 +1,39 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using DaraAds.Application.Common;
 
 namespace DaraAds.Application.Services.Advertisement.Contracts
 {
     public static class GetPages
     {
-        public sealed class Request
+        public sealed class Request : Paged.Request
         {
-            public int Offset { get; set; } = 0;
-            public int Limit { get; set; } = 10;
+            public string SortOrder { get; set; }
+            public string SearchString { get; set; }
+            public int CategoryId { get; set; }
+            public decimal MinPrice { get; set; }
+            public decimal MaxPrice { get; set; }
+            public DateTime MinDate { get; set; }
+            public DateTime MaxDate { get; set; }
         }
 
-        public sealed class Response
+        public sealed class Response : Paged.Response<Response.Item>
         {
             public sealed class OwnerResponse
             {
                 public string Id { get; set; }
                 public string Email { get; set; }
                 public string Name { get; set; }
-                public string LastName { get; set; }
+                public string Lastname { get; set; }
                 public string Username { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
+            }
+
+            public sealed class ImageResponse
+            {
+                public string Id { get; set; }
+                public string ImageUrl { get; set; }
+                public string ImageBase64 { get; set; }
             }
 
             public sealed class Item
@@ -30,14 +44,10 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Cover { get; set; }
                 public decimal Price { get; set; }
                 public string Status { get; set; }
-
+                public DateTime CreatedDate { get; set; }
                 public OwnerResponse Owner { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
             }
-            public int Total { get; set; }
-            public int Offset { get; set; }
-            public int Limit { get; set; }
-
-            public IEnumerable<Item> Items { get; set; } = Enumerable.Empty<Item>();
         }
     }
 }

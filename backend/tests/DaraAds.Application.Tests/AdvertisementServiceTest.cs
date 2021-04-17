@@ -21,8 +21,8 @@ namespace DaraAds.Application.Tests
         {
             _advertisementRepositoryMock = new Mock<IAdvertisementRepository>();
             _identityServiceMock = new Mock<IIdentityService>();
-
-            advertisementService = new AdvertisementService(_advertisementRepositoryMock.Object, _identityServiceMock.Object);
+            //TODO Дописать тесты с учетом новых сервисов
+            // advertisementService = new AdvertisementService(_advertisementRepositoryMock.Object, _identityServiceMock.Object);
         }
 
 

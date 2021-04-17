@@ -6,26 +6,22 @@ import { AdvertisementService } from 'src/app/services/advertisements.service';
   selector: 'app-advertisementPage',
   templateUrl: './advertisementPage.component.html',
   styleUrls: ['./../../../../assets/scss/pages/__home.scss'],
-  providers: [
-    AdvertisementService
-  ]
+  providers: [AdvertisementService],
 })
 export class AdvertisementPageComponent implements OnInit {
+  advertisements: Advertisement[] = []; // массив объяв
 
-    advertisements: Advertisement[] = [];               // массив объяв
+  constructor(private advertisementService: AdvertisementService) {}
 
-    constructor(private advertisementService: AdvertisementService) { }
+  ngOnInit() {
+    this.loadAdvertisements(); // загрузка данных при старте компонента
+  }
 
-    ngOnInit() {
-        this.loadProducts();    // загрузка данных при старте компонента
-    }
-
-    // получаем данные через сервис
-    loadProducts() {
-        this.advertisementService.getAllAdvertisements()
-            .subscribe(data => {
-              this.advertisements = data.items;
-              console.log(this.advertisements)
-            });
-    }
+  // получаем данные через сервис
+  loadAdvertisements() {
+    this.advertisementService.getAllAdvertisements().subscribe((data) => {
+      this.advertisements = data.items;
+      console.log(this.advertisements);
+    });
+  }
 }

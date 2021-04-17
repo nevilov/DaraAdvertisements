@@ -1,4 +1,5 @@
 ﻿using DaraAds.Domain.Shared;
+using System.Collections.Generic;
 
 namespace DaraAds.Domain
 {
@@ -31,11 +32,20 @@ namespace DaraAds.Domain
         /// Аватар пользователя
         /// </summary>
         public string Avatar { get; set; }
+        
+        /// <summary>
+        /// Список картинок
+        /// </summary>
+        public virtual ICollection<Image> Images { get; set; }
 
         /// <summary>
         /// Телефон
         /// </summary>
         public string Phone { get; set; }
 
+        /// <summary>
+        /// Избранные объявелния пользователя
+        /// </summary>
+        public virtual ICollection<Favorite> Favorites { get; set; }
     }
 }

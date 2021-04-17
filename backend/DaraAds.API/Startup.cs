@@ -16,11 +16,14 @@ using DaraAds.Infrastructure.DataAccess.Repositories;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Infrastructure.Mail;
-using System.Reflection;
-using System.IO;
-using System;
-using FluentValidation;
-using FluentValidation.AspNetCore;
+using DaraAds.Application.Helpers;
+using DaraAds.Application.Services.Image.Implementations;
+using DaraAds.Application.Services.Image.Interfaces;
+using DaraAds.Infrastructure.Helpers;
+using DaraAds.Application.Services.Favorite.Interfaces;
+using DaraAds.Application.Services.Favorite.Implementations;
+using DaraAds.Application.Services.Category.Interfaces;
+using DaraAds.Application.Services.Category.Implementations;
 
 namespace DaraAds.API
 {
@@ -38,25 +41,35 @@ namespace DaraAds.API
             services
             .AddScoped<IUserService, UserService>()
             .AddScoped<IAdvertisementService, AdvertisementService>()
-            .AddScoped<IAbuseService, AbuseService>();
+            .AddScoped<IAbuseService, AbuseService>()
+            .AddScoped<IImageService, ImageService>()
+            .AddScoped<IFavoriteService, FavoriteService>()
+            .AddScoped<ICategoryService, CategoryService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
              .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
-             .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>();
-            
+             .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
+             .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>()
+             .AddScoped<IFavoriteRepository, FavoriteRepository>()
+             .AddScoped<ICategoryRepository, CategoryRepository>();
+
             services
-            .AddHttpContextAccessor();
+                .AddScoped<ISortHelper<Domain.Advertisement>, SortHelper<Domain.Advertisement>>();
+
+            services.AddHttpContextAccessor();
 
             services.AddScoped<IMailService, MailService>();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+
+            services.AddS3(Configuration);
 
             services.AddIdentity(Configuration);
 
             services.AddControllers();
 
             services.AddSwaggerModule();
-                        
+
             //Our db
             services.AddDbContext<DaraAdsDbContext>(p =>
             {
@@ -66,7 +79,7 @@ namespace DaraAds.API
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
 
             services.ValidatorModule();
-            
+
             services.AddCors();
         }
 
@@ -90,7 +103,7 @@ namespace DaraAds.API
             {
                 builder.WithOrigins("http://localhost:4200")
                 .AllowAnyHeader()
-                .WithMethods("GET", "POST", "PUT")
+                .WithMethods("GET", "POST", "PUT", "DELETE")
                 .AllowCredentials();
             });
 

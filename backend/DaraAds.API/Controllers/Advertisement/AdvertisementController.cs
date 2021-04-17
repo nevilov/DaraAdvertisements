@@ -9,7 +9,7 @@ namespace DaraAds.API.Controllers.Advertisement
     [Route("api/[controller]")]
     public partial class AdvertisementController : ControllerBase
     {
-        protected readonly IAdvertisementService _service;
+        private readonly IAdvertisementService _service;
         public AdvertisementController(IAdvertisementService service)
         {
             _service = service;

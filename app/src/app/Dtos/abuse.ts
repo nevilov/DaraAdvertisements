@@ -4,6 +4,7 @@ export interface Abuse {
     authorId: string;
     id: number;
     priority: number;
+    removedDate: Date;
 }
 
 export interface NewAbuse {
@@ -11,8 +12,10 @@ export interface NewAbuse {
     abuseText: string;
 }
 
+
 export interface ListOfItems<T> {
     limit: number,
     offset: number,
     items: T[]
   }
+

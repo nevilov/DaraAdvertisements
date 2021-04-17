@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
 
 namespace DaraAds.Application.Services.Advertisement.Interfaces
@@ -16,10 +17,14 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
         
         Task<GetPages.Response> GetPages(GetPages.Request request, CancellationToken cancellationToken);
 
-        Task<GetPagesByCategory.Response> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken);
+        Task<GetPagedByCategory.Response> GetPagedByCategory(GetPagedByCategory.Request request, CancellationToken cancellationToken);
 
         Task<Search.Response> Search(Search.Request request, CancellationToken cancellationToken);
 
         Task<GetUserAdvertisements.Response> GetUserAdvertisements(GetUserAdvertisements.Request request,CancellationToken cancellationToken);
+        
+        Task AddImage(AddImage.Request request, CancellationToken cancellationToken);
+
+        Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken);
     }
 }

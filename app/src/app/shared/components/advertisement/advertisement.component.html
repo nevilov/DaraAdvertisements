@@ -10,7 +10,7 @@
         <img src="./../../../../assets/images/menu/avatar.png" alt="">
       </figure>
       <div class="userInfo__left">
-        <div class="userInfo__name">Ирина Милоская</div>
+        <div class="userInfo__name">{{ ownerName }}</div>
         <a class="userInfo__link" href="">Другие объявления</a>
       </div>
     </div>
@@ -18,7 +18,7 @@
       <div class="container__adress">
         г. Севастополь, Гагаринский
       </div>
-      <span class="container__date">Сегодня 15:45</span>
+      <span class="container__date">{{ createdDate | date:'dd-MM-yyyy hh:mm' }}</span>
     </div>
   </div>
 </div>

@@ -20,6 +20,11 @@
           <span>Помощь</span>
         </a>
       </li>
+      <li class="menu__item">
+        <a routerLink="/profile/danka150706" title="Item">
+          <span>Публичный профиль ТЕСТ</span>
+        </a>
+      </li>
     </ul>
     <span class="menu__divider"></span>
     <a routerLink="/newAdvertisement" class="menu__btn btn-main">Добавить объявление</a>
@@ -27,7 +32,10 @@
 
   <div class="menu__userInfo" *ngIf='isAutorized'>
     <!-- remove or refactor before producting-->
-    <span>{{ currentUserName }}</span>
+    <div style="max-width: 100px">
+      <span>{{ currentUserName }}</span><br>
+      <span style="font-size: 10px; color: red;">{{ currentUserRole }}</span>
+    </div>
     <button (click)="userLogout()">Выйти</button>
     <!-- remove or refactor before producting-->
     <div class="menu__notification">

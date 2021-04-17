@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,8 +18,15 @@ namespace DaraAds.Infrastructure
                 .AddEntityFrameworkStores<DaraAdsDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<DataProtectionTokenProviderOptions>(opt => 
+            opt.TokenLifespan = TimeSpan.FromHours(2));
+
             services.Configure<IdentityOptions>(options =>
             {
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+
                 // Default Password settings.
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;

@@ -78,7 +78,7 @@
             <img src="./../../../../assets/images/menu/avatar.png" alt="">
           </figure>
           <div class="user__container">
-            <span class="user__name">{{advertisement?.owner?.name + ' ' + advertisement?.owner?.lastName}}</span>
+            <span class="user__name">{{advertisement?.owner?.name + ' ' + advertisement?.owner?.lastname}}</span>
             <span class="user__phone">+7 (978) 459-87-92</span>
           </div>
         </div>
@@ -108,7 +108,8 @@
           </div>
         </div>
 
-        <span class="advertisement__info">Объявление {{id}} от 25.01.2021</span>
+        <span class="advertisement__info">Объявление №{{id}} от {{ advertisement?.createdDate| date:'dd.MM.yyyy'
+          }}</span>
       </div>
     </div>
   </div>
