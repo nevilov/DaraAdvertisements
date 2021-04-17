@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MenuComponent implements OnInit {
     currentUserName: string = '';
+    currentUserRole: string = '';
     isAutorized: boolean = false;
 
     @ViewChild('submenu', { read: ElementRef }) SubmenuComponent!: ElementRef;
@@ -53,6 +54,7 @@ export class MenuComponent implements OnInit {
         if (this.cookieService.get('AuthToken') != '') {
             this.isAutorized = true;
             this.currentUserName = this.cookieService.get('AuthUsername');
+            this.currentUserRole = this.cookieService.get('UserRole');
         } else {
             this.isAutorized = false;
         }

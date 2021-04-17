@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Formats.Asn1;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Application.Services.S3.Contracts.Exceptions;
 using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
+using DaraAds.Domain;
 using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Response;
 using Delete = DaraAds.Application.Services.Advertisement.Contracts.Delete;
 using DeleteImage = DaraAds.Application.Services.Advertisement.Contracts.DeleteImage;
@@ -22,7 +24,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 {
     public sealed class AdvertisementService : IAdvertisementService
     {
-        private readonly IAdvertisementRepository _repository;
+        private readonly Repositories.IAdvertisementRepository _repository;
         private readonly IIdentityService _identityService;
         private readonly IRepository<Domain.Image, string> _imageRepository;
         private readonly IImageService _imageService;
@@ -151,7 +153,6 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             ad.RemovedDate = DateTime.UtcNow;
             
             await _repository.Save(ad, cancellationToken);
-            
         }
 
         public async Task<GetPages.Response> GetPages(GetPages.Request request, CancellationToken cancellationToken)
@@ -167,12 +168,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 };
             }
 
-            var ads = await _repository.GetPaged(request.Offset, request.Limit, cancellationToken);
-
+            var ads = await _repository.GetPageByFilterSortSearch(request, cancellationToken);
+            
             return new GetPages.Response
             {
                 Items = ads.Select(a => new Item
-                {
+                {    
                     Id = a.Id,
                     Title = a.Title,
                     Description = a.Description,
@@ -203,9 +204,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     }),
                 }),
-                Total = total,
+                Total = ads.Total,
                 Offset = request.Offset,
-                Limit = request.Limit
+                Limit = request.Limit,
             };
         }
 
@@ -247,12 +248,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             };    
         }
 
-        public async Task<GetPagesByCategory.Response> GetPagesByCategory(GetPagesByCategory.Request request, CancellationToken cancellationToken)
+        public async Task<GetPagedByCategory.Response> GetPagedByCategory(GetPagedByCategory.Request request, CancellationToken cancellationToken)
         {
             var total = await _repository.Count(a => a.CategoryId == request.CategoryId,cancellationToken);
             if (total == 0)
             {
-                return new GetPagesByCategory.Response
+                return new GetPagedByCategory.Response
                 {
                     Total = 0,
                     Offset = request.Offset,
@@ -261,9 +262,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             }
 
             var result = await _repository.FindByCategory(request.CategoryId, request.Limit, request.Offset, cancellationToken);
-            return new GetPagesByCategory.Response
+            return new GetPagedByCategory.Response
             {
-                Items = result.Select(a => new GetPagesByCategory.Response.Item
+                Items = result.Select(a => new GetPagedByCategory.Response.Item
                 {
                     Id = a.Id,
                     Title = a.Title,
@@ -271,12 +272,27 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Cover = a.Cover,
                     Price = a.Price,
                     Status = a.Status.ToString(),
-                    Images = a.Images.Select(i => new GetPagesByCategory.Response.ImageResponse
+                    CreatedDate = a.CreatedDate,
+                    Images = a.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl =  S3Url + i.Name,
+                        ImageUrl = S3Url + i.Name,
                         ImageBase64 = Convert.ToBase64String(i.ImageBlob),
-                    })
+                    }),
+                    Owner = new GetPagedByCategory.Response.OwnerResponse
+                    {
+                        Id = a.OwnerId,
+                        Username = a.OwnerUser.Username,
+                        Email = a.OwnerUser.Email,
+                        Name = a.OwnerUser.Name,
+                        Lastname = a.OwnerUser.LastName,
+                        Images = a.OwnerUser.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
+                        {
+                            Id = i.Id,
+                            ImageUrl = S3Url + i.Name,
+                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        })
+                    },
                 }),
                 Total = total,
                 Offset = request.Offset,
@@ -438,5 +454,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             await _repository.Save(advertisement, cancellationToken);
             
         }
+
+
     }
 }

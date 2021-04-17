@@ -1,14 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DaraAds.Application.Common;
 
 namespace DaraAds.API.Dto
 {
     public class PagedDto
     {
-        public int Limit { get; set; } = 10;
+        /// <summary>
+        /// Количество возвращаемых объявлений
+        /// </summary>
+        public int Limit { get; set; } = PagedConstants.PaginationLimit;
 
-        public int Offset { get; set; } = 0;
+        /// <summary>
+        /// Смещение, начиная с котрого возвращаются объявления
+        /// </summary>
+        public int Offset { get; set; } = PagedConstants.PaginationOffset;
+        
+        /// <summary>
+        /// Критерий сортировки
+        /// </summary>
+        /// <example>Id</example>
+        public string OrderBy { get; set; }
     }
 }

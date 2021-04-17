@@ -21,7 +21,7 @@ namespace DaraAds.API.Controllers.Advertisement
         public async Task<IActionResult> GetByCategory([FromQuery] GetByCategoryRequest request,
             CancellationToken cancellationToken)
         {
-            var result = await _service.GetPagesByCategory(new GetPagesByCategory.Request
+            var result = await _service.GetPagedByCategory(new GetPagedByCategory.Request
             {
                CategoryId = request.CategoryId,
                Limit = request.Limit,

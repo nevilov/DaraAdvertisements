@@ -17,6 +17,8 @@ import { UserProfileSettingsComponent } from './layout/user/userProfile/userProf
 import { UserProfileAdvertisementsComponent } from './layout/user/userProfile/userProfileAdvertisements/userProfileAdvertisements.component';
 import { UserProfileLoginPassComponent } from './layout/user/userProfile/userProfileLoginPass/userProfileLoginPass.component';
 import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
+import { ForgotPasswordPageComponent } from './layout/auth/forgotPasswordPage/forgotPasswordPage.component';
+import { ResetPasswordPageComponent } from './layout/auth/resetPasswordPage/resetPasswordPage.component';
 
 const routes: Routes = [
     // { path: '**', component: PageNotFoundComponent }
@@ -33,6 +35,8 @@ const routes: Routes = [
     { path: 'advertisement/:id', component: AdvertisementDetailPageComponent },
     { path: 'newAdvertisement', component: NewAdvertisementPageComponent },
     { path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent },
+    { path: 'forgotPassword', component: ForgotPasswordPageComponent },
+    { path: 'resetPassword', component: ResetPasswordPageComponent },
     { path: 'profile/:Username', component: PublicProfileComponent },
     {
         path: 'cabinet',

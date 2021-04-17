@@ -5,22 +5,30 @@ import { AbuseService } from './../../../services/abuse.service';
 
 @UntilDestroy()
 @Component({
-	selector: 'app-abusePage',
-	templateUrl: './abusePage.component.html',
-	styleUrls: ['./abusePage.component.scss']
+    selector: 'app-abusePage',
+    templateUrl: './abusePage.component.html',
+    styleUrls: ['./abusePage.component.scss']
 })
 export class AbusePageComponent implements OnInit {
 
-	abuseItems: Abuse[] = [];
+    abuseItems: Abuse[] = [];
 
-	constructor(private abuseService: AbuseService) {
-	}
+    constructor(private abuseService: AbuseService) {
+    }
 
-	ngOnInit(): void {
-		this.abuseService.getAbuses()
-			.pipe(untilDestroyed(this))
-			.subscribe(data => {
-				this.abuseItems = data.items;
-			});
-	}
+    closeAbuse(clickedId: number, clickedOrder: number): void {
+        console.log("close abuse " + clickedId + " clicked");
+        this.abuseService.closeAbuse(clickedId)
+            .pipe(untilDestroyed(this))
+            .subscribe(() => console.log('Delete successful'));
+        this.abuseItems.splice(clickedOrder, 1);
+    }
+
+    ngOnInit(): void {
+        this.abuseService.getAbuses()
+            .pipe(untilDestroyed(this))
+            .subscribe(data => {
+                this.abuseItems = data.items.filter((abs) => (abs.removedDate == null));
+            });
+    }
 }

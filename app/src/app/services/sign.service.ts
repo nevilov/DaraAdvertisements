@@ -7,6 +7,7 @@ import { AppComponent } from '../app.component';
 import { catchError, tap } from 'rxjs/operators';
 import { DataSharingService } from './datasharing.service';
 import { ToastrService } from 'ngx-toastr';
+import { resetPassword } from './../Dtos/resetPassword';
 
 export interface SignInResult {
     token: string;
@@ -37,6 +38,7 @@ export class SignService {
                 tap((response: any) => {
                     this.cookieService.set('AuthUsername', user.login);
                     this.cookieService.set('AuthToken', response.token);
+                    this.cookieService.set('UserRole', response.userRole);
                     this.dataSharingService.isUserLoggedIn.next(true);
                     console.log('login', response);
                 }),
@@ -57,5 +59,25 @@ export class SignService {
         this.cookieService.deleteAll();
         this.dataSharingService.isUserLoggedIn.next(true);
         this.router.navigateByUrl('/');
+    }
+
+    public forgotPassword(email: string): Observable<any> {
+        return this.http
+            .get(AppComponent.backendAddress + '/api/User/forgotPassword/' + email).pipe(
+                tap((response: any) => {
+                    this.cookieService.set('LatestRedirectId', '/');
+                }),
+                // catchError(this.checkError));
+            );
+    }
+
+    public resetPassword(resetPasswordRequest: resetPassword): Observable<any> {
+        return this.http
+            .post(AppComponent.backendAddress + '/api/user/resetPassword', resetPasswordRequest).pipe(
+                tap((response: any) => {
+                    this.cookieService.set('redirect', '/');
+                }),
+                // catchError(this.checkError)
+            );
     }
 }

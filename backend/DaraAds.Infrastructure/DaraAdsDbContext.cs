@@ -16,7 +16,13 @@ namespace DaraAds.Infrastructure
         public DbSet<User> DomainUsers { get; set; }
         public DbSet<Abuse> Abuses { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Image> Image { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

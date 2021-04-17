@@ -11,6 +11,7 @@
         public class Response
         {
             public string Token { get; set; }
+            public string UserRole { get; set; }
         }
     }
 }

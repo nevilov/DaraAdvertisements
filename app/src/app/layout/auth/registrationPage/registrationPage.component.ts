@@ -16,7 +16,20 @@ export class RegistrationPageComponent implements OnInit {
     private sub: Subscription;
 
     registrationForm = new FormGroup({
+        username: new FormControl('', [
+            Validators.required,
+            Validators.minLength(5)
+        ]),
+
+        password: new FormControl('', [
+            Validators.required,
+            Validators.minLength(6)
+        ]),
         name: new FormControl('', [
+            Validators.required,
+            Validators.minLength(5)
+        ]),
+        lastName: new FormControl('', [
             Validators.required,
             Validators.minLength(5)
         ]),
@@ -24,10 +37,11 @@ export class RegistrationPageComponent implements OnInit {
             Validators.required,
             Validators.minLength(5)
         ]),
-        password: new FormControl('', [
+        phone: new FormControl('', [
             Validators.required,
-            Validators.minLength(6)
-        ]),
+            Validators.minLength(5),
+            Validators.pattern('[- +()0-9]+')
+        ])
     });
 
     onSubmit() {
