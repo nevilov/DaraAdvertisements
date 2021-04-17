@@ -1,6 +1,8 @@
 ﻿using DaraAds.Application.Repositories;
 using DaraAds.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,9 +15,11 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
         }
 
-        public Task SaveMessage(long chatId, string Text, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Message>> FindMessagesByChat(long chatId, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return await _context.Messages
+                .Where(m => m.ChatId == chatId)
+                .ToListAsync(cancellationToken);
         }
     }
 }

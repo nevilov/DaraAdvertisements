@@ -22,9 +22,13 @@ using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Infrastructure.Helpers;
 using DaraAds.Application.Services.Favorite.Interfaces;
 using DaraAds.Application.Services.Favorite.Implementations;
-using DaraAds.Infrastructure.SignalR.Hubs;
+using DaraAds.Application.Services.Category.Interfaces;
+using DaraAds.Application.Services.Category.Implementations;
 using DaraAds.Application.Services.Chat.Interfaces;
 using DaraAds.Application.Services.Chat.Implementations;
+using DaraAds.Application.Services.Message.Interfaces;
+using DaraAds.Application.Services.Message.Implementations;
+using DaraAds.Infrastructure.SignalR.Hubs;
 
 namespace DaraAds.API
 {
@@ -45,7 +49,10 @@ namespace DaraAds.API
             .AddScoped<IAbuseService, AbuseService>()
             .AddScoped<IImageService, ImageService>()
             .AddScoped<IFavoriteService, FavoriteService>()
-            .AddScoped<IChatService, ChatService>();
+            .AddScoped<ICategoryService, CategoryService>()
+            .AddScoped<IFavoriteService, FavoriteService>()
+            .AddScoped<IChatService, ChatService>()
+            .AddScoped<IMessageService, MessageService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
@@ -53,6 +60,8 @@ namespace DaraAds.API
              .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
              .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>()
              .AddScoped<IFavoriteRepository, FavoriteRepository>()
+             .AddScoped<ICategoryRepository, CategoryRepository>()
+             .AddScoped<IChatRepository, ChatRepository>()
              .AddScoped<IMessageRepository, MessageRepository>();
 
             services

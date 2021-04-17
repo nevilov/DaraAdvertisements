@@ -14,21 +14,20 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
         }
 
-        public async Task CreateChat(Chat chat, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Chat>> GetChats(string userId, bool isSeller, CancellationToken cancellationToken)
         {
-            await _context.Chats.AddAsync(chat, cancellationToken);
-        }
-
-        public async Task<IEnumerable<Chat>> GetChats(string userId, CancellationToken cancellationToken)
-        {
-            return await _context.Chats
-                .Where(c => c.BuyerId == userId || c.Advertisement.OwnerId == userId)
-                .ToListAsync(cancellationToken);
-        }
-
-        public Task<IEnumerable<Message>> GetMessages(string userId, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
+            if (isSeller)
+            {
+                return await _context.Chats
+                    .Where(c => c.Advertisement.OwnerId == userId)
+                    .ToListAsync(cancellationToken);
+            }
+            else
+            {
+                return await _context.Chats
+                    .Where(c => c.BuyerId == userId)
+                    .ToListAsync(cancellationToken);
+            }
         }
     }
 }

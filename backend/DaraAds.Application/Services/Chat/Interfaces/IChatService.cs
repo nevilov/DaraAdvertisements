@@ -6,8 +6,8 @@ namespace DaraAds.Application.Services.Chat.Interfaces
 {
     public interface IChatService
     {
-        Task<Get.Response> GetChats(Get.Request request, CancellationToken cancellationToken);
+        Task<Get.Response> GetChats(bool isSeller, CancellationToken cancellationToken);
 
-        Task Save(Save.Request request, CancellationToken cancellationToken);
+        Task CreateChat(Save.Request request, CancellationToken cancellationToken);
     }
 }

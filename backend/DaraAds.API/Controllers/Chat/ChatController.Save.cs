@@ -1,5 +1,4 @@
-﻿using DaraAds.API.Dto.Chat;
-using DaraAds.Application.Services.Chat.Contracts;
+﻿using DaraAds.Application.Services.Chat.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -9,15 +8,19 @@ namespace DaraAds.API.Controllers.Chat
 {
     public partial class ChatController
     {
-        [HttpPost("save")]
+        /// <summary>
+        /// Создать чат
+        /// </summary>
+        /// <param name="advertisementId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpPost("create")]
         [Authorize]
-        public async Task<IActionResult> Save(SaveRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Save(int advertisementId, CancellationToken cancellationToken)
         {
-            await _chatService.Save(new Save.Request
+            await _chatService.CreateChat(new Save.Request
             {
-                AdvertisementId = request.AdvertisementId,
-                CustomerId = request.CustomerId,
-                Text = request.Text
+                AdvertisementId = advertisementId
             }, cancellationToken);
 
             return Ok();

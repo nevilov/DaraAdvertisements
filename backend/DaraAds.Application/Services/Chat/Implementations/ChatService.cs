@@ -1,97 +1,84 @@
 ﻿using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Repositories;
+using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Chat.Contracts;
 using DaraAds.Application.Services.Chat.Interfaces;
 using DaraAds.Application.SignalR.Interfaces;
-using DaraAds.Domain;
+using Microsoft.AspNetCore.Server.IIS.Core;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 
 namespace DaraAds.Application.Services.Chat.Implementations
 {
     public class ChatService : IChatService
     {
-        private readonly IMessageRepository _messageRepository;
         private readonly IAdvertisementRepository _advertisementRepository;
-        private readonly IRepository<Domain.User, string> _userRepository;
+        private readonly IChatRepository _chatRepository;
         private readonly IIdentityService _identityService;
-        private readonly ISignalRService _signalRService;
 
-        public ChatService(IMessageRepository messageRepository, IAdvertisementRepository advertisementRepository, IRepository<Domain.User, string> userRepository, IIdentityService identityService, ISignalRService signalRService)
+        public ChatService(IAdvertisementRepository advertisementRepository,
+            IIdentityService identityService,
+            IChatRepository chatRepository)
         {
-            _messageRepository = messageRepository;
             _advertisementRepository = advertisementRepository;
-            _userRepository = userRepository;
             _identityService = identityService;
-            _signalRService = signalRService;
+            _chatRepository = chatRepository;
         }
 
-        public async Task<Get.Response> GetChats(Get.Request request, CancellationToken cancellationToken)
+        public async Task<Get.Response> GetChats(bool isSeller, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
-            var advertisement = await _advertisementRepository.FindById(request.AdvertisementId, cancellationToken);
-            Message[] messages;
-
-            if(advertisement.OwnerId == userId)
+            
+            if (isSeller)
             {
-                messages = await _messageRepository.FindByAdvertisementAndUsers(advertisement.Id, advertisement.OwnerId);
+                var chats = await _chatRepository.GetChats(userId, isSeller, cancellationToken);
+                return new Get.Response
+                {
+                    Chats = chats.Select(a => new Get.Response.ChatItem
+                    {
+                        Name = a.Buyer.Name,
+                        Lastname = a.Buyer.LastName,
+                        UpdatedDate = a.UpdatedDate,
+                    })
+                };
             }
             else
             {
-                messages = await _messageRepository.FindByAdvertisementAndUsers(advertisement.Id, advertisement.OwnerId, userId);
-            }
-
-            var chats = messages.GroupBy(m => m.CustomerId)
-                .Select(g => new Get.Response.Chat
+                var chats = await _chatRepository.GetChats(userId, isSeller, cancellationToken);
+                return new Get.Response
                 {
-                    CustomerId = g.Key,
-                    CustomerName = g.First().Customer.Name,
-                    Messages = g.OrderByDescending(m => m.CreatedDate)
-                        .Select(a => new Get.Response.Chat.Message
-                        {
-                            SenderName = a.IsSenderCustomer ? a.Customer.Name : a.Advertisement.OwnerUser.Name,
-                            CreatedDate = a.CreatedDate,
-                            Text = a.Text
-                        }).ToArray()
-                }).ToArray();
-
-            return new Get.Response
-            {
-                Chats = chats
-            };
+                    Chats = chats.Select(a => new Get.Response.ChatItem
+                    {
+                        Name = a.Advertisement.OwnerUser.Name,
+                        Lastname = a.Advertisement.OwnerUser.LastName,
+                        UpdatedDate = a.UpdatedDate,
+                    })
+                };
+            }
         }
 
-        public async Task Save(Save.Request request, CancellationToken cancellationToken)
+        public async Task CreateChat(Save.Request request, CancellationToken cancellationToken)
         {
-            var userId = await _identityService.GetCurrentUserId(cancellationToken);
             var advertisement = await _advertisementRepository.FindById(request.AdvertisementId, cancellationToken);
-
-            request.CustomerId ??= userId;
-
-            var message = new Message
+            if(advertisement == null)
             {
-                AdvertisementId = advertisement.Id,
+                throw new AdNotFoundException(request.AdvertisementId);
+            }
+
+           // var chatDuplicate = await _chatRepository.FindById()
+
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+
+            var chat = new Domain.Chat
+            {
+                Advertisement = advertisement,
+                BuyerId = userId,
                 CreatedDate = DateTime.UtcNow,
-                CustomerId = request.CustomerId,
-                Customer = await _userRepository.FindById(request.CustomerId, cancellationToken),
-                Text = request.Text,
-                IsSenderCustomer = advertisement.OwnerId != userId
             };
 
-            await _messageRepository.Save(message, cancellationToken);
-
-            await _signalRService.SendMessage(new SignalR.Contracts.Message
-            {
-                CreatedDate = message.CreatedDate,
-                SellerId = advertisement.OwnerId,
-                SenderName = message.IsSenderCustomer ? message.Customer.Name : advertisement.OwnerUser.Name,
-                Text = message.Text,
-                CustomerName = message.Customer.Name,
-                CustomerId = message.CustomerId
-            }, cancellationToken);
+            await _chatRepository.Save(chat, cancellationToken);
         }
     }
 }

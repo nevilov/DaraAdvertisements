@@ -8,14 +8,17 @@ namespace DaraAds.API.Controllers.Chat
 {
     public partial class ChatController
     {
-        [HttpGet("get/{advertisementId}")]
+        /// <summary>
+        /// Получить чат
+        /// </summary>
+        /// <param name="isSeller"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        [HttpGet("get/{isSeller}")]
         [Authorize]
-        public async Task<IActionResult> GetChats(int advertisementId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetChats(bool isSeller, CancellationToken cancellationToken)
         {
-            var result = await _chatService.GetChats(new Get.Request
-            {
-                AdvertisementId = advertisementId
-            }, cancellationToken);
+            var result = await _chatService.GetChats(isSeller, cancellationToken);
 
             return Ok(result);
         }

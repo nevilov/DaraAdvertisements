@@ -8,8 +8,6 @@ namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
         public void Configure(EntityTypeBuilder<Message> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Customer);
-            builder.HasOne(x => x.Advertisement);
         }
     }
 }

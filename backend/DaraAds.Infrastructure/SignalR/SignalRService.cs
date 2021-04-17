@@ -18,13 +18,13 @@ namespace DaraAds.Infrastructure.SignalR
 
         public async Task SendMessage(Message message, CancellationToken cancellationToken)
         {
-            await _hubContext.Clients.Users(message.SellerId, message.CustomerId)
+            await _hubContext.Clients.Users(message.SenderId, message.RecipientId)
                 .SendAsync("message", new
                 {
-                    message.SellerId,
+                    message.SenderId,
                     message.SenderName,
-                    message.CustomerId,
-                    message.CustomerName,
+                    message.RecipientId,
+                    message.RecipientName,
                     message.Text,
                     message.CreatedDate
                 }, cancellationToken);
