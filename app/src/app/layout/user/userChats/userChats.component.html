@@ -7,7 +7,7 @@
       <button>Продавцы</button>
     </div>
 
-    <button *ngFor="let chat of Chats" class="user__chat__button" (click)="getChatMessages()">
+    <button *ngFor="let chat of chats" class="user__chat__button" (click)="getChatMessages(chat.chatId!)">
       <div class="user__chats">
         <img src="assets/images/advertisement/car1.png">
         <div class="user__info">
@@ -37,59 +37,9 @@
         </div>
       </div>
 
-      <div class="message__recipient">
-        <div class="message__content">
-          <span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, reiciendis?</span>
-          <span class="text">132.123.123</span>
-        </div>
-      </div>
-
-      <div class="message__sender">
-        <div class="message__content">
-          <span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae commodi corporis dolorem ea eos est facere facilis, harum illum maxime minima nihil sapiente sint ullam unde, ut vel vero!</span>
-          <span class="text">132.123.123</span>
-        </div>
-      </div>
-
-      <div class="message__recipient">
-        <div class="message__content">
-          <span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, reiciendis?</span>
-          <span class="text">132.123.123</span>
-        </div>
-      </div>
-
-      <div class="message__sender">
-        <div class="message__content">
-          <span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae commodi corporis dolorem ea eos est facere facilis, harum illum maxime minima nihil sapiente sint ullam unde, ut vel vero!</span>
-          <span class="text">132.123.123</span>
-        </div>
-      </div>
-
-      <div class="message__recipient">
-        <div class="message__content">
-          <span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, reiciendis?</span>
-          <span class="text">132.123.123</span>
-        </div>
-      </div>
-
-      <div class="message__sender">
-        <div class="message__content">
-          <span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae commodi corporis dolorem ea eos est facere facilis, harum illum maxime minima nihil sapiente sint ullam unde, ut vel vero!</span>
-          <span class="text">132.123.123</span>
-        </div>
-      </div>
-
-      <div class="message__recipient">
-        <div class="message__content">
-          <span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, reiciendis?</span>
-          <span class="text">132.123.123</span>
-        </div>
-      </div>
-
-      <div class="message__sender">
-        <div class="message__content">
-          <span class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda beatae commodi corporis dolorem ea eos est facere facilis, harum illum maxime minima nihil sapiente sint ullam unde, ut vel vero!</span>
-          <span class="text">132.123.123</span>
+      <div class="message__sender" *ngFor="let msg of messages">
+        <div class="message__content" *ngIf="">
+          <span class="text">{{msg.text}}</span>
         </div>
       </div>
 

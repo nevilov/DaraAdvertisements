@@ -2,6 +2,10 @@ export class ChatResponse{
   chats?: Array<Chat>;
 }
 
+export class MessageResponse{
+  messages?: Array<ChatMessage>;
+}
+
 export class Chat{
   chatId?: number;
   userId?: string;
@@ -13,7 +17,8 @@ export class Chat{
 
 export class ChatMessage{
   text?: string;
-  senderName?: string;
+  sender?: User;
+  recipient?: User;
   createdDate?: Date;
 }
 
@@ -24,4 +29,16 @@ export class Message{
   recipientName?: string;
   text?: string;
   createdDate?: Date;
+}
+
+export class SendMessageRequest{
+  chatId?: string;
+  recipientId?: string;
+  Text?: string;
+}
+
+export class User{
+  id?: string;
+  name?: string;
+  lastname?: string;
 }

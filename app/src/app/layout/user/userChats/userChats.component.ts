@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {SignalrService} from "../../../services/signalr.service";
 import {ChatService} from "../../../services/chat.service";
 import {CookieService} from "ngx-cookie-service";
-import {Advertisement} from "../../../Dtos/advertisement";
-import {Chat, ChatMessage, Message} from "../../../Dtos/chat";
+import {Chat, ChatMessage, Message, MessageResponse} from "../../../Dtos/chat";
 
 @Component({
   selector: 'app-userChats',
@@ -11,8 +10,9 @@ import {Chat, ChatMessage, Message} from "../../../Dtos/chat";
   styleUrls: ['./userChats.component.scss']
 })
 export class UserChatsComponent implements OnInit {
-
-  Chats: Chat[] = [];
+  userId: string = '';
+  chats: Chat[] = [];
+  messages: ChatMessage[] = [];
   constructor(private signalrService: SignalrService,
               private chatService: ChatService,
               private cookieService: CookieService)
@@ -23,8 +23,8 @@ export class UserChatsComponent implements OnInit {
     this.signalrService.on('message', (message: Message) => this._handleMessage(message));
 
     this.chatService.getChats(false).subscribe((data) => {
-      this.Chats = data.chats!;
-      console.log(this.Chats);
+      this.chats = data.chats!;
+      console.log(this.chats);
     });
   }
 
@@ -36,7 +36,10 @@ export class UserChatsComponent implements OnInit {
     }
   }
 
-  getChatMessages(): void{
+  getChatMessages(chatId: number): void{
+    this.chatService.getMessage(chatId).subscribe((data)=>{
+      this.messages = data.messages!;
+    });
 
   }
 
