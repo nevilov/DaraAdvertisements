@@ -1,27 +1,45 @@
 .container{
   display: flex;
-  padding: 0 100px;
+  padding: 0 50px;
   height: 600px;
 }
 
 .container-left{
+  .container__chat__role{
+    button{
+      background-color: #1287f5;
+      padding: 8px 16px;
+      border-radius: 2px;
+      color: rgba(255, 255, 255, 0.9);
+      border: 1px solid #d3d3d4;
+      font-size: 16px;
+    }
+  }
+
+  .user__info{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .container__chat__role{
+    display: flex;
+    margin-bottom: 10px;
+  }
+
   height: 100%;
   overflow-y: scroll;
   .user__chats{
     display: flex;
     align-items: center;
-    border-bottom: 7px solid #1287f5;
-    border-radius: 40px 0px 0px 40px;
   }
   span{
     margin: 0 5px;
   }
   box-shadow: 0 0 5px rgb(0 0 0 / 35%);
-  padding: 10px 10px;
   margin-right: 10px;
   width: 30%;
   img{
-    width: 100px;
+    width: 50px;
     border-radius: 30px;
   }
 
@@ -31,6 +49,9 @@
     border: none;
     cursor: pointer;
     margin: 10px 5px;
+    background-color: transparent;
+    border-bottom: 1px solid #eaedef;
+    padding-bottom: 10px;
   }
 }
 

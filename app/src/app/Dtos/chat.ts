@@ -2,10 +2,13 @@ export class ChatResponse{
   chats?: Array<Chat>;
 }
 
-export interface Chat{
-  customerId: string;
-  customerName: string;
-  messages: Array<ChatMessage>;
+export class Chat{
+  chatId?: number;
+  userId?: string;
+  cover?: string;
+  lastname?: string;
+  name?: string;
+  updatedDate?: Date;
 }
 
 export class ChatMessage{
@@ -15,9 +18,10 @@ export class ChatMessage{
 }
 
 export class Message{
-  text?: string;
+  senderId?: string;
   senderName?: string;
+  recipientId?: string;
+  recipientName?: string;
+  text?: string;
   createdDate?: Date;
-  customerId?: string;
-  customerName?: string;
 }

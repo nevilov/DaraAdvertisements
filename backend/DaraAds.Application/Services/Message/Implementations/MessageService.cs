@@ -3,6 +3,7 @@ using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Message.Contracts;
 using DaraAds.Application.Services.Message.Contracts.Exceptions;
 using DaraAds.Application.Services.Message.Interfaces;
+using DaraAds.Application.Services.User.Interfaces;
 using DaraAds.Application.SignalR.Interfaces;
 using DaraAds.Domain;
 using Microsoft.Extensions.Configuration.UserSecrets;
@@ -21,16 +22,18 @@ namespace DaraAds.Application.Services.Message.Implementations
         private readonly IChatRepository _chatRepository;
         private readonly IIdentityService _identityService;
         private readonly ISignalRService _signalRService;
+        private readonly IRepository<Domain.User, string> _userRepository;
 
         public MessageService(IMessageRepository messageRepository,
             IChatRepository chatRepository,
             IIdentityService identityService,
-            ISignalRService signalRService)
+            ISignalRService signalRService, IRepository<Domain.User, string> userRepository)
         {
             _messageRepository = messageRepository;
             _chatRepository = chatRepository;
             _identityService = identityService;
             _signalRService = signalRService;
+            _userRepository = userRepository;
         }
 
         public async Task<GetMessagesByChat.Response> GetMessagesByChat(GetMessagesByChat.Request request, CancellationToken cancellationToken)
@@ -50,6 +53,18 @@ namespace DaraAds.Application.Services.Message.Implementations
                 {
                     Text = m.Text,
                     CreatedDate = m.CreatedDate,
+                    Recipient = new GetMessagesByChat.Response.UserReponse
+                    {
+                        Id = m.Recipient.Id,
+                        Name = m.Recipient.Name,
+                        Lastname = m.Recipient.LastName
+                    },
+                    Sender = new GetMessagesByChat.Response.UserReponse
+                    {
+                        Id = m.Sender.Id,
+                        Name = m.Sender.Name,
+                        Lastname = m.Sender.LastName
+                    }
                 })
             };
         }
@@ -64,13 +79,26 @@ namespace DaraAds.Application.Services.Message.Implementations
 
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
 
-            //TODO сделать проверку на существование recipient
+            if(chat.BuyerId != userId && chat.Advertisement.OwnerId != userId)
+            {
+                throw new HaveNoRigthToSendMessageChat($"Чат с id {chatId} не пренадлежит вам");
+            }
+
+            //Kostil, users is null;
+            var sender = await _userRepository.FindById(userId, cancellationToken);
+            var recipient = await _userRepository.FindById(recipientId, cancellationToken);
+            if (recipient == null)
+            {
+                throw new UserNotFoundException($"Пользователь с id{recipientId}, которому отправляется сообщение не был найден");
+            }
 
             var message = new Domain.Message
             {
                 Text = text,
                 SenderId = userId,
+                Sender = sender,
                 RecipientId = recipientId,
+                Recipient = recipient,
                 CreatedDate = DateTime.UtcNow,
                 ChatId = chatId
             };

@@ -2,6 +2,7 @@
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Chat.Contracts;
+using DaraAds.Application.Services.Chat.Contracts.Exceptions;
 using DaraAds.Application.Services.Chat.Interfaces;
 using DaraAds.Application.SignalR.Interfaces;
 using Microsoft.AspNetCore.Server.IIS.Core;
@@ -38,6 +39,8 @@ namespace DaraAds.Application.Services.Chat.Implementations
                 {
                     Chats = chats.Select(a => new Get.Response.ChatItem
                     {
+                        ChatId = a.Id,
+                        UserId = a.BuyerId,
                         Name = a.Buyer.Name,
                         Lastname = a.Buyer.LastName,
                         UpdatedDate = a.UpdatedDate,
@@ -51,6 +54,8 @@ namespace DaraAds.Application.Services.Chat.Implementations
                 {
                     Chats = chats.Select(a => new Get.Response.ChatItem
                     {
+                        ChatId = a.Id,
+                        UserId = a.Advertisement.OwnerId,
                         Name = a.Advertisement.OwnerUser.Name,
                         Lastname = a.Advertisement.OwnerUser.LastName,
                         UpdatedDate = a.UpdatedDate,
@@ -67,10 +72,13 @@ namespace DaraAds.Application.Services.Chat.Implementations
                 throw new AdNotFoundException(request.AdvertisementId);
             }
 
-           // var chatDuplicate = await _chatRepository.FindById()
-
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
 
+            var chatDuplicate = await _chatRepository.FindWhere(c => c.Advertisement.Id == advertisement.Id && c.BuyerId == userId, cancellationToken);
+            if(chatDuplicate != null)
+            {
+                throw new ChatDuplicateException($"Чат с id {chatDuplicate.Id} уже создан");
+            }
             var chat = new Domain.Chat
             {
                 Advertisement = advertisement,

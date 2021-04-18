@@ -8,22 +8,21 @@ namespace DaraAds.API.Controllers.Chat
 {
     public partial class ChatController
     {
-        /// <summary>
-        /// Создать чат
-        /// </summary>
-        /// <param name="advertisementId"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
         [HttpPost("create")]
         [Authorize]
-        public async Task<IActionResult> Save(int advertisementId, CancellationToken cancellationToken)
+        public async Task<IActionResult> Save([FromBody]Request request, CancellationToken cancellationToken)
         {
             await _chatService.CreateChat(new Save.Request
             {
-                AdvertisementId = advertisementId
+                AdvertisementId = request.advertisementId
             }, cancellationToken);
 
             return Ok();
         }
+    }
+
+    public class Request
+    {
+        public int advertisementId { get; set; }
     }
 }

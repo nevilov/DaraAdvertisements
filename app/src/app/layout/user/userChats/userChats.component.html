@@ -1,59 +1,20 @@
 <div class="container">
+
   <div class="container-left">
-    <button class="user__chat__button">
+
+    <div class="container__chat__role">
+      <button>Покупатели</button>
+      <button>Продавцы</button>
+    </div>
+
+    <button *ngFor="let chat of Chats" class="user__chat__button" (click)="getChatMessages()">
       <div class="user__chats">
         <img src="assets/images/advertisement/car1.png">
-        <span class = "user__name">Андрей</span>
-        <span class="updated__date">13.13.13</span>
-      </div>
-    </button>
-    <button class="user__chat__button">
-      <div class="user__chats">
-        <img src="assets/images/advertisement/car1.png">
-        <span class = "user__name">Андрей</span>
-        <span class="updated__date">13.13.13</span>
-      </div>
-    </button>
-    <button class="user__chat__button">
-      <div class="user__chats">
-        <img src="assets/images/advertisement/car1.png">
-        <span class = "user__name">Андрей</span>
-        <span class="updated__date">13.13.13</span>
-      </div>
-    </button>
-    <button class="user__chat__button">
-      <div class="user__chats">
-        <img src="assets/images/advertisement/car1.png">
-        <span class = "user__name">Андрей</span>
-        <span class="updated__date">13.13.13</span>
-      </div>
-    </button>
-    <button class="user__chat__button">
-      <div class="user__chats">
-        <img src="assets/images/advertisement/car1.png">
-        <span class = "user__name">Андрей</span>
-        <span class="updated__date">13.13.13</span>
-      </div>
-    </button>
-    <button class="user__chat__button">
-      <div class="user__chats">
-        <img src="assets/images/advertisement/car1.png">
-        <span class = "user__name">Андрей</span>
-        <span class="updated__date">13.13.13</span>
-      </div>
-    </button>
-    <button class="user__chat__button">
-      <div class="user__chats">
-        <img src="assets/images/advertisement/car1.png">
-        <span class = "user__name">Андрей</span>
-        <span class="updated__date">13.13.13</span>
-      </div>
-    </button>
-    <button class="user__chat__button">
-      <div class="user__chats">
-        <img src="assets/images/advertisement/car1.png">
-        <span class = "user__name">Андрей</span>
-        <span class="updated__date">13.13.13</span>
+        <div class="user__info">
+          <span class="__name">{{chat.name}}</span>
+          <span class="__lastname">{{chat.lastname}}</span>
+          <span class="updated__date">{{chat.updatedDate}}</span>
+        </div>
       </div>
     </button>
   </div>

@@ -10,11 +10,13 @@ namespace DaraAds.Application.Services.Chat.Contracts
         {
             public class ChatItem
             {
+                public long ChatId { get; set; }
+
+                public string UserId { get; set; }
+
                 public string Name { get; set; }
 
                 public string Lastname { get; set; }
-
-                public string Cover { get; set; }
 
                 public DateTime? UpdatedDate { get; set; }
             }
