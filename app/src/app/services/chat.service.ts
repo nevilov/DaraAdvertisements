@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AppComponent} from "../app.component";
 import {CookieService} from "ngx-cookie-service";
 import {Observable} from "rxjs";
-import {Chat, ChatMessage, ChatResponse, Message, MessageResponse, SendMessageRequest} from "../Dtos/chat";
+import {ChatResponse, MessageResponse} from "../Dtos/chat";
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,12 @@ export class ChatService{
     });
   }
 
-  public sendMessage(request: SendMessageRequest){
-    return this.http.post(AppComponent.backendAddress + '/api/message/send', {request});
+  public sendMessage(chatId: number, recipientId: string, text: string){
+    return this.http.post(AppComponent.backendAddress + '/api/message/send', {chatId, recipientId, text}, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+      })
+    });
   }
 
   public getChats(isSeller: boolean): Observable<ChatResponse>{

@@ -31,12 +31,6 @@ export class Message{
   createdDate?: Date;
 }
 
-export class SendMessageRequest{
-  chatId?: string;
-  recipientId?: string;
-  Text?: string;
-}
-
 export class User{
   id?: string;
   name?: string;
