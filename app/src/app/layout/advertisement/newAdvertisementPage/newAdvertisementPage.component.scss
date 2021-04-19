@@ -109,3 +109,17 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+input#file {
+    display: inline-block;
+    padding: 30px 0 0 0;
+    width: 20%;
+    height: 20px;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: url('https://cdn1.iconfinder.com/data/icons/hawcons/32/698394-icon-130-cloud-upload-512.png') center center no-repeat #e4e4e4;
+    border-radius: 5px;
+    background-size: 60px 60px;
+  }

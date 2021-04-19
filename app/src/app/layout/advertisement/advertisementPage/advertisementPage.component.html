@@ -9,7 +9,8 @@
     <div class="content__advertisements">
 
       <app-advertisement *ngFor="let advertisement of advertisements;"
-        [routerLink]="['advertisements', advertisement.id]" [title]="advertisement.title" [price]="advertisement.price"
+        [routerLink]="['advertisements', advertisement.id]" [title]="advertisement.title" [price]='advertisement.price'
+        [cover]="advertisement.images[0].id"
         [ownerName]='advertisement.owner.name + " " + advertisement.owner.lastname'
         [createdDate]="advertisement.createdDate">
       </app-advertisement>

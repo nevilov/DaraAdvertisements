@@ -11,7 +11,8 @@ import { AdvertisementService } from 'src/app/services/advertisements.service';
 export class AdvertisementPageComponent implements OnInit {
   advertisements: Advertisement[] = []; // массив объяв
 
-  constructor(private advertisementService: AdvertisementService) {}
+  constructor(private advertisementService: AdvertisementService) {
+  }
 
   ngOnInit() {
     this.loadAdvertisements(); // загрузка данных при старте компонента
@@ -21,6 +22,11 @@ export class AdvertisementPageComponent implements OnInit {
   loadAdvertisements() {
     this.advertisementService.getAllAdvertisements().subscribe((data) => {
       this.advertisements = data.items;
+      for (let i = 0; i < this.advertisements.length; i++) {
+        if (this.advertisements[i].images[0] === undefined) {
+          this.advertisements[i].images[0] = { id: "default" };
+        }
+      }
       console.log(this.advertisements);
     });
   }

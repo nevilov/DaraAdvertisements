@@ -100,7 +100,7 @@ namespace DaraAds.API
             {
                 builder.WithOrigins("http://localhost:4200")
                 .AllowAnyHeader()
-                .WithMethods("GET", "POST", "PUT", "DELETE")
+                .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                 .AllowCredentials();
             });
 

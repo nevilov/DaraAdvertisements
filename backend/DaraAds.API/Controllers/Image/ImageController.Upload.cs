@@ -26,7 +26,7 @@ namespace DaraAds.API.Controllers.Image
                 Image = request.Image    
             }, cancellationToken);
 
-            return Created($"api/images/{response.Id}", new {});
+            return Created($"api/images/{response.Id}", new { response.Id });
         }
     }
 }
