@@ -7,7 +7,7 @@ using DaraAds.Application.Common;
 
 namespace DaraAds.Application.Services.Advertisement.Contracts
 {
-    public static class GetPagesByCategory
+    public static class GetPagedByCategory
     {
         public class Request : Paged.Request
         {
@@ -17,6 +17,15 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
 
         public class Response : Paged.Response<Response.Item>
         {
+            public sealed class OwnerResponse
+            {
+                public string Id { get; set; }
+                public string Email { get; set; }
+                public string Name { get; set; }
+                public string Lastname { get; set; }
+                public string Username { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
+            }
 
             public sealed class ImageResponse
             {
@@ -32,7 +41,9 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Cover { get; set; }
                 public decimal Price { get; set; }
                 public string Status { get; set; }
+                public DateTime CreatedDate { get; set; }
                 public IEnumerable<ImageResponse> Images { get; set; }
+                public OwnerResponse Owner { get; set; }
             }
         }
     }

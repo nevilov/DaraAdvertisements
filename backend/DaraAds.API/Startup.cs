@@ -22,7 +22,8 @@ using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Infrastructure.Helpers;
 using DaraAds.Application.Services.Favorite.Interfaces;
 using DaraAds.Application.Services.Favorite.Implementations;
-
+using DaraAds.Application.Services.Category.Interfaces;
+using DaraAds.Application.Services.Category.Implementations;
 
 namespace DaraAds.API
 {
@@ -42,14 +43,16 @@ namespace DaraAds.API
             .AddScoped<IAdvertisementService, AdvertisementService>()
             .AddScoped<IAbuseService, AbuseService>()
             .AddScoped<IImageService, ImageService>()
-            .AddScoped<IFavoriteService, FavoriteService>();
+            .AddScoped<IFavoriteService, FavoriteService>()
+            .AddScoped<ICategoryService, CategoryService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
              .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
              .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
              .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>()
-             .AddScoped<IFavoriteRepository, FavoriteRepository>();
+             .AddScoped<IFavoriteRepository, FavoriteRepository>()
+             .AddScoped<ICategoryRepository, CategoryRepository>();
 
             services
                 .AddScoped<ISortHelper<Domain.Advertisement>, SortHelper<Domain.Advertisement>>();
