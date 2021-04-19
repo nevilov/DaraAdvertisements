@@ -4,10 +4,40 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DaraAds.Infrastructure.Migrations
 {
-    public partial class AddChatAndMessage : Migration
+    public partial class AddChat : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Image_Advertisements_AdvertisementId",
+                table: "Image");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Image_DomainUsers_UserId",
+                table: "Image");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "Image",
+                type: "text",
+                nullable: false,
+                defaultValue: "",
+                oldClrType: typeof(string),
+                oldType: "text",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<byte[]>(
+                name: "ImageBlob",
+                table: "Image",
+                type: "bytea",
+                nullable: false,
+                defaultValue: new byte[0],
+                oldClrType: typeof(byte[]),
+                oldType: "bytea",
+                oldNullable: true);
+
+
             migrationBuilder.CreateTable(
                 name: "Chats",
                 columns: table => new
@@ -36,7 +66,6 @@ namespace DaraAds.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
 
             migrationBuilder.CreateTable(
                 name: "Messages",
@@ -78,28 +107,28 @@ namespace DaraAds.Infrastructure.Migrations
                 keyColumn: "Id",
                 keyValue: "7ca197bb-d569-4fb9-b214-7f719973050e",
                 column: "ConcurrencyStamp",
-                value: "c465881c-e08f-4b5e-b003-0746ef68a8f1");
+                value: "023d32e1-2177-4ff0-96da-974dcb5078b3");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
                 column: "ConcurrencyStamp",
-                value: "7da4a340-c6f0-495b-a7d6-d5aa31e772cd");
+                value: "8eed9d23-c62b-4bb4-b828-6c349673caf0");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "E8E08651-ED1B-468E-A931-F73E2563CD85",
                 column: "ConcurrencyStamp",
-                value: "65b31824-1501-4dad-adb0-2953f937b1df");
+                value: "8662da55-9a34-41ee-8e24-e1eaf10a0d43");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "7a4f2a04-a115-49d4-86a1-c85d5805e725", "AQAAAAEAACcQAAAAEPLOPhv+xSH78KRnCTgGCD+TLmbFt8jFIcVblBCN9VLf3HjZ5h9p5mPbIHi+lF00FQ==", "d2e985d8-9666-4771-90cf-bd8d97175dff" });
+                values: new object[] { "0b6c2214-89d9-44c1-81b5-ae2104473888", "AQAAAAEAACcQAAAAEB7tfUZkDKNEC/SL1lRnk8VapHvA0711IwtNSa2VYwYrYjFpWuw05PPsJzVTRI2yLQ==", "3c0bc1e3-3462-4ec4-812a-dad429a3674c" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Chats_AdvertisementId",
@@ -125,16 +154,59 @@ namespace DaraAds.Infrastructure.Migrations
                 name: "IX_Messages_SenderId",
                 table: "Messages",
                 column: "SenderId");
+
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Image_Advertisements_AdvertisementId",
+                table: "Image",
+                column: "AdvertisementId",
+                principalTable: "Advertisements",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Image_DomainUsers_UserId",
+                table: "Image",
+                column: "UserId",
+                principalTable: "DomainUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Image_Advertisements_AdvertisementId",
+                table: "Image");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Image_DomainUsers_UserId",
+                table: "Image");
 
             migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Chats");
+
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "Image",
+                type: "text",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "text");
+
+            migrationBuilder.AlterColumn<byte[]>(
+                name: "ImageBlob",
+                table: "Image",
+                type: "bytea",
+                nullable: true,
+                oldClrType: typeof(byte[]),
+                oldType: "bytea");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
@@ -162,7 +234,24 @@ namespace DaraAds.Infrastructure.Migrations
                 keyColumn: "Id",
                 keyValue: "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "2f4bce19-29b9-4411-9d0e-75834a9bf40c", "AQAAAAEAACcQAAAAEJ80DBjL0/gTUd1St35E1MTnsVecNwI3WZNjIJe5lw7TAyApA0CZ3e6+tMOq8/RIWg==", "6db823b5-e1ab-4d1d-b41f-bcccb9f8d6b9" });
+                values: new object[] { "2cec64a3-83af-43e4-b910-91fbf8d31748", "AQAAAAEAACcQAAAAEJ80DBjL0/gTUd1St35E1MTnsVecNwI3WZNjIJe5lw7TAyApA0CZ3e6+tMOq8/RIWg==", "6db823b5-e1ab-4d1d-b41f-bcccb9f8d6b9" });
+
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Image_Advertisements_AdvertisementId",
+                table: "Image",
+                column: "AdvertisementId",
+                principalTable: "Advertisements",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Image_DomainUsers_UserId",
+                table: "Image",
+                column: "UserId",
+                principalTable: "DomainUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
     }
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {SignalrService} from "../../../services/signalr.service";
-import {ChatService} from "../../../services/chat.service";
-import {CookieService} from "ngx-cookie-service";
-import {Chat, ChatMessage, Message, MessageResponse} from "../../../Dtos/chat";
-import {UserService} from "../../../services/user.service";
-import {Text} from "@angular/compiler";
+import {SignalrService} from '../../../services/signalr.service';
+import {ChatService} from '../../../services/chat.service';
+import {CookieService} from 'ngx-cookie-service';
+import {Chat, ChatMessage, Message, MessageResponse} from '../../../Dtos/chat';
+import {UserService} from '../../../services/user.service';
+import {Text} from '@angular/compiler';
 
 @Component({
   selector: 'app-userChats',
@@ -12,10 +12,10 @@ import {Text} from "@angular/compiler";
   styleUrls: ['./userChats.component.scss']
 })
 export class UserChatsComponent implements OnInit {
-  userId: string = '';
-  currentChatId: number = 0;
-  currentRecipientId: string = ' ';
-  isSeller: boolean = false;
+  userId = '';
+  currentChatId = 0;
+  currentRecipientId = ' ';
+  isSeller = false;
   chats: Chat[] = [];
   messages: ChatMessage[] = [];
 
@@ -39,16 +39,19 @@ export class UserChatsComponent implements OnInit {
   }
 
   private _handleMessage = (message: Message) => {
-    const chatMessage = <ChatMessage>{
+    const chatMessage = {
       text: message.text,
       senderName: message.senderName,
-      created: message.createdDate
-    }
+      created: message.createdDate,
+      sender: {id: message.senderId},
+      recipient: {id: message.recipientId}
+    } as ChatMessage;
+    this.messages.push(chatMessage);
   }
 
   getChatMessages(chatId: number): void{
     this.currentChatId = chatId;
-    this.chatService.getMessage(chatId).subscribe((data)=>{
+    this.chatService.getMessage(chatId).subscribe((data) => {
       this.messages = data.messages!;
     });
   }

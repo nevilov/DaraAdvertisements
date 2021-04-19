@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DaraAds.Infrastructure.Migrations
 {
     [DbContext(typeof(DaraAdsDbContext))]
-    [Migration("20210417073524_AddChatAndMessage")]
-    partial class AddChatAndMessage
+    [Migration("20210419181139_AddChat")]
+    partial class AddChat
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("DaraAds.Domain.Abuse", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -50,14 +50,14 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Abuses");
                 });
 
             modelBuilder.Entity("DaraAds.Domain.Advertisement", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -95,7 +95,7 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
@@ -106,7 +106,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("DaraAds.Domain.Category", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -129,7 +129,7 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ParentCategoryId");
 
@@ -304,7 +304,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("DaraAds.Domain.Chat", b =>
                 {
-                    b.Property<long>("UserId")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -324,7 +324,7 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AdvertisementId");
 
@@ -335,7 +335,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("DaraAds.Domain.Favorite", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -355,7 +355,7 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AdvertisementId");
 
@@ -366,7 +366,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("DaraAds.Domain.Image", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<int?>("AdvertisementId")
@@ -392,7 +392,7 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("AdvertisementId");
 
@@ -403,7 +403,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("DaraAds.Domain.Message", b =>
                 {
-                    b.Property<long>("UserId")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -423,7 +423,7 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<string>("Text")
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ChatId");
 
@@ -436,7 +436,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("DaraAds.Domain.User", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<string>("Avatar")
@@ -477,14 +477,14 @@ namespace DaraAds.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("DomainUsers");
                 });
 
             modelBuilder.Entity("DaraAds.Infrastructure.Identity.IdentityUser", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<int>("AccessFailedCount")
@@ -534,7 +534,7 @@ namespace DaraAds.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -550,14 +550,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7a4f2a04-a115-49d4-86a1-c85d5805e725",
+                            ConcurrencyStamp = "0b6c2214-89d9-44c1-81b5-ae2104473888",
                             Email = "admin",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPLOPhv+xSH78KRnCTgGCD+TLmbFt8jFIcVblBCN9VLf3HjZ5h9p5mPbIHi+lF00FQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEB7tfUZkDKNEC/SL1lRnk8VapHvA0711IwtNSa2VYwYrYjFpWuw05PPsJzVTRI2yLQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d2e985d8-9666-4771-90cf-bd8d97175dff",
+                            SecurityStamp = "3c0bc1e3-3462-4ec4-812a-dad429a3674c",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -565,7 +565,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("Id")
                         .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -580,7 +580,7 @@ namespace DaraAds.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -592,21 +592,21 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "c465881c-e08f-4b5e-b003-0746ef68a8f1",
+                            ConcurrencyStamp = "023d32e1-2177-4ff0-96da-974dcb5078b3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "7da4a340-c6f0-495b-a7d6-d5aa31e772cd",
+                            ConcurrencyStamp = "8eed9d23-c62b-4bb4-b828-6c349673caf0",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "E8E08651-ED1B-468E-A931-F73E2563CD85",
-                            ConcurrencyStamp = "65b31824-1501-4dad-adb0-2953f937b1df",
+                            ConcurrencyStamp = "8662da55-9a34-41ee-8e24-e1eaf10a0d43",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         });
@@ -614,7 +614,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -629,7 +629,7 @@ namespace DaraAds.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("RoleId");
 
@@ -638,7 +638,7 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -653,7 +653,7 @@ namespace DaraAds.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
