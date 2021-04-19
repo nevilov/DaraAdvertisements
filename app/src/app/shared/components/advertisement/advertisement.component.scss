@@ -29,14 +29,16 @@
 
     &__price {
         font-size: 20px;
-        // margin-bottom: 10px;
+        margin-bottom: 10px;
+        // display: block;
     }
 
     &__userInfo {
-        margin: 10px 0 15px 0;
+        // margin: 10px 0 15px 0;
     }
 
     &__advInfo {
+        margin-top: 15px;
     }
 
     &__adress {

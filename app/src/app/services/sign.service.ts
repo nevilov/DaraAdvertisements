@@ -36,11 +36,11 @@ export class SignService {
             .post<SignInResult>(AppComponent.backendAddress + '/api/User/login', user)
             .pipe(
                 tap((response: any) => {
+                    console.log(response);
                     this.cookieService.set('AuthUsername', user.login);
                     this.cookieService.set('AuthToken', response.token);
                     this.cookieService.set('UserRole', response.userRole);
                     this.dataSharingService.isUserLoggedIn.next(true);
-                    console.log('login', response);
                 }),
                 // catchError(this.checkError)
             );

@@ -12,7 +12,8 @@ export class AdvertisementComponent implements OnInit {
     @Input() ownerLogin: string = 'ДоменныйЮзер';
     @Input() ownerId: string = ""; // Решение на скорую руку TODO Исправить
     @Input() createdDate: Date = new Date();
-    @Input() routLink: String = "";
+    @Input() routLink: number = 0;
+    @Input() thisUserAdvertisement: boolean = false;
 
     constructor() { }
 
