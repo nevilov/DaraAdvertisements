@@ -11,7 +11,8 @@
   }
 
   &__image {
-    max-height: 250px;
+    min-height: 200px;
+    max-height: 200px;
     width: 100%;
     img {
       width: 100%;
