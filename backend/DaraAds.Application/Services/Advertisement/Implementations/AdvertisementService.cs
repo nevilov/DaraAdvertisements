@@ -90,8 +90,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Images = ad.Images.Select(i => new Get.Response.ImageResponse
                 {
                     Id = i.Id,
-                    ImageUrl = S3Url + i.Name,
-                    ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    ImageUrl =  S3Url + i.Name
+//                    ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                 }),
 
                 Category = new Get.Response.CategoryResponse
@@ -111,8 +111,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Images = ad.OwnerUser.Images.Select(i => new Get.Response.ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl = S3Url + i.Name,
-                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        ImageUrl =  S3Url + i.Name
+ //                       ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     })
                 }
             };
@@ -190,16 +190,16 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Images = a.OwnerUser.Images.Select(i => new ImageResponse
                         {
                             Id = i.Id,
-                            ImageUrl = S3Url + i.Name,
-                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                            ImageUrl =  S3Url + i.Name
+ //                           ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                         })
                     },
 
                     Images = a.Images.Select(i => new ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl = S3Url + i.Name,
-                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        ImageUrl =  S3Url + i.Name
+//                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     }),
                 }),
                 Total = ads.Total,
@@ -275,7 +275,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     {
                         Id = i.Id,
                         ImageUrl = S3Url + i.Name,
-                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+//                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     }),
                     Owner = new GetPagedByCategory.Response.OwnerResponse
                     {
@@ -288,7 +288,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         {
                             Id = i.Id,
                             ImageUrl = S3Url + i.Name,
-                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+//                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                         })
                     },
                 }),
@@ -327,8 +327,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Images = a.Images.Select(i => new Search.Response.ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl = S3Url + i.Name,
-                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        ImageUrl =  S3Url + i.Name
+ //                     ImageBase64 = Convert.ToBase64String(i.ImageBlob), 
                     })
                 }),
                 Total = total,

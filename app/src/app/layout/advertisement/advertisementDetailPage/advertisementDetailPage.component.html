@@ -6,14 +6,12 @@
       <figure class="slider__mainImage">
         <span class="container__iconify" data-icon="fluent:thumb-like-16-filled" data-inline="false"
           style="color: #79797C;"></span>
-        <img src="./../../../../assets/images/advertisement/car.png" alt="">
+        <img [src]="imageValues[0]" alt="">
       </figure>
       <div class="slider__images">
-        <img src="./../../../../assets/images/advertisement/car.png" alt="">
-        <img src="./../../../../assets/images/advertisement/car1.png" alt="">
-        <img src="./../../../../assets/images/advertisement/car2.png" alt="">
-        <img src="./../../../../assets/images/advertisement/car3.png" alt="">
-        <img src="./../../../../assets/images/advertisement/car4.png" alt="">
+        <div  *ngFor="let imageValue of imageValues; let i = index">
+          <img (click)="changeImage(i + 1)" [src]="imageValues[i + 1]" alt="">
+        </div>
       </div>
     </div>
   </div>

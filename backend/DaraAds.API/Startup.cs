@@ -113,9 +113,9 @@ namespace DaraAds.API
             app.UseCors(builder =>
             {
                 builder.WithOrigins("http://localhost:4200")
-                    .AllowAnyHeader()
-                    .WithMethods("GET", "POST")
-                    .AllowCredentials();
+                .AllowAnyHeader()
+                .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
+                .AllowCredentials();
             });
 
             app.UseRouting();

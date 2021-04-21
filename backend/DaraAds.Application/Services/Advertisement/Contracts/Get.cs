@@ -33,7 +33,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             {
                 public string Id { get; set; }
                 public string ImageUrl { get; set; }
-                public string ImageBase64 { get; set; }
+ //               public string ImageBase64 { get; set; }
             }
             
             public string Title { get; set; }
