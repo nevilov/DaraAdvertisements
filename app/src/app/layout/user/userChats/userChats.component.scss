@@ -1,0 +1,122 @@
+.container{
+  display: flex;
+  padding: 0 50px;
+  height: 600px;
+}
+
+.container-left{
+  .adv__title{
+    white-space: nowrap;
+    overflow: hidden;
+    background: #fc0;
+    padding: 5px;
+    text-overflow: ellipsis;
+  }
+  .container__chat__role{
+    button{
+      background-color: #1287f5;
+      padding: 8px 16px;
+      border-radius: 2px;
+      color: rgba(255, 255, 255, 0.9);
+      border: 1px solid #d3d3d4;
+      font-size: 16px;
+    }
+  }
+
+  .user__info{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .container__chat__role{
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  height: 100%;
+  overflow-y: scroll;
+  .user__chats{
+    display: flex;
+    align-items: center;
+  }
+  span{
+    margin: 0 5px;
+  }
+  box-shadow: 0 0 5px rgb(0 0 0 / 35%);
+  margin-right: 10px;
+  width: 30%;
+  img{
+    width: 50px;
+    border-radius: 30px;
+  }
+
+  button{
+    width: 100%;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    margin: 10px 5px;
+    background-color: transparent;
+    border-bottom: 1px solid #eaedef;
+    padding-bottom: 10px;
+  }
+}
+
+.chat{
+  .chat__box{
+    height: 85%;
+    overflow-y: scroll;
+    width: 100%;
+
+    .message__content{
+      padding: 10px 10px;
+      margin: 20px 5px;
+    }
+
+    .message__recipient{
+      display: flex;;
+      justify-content: flex-start;
+      .message__content{
+        border: 5px outset rgba(28, 110, 164, 0.63);
+        border-radius: 0px 40px 40px 40px;
+      }
+    }
+
+    .message__sender{
+      display: flex;
+      justify-content: flex-end;
+      .message__content{
+        border: 5px outset rgba(5,164,88,0.63);
+        border-radius: 40px 40px 0px 40px;
+      }
+    }
+
+    span{
+      padding: 10px 5px;
+    }
+
+  }
+
+  .send__message__container{
+    margin: 30px 20px;
+    display: flex;
+    input{
+      padding: 8px 15px;
+      flex-grow: 1;
+      margin-right: 5px;
+      border: 1px solid #d3d3d4;
+      color: #79797c;
+      font-size: 16px;
+    }
+    .send__button{
+      background-color: #1287f5;
+      padding: 8px 16px;
+      border-radius: 2px;
+      color: rgba(255, 255, 255, 0.9);
+      border: 1px solid #d3d3d4;
+      font-size: 16px;
+    }
+  }
+  width: 100%;
+  box-shadow: 0 0 5px rgb(0 0 0 / 35%);
+}

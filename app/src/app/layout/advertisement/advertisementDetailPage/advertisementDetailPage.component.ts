@@ -1,14 +1,13 @@
-import { NULL_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { switchMap } from 'rxjs/operators';
 import { Advertisement } from 'src/app/Dtos/advertisement';
 import { AdvertisementService } from 'src/app/services/advertisements.service';
 import { ImageService } from 'src/app/services/image.service';
+import {ChatService} from '../../../services/chat.service';
 
 @UntilDestroy()
-
 @Component({
   selector: 'app-advertisementDetailPage',
   templateUrl: './advertisementDetailPage.component.html',
@@ -18,9 +17,8 @@ import { ImageService } from 'src/app/services/image.service';
   ]
 })
 export class AdvertisementDetailPageComponent implements OnInit {
-
-    id: number = 0;
-    advertisement: Advertisement;
+    public id = 0;
+    public advertisement: Advertisement | null = null;
     images: any[];
     imageValues: string[];
 
@@ -28,7 +26,9 @@ export class AdvertisementDetailPageComponent implements OnInit {
     constructor(
       private route: ActivatedRoute,
       private advertisementService: AdvertisementService,
-      private imageService: ImageService
+      private imageService: ImageService,
+      private chatService: ChatService,
+      private router: Router
       ){
       this.advertisement = {} as Advertisement;
       this.images = [];
@@ -57,12 +57,20 @@ export class AdvertisementDetailPageComponent implements OnInit {
                 .pipe(untilDestroyed(this))
                 .subscribe((data: any) => {
                   this.imageValues[i + 1] = 'data:image/jpeg;base64,' + data.imageBlob;
-                  if (i == 0) {
+                  if (i === 0) {
                     this.imageValues[0] = this.imageValues[1]
                   }
                 });
               }
             });
-            
+
     }
+
+    onCreateChat(){
+      this.chatService.createChat(this.id)
+        .subscribe((r) => {
+          this.router.navigateByUrl('/chats');
+        });
+    }
+
 }
