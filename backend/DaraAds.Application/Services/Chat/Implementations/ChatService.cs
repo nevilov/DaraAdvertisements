@@ -44,6 +44,11 @@ namespace DaraAds.Application.Services.Chat.Implementations
                         Name = a.Buyer.Name,
                         Lastname = a.Buyer.LastName,
                         UpdatedDate = a.UpdatedDate,
+                        Advertisement = new Get.Response.AdvertisementItem
+                        {
+                            Id = a.Advertisement.Id,
+                            Title = a.Advertisement.Title
+                        }
                     })
                 };
             }
@@ -59,6 +64,11 @@ namespace DaraAds.Application.Services.Chat.Implementations
                         Name = a.Advertisement.OwnerUser.Name,
                         Lastname = a.Advertisement.OwnerUser.LastName,
                         UpdatedDate = a.UpdatedDate,
+                        Advertisement = new Get.Response.AdvertisementItem
+                        {
+                            Id = a.Advertisement.Id,
+                            Title = a.Advertisement.Title
+                        }
                     })
                 };
             }
@@ -79,6 +89,12 @@ namespace DaraAds.Application.Services.Chat.Implementations
             {
                 throw new ChatDuplicateException($"Чат с id {chatDuplicate.Id} уже создан");
             }
+
+            if(userId == advertisement.OwnerId)
+            {
+                throw new ChatException($"Попытка создать чат с самим собой, пользователь с id {userId}, является владельцем объявления");
+            }
+
             var chat = new Domain.Chat
             {
                 Advertisement = advertisement,

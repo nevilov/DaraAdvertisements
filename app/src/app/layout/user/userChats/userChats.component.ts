@@ -42,7 +42,7 @@ export class UserChatsComponent implements OnInit {
     const chatMessage = {
       text: message.text,
       senderName: message.senderName,
-      created: message.createdDate,
+      createdDate: message.createdDate,
       sender: {id: message.senderId},
       recipient: {id: message.recipientId}
     } as ChatMessage;

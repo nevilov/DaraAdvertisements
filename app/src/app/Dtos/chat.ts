@@ -13,6 +13,7 @@ export class Chat{
   lastname?: string;
   name?: string;
   updatedDate?: Date;
+  advertisement?: Advertisement;
 }
 
 export class ChatMessage{
@@ -35,4 +36,10 @@ export class User{
   id?: string;
   name?: string;
   lastname?: string;
+}
+
+
+export class Advertisement{
+   id?: number;
+   title?: string;
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace DaraAds.Application.Services.Chat.Contracts
@@ -18,8 +17,19 @@ namespace DaraAds.Application.Services.Chat.Contracts
 
                 public string Lastname { get; set; }
 
+                public AdvertisementItem Advertisement { get; set; }
+
                 public DateTime? UpdatedDate { get; set; }
             }
+
+            public class AdvertisementItem
+            {
+                public int Id { get; set; }
+
+                public string Title { get; set; }
+
+            }
+
 
             public IEnumerable<ChatItem> Chats { get; set; }
         }

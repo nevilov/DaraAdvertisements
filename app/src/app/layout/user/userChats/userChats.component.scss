@@ -5,6 +5,13 @@
 }
 
 .container-left{
+  .adv__title{
+    white-space: nowrap;
+    overflow: hidden;
+    background: #fc0;
+    padding: 5px;
+    text-overflow: ellipsis;
+  }
   .container__chat__role{
     button{
       background-color: #1287f5;
