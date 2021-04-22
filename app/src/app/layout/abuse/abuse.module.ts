@@ -5,17 +5,17 @@ import { NewAbusePageComponent } from './newAbusePage/newAbusePage.component';
 import { AbusePageComponent } from './abusePage/abusePage.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ],
-  declarations: [
-    NewAbusePageComponent,
-    AbusePageComponent
-  ],
-  exports: [
-    NewAbusePageComponent,
-    AbusePageComponent
-  ]
+	imports: [
+		CommonModule,
+		ReactiveFormsModule
+	],
+	declarations: [
+		NewAbusePageComponent,
+		AbusePageComponent
+	],
+	exports: [
+		NewAbusePageComponent,
+		AbusePageComponent
+	]
 })
 export class AbuseModule { }

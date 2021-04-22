@@ -1,43 +1,50 @@
 <div class="container">
-  <form class="container__content content" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-    <div class="content__header header">
-      <h1>Профиль</h1>
-      <div class="header_tabs">
-        <div class="header__tab header__tab-active">
-          <a routerLink="/registration">Регистрация</a>
+    <form class="container__content content" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <div class="content__header header">
+            <h1>Профиль</h1>
+            <div class="header_tabs">
+                <div class="header__tab header__tab-active">
+                    <a routerLink="/registration">Регистрация</a>
+                </div>
+                <div class="header__tab">
+                    <a routerLink="/autorization">Авторизация</a>
+                </div>
+            </div>
         </div>
-        <div class="header__tab">
-          <a routerLink="/autorization">Авторизация</a>
+        <div class="content__socials">
+            <div class="content__col">
+                <span class="content__socialsText">Вы можете зарегистрироваться через</span>
+            </div>
+            <div class="content__col">
+                <div class="content__socialIcon">
+                    <img src="./../../../../assets/images/icons/vk.svg" alt="">
+                </div>
+                <div class="content__socialIcon">
+                    <img src="./../../../../assets/images/icons/facebook.svg" alt="">
+                </div>
+                <div class="content__socialIcon">
+                    <img src="./../../../../assets/images/icons/google.svg" alt="">
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="content__socials">
-      <div class="content__col">
-        <span class="content__socialsText">Вы можете зарегистрироваться через</span>
-      </div>
-      <div class="content__col">
-        <div class="content__socialIcon">
-          <img src="./../../../../assets/images/icons/vk.svg" alt="">
+        <div class="content__form">
+            <div class="content__form_main_values">
+                <input formControlName="username" class="content__formInput" type="text" name="login"
+                    placeholder="Укажите Ваш будущий логин">
+                <input formControlName="password" class="content__formInput" type="password" name="password"
+                    placeholder="Ваш пароль">
+            </div>
+            <input formControlName="name" class="content__formInput" type="text" name="login"
+                placeholder="Укажите Ваше имя">
+            <input formControlName="lastName" class="content__formInput" type="text" name="login"
+                placeholder="Укажите Вашу фамилию">
+            <input formControlName="email" class="content__formInput" type="email" name="email"
+                placeholder="Укажите Ваш email">
+            <input formControlName="phone" class="content__formInput" type="text" name="login"
+                placeholder="Укажите телефонный номер для объявлений">
+            <button>Регистрация <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
+                    style="color: white;"></span></button>
         </div>
-        <div class="content__socialIcon">
-          <img src="./../../../../assets/images/icons/facebook.svg" alt="">
-        </div>
-        <div class="content__socialIcon">
-          <img src="./../../../../assets/images/icons/google.svg" alt="">
-        </div>
-      </div>
-    </div>
-    <div class="content__form">
-      <div class="content__form_main_values">
-      <input formControlName="username" class="content__formInput" type="text" name="login" placeholder="Укажите Ваш будущий логин">
-      <input formControlName="password" class="content__formInput" type="password" name="password" placeholder="Ваш пароль">
-      </div>
-      <input formControlName="name" class="content__formInput" type="text" name="login" placeholder="Укажите Ваше имя">
-      <input formControlName="lastName" class="content__formInput" type="text" name="login" placeholder="Укажите Вашу фамилию">
-      <input formControlName="email" class="content__formInput" type="email" name="email" placeholder="Укажите Ваш email">
-      <input formControlName="phone" class="content__formInput" type="text" name="login" placeholder="Укажите телефонный номер для объявлений">
-      <button>Регистрация <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
-          style="color: white;"></span></button>
-    </div>
-  </form>
+    </form>
+    >>>>>>> origin/develop
 </div>

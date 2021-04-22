@@ -1,0 +1,58 @@
+@import "./../../../../assets/scss/abstacts/_variables";
+
+.container {
+	color: #222;
+	display: grid;
+	grid-gap: 15px;
+	grid-template-columns: 4fr 9fr;
+
+	&__menu {
+	}
+
+	&__content {
+	}
+}
+.menu {
+	&__block {
+		box-shadow: 0 4px 4px rgba($color: #333333, $alpha: 0.04), 0 4px 16px rgba($color: #333333, $alpha: 0.08);
+		margin-bottom: 20px;
+		border-radius: 8px;
+		overflow: hidden;
+
+		&:last-child {
+			margin-bottom: 0px;
+		}
+	}
+
+	&__header {
+		padding: 20px;
+		font-size: 18px;
+		font-weight: 600;
+	}
+
+	&__item {
+		padding: 16px 20px;
+		display: flex;
+		align-items: center;
+		transition: background ease 0.3s;
+
+		&:hover {
+			border-left: 4px solid $main-blue;
+			padding: 16px 20px 16px 16px;
+			background-color: #f9fafc;
+			transition: background ease 0.3s;
+		}
+	}
+
+	&__icon {
+		margin-right: 5px;
+	}
+
+	&__text {
+		font-weight: 600;
+		font-size: 16px;
+	}
+}
+.iconify {
+	font-size: 20px;
+}

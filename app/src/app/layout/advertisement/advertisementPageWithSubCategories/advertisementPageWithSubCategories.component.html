@@ -1,0 +1,45 @@
+<div class="container">
+    <app-breadcrumbs></app-breadcrumbs>
+    <div class="container__subcategories subcategories">
+        <h2>Транспорт</h2>
+        <div class="subcategories__content">
+            <a routerLink="/advertisements/1" class="subcategories__item">
+                <span class="subcategories__itemTitle">Audi</span>
+                <span class="subcategories__itemCount">3464</span>
+            </a>
+            <a routerLink="/advertisements/2" class="subcategories__item">
+                <span class="subcategories__itemTitle">Audi</span>
+                <span class="subcategories__itemCount">3464</span>
+            </a>
+            <a routerLink="/advertisements/3" class="subcategories__item">
+                <span class="subcategories__itemTitle">Audi</span>
+                <span class="subcategories__itemCount">3464</span>
+            </a>
+            <a routerLink="/advertisements/4" class="subcategories__item">
+                <span class="subcategories__itemTitle">Audi</span>
+                <span class="subcategories__itemCount">3464</span>
+            </a>
+            <a routerLink="/advertisements/5" class="subcategories__item">
+                <span class="subcategories__itemTitle">Audi</span>
+                <span class="subcategories__itemCount">3464</span>
+            </a>
+        </div>
+    </div>
+    <div class="header">
+        <h1>Доска объявлений</h1>
+        <div class="header__filters"></div>
+    </div>
+    <div class="content">
+
+        <div class="content__advertisements">
+
+            <app-advertisement *ngFor="let advertisement of advertisements;"
+                [routerLink]="['advertisements', advertisement.id]" [title]="advertisement.title"
+                [price]="advertisement.price"
+                [ownerName]="advertisement?.owner?.name + ' ' + advertisement?.owner?.lastname">
+            </app-advertisement>
+
+        </div>
+
+    </div>
+</div>

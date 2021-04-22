@@ -1,21 +1,21 @@
 <ul>
-  <li>
-      <span>
-          <span>#</span>
-          <span style="padding-right: 130px">Id автора</span>
-          <span>Id объявления</span>
-          <span>Приоритет</span>
-          <span>Текст жалобы</span>
-      </span>
-  </li>
-  <li *ngFor="let item of abuseItems; let i = index">
-      <span>
-          <strong>{{ i + 1 }}</strong>
-          <span class="AuthorId">{{ item.authorId }}</span>
-          <span class="AbuseAdvId">{{ item.abuseAdvId }}</span>
-          <span class="Priority">{{ item.priority }}</span>
-          <span class="AbuseText">{{ item.abuseText }}</span>
-          <button class="" (click)="closeAbuse(item.id, i)">Рассмотрено</button>
-      </span>
-  </li>
+    <li>
+        <span>
+            <span>#</span>
+            <span style="padding-right: 130px">Id автора</span>
+            <span>Id объявления</span>
+            <span>Приоритет</span>
+            <span>Текст жалобы</span>
+        </span>
+    </li>
+    <li *ngFor="let item of abuseItems; let i = index">
+        <span>
+            <strong>{{ i + 1 }}</strong>
+            <span class="AuthorId">{{ item.authorId }}</span>
+            <span class="AbuseAdvId">{{ item.abuseAdvId }}</span>
+            <span class="Priority">{{ item.priority }}</span>
+            <span class="AbuseText">{{ item.abuseText }}</span>
+            <button class="" (click)="closeAbuse(item.id, i)">Рассмотрено</button>
+        </span>
+    </li>
 </ul>
