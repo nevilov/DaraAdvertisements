@@ -6,6 +6,7 @@ export interface Advertisement {
     title: string;
     description: string;
     cover: string;
+    images: any;
     status: string;
     price: number;
     category: Category;

@@ -16,6 +16,7 @@ export class AdvertisementPageComponent implements OnInit {
     advertisements: Advertisement[] = [];
     categoryId: number = -1;
 
+
     constructor(private route: ActivatedRoute, private advertisementService: AdvertisementService) { }
 
     ngOnInit() {
@@ -25,21 +26,25 @@ export class AdvertisementPageComponent implements OnInit {
             .subscribe(data => this.categoryId = +data);
 
         if (this.categoryId == -1) {
-            this.loaAdvertisements();
+            this.loadAdvertisements();
         } else {
-            this.loaAdvertisementsByCategory(this.categoryId);
+            this.loadAdvertisementsByCategory(this.categoryId);
         }
     }
 
-    loaAdvertisements() {
-        this.advertisementService.getAllAdvertisements()
-            .subscribe(data => {
-                this.advertisements = data.items;
-                console.log(this.advertisements)
-            });
+    loadAdvertisements() {
+        this.advertisementService.getAllAdvertisements().subscribe((data) => {
+            this.advertisements = data.items;
+            for (let i = 0; i < this.advertisements.length; i++) {
+                if (this.advertisements[i].images[0] === undefined) {
+                    this.advertisements[i].images[0] = { id: "default" };
+                }
+            }
+            console.log(this.advertisements);
+        });
     }
 
-    loaAdvertisementsByCategory(categoryId: number) {
+    loadAdvertisementsByCategory(categoryId: number) {
         this.advertisementService.getAdvertisementByCategoryId(categoryId)
             .subscribe(data => {
                 this.advertisements = data.items;

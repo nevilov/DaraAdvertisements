@@ -24,6 +24,11 @@ using DaraAds.Application.Services.Favorite.Interfaces;
 using DaraAds.Application.Services.Favorite.Implementations;
 using DaraAds.Application.Services.Category.Interfaces;
 using DaraAds.Application.Services.Category.Implementations;
+using DaraAds.Application.Services.Chat.Interfaces;
+using DaraAds.Application.Services.Chat.Implementations;
+using DaraAds.Application.Services.Message.Interfaces;
+using DaraAds.Application.Services.Message.Implementations;
+using DaraAds.Infrastructure.SignalR.Hubs;
 
 namespace DaraAds.API
 {
@@ -44,7 +49,10 @@ namespace DaraAds.API
             .AddScoped<IAbuseService, AbuseService>()
             .AddScoped<IImageService, ImageService>()
             .AddScoped<IFavoriteService, FavoriteService>()
-            .AddScoped<ICategoryService, CategoryService>();
+            .AddScoped<ICategoryService, CategoryService>()
+            .AddScoped<IFavoriteService, FavoriteService>()
+            .AddScoped<IChatService, ChatService>()
+            .AddScoped<IMessageService, MessageService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
@@ -52,7 +60,9 @@ namespace DaraAds.API
              .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
              .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>()
              .AddScoped<IFavoriteRepository, FavoriteRepository>()
-             .AddScoped<ICategoryRepository, CategoryRepository>();
+             .AddScoped<ICategoryRepository, CategoryRepository>()
+             .AddScoped<IChatRepository, ChatRepository>()
+             .AddScoped<IMessageRepository, MessageRepository>();
 
             services
                 .AddScoped<ISortHelper<Domain.Advertisement>, SortHelper<Domain.Advertisement>>();
@@ -61,6 +71,8 @@ namespace DaraAds.API
 
             services.AddScoped<IMailService, MailService>();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+
+            services.AddSignalRModule();
 
             services.AddS3(Configuration);
 
@@ -80,7 +92,6 @@ namespace DaraAds.API
 
             services.ValidatorModule();
 
-            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -103,7 +114,7 @@ namespace DaraAds.API
             {
                 builder.WithOrigins("http://localhost:4200")
                 .AllowAnyHeader()
-                .WithMethods("GET", "POST", "PUT", "DELETE", "PATCH")
+                .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                 .AllowCredentials();
             });
 
@@ -115,6 +126,7 @@ namespace DaraAds.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/signalr/chat");
             });
         }
     }

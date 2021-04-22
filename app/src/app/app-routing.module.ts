@@ -12,14 +12,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdvertisementPageComponent } from './layout/advertisement/advertisementPage/advertisementPage.component';
 import { PublicProfileComponent } from './layout/user/publicProfile/publicProfile.component';
-import { UserProfileComponent } from './layout/user/userProfile/userProfile.component';
-import { UserProfileSettingsComponent } from './layout/user/userProfile/userProfileSettings/userProfileSettings.component';
-import { UserProfileAdvertisementsComponent } from './layout/user/userProfile/userProfileAdvertisements/userProfileAdvertisements.component';
-import { UserProfileLoginPassComponent } from './layout/user/userProfile/userProfileLoginPass/userProfileLoginPass.component';
-import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
 import { ForgotPasswordPageComponent } from './layout/auth/forgotPasswordPage/forgotPasswordPage.component';
-import { ResetPasswordPageComponent } from './layout/auth/resetPasswordPage/resetPasswordPage.component';
+import { ResetPasswordPageComponent } from "./layout/auth/resetPasswordPage/resetPasswordPage.component";
+import { UserChatsComponent } from "./layout/user/userChats/userChats.component";
+import { UserProfileLoginPassComponent } from './layout/user/userProfile/userProfileLoginPass/userProfileLoginPass.component';
+import { UserProfileAdvertisementsComponent } from './layout/user/userProfile/userProfileAdvertisements/userProfileAdvertisements.component';
+import { UserProfileSettingsComponent } from './layout/user/userProfile/userProfileSettings/userProfileSettings.component';
+import { UserProfileComponent } from './layout/user/userProfile/userProfile.component';
+import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
 
+// @ts-ignore
 const routes: Routes = [
     // { path: '**', component: PageNotFoundComponent }
     { path: '', component: AdvertisementPageComponent },
@@ -37,6 +39,7 @@ const routes: Routes = [
     { path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent },
     { path: 'forgotPassword', component: ForgotPasswordPageComponent },
     { path: 'resetPassword', component: ResetPasswordPageComponent },
+    { path: 'chats', component: UserChatsComponent },
     { path: 'profile/:Username', component: PublicProfileComponent },
     {
         path: 'cabinet',

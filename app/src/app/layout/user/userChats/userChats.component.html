@@ -1,3 +1,128 @@
-<p>
-	userChats works!
-</p>
+<!-- <div class="container">
+
+    <div class="container-left">
+        <span style="justify-content: center; display: flex; font-size: 24px; padding-top: 10px;">Чат</span>
+        <div class="container__chat__role">
+            <button (click)="chatSeller()">Покупатели</button>
+            <button (click)="chatRecipient()">Продавцы</button>
+        </div>
+
+        <button *ngFor="let chat of chats" class="user__chat__button"
+            (click)="getChatMessages(chat.chatId!); getCurrentRecipient(chat.userId!)">
+            <div class="user__chats">
+                <div class="user__info">
+                    <img src="assets/images/advertisement/car1.png">
+                    <span class="__name">{{chat.name}}</span>
+                    <span class="__lastname">{{chat.lastname}}</span>
+                    <span class="updated__date">{{chat.updatedDate}}</span>
+                </div>
+                <span class="adv__title">Объявление: {{chat.advertisement!.title}}</span>
+            </div>
+        </button>
+    </div>
+
+    <div class="chat">
+
+        <div class="chat__box">
+            <div class="messages" *ngFor="let msg of messages">
+                <div class="message__recipient" *ngIf="userId == msg.recipient?.id">
+                    <div class="message__content">
+                        <span class="text">{{msg.text}}</span>
+                        <span class="text">{{msg.createdDate}}</span>
+                    </div>
+                </div>
+
+                <div class="message__sender" *ngIf="userId == msg.sender?.id!">
+                    <div class="message__content">
+                        <span class="text">{{msg.text}}</span>
+                        <span class="text">{{msg.createdDate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="send__message__container">
+            <input #messageText type="text">
+            <button class="send__button" type="button" (click)="sendMessage(messageText.value)">Отправить</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -->
+
+
+<div class="container">
+    <div class="container__users">
+        <h1 class="container__title">Мои чаты</h1>
+        <div class="container__tabs">
+            <div class="container__tab">
+                <h2 (click)="chatSeller()">Покупатели</h2>
+            </div>
+            <div class="container__tab container__tab-active">
+                <h2 (click)="chatRecipient()">Продавцы</h2>
+            </div>
+        </div>
+        <div class="container__userChat">
+            <a *ngFor="let chat of chats" class="user__chatButton"
+                (click)="getChatMessages(chat.chatId!); getCurrentRecipient(chat.userId!)">
+                <div class="container__userInfo user">
+                    <figure>
+                        <img src="assets/images/advertisement/car1.png" alt="" class="user__avatar">
+                    </figure>
+                    <span class="user__name">{{ chat.name + " " + chat.lastname}}</span>
+                </div>
+                <div class="container__advertisementInfo">
+                    <span class="container__advertisement">Объявление: {{chat.advertisement!.title}}</span>
+                </div>
+                <div class="container__moreInfo">
+                    <span class="container__updateDate">{{chat.updatedDate}}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="container__chat chat">
+        <div class="chat__container">
+            <div class="chat__message message" *ngFor="let msg of messages">
+                <div class="message-recipient" *ngIf="userId == msg.recipient?.id">
+                    <div class="message__content">
+                        <div class="message__text">
+                            {{msg.text}}
+                        </div>
+                        <span class="message__info">{{msg.createdDate| date:'dd.MM.yyyy - HH:mm'}}</span>
+                    </div>
+                </div>
+
+                <div class="message-sender" *ngIf="userId == msg.sender?.id!">
+                    <div class="message__content">
+                        <div class="message__text">
+                            {{msg.text}}
+                        </div>
+                        <span class="message__info">{{msg.createdDate| date:'dd.MM.yyyy - HH:mm'}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat__sendContainer">
+            <input #messageText type="text">
+            <button class="send__button btn btn-main" type="button"
+                (click)="sendMessage(messageText.value)">Отправить</button>
+        </div>
+    </div>
+</div>
