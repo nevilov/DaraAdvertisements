@@ -57,8 +57,8 @@ export class SignService {
 
     public logout() {
         this.cookieService.deleteAll();
-        this.dataSharingService.isUserLoggedIn.next(true);
         this.router.navigateByUrl('/');
+        this.dataSharingService.isUserLoggedIn.next(true);
     }
 
     public forgotPassword(email: string): Observable<any> {

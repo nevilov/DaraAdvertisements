@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SignalrService } from '../../../services/signalr.service';
 import { ChatService } from '../../../services/chat.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Chat, ChatMessage, Message, MessageResponse } from '../../../Dtos/chat';
 import { UserService } from '../../../services/user.service';
-import { Text } from '@angular/compiler';
-
 @Component({
     selector: 'app-userChats',
     templateUrl: './userChats.component.html',
@@ -18,6 +16,12 @@ export class UserChatsComponent implements OnInit {
     isSeller = false;
     chats: Chat[] = [];
     messages: ChatMessage[] = [];
+    isMessageInputShown = false;
+
+    @ViewChild('seller', { read: ElementRef }) Seller!: ElementRef;
+    @ViewChild('customer', { read: ElementRef }) Customer!: ElementRef;
+    @ViewChild('chat', { read: ElementRef }) Chat!: ElementRef;
+    @ViewChild('messageText', { read: ElementRef }) MessageInput!: ElementRef;
 
     constructor(private signalrService: SignalrService,
         private chatService: ChatService,
@@ -34,6 +38,7 @@ export class UserChatsComponent implements OnInit {
         this.userService.getUser(username).subscribe((data) => {
             this.userId = data.id;
         });
+
     }
 
     private _handleMessage = (message: Message) => {
@@ -52,29 +57,37 @@ export class UserChatsComponent implements OnInit {
         this.chatService.getMessage(chatId).subscribe((data) => {
             this.messages = data.messages!;
         });
+        this.isMessageInputShown = true;
     }
 
     sendMessage(text: string) {
         this.chatService.sendMessage(this.currentChatId, this.currentRecipientId, text).subscribe();
+        this.Chat.nativeElement.scrollTo(0, this.Chat.nativeElement.scrollHeight);
+        this.MessageInput.nativeElement.value = "";
     }
 
     getCurrentRecipient(recipientId: string) {
         this.currentRecipientId = recipientId;
     }
 
-    chatSeller() {
-        this.isSeller = true;
-        this.getChats();
-    }
-
-    chatRecipient() {
-        this.isSeller = false;
-        this.getChats();
-    }
 
     getChats() {
         this.chatService.getChats(this.isSeller).subscribe((data) => {
             this.chats = data.chats!;
         });
+    }
+
+    chatSeller() {
+        this.isSeller = true;
+        this.getChats();
+        this.Seller.nativeElement.parentElement.classList.add('container__tab-active');
+        this.Customer.nativeElement.parentElement.classList.remove('container__tab-active');
+    }
+
+    chatRecipient() {
+        this.isSeller = false;
+        this.getChats();
+        this.Customer.nativeElement.parentElement.classList.add('container__tab-active');
+        this.Seller.nativeElement.parentElement.classList.remove('container__tab-active');
     }
 }

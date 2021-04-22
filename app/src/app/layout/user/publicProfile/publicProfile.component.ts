@@ -27,7 +27,7 @@ export class PublicProfileComponent implements OnInit {
         this.loadUserInfo();
     }
 
-    loadAdvertisements(id: number) {
+    loadAdvertisements(id: string) {
         this.userService.getUserAdvertisements(id).subscribe((data) => {
             this.advertisements = data.items;
             console.log(data);
