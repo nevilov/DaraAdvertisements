@@ -4,17 +4,16 @@
     align-items: center;
 
     &__content {
+        max-width: 50%;
         border: 1px solid #f5f6f8;
         border-radius: 8px;
         box-shadow: 0px 4px 3px rgba(#3333, 0.04), 0px 4px 16px rgba(#3333, 0.08);
-        // padding: 32px;
     }
 }
 .content {
     &__header {
         padding: 32px 32px 0 32px;
         border-bottom: 2px solid #f1f1f1;
-        // background-color: red;
     }
 
     &__socials {

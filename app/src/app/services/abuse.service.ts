@@ -17,7 +17,7 @@ export class AbuseService {
     }
 
     public getAbuses() {
-        return this.http.get<ListOfItems<Abuse>>(AppComponent.backendAddress + '/api/Abuse?limit=20&offset=0', {
+        return this.http.get<ListOfItems<Abuse>>(AppComponent.backendAddress + '/api/Abuse?limit=10&offset=0', {
             headers: new HttpHeaders({
                 Authorization: 'Bearer ' + this.cookieService.get('AuthToken')
             })
@@ -30,7 +30,7 @@ export class AbuseService {
                 Authorization: 'Bearer ' + this.cookieService.get('AuthToken')
             })
         })
-        .pipe(catchError(this.checkError));
+            .pipe(catchError(this.checkError));
     }
 
     public closeAbuse(closeId: number) {
@@ -40,7 +40,7 @@ export class AbuseService {
                 Authorization: 'Bearer ' + this.cookieService.get('AuthToken')
             })
         })
-        .pipe(catchError(this.checkError));;
+            .pipe(catchError(this.checkError));;
         console.log(closeId);
     }
 

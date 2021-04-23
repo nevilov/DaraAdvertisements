@@ -1,9 +1,9 @@
-@mixin box_shadow ($level) {
-
-    @if $level == 1 {
-        box-shadow: 0 5px 7px rgba(0,0,0,0.05);
-    } @else if $level == 2 {
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
-
+@mixin box_shadow($level) {
+	@if $level == 1 {
+		box-shadow: 0 5px 7px rgba(0, 0, 0, 0.05);
+	} @else if $level == 2 {
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	} @else if $level == 3 {
+		box-shadow: 0 4px 4px rgba($color: #333333, $alpha: 0.04), 0 4px 16px rgba($color: #333333, $alpha: 0.08);
+	}
 }

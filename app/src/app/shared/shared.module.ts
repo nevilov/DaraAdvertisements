@@ -9,24 +9,24 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule
-  ],
-  declarations: [
-    FooterComponent,
-    MenuComponent,
-    SubmenuComponent,
-    BreadcrumbsComponent,
-    AdvertisementComponent
-  ],
-  exports: [
-    FooterComponent,
-    MenuComponent,
-    SubmenuComponent,
-    BreadcrumbsComponent,
-    AdvertisementComponent
-  ]
+	imports: [
+		CommonModule,
+		RouterModule,
+		ReactiveFormsModule
+	],
+	declarations: [
+		FooterComponent,
+		MenuComponent,
+		SubmenuComponent,
+		BreadcrumbsComponent,
+		AdvertisementComponent,
+	],
+	exports: [
+		FooterComponent,
+		MenuComponent,
+		SubmenuComponent,
+		BreadcrumbsComponent,
+		AdvertisementComponent,
+	]
 })
 export class SharedModule { }

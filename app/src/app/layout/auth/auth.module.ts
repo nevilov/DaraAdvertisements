@@ -8,22 +8,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordPageComponent } from './resetPasswordPage/resetPasswordPage.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule
-  ],
-  declarations: [
-    RegistrationPageComponent,
-    LoginPageComponent,
-    ForgotPasswordPageComponent,
-    ResetPasswordPageComponent
-  ],
-  exports: [
-    RegistrationPageComponent,
-    LoginPageComponent,
-    ForgotPasswordPageComponent,
-    ResetPasswordPageComponent
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+    ],
+    declarations: [
+        RegistrationPageComponent,
+        LoginPageComponent,
+        ResetPasswordPageComponent,
+        ForgotPasswordPageComponent
+    ],
+    exports: [
+        RegistrationPageComponent,
+        LoginPageComponent,
+        ResetPasswordPageComponent,
+        ForgotPasswordPageComponent
+    ]
 })
 export class AuthModule { }

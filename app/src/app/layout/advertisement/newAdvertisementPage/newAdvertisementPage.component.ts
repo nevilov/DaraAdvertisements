@@ -1,9 +1,9 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NewAdvertisement } from 'src/app/Dtos/advertisement';
 import { AdvertisementService } from 'src/app/services/advertisements.service';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ImageService } from 'src/app/services/image.service';
 import { tap } from 'rxjs/operators';
@@ -12,9 +12,9 @@ import { ThrowStmt } from '@angular/compiler';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-newAdvertisementPage',
-  templateUrl: './newAdvertisementPage.component.html',
-  styleUrls: ['./newAdvertisementPage.component.scss']
+    selector: 'app-newAdvertisementPage',
+    templateUrl: './newAdvertisementPage.component.html',
+    styleUrls: ['./newAdvertisementPage.component.scss']
 })
 export class NewAdvertisementPageComponent implements OnInit {
 
@@ -76,18 +76,18 @@ export class NewAdvertisementPageComponent implements OnInit {
     }
 
     newFile() {
-      this.filesToUpload.push({} as File);
-      console.log(this.filesToUpload);
+        this.filesToUpload.push({} as File);
+        console.log(this.filesToUpload);
     }
 
     removeFile(i: number) {
-      if(this.filesToUpload.length > 1) {
-        if (i > -1) {
-          this.filesToUpload.splice(i, 1);
-          this.imagePreviews.splice(i, 1);
+        if (this.filesToUpload.length > 1) {
+            if (i > -1) {
+                this.filesToUpload.splice(i, 1);
+                this.imagePreviews.splice(i, 1);
+            }
         }
-      }
-      console.log(this.filesToUpload);
+        console.log(this.filesToUpload);
     }
 
     onFileChange(event: any, i: number) {
@@ -99,13 +99,13 @@ export class NewAdvertisementPageComponent implements OnInit {
         reader.onload = (_event) => {
           this.imagePreviews[i] = reader.result;
         }
+        console.log(i);
       }
-      console.log(i);
     }
 
-  onSubmit() {
-    if (this.isButtonEnabled) {
-    this.isButtonEnabled = false;
+    onSubmit() {
+      if (this.isButtonEnabled) {
+      this.isButtonEnabled = false;
 
       console.log("Advertisement form info", this.advertisementForm.value);
       this.creationFormState = 'Создание объявления... подождите..';
@@ -155,16 +155,15 @@ export class NewAdvertisementPageComponent implements OnInit {
     }
   }
 
-  fetchSingleFile(newId: string, entry: File): Observable<any> {
-    return this.imageService.sendAdvertisementImage({
-      id: Number(newId),
-      image: entry
-    }).pipe( 
-      tap(mediaEntry => console.log(mediaEntry))
-    );
-  }
+    fetchSingleFile(newId: string, entry: File): Observable<any> {
+        return this.imageService.sendAdvertisementImage({
+            id: Number(newId),
+            image: entry
+        }).pipe(
+            tap(mediaEntry => console.log(mediaEntry))
+        );
+    }
 
-  ngOnInit() {
-  }
-
+    ngOnInit() {
+    }
 }

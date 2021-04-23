@@ -1,21 +1,23 @@
-import { NULL_EXPR } from '@angular/compiler/src/output/output_ast';
+
+import { CookieService } from 'ngx-cookie-service';
+import { UserService } from './../../../services/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { switchMap } from 'rxjs/operators';
 import { Advertisement } from 'src/app/Dtos/advertisement';
 import { AdvertisementService } from 'src/app/services/advertisements.service';
 import { ImageService } from 'src/app/services/image.service';
+import { ChatService } from '../../../services/chat.service';
 
 @UntilDestroy()
-
 @Component({
-  selector: 'app-advertisementDetailPage',
-  templateUrl: './advertisementDetailPage.component.html',
-  styleUrls: ['./advertisementDetailPage.component.scss'],
-  providers: [
-    AdvertisementService
-  ]
+    selector: 'app-advertisementDetailPage',
+    templateUrl: './advertisementDetailPage.component.html',
+    styleUrls: ['./advertisementDetailPage.component.scss'],
+    providers: [
+        AdvertisementService
+    ]
 })
 export class AdvertisementDetailPageComponent implements OnInit {
 
@@ -24,12 +26,17 @@ export class AdvertisementDetailPageComponent implements OnInit {
     advertisement: Advertisement;
     images: any[];
     imageValues: string[];
-
+    userId: number = 0;
+    sameAdvertisements: Advertisement[] | null = null;
+    userAdvertisements: Advertisement[] | null = null;
 
     constructor(
       private route: ActivatedRoute,
       private advertisementService: AdvertisementService,
-      private imageService: ImageService
+      private imageService: ImageService,
+      private chatService: ChatService,
+      private router: Router,
+      private userService: UserService
       ){
       this.advertisement = {} as Advertisement;
       this.images = [];
@@ -38,7 +45,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
     }
 
     changeImage(i: number) {
-      this.imageValues[0] = this.imageValues[i];
+        this.imageValues[0] = this.imageValues[i];
     }
 
     formatPhone() {
@@ -49,20 +56,34 @@ export class AdvertisementDetailPageComponent implements OnInit {
       }
     }
 
+    onCreateChat() {
+        this.chatService.createChat(this.id)
+            .subscribe((r) => {
+                this.router.navigateByUrl('/chats');
+            });
+    }
+
     ngOnInit() {
-        window.scrollTo(0, 0);
-        this.route.paramMap.pipe(
-            switchMap(params => params.getAll('id'))
-        )
-        .pipe(untilDestroyed(this))
-        .subscribe(data=> this.id = +data);
+        this.router.events.subscribe((event) => {
+            console.log('route changed');
+            // this.ngOnInit();
+        });
+
+        this.route.paramMap
+        .pipe(
+            switchMap(params => params.getAll('id')))
+        .subscribe(data => this.id = +data);
 
         this.advertisementService.getAdvertisementById(this.id)
             .subscribe((data: Advertisement) => {
               this.advertisement = data;
               this.images = data.images;
-//              console.log(this.advertisement);
               this.formatPhone();
+
+              this.userService.getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0).subscribe((data) => {
+                this.userAdvertisements = data.items;
+                console.log(data);
+                });
 
               for (let i = 0; i < this.images.length; i++) {
                 this.imageService.getImageById(this.images[i].id)
@@ -75,6 +96,6 @@ export class AdvertisementDetailPageComponent implements OnInit {
                 });
               }
             });
-            
     }
+
 }

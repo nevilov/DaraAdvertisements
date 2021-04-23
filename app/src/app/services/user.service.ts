@@ -6,21 +6,44 @@ import { Observable } from 'rxjs';
 import { AppComponent } from '../app.component';
 import { Advertisement, ListOfItems } from '../Dtos/advertisement';
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
-  public getUserAdvertisements(
-    id: string
-  ): Observable<ListOfItems<Advertisement>> {
-    // alert(id);
-    return this.http.get<ListOfItems<Advertisement>>(
-      AppComponent.backendAddress + '/api/Advertisement/get/useradv?Id=' + id
-    );
-  }
-  public getUser(name: string): Observable<User> {
-    return this.http.get<User>(
-      AppComponent.backendAddress + '/api/User/get/' + name
-    );
-  }
+    constructor(private http: HttpClient, private cookieService: CookieService) { }
+
+    public getUserAdvertisements(
+        id: string
+    ): Observable<ListOfItems<Advertisement>> {
+        return this.http.get<ListOfItems<Advertisement>>(
+            AppComponent.backendAddress + '/api/Advertisement/get/useradv?Id=' + id
+        );
+    }
+
+    public getUserAdvertisementsWithLimit(
+        id: string,
+        limit: number,
+        offcet: number
+    ): Observable<ListOfItems<Advertisement>> {
+        return this.http.get<ListOfItems<Advertisement>>(
+            AppComponent.backendAddress + '/api/Advertisement/get/useradv?Id=' + id + '&Limit=' + limit + '&Offset=' + offcet + '&OrderBy=Id'
+        );
+    }
+
+    public getUser(name: string): Observable<User> {
+        return this.http.get<User>(
+            AppComponent.backendAddress + '/api/User/get/' + name
+        );
+    }
+
+    public changePassword(form: any): Observable<any> {
+        return this.http.patch(
+            AppComponent.backendAddress + '/api/User/ChangePassword',
+            form,
+            {
+                headers: new HttpHeaders({
+                    Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+                }),
+            }
+        );
+    }
 }

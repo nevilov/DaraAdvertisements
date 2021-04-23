@@ -19,7 +19,7 @@ services:
     ports:
       - 80:80
     environment:
-      - ConnectionStrings__PostgresDb=Server=postgres;Database=DaraAds;Username=ad_user;Password=password123;Port=5432
+      - ConnectionStrings__PostgresDb=Server=postgres;Database=DaraAds;Username=postgres;Password=12345678;Port=5432
     depends_on:
       - "postgres"
 
@@ -27,9 +27,9 @@ services:
     image: "postgres" # use latest official postgres version
     restart: always
     environment: # configure postgres 
-        - POSTGRES_USER=ad_user
+        - POSTGRES_USER=postgres
         - POSTGRES_DB=DaraAds
-        - POSTGRES_PASSWORD=password123
+        - POSTGRES_PASSWORD=12345678
     ports: 
         - "5432:5432"
     volumes: # persist data even if container shuts down

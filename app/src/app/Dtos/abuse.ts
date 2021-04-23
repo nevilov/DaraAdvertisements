@@ -12,10 +12,8 @@ export interface NewAbuse {
     abuseText: string;
 }
 
-
 export interface ListOfItems<T> {
     limit: number,
     offset: number,
     items: T[]
-  }
-
+}

@@ -1,0 +1,67 @@
+@import "../../../../../assets/scss/abstacts/_variables";
+.container {
+	box-shadow: 0 4px 4px rgba($color: #333333, $alpha: 0.04), 0 4px 16px rgba($color: #333333, $alpha: 0.08);
+
+	&__header {
+		border-bottom: 1px solid #ececec;
+		padding: 20px;
+	}
+
+	&__content {
+		padding: 20px;
+	}
+
+	&__input {
+	}
+
+	&__label {
+		color: #8493a7;
+		font-weight: 600;
+		margin-bottom: 10px;
+		display: block;
+	}
+
+	&__action {
+		& h2 {
+			font-weight: 600;
+			margin-bottom: 20px;
+		}
+
+		& form {
+		}
+	}
+}
+.header {
+	&__title {
+		font-size: 18px;
+		font-weight: 600;
+	}
+}
+.input {
+	margin-bottom: 30px;
+
+	&__value {
+		display: flex;
+
+		& input {
+			padding: 8px 12px;
+			margin-right: 10px;
+			flex-grow: 1;
+			border: 1px solid #d9d9d9;
+			border-radius: 2px;
+		}
+	}
+}
+.iconify {
+	margin-left: 8px;
+}
+button {
+	padding: 8px 25px;
+	border-radius: 2px;
+	border: none;
+	background-color: $main-blue;
+	display: flex;
+	align-items: center;
+	color: white;
+	font-size: 16px;
+}

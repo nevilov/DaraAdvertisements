@@ -5,6 +5,7 @@ app-submenu {
 }
 
 .menu {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,7 +36,6 @@ app-submenu {
 
         & .menu__item {
             height: 100%;
-            // background-color: red;
             margin-right: 15px;
 
             & a,
@@ -60,16 +60,6 @@ app-submenu {
             letter-spacing: 0px;
             font-weight: bold;
         }
-
-        // & .menu__item-opened:hover {
-
-        //     & a img {
-        //        transform: rotate(360deg);
-        //     }
-        //     // & app-submenu {
-        //     //     display: block;
-        //     // }
-        // }
     }
 
     &__itemArrow {
@@ -96,7 +86,7 @@ app-submenu {
         justify-content: space-between;
         align-items: center;
         & * {
-            margin-right: 20px;
+            margin-right: 10px;
         }
         & :last-child {
             margin-right: 0px;
@@ -107,6 +97,22 @@ app-submenu {
     }
 
     &__settings {
+    }
+
+    &__userStatus {
+        display: flex;
+        flex-direction: column;
+    }
+    &__userName {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    &__userRole {
+        font-size: 12px;
+        color: $main-blue;
+        text-align: end;
+        padding-right: 10px;
     }
 
     &__userAvatar {
@@ -122,4 +128,56 @@ app-submenu {
             border-radius: 50%;
         }
     }
+}
+
+.userMenu {
+    z-index: 10000;
+    background-color: #fff;
+    display: none;
+    position: absolute;
+    right: 200px;
+    top: 90px;
+
+    &__block {
+        @include box_shadow(3);
+        margin-bottom: 20px;
+        border-radius: 8px;
+        overflow: hidden;
+
+        &:last-child {
+            margin-bottom: 0px;
+        }
+    }
+
+    &__header {
+        padding: 20px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    &__item {
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        transition: background ease 0.3s;
+
+        &:hover {
+            border-left: 4px solid $main-blue;
+            padding: 10px 20px 10px 16px;
+            background-color: #f9fafc;
+            transition: background ease 0.3s;
+        }
+    }
+
+    &__icon {
+        margin-right: 5px;
+    }
+
+    &__text {
+        font-weight: 500;
+        font-size: 14px;
+    }
+}
+.iconify {
+    font-size: 18px;
 }
