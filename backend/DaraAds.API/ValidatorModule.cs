@@ -2,6 +2,8 @@ using DaraAds.API.Dto.Abuse;
 using DaraAds.API.Dto.Abuse.Validators;
 using DaraAds.API.Dto.Advertisement;
 using DaraAds.API.Dto.Advertisement.Validators;
+using DaraAds.API.Dto.Message;
+using DaraAds.API.Dto.Message.Validators;
 using DaraAds.API.Dto.Users;
 using DaraAds.API.Dto.Users.Validators;
 using FluentValidation;
@@ -30,6 +32,9 @@ namespace DaraAds.API
 
             services
                 .AddTransient<IValidator<CreateAbuseBinding>, CreateAbuseBindingValidator>();
+
+            services
+                .AddTransient<IValidator<SendMessageRequest>, SendMessageRequestValidator>();
             
             return services;
         }

@@ -38,11 +38,16 @@ namespace DaraAds.Application.Services.Message.Implementations
 
         public async Task<GetMessagesByChat.Response> GetMessagesByChat(GetMessagesByChat.Request request, CancellationToken cancellationToken)
         {
-            //TODO Проверка на права
             var chat = await _chatRepository.FindById(request.ChatId, cancellationToken);
             if(chat == null)
             {
                 throw new ChatNotFoundExceptions($"Чат с id {request.ChatId} не был найден");
+            }
+
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+            if(userId != chat.BuyerId && userId != chat.Advertisement.OwnerId)
+            {
+                throw new HaveNoRigthToGetMessageByChatException($"Нет прав просматривать сообщения чата id {request.ChatId}");
             }
 
             var messages = await _messageRepository.FindMessagesByChat(request.ChatId, cancellationToken);

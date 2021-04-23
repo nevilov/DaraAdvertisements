@@ -7,6 +7,8 @@ namespace DaraAds.Application.Repositories
 {
     public interface ICategoryRepository : IRepository<Category, int>
     {
-        Task<IEnumerable<Category>> FindChildCategories(int parentCategoryId, CancellationToken cancellationToken);
+        Task<Category> FindCategoryById(int id, CancellationToken cancellationToken);
+
+        Task<IEnumerable<Category>> FindTopCategories(CancellationToken cancellationToken);
     }
 }

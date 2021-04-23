@@ -14,10 +14,15 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
         }
 
-        public async Task<IEnumerable<Category>> FindChildCategories(int parentCategoryId, CancellationToken cancellationToken)
+        public async Task<Category> FindCategoryById(int id, CancellationToken cancellationToken)
+        {
+            return await _context.Categories.FindAsync(id, cancellationToken);
+        }
+
+        public async Task<IEnumerable<Category>> FindTopCategories(CancellationToken cancellationToken)
         {
             return await _context.Categories
-                .Where(c => c.ParentCategoryId == parentCategoryId)
+                .Where(c => c.ParentCategory == null)
                 .ToListAsync(cancellationToken);
         }
     }
