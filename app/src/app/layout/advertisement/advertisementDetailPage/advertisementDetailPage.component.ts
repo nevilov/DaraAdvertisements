@@ -60,7 +60,13 @@ export class AdvertisementDetailPageComponent implements OnInit {
         this.advertisementService.getAdvertisementById(this.id)
             .subscribe((data: Advertisement) => {
                 this.advertisement = data;
+                console.log(this.advertisement);
+
                 this.images = data.images;
+
+                this.advertisementService.getSameAdvertisementsWithLimit(this.advertisement.category.id, 4).subscribe((data) => {
+                    this.sameAdvertisements = data.items;
+                });
 
                 this.userService.getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0).subscribe((data) => {
                     this.userAdvertisements = data.items;

@@ -24,6 +24,12 @@ export class AdvertisementService {
         );
     }
 
+    public getSameAdvertisementsWithLimit(categoryId: number, limit: number): Observable<ListOfItems<Advertisement>> {
+        return this.http.get<ListOfItems<Advertisement>>(
+            AppComponent.backendAddress + '/api/Advertisement?CategoryId=' + categoryId + '&Limit=' + limit + '&Offset=0&OrderBy=Id'
+        );
+    }
+
     public getAdvertisementById(id: number): Observable<Advertisement> {
         return this.http.get<Advertisement>(
             AppComponent.backendAddress + '/api/Advertisement/' + id
