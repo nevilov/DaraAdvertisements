@@ -20,6 +20,7 @@ import { UserProfileAdvertisementsComponent } from './layout/user/userProfile/us
 import { UserProfileSettingsComponent } from './layout/user/userProfile/userProfileSettings/userProfileSettings.component';
 import { UserProfileComponent } from './layout/user/userProfile/userProfile.component';
 import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
+import { LoginGuard } from './Guards/login.guard';
 
 const routes: Routes = [
     // { path: '**', component: PageNotFoundComponent }
@@ -39,9 +40,10 @@ const routes: Routes = [
     { path: 'forgotPassword', component: ForgotPasswordPageComponent },
     { path: 'resetPassword', component: ResetPasswordPageComponent },
     { path: 'chats', component: UserChatsComponent },
-    { path: 'profile/:Username', component: PublicProfileComponent },
+    { path: 'profile/:Username', component: PublicProfileComponent, canActivate: [LoginGuard] },
     {
         path: 'cabinet',
+        canActivate: [LoginGuard],
         component: UserProfileComponent,
         children: [
             {
@@ -67,6 +69,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
-    // providers: [AdminGuard],
+    providers: [LoginGuard],
 })
 export class AppRoutingModule { }
