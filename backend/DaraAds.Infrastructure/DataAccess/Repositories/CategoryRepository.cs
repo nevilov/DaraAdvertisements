@@ -1,8 +1,5 @@
 ﻿using DaraAds.Application.Repositories;
 using DaraAds.Domain;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,11 +11,9 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
         }
 
-        public async Task<IEnumerable<Category>> FindChildCategories(int parentCategoryId, CancellationToken cancellationToken)
+        public async Task<Category> FindCategoryById(int id, CancellationToken cancellationToken)
         {
-            return await _context.Categories
-                .Where(c => c.ParentCategoryId == parentCategoryId)
-                .ToListAsync(cancellationToken);
+            return await _context.Categories.FindAsync(id, cancellationToken);
         }
     }
 }

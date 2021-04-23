@@ -6,6 +6,6 @@ namespace DaraAds.Application.Services.Category.Interfaces
 {
     public interface ICategoryService
     {
-        Task<GetChildCategories.Response> GetChildCategories(GetChildCategories.Request request, CancellationToken cancellationToken);
+        Task<GetCategoryById.Response> GetCategoryById(GetCategoryById.Request request, CancellationToken cancellationToken);
     }
 }
