@@ -21,7 +21,6 @@ import { UserProfileSettingsComponent } from './layout/user/userProfile/userProf
 import { UserProfileComponent } from './layout/user/userProfile/userProfile.component';
 import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
 
-// @ts-ignore
 const routes: Routes = [
     // { path: '**', component: PageNotFoundComponent }
     { path: '', component: AdvertisementPageComponent },
@@ -68,5 +67,6 @@ const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
+    // providers: [AdminGuard],
 })
 export class AppRoutingModule { }
