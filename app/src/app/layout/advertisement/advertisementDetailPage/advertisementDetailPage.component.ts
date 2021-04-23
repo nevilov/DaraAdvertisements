@@ -56,12 +56,6 @@ export class AdvertisementDetailPageComponent implements OnInit {
       }
     }
 
-    onCreateChat() {
-        this.chatService.createChat(this.id)
-            .subscribe((r) => {
-                this.router.navigateByUrl('/chats');
-            });
-    }
 
     ngOnInit() {
         this.router.events.subscribe((event) => {
@@ -98,4 +92,10 @@ export class AdvertisementDetailPageComponent implements OnInit {
             });
     }
 
+    onCreateChat() {
+        this.chatService.createChat(this.id)
+            .subscribe((r) => {
+                this.router.navigateByUrl('/chats');
+            });
+    }
 }
