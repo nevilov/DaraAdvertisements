@@ -1,88 +1,88 @@
 <app-breadcrumbs></app-breadcrumbs>
 <div class="container">
-    <div class="container__head">
-        <h1>{{advertisement?.title}}</h1>
-        <div class="container__slider slider">
-            <figure class="slider__mainImage">
-                <span class="container__iconify" data-icon="fluent:thumb-like-16-filled" data-inline="false"
-                    style="color: #79797C;"></span>
-                <img [src]="imageValues[0]" alt="">
-            </figure>
-            <div class="slider__images">
-                <div *ngFor="let imageValue of imageValues; let i = index">
-                    <img (click)="changeImage(i + 1)" [src]="imageValues[i + 1]" alt="">
-                </div>
-            </div>
+  <div class="container__head">
+    <h1>{{advertisement?.title}}</h1>
+    <div class="container__slider slider" *ngIf="imageValues.length > 0">
+      <figure class="slider__mainImage">
+        <span class="container__iconify" data-icon="fluent:thumb-like-16-filled" data-inline="false"
+          style="color: #79797C;"></span>
+        <img [src]="imageValues[0]" alt="">
+      </figure>
+      <div class="slider__images">
+        <div *ngFor="let imageValue of imageValues | slice:1; let i = index">
+          <img (click)="changeImage(i + 1)" [src]="imageValues[i + 1]" alt="">
         </div>
     </div>
+  </div>
+</div>
 
-    <div class="container__info container__rows">
-        <div class="container__characteristics">
-            <h2>Характеристики</h2>
-            <div class="container__characteristicsItems">
-                <div class="container__characteristicsItem">
-                    <span>Состояние</span>
-                    <span class="container__characteristicsItemState">б / у</span>
-                </div>
-                <div class="container__characteristicsItem">
-                    <span>Двигатель</span>
-                    <span class="container__characteristicsItemState">бензин, 3.5 л</span>
-                </div>
-                <div class="container__characteristicsItem">
-                    <span>Мощность, л.с.</span>
-                    <span class="container__characteristicsItemState">249</span>
-                </div>
-                <div class="container__characteristicsItem">
-                    <span>Трансмиссия</span>
-                    <span class="container__characteristicsItemState">автомат</span>
-                </div>
-                <div class="container__characteristicsItem">
-                    <span>Тип кузова</span>
-                    <span class="container__characteristicsItemState">седан</span>
-                </div>
-                <div class="container__characteristicsItem">
-                    <span>Пробег, км</span>
-                    <span class="container__characteristicsItemState">66039</span>
-                </div>
-                <div class="container__characteristicsItem">
-                    <span>Руль</span>
-                    <span class="container__characteristicsItemState">левый</span>
-                </div>
-                <div class="container__characteristicsItem">
-                    <span>Комплектация</span>
-                    <span class="container__characteristicsItemState">3.5 AT Executive Safety</span>
-                </div>
-                <div class="container__characteristicsItem">
-                    <span>Розыск</span>
-                    <span class="container__characteristicsItemState">нет</span>
-                </div>
-                <div class="container__characteristicsItem">
-                    <span>Город</span>
-                    <span class="container__characteristicsItemState">Севастополь</span>
-                </div>
-            </div>
-            <div class="container__description">
-                <p>Дополнительно:
-                    <span>{{advertisement?.description}}</span>
-                </p>
-            </div>
+  <div class="container__description">
+    <p>Дополнительно:
+      <span>{{advertisement?.description}}</span>
+    </p>
+  </div>
+  
+  <div class="container__info container__rows">
+    <div class="container__characteristics">
+      <h2>Характеристики</h2>
+      <div class="container__characteristicsItems">
+        <div class="container__characteristicsItem">
+          <span>Состояние</span>
+          <span class="container__characteristicsItemState">б / у</span>
         </div>
-        <div class="container__commonInfo">
-            <h2>Цена: {{advertisement?.price}}</h2>
-            <div class="container__userInfo user">
+        <div class="container__characteristicsItem">
+          <span>Двигатель</span>
+          <span class="container__characteristicsItemState">бензин, 3.5 л</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Мощность, л.с.</span>
+          <span class="container__characteristicsItemState">249</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Трансмиссия</span>
+          <span class="container__characteristicsItemState">автомат</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Тип кузова</span>
+          <span class="container__characteristicsItemState">седан</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Пробег, км</span>
+          <span class="container__characteristicsItemState">66039</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Руль</span>
+          <span class="container__characteristicsItemState">левый</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Комплектация</span>
+          <span class="container__characteristicsItemState">3.5 AT Executive Safety</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Розыск</span>
+          <span class="container__characteristicsItemState">нет</span>
+        </div>
+        <div class="container__characteristicsItem">
+          <span>Город</span>
+          <span class="container__characteristicsItemState">Севастополь</span>
+        </div>
+      </div>
+    </div>
+    <div class="container__commonInfo">
+      <h2>Цена: {{advertisement?.price}} руб.</h2>
+      <div class="container__userInfo user">
 
-                <div class="user__info">
-                    <figure class="user__avatar">
-                        <img src="./../../../../assets/images/menu/avatar.png" alt="">
-                    </figure>
-                    <div class="user__container">
-                        <span class="user__name">{{advertisement?.owner?.name + ' ' +
-                            advertisement?.owner?.lastname}}</span>
-                        <span class="user__phone">+7 (978) 459-87-92</span>
-                    </div>
-                </div>
-                <a (click)="onCreateChat()" class="btn btn-main">Написать продавцу</a>
-
+        <div class="user__info">
+          <figure class="user__avatar">
+            <img src="./../../../../assets/images/menu/avatar.png" alt="">
+          </figure>
+          <div class="user__container">
+            <span class="user__name">{{advertisement?.owner?.name + ' ' + advertisement?.owner?.lastname}}</span>
+            <span class="user__phone">{{ownerPhone}}</span>
+          </div>
+        </div>
+        <a (click)="onCreateChat()" class="btn btn-main">Написать продавцу</a>
+        
                 <div class="container__mainActions">
                     <div class="container__action">
                         <span class="iconify" data-height="24px" data-icon="fluent:thumb-like-16-filled"
