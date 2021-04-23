@@ -5,7 +5,8 @@ WORKDIR /app
 
 #COPY package*.json /app/
 
-COPY ./src/frontend /app/
+COPY ./app /app/
+
 
 RUN npm install
 
@@ -16,5 +17,5 @@ FROM nginx:alpine
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=builder /app/dist/trades/. /usr/share/nginx/html
-COPY ./src/frontend/nginx-custom.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist/ClientAPI/. /usr/share/nginx/html
+COPY ./app/nginx-custom.conf /etc/nginx/conf.d/default.conf
