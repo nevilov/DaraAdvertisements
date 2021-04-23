@@ -1,4 +1,4 @@
-import { switchMap } from 'rxjs/operators';
+import { switchMap, catchError } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Advertisement } from 'src/app/Dtos/advertisement';
@@ -45,10 +45,16 @@ export class AdvertisementPageComponent implements OnInit {
     }
 
     loadAdvertisementsByCategory(categoryId: number) {
+
         this.advertisementService.getAdvertisementByCategoryId(categoryId)
             .subscribe(data => {
                 this.advertisements = data.items;
                 console.log(this.advertisements)
+                for (let i = 0; i < this.advertisements.length; i++) {
+                    if (this.advertisements[i].images[0] === undefined) {
+                        this.advertisements[i].images[0] = { id: "default" };
+                    }
+                }
             });
     }
 }
