@@ -41,5 +41,24 @@ namespace DaraAds.Application.Services.Category.Implementations
                 }
             };
         }
+
+        public async Task<GetTopCategories.Response> GetTopCategories(CancellationToken cancellationToken)
+        {
+            var topCategories = await _categoryReposity.FindTopCategories(cancellationToken);
+
+            return new GetTopCategories.Response
+            {
+                Categories = topCategories.Select(a => new GetTopCategories.Response.TopCategory
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    ChildCategories = a.ChildCategories.Select(c => new GetTopCategories.Response.ChildCategories
+                    {
+                        Id = c.Id,
+                        Name = c.Name
+                    })
+                })
+            };
+        }
     }
 }
