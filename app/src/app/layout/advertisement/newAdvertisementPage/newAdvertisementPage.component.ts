@@ -21,7 +21,10 @@ export class NewAdvertisementPageComponent implements OnInit {
   filesToUpload: File[] = [];
   imagePreviews: any[] = [];
   fileToUpload: File = {} as File;
+  hasFiles: boolean;
+
   isButtonEnabled: boolean;
+
   creationFormState: string;
   newId: string;
   isCategoryVisible: boolean;
@@ -52,7 +55,9 @@ export class NewAdvertisementPageComponent implements OnInit {
       this.creationFormState = 'Создать объявление';
       this.filesToUpload.push({} as File);
       this.newId = '0';
+      this.hasFiles = false;
       this.isButtonEnabled = true;
+
       this.newCategoryId = 0;
       this.selectedCategory = "Выберите категорию"
       this.isCategoryVisible = false;
@@ -86,6 +91,7 @@ export class NewAdvertisementPageComponent implements OnInit {
     }
 
     onFileChange(event: any, i: number) {
+      this.hasFiles = true;
       var reader = new FileReader();
       if (event.target.files.length > 0) {
         this.filesToUpload[i] = event.target.files[0];
@@ -99,7 +105,7 @@ export class NewAdvertisementPageComponent implements OnInit {
 
   onSubmit() {
     if (this.isButtonEnabled) {
-      this.isButtonEnabled = false;
+    this.isButtonEnabled = false;
 
       console.log("Advertisement form info", this.advertisementForm.value);
       this.creationFormState = 'Создание объявления... подождите..';
@@ -113,27 +119,40 @@ export class NewAdvertisementPageComponent implements OnInit {
       
       this.advertisementService.createAdvertisement(advertisementToSend)
       .pipe(untilDestroyed(this))
-      .subscribe((r) => {
-        this.newId = this.cookieService.get('LatestRedirectId');
-        this.creationFormState = 'Загрузка файлов к новому объявлению №' + this.newId + '... подождите..';
-        let fileIteratorIndex = 1;
-        const observables = this.filesToUpload.map(entry => {
-          return this.fetchSingleFile(this.newId, entry);
-        });
-        concat(...observables).subscribe(singleMedia => {
-          fileIteratorIndex += 1;
-          this.creationFormState = 'Загружено..'+ fileIteratorIndex + '/' + this.filesToUpload.length + 'файлов.. подождите';
-          console.log("concatted" + singleMedia);
-          if (fileIteratorIndex > this.filesToUpload.length) {
-              this.creationFormState = 'Файлы загружены... переход на страницу объявления..';
+      .subscribe(
+        res => {
+          console.log("Received" + res);
+           this.newId = this.cookieService.get('LatestRedirectId');
+           if (this.hasFiles) {
+           this.creationFormState = 'Загрузка файлов к новому объявлению №' + this.newId + '... подождите..';
+            let fileIteratorIndex = 1;
+           const observables = this.filesToUpload.map(entry => {
+             return this.fetchSingleFile(this.newId, entry);
+            });
+            concat(...observables).subscribe(singleMedia => {
+              fileIteratorIndex += 1;
+              this.creationFormState = 'Загружено..'+ fileIteratorIndex + '/' + this.filesToUpload.length + 'файлов.. подождите';
+              console.log("concatted" + singleMedia);
+              if (fileIteratorIndex > this.filesToUpload.length) {
+                  this.creationFormState = 'Файлы загружены... переход на страницу объявления..';
+                  this.router.navigateByUrl('/advertisements/' + this.newId);
+              }
+              },
+              error => {
+              }); 
+            } else {
+              this.creationFormState = 'Информация загружена... переход на страницу объявления..';
               this.router.navigateByUrl('/advertisements/' + this.newId);
-          }
+            }
+
+
         },
         error => {
-        }); 
+          this.isButtonEnabled = true;
+          this.creationFormState = "Произошла ошибка. Попробовать снова?"
+          console.log(error)
       });
     }
-
   }
 
   fetchSingleFile(newId: string, entry: File): Observable<any> {
