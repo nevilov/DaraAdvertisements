@@ -20,6 +20,7 @@ import { ImageService } from 'src/app/services/image.service';
 export class AdvertisementDetailPageComponent implements OnInit {
 
     id: number = 0;
+    ownerPhone: string;
     advertisement: Advertisement;
     images: any[];
     imageValues: string[];
@@ -33,10 +34,19 @@ export class AdvertisementDetailPageComponent implements OnInit {
       this.advertisement = {} as Advertisement;
       this.images = [];
       this.imageValues = [];
+      this.ownerPhone = "Не указан";
     }
 
     changeImage(i: number) {
       this.imageValues[0] = this.imageValues[i];
+    }
+
+    formatPhone() {
+      if (this.advertisement?.owner?.phone != null && this.advertisement?.owner?.phone.length == 12 ) {
+        let tempPhone:string = this.advertisement?.owner?.phone;
+        let newPhone:string = tempPhone[0] + tempPhone[1] + " " + tempPhone[2] + tempPhone[3] + tempPhone[4] + " " + tempPhone[5] + tempPhone[6] + tempPhone[7] + "-" + tempPhone[8] + tempPhone[9] + "-" + tempPhone[10] + tempPhone[11];
+        this.ownerPhone = newPhone;
+      }
     }
 
     ngOnInit() {
@@ -51,6 +61,8 @@ export class AdvertisementDetailPageComponent implements OnInit {
             .subscribe((data: Advertisement) => {
               this.advertisement = data;
               this.images = data.images;
+//              console.log(this.advertisement);
+              this.formatPhone();
 
               for (let i = 0; i < this.images.length; i++) {
                 this.imageService.getImageById(this.images[i].id)
@@ -58,7 +70,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
                 .subscribe((data: any) => {
                   this.imageValues[i + 1] = 'data:image/jpeg;base64,' + data.imageBlob;
                   if (i == 0) {
-                    this.imageValues[0] = this.imageValues[1]
+                    this.imageValues[0] = this.imageValues[1];
                   }
                 });
               }
