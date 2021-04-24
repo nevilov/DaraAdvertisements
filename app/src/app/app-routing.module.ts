@@ -24,19 +24,82 @@ import { LoginGuard } from './Guards/login.guard';
 
 const routes: Routes = [
     // { path: '**', component: PageNotFoundComponent }
-    { path: '', component: AdvertisementPageComponent },
+    { path: '', redirectTo: 'advertisements', pathMatch: 'full' },
     { path: 'registration', component: RegistrationPageComponent },
     { path: 'autorization', component: LoginPageComponent },
-    { path: 'help', component: HelpComponent },
-    { path: 'contact', component: ContactsComponent },
-    { path: 'abuse', component: AbusePageComponent },
-    { path: 'newAbuse', component: NewAbusePageComponent },
-    { path: 'advertisements', component: AdvertisementPageComponent },
-    { path: 'advertisements/:id', component: AdvertisementPageComponent },
-    { path: 'filtered_advertisements/:id', component: AdvertisementPageWithSubCategoriesComponent },
-    { path: 'advertisement/:id', component: AdvertisementDetailPageComponent },
-    { path: 'newAdvertisement', component: NewAdvertisementPageComponent },
-    { path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent },
+    {
+        path: 'help', component: HelpComponent, data: {
+            breadcrumb: [
+                { label: 'Главная', url: '' },
+                { label: 'Помощь', url: '/help' },
+            ]
+        },
+    },
+    {
+        path: 'contact', component: ContactsComponent, data: {
+            breadcrumb: [
+                { label: 'Главная', url: '' },
+                { label: 'Контакты', url: '/contact' },
+            ]
+        },
+    },
+    {
+        path: 'abuse', component: AbusePageComponent, data: {
+            breadcrumb: [
+                { label: 'Главная', url: '' },
+                { label: 'Жалобы', url: 'abuse' },
+            ]
+        },
+    },
+    {
+        path: 'newAbuse', component: NewAbusePageComponent, data: {
+            breadcrumb: [
+                { label: 'Главная', url: '' },
+                { label: 'Жалобы', url: 'abuse' },
+                { label: 'Новая жалоба', url: '/newAbuse' },
+            ]
+        },
+    },
+    {
+        path: 'advertisements', component: AdvertisementPageComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' }
+            ]
+        },
+    },
+    {
+        path: 'advertisements/:id', component: AdvertisementPageWithSubCategoriesComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' },
+                { label: '{{categoryName}}', url: 'advertisements/:id' },
+            ]
+        },
+    },
+    {
+        path: 'advertisement/:id', component: AdvertisementDetailPageComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' },
+                { label: '{{category}}', url: '/advertisements/:id' },
+                { label: '{{title}}', url: 'advertisement/:id' },
+            ]
+        },
+    },
+    {
+        path: 'newAdvertisement', component: NewAdvertisementPageComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' },
+                { label: 'Новое объявление', url: '/newAdvertisement' },
+            ]
+        },
+    },
+    {
+        path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' },
+                { label: 'Редактирование', url: 'editAdvertisement/:id' },
+            ]
+        },
+    },
     { path: 'forgotPassword', component: ForgotPasswordPageComponent },
     { path: 'resetPassword', component: ResetPasswordPageComponent },
     { path: 'chats', component: UserChatsComponent },
@@ -46,22 +109,10 @@ const routes: Routes = [
         canActivate: [LoginGuard],
         component: UserProfileComponent,
         children: [
-            {
-                path: 'personal',
-                component: UserProfilePersonalComponent,
-            },
-            {
-                path: 'changeinfo',
-                component: UserProfileLoginPassComponent,
-            },
-            {
-                path: 'advertisements',
-                component: UserProfileAdvertisementsComponent,
-            },
-            {
-                path: 'settings',
-                component: UserProfileSettingsComponent,
-            },
+            { path: 'personal', component: UserProfilePersonalComponent, },
+            { path: 'changeinfo', component: UserProfileLoginPassComponent, },
+            { path: 'advertisements', component: UserProfileAdvertisementsComponent, },
+            { path: 'favorites', component: UserProfileSettingsComponent, },
         ],
     },
 ];
