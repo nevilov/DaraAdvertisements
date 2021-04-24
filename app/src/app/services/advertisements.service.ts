@@ -54,8 +54,7 @@ export class AdvertisementService {
             .pipe(
                 tap((response: any) => {
                     this.cookieService.set('LatestRedirectId', response.redirectId);
-                }),
-                catchError(this.checkError)
+                })
             );
     }
 

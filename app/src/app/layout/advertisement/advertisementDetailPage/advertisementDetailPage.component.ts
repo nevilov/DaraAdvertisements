@@ -21,8 +21,10 @@ import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
     ]
 })
 export class AdvertisementDetailPageComponent implements OnInit {
-    public id = 0;
-    public advertisement: Advertisement | null = null;
+
+    id: number = 0;
+    ownerPhone: string;
+    advertisement: Advertisement;
     images: any[];
     imageValues: string[];
     userId: number = 0;
@@ -41,10 +43,19 @@ export class AdvertisementDetailPageComponent implements OnInit {
         this.advertisement = {} as Advertisement;
         this.images = [];
         this.imageValues = [];
+        this.ownerPhone = "Не указан";
     }
 
     changeImage(i: number) {
         this.imageValues[0] = this.imageValues[i];
+    }
+
+    formatPhone() {
+        if (this.advertisement?.owner?.phone != null && this.advertisement?.owner?.phone.length == 12) {
+            let tempPhone: string = this.advertisement?.owner?.phone;
+            let newPhone: string = tempPhone[0] + tempPhone[1] + " " + tempPhone[2] + tempPhone[3] + tempPhone[4] + " " + tempPhone[5] + tempPhone[6] + tempPhone[7] + "-" + tempPhone[8] + tempPhone[9] + "-" + tempPhone[10] + tempPhone[11];
+            this.ownerPhone = newPhone;
+        }
     }
 
     ngOnInit() {
@@ -62,6 +73,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
                 this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
 
                 this.images = data.images;
+                this.formatPhone();
 
                 this.advertisementService.getSameAdvertisementsWithLimit(this.advertisement.category.id, 4).subscribe((data) => {
                     this.sameAdvertisements = data.items;
@@ -77,14 +89,13 @@ export class AdvertisementDetailPageComponent implements OnInit {
                         .pipe(untilDestroyed(this))
                         .subscribe((data: any) => {
                             this.imageValues[i + 1] = 'data:image/jpeg;base64,' + data.imageBlob;
-                            if (i === 0) {
-                                this.imageValues[0] = this.imageValues[1]
+                            if (i == 0) {
+                                this.imageValues[0] = this.imageValues[1];
                             }
                         });
                 }
             });
     }
-
 
     onCreateChat() {
         this.chatService.createChat(this.id)
@@ -92,5 +103,4 @@ export class AdvertisementDetailPageComponent implements OnInit {
                 this.router.navigateByUrl('/chats');
             });
     }
-
 }

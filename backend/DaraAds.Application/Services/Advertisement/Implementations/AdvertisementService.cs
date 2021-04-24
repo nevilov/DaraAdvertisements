@@ -105,8 +105,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Owner = new Get.Response.OwnerResponse
                 {
                     Id = ad.OwnerUser.Id,
-                    Name = ad.OwnerUser.Name,
-                    Email = ad.OwnerUser.Email,
+                    Name  = ad.OwnerUser.Name,
+                    Phone = ad.OwnerUser.Phone,
                     Lastname = ad.OwnerUser.LastName,
                     Images = ad.OwnerUser.Images.Select(i => new Get.Response.ImageResponse
                     {
@@ -184,7 +184,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     {
                         Id = a.OwnerId,
                         Username = a.OwnerUser.Username,
-                        Email = a.OwnerUser.Email,
+                        Email = null,
                         Name = a.OwnerUser.Name,
                         Lastname = a.OwnerUser.LastName,
                         Images = a.OwnerUser.Images.Select(i => new ImageResponse
@@ -281,7 +281,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     {
                         Id = a.OwnerId,
                         Username = a.OwnerUser.Username,
-                        Email = a.OwnerUser.Email,
+                        Email = null,
                         Name = a.OwnerUser.Name,
                         Lastname = a.OwnerUser.LastName,
                         Images = a.OwnerUser.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
