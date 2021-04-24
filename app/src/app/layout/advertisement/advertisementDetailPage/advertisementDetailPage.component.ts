@@ -9,6 +9,7 @@ import { Advertisement } from 'src/app/Dtos/advertisement';
 import { AdvertisementService } from 'src/app/services/advertisements.service';
 import { ImageService } from 'src/app/services/image.service';
 import { ChatService } from '../../../services/chat.service';
+import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 
 @UntilDestroy()
 @Component({
@@ -31,17 +32,18 @@ export class AdvertisementDetailPageComponent implements OnInit {
     userAdvertisements: Advertisement[] | null = null;
 
     constructor(
-      private route: ActivatedRoute,
-      private advertisementService: AdvertisementService,
-      private imageService: ImageService,
-      private chatService: ChatService,
-      private router: Router,
-      private userService: UserService
-      ){
-      this.advertisement = {} as Advertisement;
-      this.images = [];
-      this.imageValues = [];
-      this.ownerPhone = "Не указан";
+        private route: ActivatedRoute,
+        private advertisementService: AdvertisementService,
+        private imageService: ImageService,
+        private chatService: ChatService,
+        private router: Router,
+        private userService: UserService,
+        private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
+    ) {
+        this.advertisement = {} as Advertisement;
+        this.images = [];
+        this.imageValues = [];
+        this.ownerPhone = "Не указан";
     }
 
     changeImage(i: number) {
@@ -49,46 +51,49 @@ export class AdvertisementDetailPageComponent implements OnInit {
     }
 
     formatPhone() {
-      if (this.advertisement?.owner?.phone != null && this.advertisement?.owner?.phone.length == 12 ) {
-        let tempPhone:string = this.advertisement?.owner?.phone;
-        let newPhone:string = tempPhone[0] + tempPhone[1] + " " + tempPhone[2] + tempPhone[3] + tempPhone[4] + " " + tempPhone[5] + tempPhone[6] + tempPhone[7] + "-" + tempPhone[8] + tempPhone[9] + "-" + tempPhone[10] + tempPhone[11];
-        this.ownerPhone = newPhone;
-      }
+        if (this.advertisement?.owner?.phone != null && this.advertisement?.owner?.phone.length == 12) {
+            let tempPhone: string = this.advertisement?.owner?.phone;
+            let newPhone: string = tempPhone[0] + tempPhone[1] + " " + tempPhone[2] + tempPhone[3] + tempPhone[4] + " " + tempPhone[5] + tempPhone[6] + tempPhone[7] + "-" + tempPhone[8] + tempPhone[9] + "-" + tempPhone[10] + tempPhone[11];
+            this.ownerPhone = newPhone;
+        }
     }
 
-
     ngOnInit() {
-        this.router.events.subscribe((event) => {
-            console.log('route changed');
-            // this.ngOnInit();
-        });
-
-        this.route.paramMap
-        .pipe(
-            switchMap(params => params.getAll('id')))
-        .subscribe(data => this.id = +data);
+        this.route.paramMap.pipe(
+            switchMap(params => params.getAll('id'))
+        )
+            .subscribe(data => this.id = +data);
 
         this.advertisementService.getAdvertisementById(this.id)
             .subscribe((data: Advertisement) => {
-              this.advertisement = data;
-              this.images = data.images;
-              this.formatPhone();
+                this.advertisement = data;
+                console.log(this.advertisement);
 
-              this.userService.getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0).subscribe((data) => {
-                this.userAdvertisements = data.items;
-                console.log(data);
+                const breadcrumb = { categoryId: this.advertisement.category.id, category: this.advertisement.category.name, title: this.advertisement.title };
+                this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
+
+                this.images = data.images;
+                this.formatPhone();
+
+                this.advertisementService.getSameAdvertisementsWithLimit(this.advertisement.category.id, 4).subscribe((data) => {
+                    this.sameAdvertisements = data.items;
                 });
 
-              for (let i = 0; i < this.images.length; i++) {
-                this.imageService.getImageById(this.images[i].id)
-                .pipe(untilDestroyed(this))
-                .subscribe((data: any) => {
-                  this.imageValues[i + 1] = 'data:image/jpeg;base64,' + data.imageBlob;
-                  if (i == 0) {
-                    this.imageValues[0] = this.imageValues[1];
-                  }
+                this.userService.getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0).subscribe((data) => {
+                    this.userAdvertisements = data.items;
+                    console.log(data);
                 });
-              }
+
+                for (let i = 0; i < this.images.length; i++) {
+                    this.imageService.getImageById(this.images[i].id)
+                        .pipe(untilDestroyed(this))
+                        .subscribe((data: any) => {
+                            this.imageValues[i + 1] = 'data:image/jpeg;base64,' + data.imageBlob;
+                            if (i == 0) {
+                                this.imageValues[0] = this.imageValues[1];
+                            }
+                        });
+                }
             });
     }
 

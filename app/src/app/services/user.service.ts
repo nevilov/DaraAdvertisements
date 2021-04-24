@@ -46,4 +46,12 @@ export class UserService {
             }
         );
     }
+
+    public blockUser(form: any): Observable<any>{
+      return this.http.post(AppComponent.backendAddress + '/api/User/block', form,   {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        }),
+      });
+    }
 }

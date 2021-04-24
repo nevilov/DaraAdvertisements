@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="container__header">
+    <span class="header__title">Заблокировать пользователя</span>
+  </div>
+  <div class="container__content">
+    <form action="" [formGroup]="blockUserForm" (ngSubmit)="onSubmit()">
+      <div class="container__input input">
+        <label class="container__label">Id пользователя</label>
+        <div class="input__value">
+          <input formControlName="userId" type="text"
+                 placeholder="Id">
+        </div>
+      </div>
+      <div class="container__input input">
+        <label class="container__label">Срок бана</label>
+        <div class="input__value">
+          <input formControlName="untilDate" type="date">
+        </div>
+      </div>
+      <button>Заблокировать пользователя</button>
+    </form>
+  </div>
+</div>

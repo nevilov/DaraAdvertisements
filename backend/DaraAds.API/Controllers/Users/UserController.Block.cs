@@ -1,4 +1,5 @@
-﻿using DaraAds.Application.Common;
+﻿using DaraAds.API.Dto.Users;
+using DaraAds.Application.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,12 +10,14 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController
     {
-        [HttpPost("block/{userId}")]
+        [HttpPost("block")]
         [Authorize(Roles = "Moderator, Admin")]
-        public async Task<IActionResult> BlockUser(string userId, DateTime untillDate, CancellationToken cancellationToken)
+        public async Task<IActionResult> BlockUser(BlockUserRequest request, CancellationToken cancellationToken)
         {
-            var result = await _identityService.BlockUser(userId, untillDate, cancellationToken);
+            await _identityService.BlockUser(request.UserId, request.UntilDate, cancellationToken);
             return Ok();
         }
     }
+
+
 }

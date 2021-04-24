@@ -128,14 +128,14 @@ namespace DaraAds.Infrastructure.Identity
             }
             var resultSignIn = await _signInManager.PasswordSignInAsync(identityUser, request.Password, true, true);
 
-            if (resultSignIn.IsLockedOut)
-            {
-                throw new UserIsBlockedException($"Пользователь с Id({identityUser.Id}) заблокирован до {identityUser.LockoutEnd}");
-            }
-
             if (!resultSignIn.Succeeded)
             {
                 throw new HaveNoRightException("Неправильный логин или пароль");
+            }
+
+            if (resultSignIn.IsLockedOut)
+            {
+                throw new UserIsBlockedException($"Пользователь с Id({identityUser.Id}) заблокирован до {identityUser.LockoutEnd}");
             }
 
             var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(identityUser);
@@ -156,7 +156,7 @@ namespace DaraAds.Infrastructure.Identity
             var token = new JwtSecurityToken
             (
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(60),
+                expires: DateTime.UtcNow.AddHours(1),
                 notBefore: DateTime.UtcNow,
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"])),
@@ -386,7 +386,7 @@ namespace DaraAds.Infrastructure.Identity
             var blockingUser = await _userManager.FindByIdAsync(userId);
             if(blockingUser == null)
             {
-                throw new IdentityUserNotFoundException($"Пользователь с email {userId} не был найден");
+                throw new IdentityUserNotFoundException($"Пользователь с Id {userId} не был найден");
             }
             if (await IsInRole(blockingUser.Id, RoleConstants.AdminRole, cancellationToken))
             {

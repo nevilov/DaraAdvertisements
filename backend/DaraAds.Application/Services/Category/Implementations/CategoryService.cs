@@ -33,7 +33,7 @@ namespace DaraAds.Application.Services.Category.Implementations
                 {
                     Id = result.Id,
                     Name = result.Name,
-                    ChildCategoryItems = result.ChildCategories.Select(a => new GetCategoryById.Response.ChildCategoryItem
+                    ChildCategories = result.ChildCategories.Select(a => new GetCategoryById.Response.ChildCategoryItem
                     {
                         Id = a.Id,
                         Name = a.Name
