@@ -76,8 +76,9 @@ export class NewAdvertisementPageComponent implements OnInit {
     }
 
     newFile() {
-        this.filesToUpload.push({} as File);
-        console.log(this.filesToUpload);
+        if (this.filesToUpload.length < 5) {
+          this.filesToUpload.push({} as File);
+        }
     }
 
     removeFile(i: number) {
@@ -135,14 +136,14 @@ export class NewAdvertisementPageComponent implements OnInit {
               console.log("concatted" + singleMedia);
               if (fileIteratorIndex > this.filesToUpload.length) {
                   this.creationFormState = 'Файлы загружены... переход на страницу объявления..';
-                  this.router.navigateByUrl('/advertisements/' + this.newId);
+                  this.router.navigateByUrl('/advertisement/' + this.newId);
               }
               },
               error => {
               }); 
             } else {
               this.creationFormState = 'Информация загружена... переход на страницу объявления..';
-              this.router.navigateByUrl('/advertisements/' + this.newId);
+              this.router.navigateByUrl('/advertisement/' + this.newId);
             }
 
 
