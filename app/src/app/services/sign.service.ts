@@ -39,7 +39,9 @@ export class SignService {
                     console.log(response);
                     this.cookieService.set('AuthUsername', user.login);
                     this.cookieService.set('AuthToken', response.token);
+                    this.cookieService.set('UserAvatar', response.userAvatar);
                     this.cookieService.set('UserRole', response.userRole);
+                    this.cookieService.set('UserId', response.userId);
                     this.dataSharingService.isUserLoggedIn.next(true);
                 }),
                 // catchError(this.checkError)

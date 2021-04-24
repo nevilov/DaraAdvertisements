@@ -27,6 +27,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
     images: any[];
     imageValues: string[];
     userId: number = 0;
+    userAvatar: string;
     sameAdvertisements: Advertisement[] | null = null;
     userAdvertisements: Advertisement[] | null = null;
 
@@ -41,6 +42,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
       this.advertisement = {} as Advertisement;
       this.images = [];
       this.imageValues = [];
+      this.userAvatar = "";
       this.ownerPhone = "Не указан";
     }
 
@@ -73,6 +75,16 @@ export class AdvertisementDetailPageComponent implements OnInit {
               this.advertisement = data;
               this.images = data.images;
               this.formatPhone();
+
+              if (this.advertisement.owner.avatar === null) {
+                this.advertisement.owner.avatar = "default";
+              }
+
+              this.imageService.getImageById(this.advertisement.owner.avatar)
+              .pipe(untilDestroyed(this))
+              .subscribe((data: any) => {
+                this.userAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+              });
 
               this.userService.getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0).subscribe((data) => {
                 this.userAdvertisements = data.items;

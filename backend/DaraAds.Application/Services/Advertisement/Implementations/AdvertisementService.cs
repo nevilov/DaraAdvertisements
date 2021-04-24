@@ -90,8 +90,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Images = ad.Images.Select(i => new Get.Response.ImageResponse
                 {
                     Id = i.Id,
-                    ImageUrl =  S3Url + i.Name
-//                    ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    ImageUrl = S3Url + i.Name
+                    //                    ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                 }),
 
                 Category = new Get.Response.CategoryResponse
@@ -105,15 +105,10 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Owner = new Get.Response.OwnerResponse
                 {
                     Id = ad.OwnerUser.Id,
-                    Name  = ad.OwnerUser.Name,
+                    Name = ad.OwnerUser.Name,
                     Phone = ad.OwnerUser.Phone,
                     Lastname = ad.OwnerUser.LastName,
-                    Images = ad.OwnerUser.Images.Select(i => new Get.Response.ImageResponse
-                    {
-                        Id = i.Id,
-                        ImageUrl =  S3Url + i.Name
- //                       ImageBase64 = Convert.ToBase64String(i.ImageBlob),
-                    })
+                    Avatar = ad.OwnerUser.Avatar
                 }
             };
         }
@@ -187,12 +182,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Email = null,
                         Name = a.OwnerUser.Name,
                         Lastname = a.OwnerUser.LastName,
-                        Images = a.OwnerUser.Images.Select(i => new ImageResponse
-                        {
-                            Id = i.Id,
-                            ImageUrl =  S3Url + i.Name
- //                           ImageBase64 = Convert.ToBase64String(i.ImageBlob),
-                        })
+                        Avatar = a.OwnerUser.Avatar
                     },
 
                     Images = a.Images.Select(i => new ImageResponse

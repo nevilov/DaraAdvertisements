@@ -11,7 +11,9 @@
         public class Response
         {
             public string Token { get; set; }
+            public string UserAvatar { get; set; }
             public string UserRole { get; set; }
+            public string UserId { get; set; }
         }
     }
 }

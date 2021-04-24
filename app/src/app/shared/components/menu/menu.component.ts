@@ -4,6 +4,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './../../../services/datasharing.service';
 import { SignService } from './../../../services/sign.service';
 import { ToastrService } from 'ngx-toastr';
+import { ImageService } from 'src/app/services/image.service';
+import { untilDestroyed } from '@ngneat/until-destroy';
 
 @Component({
     selector: 'app-menu',
@@ -13,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class MenuComponent implements OnInit {
     currentUserName: string = '';
     currentUserRole: string = '';
+    currentUserAvatar: string = '';
     isAutorized: boolean = false;
 
     @ViewChild('submenu', { read: ElementRef }) SubmenuComponent!: ElementRef;
@@ -61,6 +64,8 @@ export class MenuComponent implements OnInit {
     }
 
     constructor(
+        
+        private imageService: ImageService,
         private cookieService: CookieService,
         private dataSharingService: DataSharingService,
         private signService: SignService,
@@ -73,5 +78,18 @@ export class MenuComponent implements OnInit {
 
     ngOnInit() {
         this.checkAuthorized();
+
+        this.currentUserAvatar = this.cookieService.get('UserAvatar');
+
+        if (this.currentUserAvatar == "null") {
+            this.currentUserAvatar = "default";
+        }
+
+        this.imageService.getImageById(this.currentUserAvatar)
+        .subscribe((data: any) => {
+            if (data.imageBlob) {
+                this.currentUserAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+            }
+        });
     }
 }
