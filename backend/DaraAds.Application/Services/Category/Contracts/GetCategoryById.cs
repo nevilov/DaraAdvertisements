@@ -19,7 +19,7 @@ namespace DaraAds.Application.Services.Category.Contracts
 
                 public string Name { get; set; }
 
-                public IEnumerable<ChildCategoryItem> ChildCategoryItems { get; set; }
+                public IEnumerable<ChildCategoryItem> ChildCategories { get; set; }
 
             }
 

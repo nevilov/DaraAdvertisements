@@ -7,26 +7,28 @@ import { MenuComponent } from './components/menu/menu.component';
 import { SubmenuComponent } from './components/submenu/submenu.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { AdvertisementComponent } from './components/advertisement/advertisement.component';
+import { NgDynamicBreadcrumbModule } from "ng-dynamic-breadcrumb";
 
 @NgModule({
-	imports: [
-		CommonModule,
-		RouterModule,
-		ReactiveFormsModule
-	],
-	declarations: [
-		FooterComponent,
-		MenuComponent,
-		SubmenuComponent,
-		BreadcrumbsComponent,
-		AdvertisementComponent,
-	],
-	exports: [
-		FooterComponent,
-		MenuComponent,
-		SubmenuComponent,
-		BreadcrumbsComponent,
-		AdvertisementComponent,
-	]
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+        NgDynamicBreadcrumbModule
+    ],
+    declarations: [
+        FooterComponent,
+        MenuComponent,
+        SubmenuComponent,
+        BreadcrumbsComponent,
+        AdvertisementComponent,
+    ],
+    exports: [
+        FooterComponent,
+        MenuComponent,
+        SubmenuComponent,
+        BreadcrumbsComponent,
+        AdvertisementComponent,
+    ]
 })
 export class SharedModule { }

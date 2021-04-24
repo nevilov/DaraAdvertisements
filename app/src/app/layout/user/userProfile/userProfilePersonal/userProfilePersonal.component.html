@@ -1,6 +1,6 @@
 <div class="container">
     <div class="container__header header">
-        <h1 class="header__title">Личная информация</h1>
+        <h1 class="header__title">Персональная информация</h1>
     </div>
     <div class="container__content">
         <div class="container__userStatus">
@@ -17,7 +17,7 @@
 
             <div class="container__userAvatarInfo">
                 <span class="container__userName">
-                    Арина Милоская
+                    {{user?.name + " " +user?.lastname}}
                 </span>
                 <a href="" class="container__link">Изменить аватар</a>
             </div>
@@ -53,14 +53,14 @@
                 <div class="container__input input">
                     <label for="name" class="container__label">Имя</label>
                     <div class="input__value">
-                        <input disabled name="name" type="text" value="Арина">
+                        <input disabled name="name" type="text" value={{user?.name}}>
                     </div>
                 </div>
 
                 <div class="container__input input">
                     <label for="lastname" class="container__label">Фамилия</label>
                     <div class="input__value">
-                        <input disabled name="lastname" type="text" placeholder="Милоская">
+                        <input disabled name="lastname" type="text" value={{user?.lastname}}>
                     </div>
                 </div>
 

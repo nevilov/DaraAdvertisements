@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { SignService } from './../../../services/sign.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,11 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserProfileComponent implements OnInit {
 
+    public userRole = "";
+
     public userLogout() {
         this.signService.logout();
     }
 
-    constructor(private signService: SignService) { }
+    constructor(private signService: SignService, private cookieService: CookieService) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.userRole = this.cookieService.get('UserRole');
+    }
 }

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="container__menu menu">
-        <div class="menu__block">
+        <div class="menu__block" *ngIf="userRole == 'User'">
             <div class="menu__header">Аккаунт</div>
             <a class="menu__item" routerLink="personal">
                 <span class="iconify menu__icon" data-icon="bx:bxs-user-account" data-inline="false"
@@ -24,7 +24,7 @@
             </a>
         </div>
 
-        <div class="menu__block">
+        <div class="menu__block" *ngIf="userRole == 'User'">
             <div class="menu__header">Объявления</div>
             <a class="menu__item" routerLink="advertisements">
                 <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
@@ -35,6 +35,44 @@
                 <span class="iconify userMenu__icon" data-icon="carbon:favorite-filled" data-inline="false"
                     style="color: #222222;"></span>
                 <span class="menu__text">Избранное</span>
+            </a>
+        </div>
+
+        <div class="menu__block" *ngIf="userRole == 'Moderator'">
+            <div class="menu__header">Панель модератора</div>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Смена ролей</span>
+            </a>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Рассылка</span>
+            </a>
+            <a class="menu__item" (click)="userLogout()">
+                <span class="iconify menu__icon" data-icon="icomoon-free:exit" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Выход</span>
+            </a>
+        </div>
+
+        <div class="menu__block" *ngIf="userRole == 'Admin'">
+            <div class="menu__header">Панель администратора</div>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Смена ролей</span>
+            </a>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Рассылка</span>
+            </a>
+            <a class="menu__item" (click)="userLogout()">
+                <span class="iconify menu__icon" data-icon="icomoon-free:exit" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Выход</span>
             </a>
         </div>
     </div>
