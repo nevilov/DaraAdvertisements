@@ -36,7 +36,7 @@ export class AdvertisementService {
         );
     }
 
-    public getAdvertisementByCategoryId(id: number): Observable<ListOfItems<Advertisement>> {
+    public getAdvertisementsByCategoryId(id: number): Observable<ListOfItems<Advertisement>> {
         return this.http.get<ListOfItems<Advertisement>>(
             AppComponent.backendAddress + '/api/Advertisement/category?CategoryId=' + id + '&Limit=100&Offset=0&OrderBy=Id'
         );

@@ -14,22 +14,13 @@ import { AdvertisementService } from 'src/app/services/advertisements.service';
 })
 export class AdvertisementPageComponent implements OnInit {
     advertisements: Advertisement[] = [];
-    categoryId: number = -1;
 
-
-    constructor(private route: ActivatedRoute, private advertisementService: AdvertisementService) { }
+    constructor(
+        private route: ActivatedRoute,
+        private advertisementService: AdvertisementService) { }
 
     ngOnInit() {
-        this.route.paramMap.pipe(
-            switchMap(params => params.getAll('id'))
-        )
-            .subscribe(data => this.categoryId = +data);
-
-        if (this.categoryId == -1) {
-            this.loadAdvertisements();
-        } else {
-            this.loadAdvertisementsByCategory(this.categoryId);
-        }
+        this.loadAdvertisements();
     }
 
     loadAdvertisements() {
@@ -46,7 +37,7 @@ export class AdvertisementPageComponent implements OnInit {
 
     loadAdvertisementsByCategory(categoryId: number) {
 
-        this.advertisementService.getAdvertisementByCategoryId(categoryId)
+        this.advertisementService.getAdvertisementsByCategoryId(categoryId)
             .subscribe(data => {
                 this.advertisements = data.items;
                 console.log(this.advertisements)

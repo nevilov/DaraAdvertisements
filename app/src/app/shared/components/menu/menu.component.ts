@@ -15,7 +15,6 @@ export class MenuComponent implements OnInit {
     currentUserRole: string = '';
     isAutorized: boolean = false;
 
-    @ViewChild('submenu', { read: ElementRef }) SubmenuComponent!: ElementRef;
     @ViewChild('usermenu', { read: ElementRef }) UserMenu!: ElementRef;
     @ViewChild('btnShowsSubmenu', { read: ElementRef }) span!: ElementRef;
     isSubmenuShown: boolean = false;
@@ -23,11 +22,9 @@ export class MenuComponent implements OnInit {
 
     public showSubmenu() {
         if (this.isSubmenuShown) {
-            this.SubmenuComponent.nativeElement.style.display = 'none';
             this.span.nativeElement.style.transform = 'rotate(180deg)';
             this.isSubmenuShown = false;
         } else {
-            this.SubmenuComponent.nativeElement.style.display = 'block';
             this.span.nativeElement.style.transform = 'rotate(360deg)';
             this.isSubmenuShown = true;
         }
@@ -47,7 +44,6 @@ export class MenuComponent implements OnInit {
         this.signService.logout();
         this.isAutorized = false;
         this.showUsermenu();
-        // alert(this.isUsermenuShown);
     }
 
     public checkAuthorized() {
