@@ -10,8 +10,6 @@ namespace DaraAds.Application.Repositories
 {
     public interface IAdvertisementRepository : IRepository<Domain.Advertisement, int>
     {
-        Task<Domain.Advertisement> FindByIdWithUser(int id, CancellationToken cancellationToken);
-
         Task<IEnumerable<Domain.Advertisement>> FindAdvertisementsByCategoryIds(List<int> ids, int limit, int offset, CancellationToken cancellationToken);
 
         Task<IEnumerable<Domain.Advertisement>> Search(Expression<Func<Domain.Advertisement, bool>> predicate, int limit, int offset, CancellationToken cancellationToken);

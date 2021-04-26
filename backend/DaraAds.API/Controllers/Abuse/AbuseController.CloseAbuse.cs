@@ -18,7 +18,7 @@ namespace DaraAds.API.Controllers.Abuse
         /// <summary>
         /// Закрыть (рассмотреть) жалобу. (Модератор)
         /// </summary>
-        /// <param name="abuseBinding"></param>
+        /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         

@@ -77,8 +77,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         public async Task<Get.Response> Get(Get.Request request, CancellationToken cancellationToken)
         {
             var ad = await _repository.FindById(request.Id, cancellationToken);
-
+            
             if (ad == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
+            if(ad.Status == Domain.Advertisement.Statuses.Closed)
             {
                 throw new AdNotFoundException(request.Id);
             }
@@ -222,6 +227,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             var advertisement = await _repository.FindById(request.Id, cancellationToken);
 
             if (advertisement == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
+            if (advertisement.Status == Domain.Advertisement.Statuses.Closed)
             {
                 throw new AdNotFoundException(request.Id);
             }
@@ -410,6 +420,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 throw new AdNotFoundException(request.Id);
             }
 
+            if (advertisement.Status == Domain.Advertisement.Statuses.Closed)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
             if (advertisement.OwnerId != userId)
             {
                 throw new NoRightsException("Нет прав для выполнения операции.");
@@ -441,6 +456,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             var advertisement = await _repository.FindById(request.Id, cancellationToken);
 
             if (advertisement == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
+            if (advertisement.Status == Domain.Advertisement.Statuses.Closed)
             {
                 throw new AdNotFoundException(request.Id);
             }

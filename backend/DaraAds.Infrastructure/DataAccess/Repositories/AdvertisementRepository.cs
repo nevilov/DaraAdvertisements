@@ -25,18 +25,14 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
 
         public async Task<IEnumerable<Domain.Advertisement>> FindAdvertisementsByCategoryIds(List<int> ids, int limit, int offset, CancellationToken cancellationToken)
         {
-            return await _context.Advertisements.Where(a => ids.Contains(a.CategoryId)).Skip(offset).Take(limit).ToListAsync(cancellationToken);
+            return await _context.Advertisements
+                .Where(a => ids.Contains(a.CategoryId) && (a.Status.Equals(Domain.Advertisement.Statuses.Created)))
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync(cancellationToken);
         }
 
         
-        //Удалить метод
-        public async Task<Domain.Advertisement> FindByIdWithUser(int id, CancellationToken cancellationToken)
-        {
-            return await _context.Advertisements
-                .Include(a => a.OwnerUser)
-                .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
-        }
-
         public async Task<IEnumerable<Domain.Advertisement>> Search(Expression<Func<Domain.Advertisement, bool>> predicate, int limit, int offset, CancellationToken cancellationToken)
         {
             return await _context.Advertisements
@@ -61,7 +57,8 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                  a.Price >= parameters.MinPrice && 
                  a.Price <= parameters.MaxPrice &&
                  a.CreatedDate.Date >= parameters.MinDate &&
-                 a.CreatedDate.Date <= parameters.MaxDate);
+                 a.CreatedDate.Date <= parameters.MaxDate &&
+                 a.Status.Equals(Domain.Advertisement.Statuses.Created));
  
              
              SearchByTitleOrDescription(ref ads, parameters.SearchString);
