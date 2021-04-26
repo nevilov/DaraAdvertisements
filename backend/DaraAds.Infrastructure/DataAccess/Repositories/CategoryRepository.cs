@@ -14,10 +14,6 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
         }
 
-        public async Task<Category> FindCategoryById(int id, CancellationToken cancellationToken)
-        {
-            return await _context.Categories.FindAsync(id, cancellationToken);
-        }
 
         public async Task<IEnumerable<Category>> FindTopCategories(CancellationToken cancellationToken)
         {

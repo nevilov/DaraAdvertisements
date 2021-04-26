@@ -4,6 +4,7 @@ using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
+using DaraAds.Application.Services.Category.Contracts.Exceptions;
 using DaraAds.Application.Services.Image.Contracts;
 using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Application.Services.S3.Contracts.Exceptions;
@@ -249,8 +250,15 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<GetPagedByCategory.Response> GetPagedByCategory(GetPagedByCategory.Request request, CancellationToken cancellationToken)
         {
-            var result = await _categoryRepository.FindCategoryIdsByParent(request.CategoryId, cancellationToken);
-            var advertisementsByCategories = await _repository.FindAdvertisementsByCategoryIds(result, request.Limit, request.Offset, cancellationToken);
+            var category = await _categoryRepository.FindById(request.CategoryId, cancellationToken);
+            if(category == null)
+            {
+                throw new NoCategoryFoundException($"Категория с id {request.CategoryId} не была найдена");
+            }
+
+            var categoryIds = await _categoryRepository.FindCategoryIdsByParent(request.CategoryId, cancellationToken);
+
+            var advertisementsByCategories = await _repository.FindAdvertisementsByCategoryIds(categoryIds, request.Limit, request.Offset, cancellationToken);
 
             var total = advertisementsByCategories.Count();
             if (total == 0)
