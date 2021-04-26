@@ -27,18 +27,21 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         private readonly IRepository<Domain.Image, string> _imageRepository;
         private readonly IImageService _imageService;
         private readonly IS3Service _s3Service;
+        private readonly ICategoryRepository _categoryRepository;
 
         public AdvertisementService(
             IAdvertisementRepository repository,
             IIdentityService identityService,
             IImageService imageService,
-            IRepository<Domain.Image, string> imageRepository, IS3Service s3Service)
+            IRepository<Domain.Image, string> imageRepository, IS3Service s3Service,
+            ICategoryRepository categoryRepository)
         {
             _repository = repository;
             _identityService = identityService;
             _imageService = imageService;
             _imageRepository = imageRepository;
             _s3Service = s3Service;
+            _categoryRepository = categoryRepository;
         }
 
         private const string S3Url = "https://storage.yandexcloud.net/dara-ads-images/";
@@ -96,8 +99,6 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
                 Category = new Get.Response.CategoryResponse
                 {
-                    ParentId = ad.Category.ParentCategory.Id,
-                    ParentName = ad.Category.ParentCategory.Name,
                     Id = ad.Category.Id,
                     Name = ad.Category.Name
                 },
@@ -184,7 +185,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     {
                         Id = a.OwnerId,
                         Username = a.OwnerUser.Username,
-                        Email = null,
+                        Email = a.OwnerUser.Email,
                         Name = a.OwnerUser.Name,
                         Lastname = a.OwnerUser.LastName,
                         Images = a.OwnerUser.Images.Select(i => new ImageResponse
@@ -248,7 +249,10 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<GetPagedByCategory.Response> GetPagedByCategory(GetPagedByCategory.Request request, CancellationToken cancellationToken)
         {
-            var total = await _repository.Count(a => a.CategoryId == request.CategoryId, cancellationToken);
+            var result = await _categoryRepository.FindCategoryIdsByParent(request.CategoryId, cancellationToken);
+            var advertisementsByCategories = await _repository.FindAdvertisementsByCategoryIds(result, request.Limit, request.Offset, cancellationToken);
+
+            var total = advertisementsByCategories.Count();
             if (total == 0)
             {
                 return new GetPagedByCategory.Response
@@ -259,42 +263,43 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 };
             }
 
-            var result = await _repository.FindByCategory(request.CategoryId, request.Limit, request.Offset, cancellationToken);
-            return new GetPagedByCategory.Response
+            return new Contracts.GetPagedByCategory.Response 
             {
-                Items = result.Select(a => new GetPagedByCategory.Response.Item
+                Items = advertisementsByCategories.Select(a => new GetPagedByCategory.Response.Item
                 {
                     Id = a.Id,
                     Title = a.Title,
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
-                    Status = a.Status.ToString(),
                     CreatedDate = a.CreatedDate,
-                    Images = a.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
-                    {
-                        Id = i.Id,
-                        ImageUrl = S3Url + i.Name,
-//                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
-                    }),
+                    Status = a.Status.ToString(),
+
                     Owner = new GetPagedByCategory.Response.OwnerResponse
                     {
                         Id = a.OwnerId,
                         Username = a.OwnerUser.Username,
-                        Email = null,
+                        Email = a.OwnerUser.Email,
                         Name = a.OwnerUser.Name,
                         Lastname = a.OwnerUser.LastName,
                         Images = a.OwnerUser.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
                         {
                             Id = i.Id,
-                            ImageUrl = S3Url + i.Name,
-//                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                            ImageUrl = S3Url + i.Name
+                            //                           ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                         })
                     },
+
+                    Images = a.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl = S3Url + i.Name
+                        //                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    }),
                 }),
-                Total = total,
+                Total = advertisementsByCategories.Count(),
                 Offset = request.Offset,
-                Limit = request.Limit
+                Limit = request.Limit,
             };
         }
 

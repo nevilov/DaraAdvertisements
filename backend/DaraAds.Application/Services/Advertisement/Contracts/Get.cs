@@ -23,8 +23,6 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             
             public sealed class CategoryResponse
             {
-                public int ParentId { get; set; }
-                public string ParentName { get; set; }
                 public int Id { get; set; }
                 public string Name { get; set; }
             }

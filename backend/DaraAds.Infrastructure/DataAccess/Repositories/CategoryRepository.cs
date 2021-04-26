@@ -25,5 +25,22 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 .Where(c => c.ParentCategory == null)
                 .ToListAsync(cancellationToken);
         }
+
+
+        public async Task<List<int>> FindCategoryIdsByParent(int id, CancellationToken cancellationToken)
+        {
+            List<int> Ids = new List<int>();
+            var category = await _context.Categories
+                                   .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            Ids.Add(category.Id);
+
+            for (var i = 0; i < category.ChildCategories.Count; i++)
+            {
+                if (category.ChildCategories[i] != null)
+                    Ids.AddRange(await FindCategoryIdsByParent(category.ChildCategories[i].Id, cancellationToken));
+            }
+
+            return Ids;
+        }
     }
 }

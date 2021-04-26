@@ -31,9 +31,10 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             {
                 public string Id { get; set; }
                 public string ImageUrl { get; set; }
-//                public string ImageBase64 { get; set; }
+                //               public string ImageBase64 { get; set; }
             }
-            public class Item
+
+            public sealed class Item
             {
                 public int Id { get; set; }
                 public string Title { get; set; }
@@ -42,8 +43,8 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public decimal Price { get; set; }
                 public string Status { get; set; }
                 public DateTime CreatedDate { get; set; }
-                public IEnumerable<ImageResponse> Images { get; set; }
                 public OwnerResponse Owner { get; set; }
+                public IEnumerable<ImageResponse> Images { get; set; }
             }
         }
     }

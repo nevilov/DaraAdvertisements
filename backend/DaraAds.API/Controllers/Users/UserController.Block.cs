@@ -10,6 +10,12 @@ namespace DaraAds.API.Controllers.Users
 {
     public partial class UserController
     {
+        /// <summary>
+        /// Заблокировать пользователя (Администратор, Модератор)
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost("block")]
         [Authorize(Roles = "Moderator, Admin")]
         public async Task<IActionResult> BlockUser(BlockUserRequest request, CancellationToken cancellationToken)
