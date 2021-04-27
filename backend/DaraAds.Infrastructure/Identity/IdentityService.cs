@@ -400,7 +400,6 @@ namespace DaraAds.Infrastructure.Identity
                 throw new IdentityServiceException($"Произошла ошибка при блокировки пользователя с email {userId}" 
                     + blockResult.Errors.Select(e => e.Description).ToList());
             }
-
             await _signInManager.RefreshSignInAsync(blockingUser);
             return blockResult.Succeeded;
         }

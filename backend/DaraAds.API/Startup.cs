@@ -1,34 +1,35 @@
+using DaraAds.API.Controllers;
+using DaraAds.Application.Helpers;
+using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Abuse.Implementations;
 using DaraAds.Application.Services.Abuse.Interfaces;
+using DaraAds.Application.Services.Advertisement.Implementations;
+using DaraAds.Application.Services.Advertisement.Interfaces;
+using DaraAds.Application.Services.Category.Implementations;
+using DaraAds.Application.Services.Category.Interfaces;
+using DaraAds.Application.Services.Chat.Implementations;
+using DaraAds.Application.Services.Chat.Interfaces;
+using DaraAds.Application.Services.Favorite.Implementations;
+using DaraAds.Application.Services.Favorite.Interfaces;
+using DaraAds.Application.Services.Image.Implementations;
+using DaraAds.Application.Services.Image.Interfaces;
+using DaraAds.Application.Services.Mail.Interfaces;
+using DaraAds.Application.Services.Message.Implementations;
+using DaraAds.Application.Services.Message.Interfaces;
 using DaraAds.Application.Services.User.Implementations;
 using DaraAds.Application.Services.User.Interfaces;
 using DaraAds.Infrastructure;
+using DaraAds.Infrastructure.DataAccess.Repositories;
+using DaraAds.Infrastructure.Helpers;
+using DaraAds.Infrastructure.Mail;
+using DaraAds.Infrastructure.SignalR.Hubs;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DaraAds.Application.Services.Advertisement.Implementations;
-using DaraAds.Application.Services.Advertisement.Interfaces;
-using DaraAds.API.Controllers;
-using DaraAds.Infrastructure.DataAccess.Repositories;
-using DaraAds.Application.Repositories;
-using DaraAds.Application.Services.Mail.Interfaces;
-using DaraAds.Infrastructure.Mail;
-using DaraAds.Application.Helpers;
-using DaraAds.Application.Services.Image.Implementations;
-using DaraAds.Application.Services.Image.Interfaces;
-using DaraAds.Infrastructure.Helpers;
-using DaraAds.Application.Services.Favorite.Interfaces;
-using DaraAds.Application.Services.Favorite.Implementations;
-using DaraAds.Application.Services.Category.Interfaces;
-using DaraAds.Application.Services.Category.Implementations;
-using DaraAds.Application.Services.Chat.Interfaces;
-using DaraAds.Application.Services.Chat.Implementations;
-using DaraAds.Application.Services.Message.Interfaces;
-using DaraAds.Application.Services.Message.Implementations;
-using DaraAds.Infrastructure.SignalR.Hubs;
 
 namespace DaraAds.API
 {
@@ -77,6 +78,20 @@ namespace DaraAds.API
             services.AddS3(Configuration);
 
             services.AddIdentity(Configuration);
+
+
+            services.AddMassTransit(conf =>
+            {
+                conf.UsingRabbitMq((context, c) =>
+                {
+                    c.Host("amqps://xydeljsx:uryKLQKQi22gDn5-X6piBDwlfKv6UvH2@clam.rmq.cloudamqp.com/xydeljsx", host =>
+                    {
+                        host.Username("xydeljsx");
+                        host.Password("uryKLQKQi22gDn5-X6piBDwlfKv6UvH2");
+                    });
+                });
+            });
+            services.AddMassTransitHostedService();
 
             services.AddControllers();
 
