@@ -57,7 +57,7 @@ namespace DaraAds.Application.Tests
             Domain.Advertisement adResponse = null;
 
             _advertisementRepositoryMock
-                .Setup(_ => _.FindByIdWithUser(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .Setup(_ => _.FindById(It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(adResponse);
 
             // Act
@@ -100,7 +100,7 @@ namespace DaraAds.Application.Tests
             setupIdentityForUpdate(userId);
 
             _advertisementRepositoryMock
-                 .Setup(_ => _.FindByIdWithUser(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                 .Setup(_ => _.FindById(It.IsAny<int>(), It.IsAny<CancellationToken>()))
                  .ReturnsAsync(adResponse);
         }
 
