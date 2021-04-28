@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Advertisement.Application.Identity.Contracts.Exceptions;
+using DaraAds.Application.Common;
 using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Identity.Interfaces;
@@ -127,14 +128,14 @@ namespace DaraAds.Infrastructure.Identity
             }
             var resultSignIn = await _signInManager.PasswordSignInAsync(identityUser, request.Password, true, true);
 
-            if (resultSignIn.IsLockedOut)
-            {
-                throw new UserIsBlockedException($"Пользователь с Id({identityUser.Id}) заблокирован до {identityUser.LockoutEnd}");
-            }
-
             if (!resultSignIn.Succeeded)
             {
                 throw new HaveNoRightException("Неправильный логин или пароль");
+            }
+
+            if (resultSignIn.IsLockedOut)
+            {
+                throw new UserIsBlockedException($"Пользователь с Id({identityUser.Id}) заблокирован до {identityUser.LockoutEnd}");
             }
 
             var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(identityUser);
@@ -155,7 +156,7 @@ namespace DaraAds.Infrastructure.Identity
             var token = new JwtSecurityToken
             (
                 claims: claims,
-                expires: DateTime.UtcNow.AddDays(60),
+                expires: DateTime.UtcNow.AddHours(1),
                 notBefore: DateTime.UtcNow,
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"])),
@@ -189,7 +190,7 @@ namespace DaraAds.Infrastructure.Identity
 
             if (identityUser == null)
             {
-                throw new IdentityUserNotFoundException("Пользователь не найден");
+                throw new IdentityUserNotFoundException($"Пользователь с email {request.Email} не был найден");
             }
 
             var newRole = await _roleManager.FindByNameAsync(request.NewRole);
@@ -205,6 +206,11 @@ namespace DaraAds.Infrastructure.Identity
             }
 
             var oldRole = await _userManager.GetRolesAsync(identityUser);
+
+            if(oldRole.Contains(RoleConstants.AdminRole) || newRole.Name.Contains(RoleConstants.AdminRole))
+            {
+                throw new HaveNoRightException("Нельзя изменить или назвачить роль администратора!");
+            }
 
             var removeRoleResult = await _userManager.RemoveFromRolesAsync(identityUser, oldRole);
             if (!removeRoleResult.Succeeded)
@@ -363,5 +369,40 @@ namespace DaraAds.Infrastructure.Identity
             };
         }
 
+        public async Task<bool> BlockUser(string userId, DateTime untillDate, CancellationToken cancellationToken)
+        {
+            var currentUserId = await GetCurrentUserId(cancellationToken);
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с id {currentUserId} не был найден");
+            }
+
+            if (!(await IsInRole(currentUserId, RoleConstants.ModeratorRole, cancellationToken)) &&
+                !(await IsInRole(currentUserId, RoleConstants.AdminRole, cancellationToken)))
+            {
+                throw new HaveNoRightException("Нет прав для выполнения данной команды");
+            }
+
+            var blockingUser = await _userManager.FindByIdAsync(userId);
+            if(blockingUser == null)
+            {
+                throw new IdentityUserNotFoundException($"Пользователь с Id {userId} не был найден");
+            }
+            if (await IsInRole(blockingUser.Id, RoleConstants.AdminRole, cancellationToken))
+            {
+                throw new HaveNoRightException("Нет прав заблокировать администратора!");
+            }
+
+            var blockResult = await _userManager.SetLockoutEndDateAsync(blockingUser, untillDate);
+
+            if (!blockResult.Succeeded)
+            {
+                throw new IdentityServiceException($"Произошла ошибка при блокировки пользователя с email {userId}" 
+                    + blockResult.Errors.Select(e => e.Description).ToList());
+            }
+
+            await _signInManager.RefreshSignInAsync(blockingUser);
+            return blockResult.Succeeded;
+        }
     }
 }

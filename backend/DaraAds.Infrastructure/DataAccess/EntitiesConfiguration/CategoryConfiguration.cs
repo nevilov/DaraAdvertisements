@@ -26,6 +26,8 @@ namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasMany(a => a.Advertisements);
+
             builder.HasData(SeedData());
         }
 

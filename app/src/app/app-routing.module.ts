@@ -21,6 +21,7 @@ import { UserProfileSettingsComponent } from './layout/user/userProfile/userProf
 import { UserProfileComponent } from './layout/user/userProfile/userProfile.component';
 import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
 import { LoginGuard } from './Guards/login.guard';
+import {UserProfileBlockComponent} from "./layout/user/userProfile/userProfileBlock/userProfileBlock.component";
 
 const routes: Routes = [
     // { path: '**', component: PageNotFoundComponent }
@@ -112,6 +113,7 @@ const routes: Routes = [
             { path: 'personal', component: UserProfilePersonalComponent, },
             { path: 'changeinfo', component: UserProfileLoginPassComponent, },
             { path: 'advertisements', component: UserProfileAdvertisementsComponent, },
+            { path: 'block', component: UserProfileBlockComponent, },
             { path: 'favorites', component: UserProfileSettingsComponent, },
         ],
     },

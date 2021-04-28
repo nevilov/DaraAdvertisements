@@ -21,6 +21,7 @@ namespace DaraAds.API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseSentry("https://f713470adc79437cb0c86f6e5bf38194@o578749.ingest.sentry.io/5735153");
                 });
     }
 }
