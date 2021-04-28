@@ -53,6 +53,7 @@ export class AdvertisementService {
             })
             .pipe(
                 tap((response: any) => {
+                    this.cookieService.delete('LatestRedirectId');
                     this.cookieService.set('LatestRedirectId', response.redirectId);
                 })
             );

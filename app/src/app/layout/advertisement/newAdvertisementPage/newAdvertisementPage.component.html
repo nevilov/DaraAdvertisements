@@ -19,7 +19,7 @@
       <div class="content__fileSelector">
         <span *ngFor="let file of filesToUpload; let i = index" style="display:flex; margin: 5px 0 5px 0;">
           <img style="width: 75px; height: 75px; border-radius: 5px;" [style]='imagePreviews[i] ? "visibility: visible;" : "visibility: hidden;"' [src]="imagePreviews[i]">
-          <input id ="file" type="file" style="margin: 0px 0 0px 5px" class="file" name="file" (change)="onFileChange($event, i)">
+          <input id="file" type="file" style="margin: 0px 0 0px 5px" class="file" name="file" (change)="onFileChange($event, i)">
           <div style="background-color: rgb(255, 166, 166); font-size: 25px;  width: 25px; border-radius: 5px; margin: 0 5px 0 5px; text-align: center; vertical-align: bottom" (click)="removeFile(i)">-</div>
         </span>
         <div id="buttons" style="display:flex; margin: 5px 0 5px 0;">

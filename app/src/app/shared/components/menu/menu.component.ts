@@ -43,6 +43,23 @@ export class MenuComponent implements OnInit {
         }
     }
 
+    public updateAvatar() {
+        this.currentUserAvatar = this.cookieService.get('UserAvatar');
+
+        if (this.currentUserAvatar == "null") {
+            this.currentUserAvatar = "default";
+        }
+        
+        console.log("data requested" + this.currentUserAvatar);
+        this.imageService.getImageById(this.currentUserAvatar)
+        .subscribe((data: any) => {
+            if (data.imageBlob) {
+                this.currentUserAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+                console.log("data received");
+            }
+        });
+    }
+
     public userLogout() {
         this.signService.logout();
         this.isAutorized = false;
@@ -54,6 +71,7 @@ export class MenuComponent implements OnInit {
             this.isAutorized = true;
             this.currentUserName = this.cookieService.get('AuthUsername');
             this.currentUserRole = this.cookieService.get('UserRole');
+            this.updateAvatar();
         } else {
             this.isAutorized = false;
         }
@@ -74,18 +92,5 @@ export class MenuComponent implements OnInit {
 
     ngOnInit() {
         this.checkAuthorized();
-
-        this.currentUserAvatar = this.cookieService.get('UserAvatar');
-
-        if (this.currentUserAvatar == "null") {
-            this.currentUserAvatar = "default";
-        }
-
-        this.imageService.getImageById(this.currentUserAvatar)
-        .subscribe((data: any) => {
-            if (data.imageBlob) {
-                this.currentUserAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
-            }
-        });
     }
 }

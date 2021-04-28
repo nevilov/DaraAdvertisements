@@ -179,6 +179,7 @@ namespace DaraAds.Infrastructure.Identity
             return new CreateToken.Response
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
+                UserName = newUser.Username,
                 UserAvatar = newUser.Avatar,
                 UserRole = rolesList[0],
                 UserId = newUserId
