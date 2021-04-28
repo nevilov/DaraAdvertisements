@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Identity.Contracts;
 
@@ -28,6 +29,7 @@ namespace DaraAds.Application.Identity.Interfaces
         Task<SendResetPasswordToken.Response> SendResetPasswordToken(SendResetPasswordToken.Request request, CancellationToken cancellationToken = default);
 
         Task<ResetUserPassword.Response> ResetPassword(ResetUserPassword.Request request, CancellationToken cancellationToken = default);
-        
+
+        Task<bool> BlockUser(string userId, DateTime untillDate, CancellationToken cancellationToken = default);
     }
 }

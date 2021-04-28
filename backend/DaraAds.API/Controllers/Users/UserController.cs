@@ -7,6 +7,7 @@ using System.Threading;
 using DaraAds.API.Dto.Users;
 using DaraAds.Application.Services.User.Contracts;
 using DaraAds.Application.Identity.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace DaraAds.API.Controllers.Users
 {
@@ -16,11 +17,13 @@ namespace DaraAds.API.Controllers.Users
     {
         private readonly IUserService _userService;
         private readonly IIdentityService _identityService;
+        private readonly IConfiguration _configuration;
 
-        public UserController(IUserService userService, IIdentityService identityService)
+        public UserController(IUserService userService, IIdentityService identityService, IConfiguration configuration)
         {
             _userService = userService;
             _identityService = identityService;
+            _configuration = configuration;
         }
 
         /// <summary>

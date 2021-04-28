@@ -4,6 +4,7 @@ using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Advertisement.Interfaces;
+using DaraAds.Application.Services.Category.Contracts.Exceptions;
 using DaraAds.Application.Services.Image.Contracts;
 using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Application.Services.S3.Contracts.Exceptions;
@@ -27,18 +28,21 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         private readonly IRepository<Domain.Image, string> _imageRepository;
         private readonly IImageService _imageService;
         private readonly IS3Service _s3Service;
+        private readonly ICategoryRepository _categoryRepository;
 
         public AdvertisementService(
             IAdvertisementRepository repository,
             IIdentityService identityService,
             IImageService imageService,
-            IRepository<Domain.Image, string> imageRepository, IS3Service s3Service)
+            IRepository<Domain.Image, string> imageRepository, IS3Service s3Service,
+            ICategoryRepository categoryRepository)
         {
             _repository = repository;
             _identityService = identityService;
             _imageService = imageService;
             _imageRepository = imageRepository;
             _s3Service = s3Service;
+            _categoryRepository = categoryRepository;
         }
 
         private const string S3Url = "https://storage.yandexcloud.net/dara-ads-images/";
@@ -73,8 +77,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         public async Task<Get.Response> Get(Get.Request request, CancellationToken cancellationToken)
         {
             var ad = await _repository.FindById(request.Id, cancellationToken);
-
+            
             if (ad == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
+            if(ad.Status == Domain.Advertisement.Statuses.Closed)
             {
                 throw new AdNotFoundException(request.Id);
             }
@@ -96,8 +105,6 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
                 Category = new Get.Response.CategoryResponse
                 {
-                    ParentId = ad.Category.ParentCategory.Id,
-                    ParentName = ad.Category.ParentCategory.Name,
                     Id = ad.Category.Id,
                     Name = ad.Category.Name
                 },
@@ -179,7 +186,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     {
                         Id = a.OwnerId,
                         Username = a.OwnerUser.Username,
-                        Email = null,
+                        Email = a.OwnerUser.Email,
                         Name = a.OwnerUser.Name,
                         Lastname = a.OwnerUser.LastName,
                         Avatar = a.OwnerUser.Avatar
@@ -214,6 +221,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 throw new AdNotFoundException(request.Id);
             }
 
+            if (advertisement.Status == Domain.Advertisement.Statuses.Closed)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
             var isAdmin = await _identityService.IsInRole(userId, RoleConstants.AdminRole, cancellationToken);
 
             if (!isAdmin && advertisement.OwnerId != userId)
@@ -238,7 +250,17 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<GetPagedByCategory.Response> GetPagedByCategory(GetPagedByCategory.Request request, CancellationToken cancellationToken)
         {
-            var total = await _repository.Count(a => a.CategoryId == request.CategoryId, cancellationToken);
+            var category = await _categoryRepository.FindById(request.CategoryId, cancellationToken);
+            if(category == null)
+            {
+                throw new NoCategoryFoundException($"Категория с id {request.CategoryId} не была найдена");
+            }
+
+            var categoryIds = await _categoryRepository.FindCategoryIdsByParent(request.CategoryId, cancellationToken);
+
+            var advertisementsByCategories = await _repository.FindAdvertisementsByCategoryIds(categoryIds, request.Limit, request.Offset, cancellationToken);
+
+            var total = advertisementsByCategories.Count();
             if (total == 0)
             {
                 return new GetPagedByCategory.Response
@@ -249,42 +271,43 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 };
             }
 
-            var result = await _repository.FindByCategory(request.CategoryId, request.Limit, request.Offset, cancellationToken);
-            return new GetPagedByCategory.Response
+            return new Contracts.GetPagedByCategory.Response 
             {
-                Items = result.Select(a => new GetPagedByCategory.Response.Item
+                Items = advertisementsByCategories.Select(a => new GetPagedByCategory.Response.Item
                 {
                     Id = a.Id,
                     Title = a.Title,
                     Description = a.Description,
                     Cover = a.Cover,
                     Price = a.Price,
-                    Status = a.Status.ToString(),
                     CreatedDate = a.CreatedDate,
-                    Images = a.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
-                    {
-                        Id = i.Id,
-                        ImageUrl = S3Url + i.Name,
-//                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
-                    }),
+                    Status = a.Status.ToString(),
+
                     Owner = new GetPagedByCategory.Response.OwnerResponse
                     {
                         Id = a.OwnerId,
                         Username = a.OwnerUser.Username,
-                        Email = null,
+                        Email = a.OwnerUser.Email,
                         Name = a.OwnerUser.Name,
                         Lastname = a.OwnerUser.LastName,
                         Images = a.OwnerUser.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
                         {
                             Id = i.Id,
-                            ImageUrl = S3Url + i.Name,
-//                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                            ImageUrl = S3Url + i.Name
+                            //                           ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                         })
                     },
+
+                    Images = a.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl = S3Url + i.Name
+                        //                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    }),
                 }),
-                Total = total,
+                Total = advertisementsByCategories.Count(),
                 Offset = request.Offset,
-                Limit = request.Limit
+                Limit = request.Limit,
             };
         }
 
@@ -387,6 +410,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 throw new AdNotFoundException(request.Id);
             }
 
+            if (advertisement.Status == Domain.Advertisement.Statuses.Closed)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
             if (advertisement.OwnerId != userId)
             {
                 throw new NoRightsException("Нет прав для выполнения операции.");
@@ -418,6 +446,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             var advertisement = await _repository.FindById(request.Id, cancellationToken);
 
             if (advertisement == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
+            if (advertisement.Status == Domain.Advertisement.Statuses.Closed)
             {
                 throw new AdNotFoundException(request.Id);
             }
