@@ -169,10 +169,12 @@ button {
 	color: white;
 	font-size: 16px;
 }
+
 .avatar__block {
 	position: relative;
 
 	&:hover .avatar_template {
+		pointer-events: none;
 		cursor: pointer;
 		transition: all ease 0.5s;
 		filter: brightness(100%);
@@ -194,4 +196,20 @@ button {
 		opacity: 0;
 		color: #fff;
 	}
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input#file {
+    display: inline-block;
+    padding: 100px 0 0 0;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background-size: 100px 100px;
 }
