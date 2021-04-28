@@ -7,57 +7,59 @@ import { SignService } from './../../../services/sign.service';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-registrationPage',
-  templateUrl: './registrationPage.component.html',
-  styleUrls: ['./registrationPage.component.scss']
+    selector: 'app-registrationPage',
+    templateUrl: './registrationPage.component.html',
+    styleUrls: ['./registrationPage.component.scss']
 })
 export class RegistrationPageComponent implements OnInit {
 
-  private sub: Subscription;
+    private sub: Subscription;
 
-  registrationForm = new FormGroup({
-    username: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5)
-    ]),
+    registrationForm = new FormGroup({
+        username: new FormControl('', [
+            Validators.required,
+            Validators.minLength(5)
+        ]),
 
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6)
-    ]),
-    name: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5)
-    ]),
-    lastName: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5)
-    ]),
-    email: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5)
-    ]),
-    phone: new FormControl('', [
-      Validators.required,
-      Validators.minLength(5),
-      Validators.pattern('[- +()0-9]+')
-    ])
-  });
-
-  onSubmit() {
-    const formValue = this.registrationForm.value;
-
-    this.sub = this.signService.register(formValue).pipe(untilDestroyed(this)).subscribe(() => {
-      this.router.navigateByUrl('/autorization');
+        password: new FormControl('', [
+            Validators.required,
+            Validators.minLength(6)
+        ]),
+        name: new FormControl('', [
+            Validators.required,
+            Validators.minLength(5)
+        ]),
+        lastName: new FormControl('', [
+            Validators.required,
+            Validators.minLength(5)
+        ]),
+        email: new FormControl('', [
+            Validators.required,
+            Validators.minLength(5)
+        ]),
+        phone: new FormControl('', [
+            Validators.required,
+            Validators.minLength(5),
+            Validators.pattern('[- +()0-9]+')
+        ])
     });
 
-  }
+    onSubmit() {
+        const formValue = this.registrationForm.value;
+        //TODO REMOVE AFTER FIX BACK
+        formValue.username = formValue.name;
+        formValue.lastName = formValue.name;
 
-  constructor(private signService: SignService, private router: Router) {
-    this.sub = new Subscription;
-   }
+        this.sub = this.signService.register(formValue).pipe(untilDestroyed(this)).subscribe(() => {
+            this.router.navigateByUrl('/autorization');
+        });
+    }
 
-  ngOnInit() {
-  }
+    constructor(private signService: SignService, private router: Router) {
+        this.sub = new Subscription;
+    }
+
+    ngOnInit() {
+    }
 
 }

@@ -1,0 +1,116 @@
+<div class="container">
+    <div class="container__header header">
+        <h1 class="header__title">Персональная информация</h1>
+    </div>
+    <div class="container__content">
+        <div class="container__userStatus">
+
+            <div class="avatar__block" (click)="avatarChange()">
+                <!-- TODO Add avatar import -->
+                <!-- <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/gif"> -->
+                <span class="iconify avatar_template" data-icon="akar-icons:image" data-inline="false"></span>
+                <figure class="container__userAvatar">
+                    <img src="./../../../../../assets/images/menu/avatar.png" alt="">
+                </figure>
+            </div>
+
+
+            <div class="container__userAvatarInfo">
+                <span class="container__userName">
+                    {{user?.name + " " +user?.lastname}}
+                </span>
+                <a href="" class="container__link">Изменить аватар</a>
+            </div>
+
+            <div class="container__accountStatus">Премиум аккаунт</div>
+        </div>
+        <div class="container__divider"></div>
+        <div class="container__block">
+            <h2>Информация об аккаунте</h2>
+            <div class="container__accountType">
+                <form action="">
+
+                    <div class="container__accountType-row">
+                        <input type="radio" name="account" value="personal">
+                        <label for="personalAccount">Персональный аккаунт</label>
+                    </div>
+
+                    <div class="container__accountType-row">
+                        <input type="radio" name="account" value="corporative">
+                        <label for="corporativeAccount">Корпоративный аккаунт</label>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="container__divider"></div>
+
+        <div class="container__block">
+            <h2>Главное</h2>
+            <div class="container__accountInfo">
+
+                <div class="container__input input">
+                    <label for="name" class="container__label">Имя</label>
+                    <div class="input__value">
+                        <input disabled name="name" type="text" value={{user?.name}}>
+                    </div>
+                </div>
+
+                <div class="container__input input">
+                    <label for="lastname" class="container__label">Фамилия</label>
+                    <div class="input__value">
+                        <input disabled name="lastname" type="text" value={{user?.lastname}}>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container__divider"></div>
+
+        <div class="container__block">
+            <h2>Геолокация</h2>
+            <div class="container__geo">
+
+                <div class="container__input input">
+                    <label for="country" class="container__label">Страна</label>
+                    <div class="input__value">
+                        <input disabled name="country" type="text" value="Россия">
+                    </div>
+                </div>
+
+                <div class="container__input input">
+                    <label for="country" class="container__label">Город</label>
+                    <div class="input__value">
+                        <input disabled name="country" type="text" value="Севастополь">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container__divider"></div>
+
+        <div class="container__block">
+            <h2>Напоминания</h2>
+            <div class="container__notify">
+
+                <div class="container__checkbox">
+                    <div class="input__value">
+                        <input name="getNotify" type="checkbox">
+                    </div>
+                    <label for="country" class="container__label">Я хочу получать напоминания</label>
+                </div>
+
+                <div class="container__checkbox">
+                    <div class="input__value">
+                        <input name="getNotify" type="checkbox">
+                    </div>
+                    <label for="country" class="container__label">И тут какая-то еще ерунда</label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

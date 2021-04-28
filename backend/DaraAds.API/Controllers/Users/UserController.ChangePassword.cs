@@ -25,7 +25,7 @@ namespace DaraAds.API.Controllers.Users
                 OldPassword = request.OldPassword
             }, cancellationToken);
 
-            return Ok("Пароль успешно обновлен");
+            return Ok();
         }
     }
 }

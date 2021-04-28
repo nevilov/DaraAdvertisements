@@ -17,7 +17,7 @@ namespace DaraAds.Application.Services.Category.Implementations
             _categoryReposity = categoryReposity;
         }
 
-        public async Task<GetChildCategories.Response> GetChildCategories(GetChildCategories.Request request, CancellationToken cancellationToken)
+        public async Task<GetCategoryById.Response> GetCategoryById(GetCategoryById.Request request, CancellationToken cancellationToken)
         {
             var parentCategory = await _categoryReposity.FindById(request.ParentCategoryId, cancellationToken);
             if (parentCategory == null)
@@ -25,17 +25,38 @@ namespace DaraAds.Application.Services.Category.Implementations
                 throw new NoCategoryFoundException($"Категория с id {request.ParentCategoryId} не была найдено");
             }
 
-            var result = await _categoryReposity.FindChildCategories(request.ParentCategoryId, cancellationToken);
-            foreach(var res in result)
+            var result = await _categoryReposity.FindById(request.ParentCategoryId, cancellationToken);
+
+            return new GetCategoryById.Response
             {
-                System.Console.WriteLine(res.Name);
-            }
-            return new GetChildCategories.Response
+                Parent = new GetCategoryById.Response.ParentCategoryItem
+                {
+                    Id = result.Id,
+                    Name = result.Name,
+                    ChildCategories = result.ChildCategories.Select(a => new GetCategoryById.Response.ChildCategoryItem
+                    {
+                        Id = a.Id,
+                        Name = a.Name
+                    })
+                }
+            };
+        }
+
+        public async Task<GetTopCategories.Response> GetTopCategories(CancellationToken cancellationToken)
+        {
+            var topCategories = await _categoryReposity.FindTopCategories(cancellationToken);
+
+            return new GetTopCategories.Response
             {
-                CategoryItems = result.Select(a => new GetChildCategories.Response.CategoryItem
+                Categories = topCategories.Select(a => new GetTopCategories.Response.TopCategory
                 {
                     Id = a.Id,
-                    Name = a.Name
+                    Name = a.Name,
+                    ChildCategories = a.ChildCategories.Select(c => new GetTopCategories.Response.ChildCategories
+                    {
+                        Id = c.Id,
+                        Name = c.Name
+                    })
                 })
             };
         }

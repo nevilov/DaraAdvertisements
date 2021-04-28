@@ -1,15 +1,23 @@
+import { CookieService } from 'ngx-cookie-service';
+import { SignService } from './../../../services/sign.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-userProfile',
-  templateUrl: './userProfile.component.html',
-  styleUrls: ['./userProfile.component.scss']
+    selector: 'app-userProfile',
+    templateUrl: './userProfile.component.html',
+    styleUrls: ['./userProfile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor() { }
+    public userRole = "";
 
-  ngOnInit() {
-  }
+    public userLogout() {
+        this.signService.logout();
+    }
 
+    constructor(private signService: SignService, private cookieService: CookieService) { }
+
+    ngOnInit() {
+        this.userRole = this.cookieService.get('UserRole');
+    }
 }

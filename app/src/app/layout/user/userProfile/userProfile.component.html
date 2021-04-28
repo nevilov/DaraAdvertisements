@@ -1,3 +1,82 @@
-<p>
-  userProfile works!
-</p>
+<div class="container">
+    <div class="container__menu menu">
+        <div class="menu__block" *ngIf="userRole == 'User'">
+            <div class="menu__header">Аккаунт</div>
+            <a class="menu__item" routerLink="personal">
+                <span class="iconify menu__icon" data-icon="bx:bxs-user-account" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Персональная информация</span>
+            </a>
+            <a class="menu__item" routerLink="changeinfo">
+                <span class="iconify menu__icon" data-icon="ri:lock-password-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Логин & Пароль</span>
+            </a>
+            <!-- <div class="menu__item">
+        <span class="iconify menu__icon" data-icon="clarity:settings-solid" data-inline="false"
+          style="color: #222222;"></span>
+        <a routerLink="settings" class="menu__text">Настройки</a>
+      </div> -->
+            <a class="menu__item" (click)="userLogout()">
+                <span class="iconify menu__icon" data-icon="icomoon-free:exit" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Выход</span>
+            </a>
+        </div>
+
+        <div class="menu__block" *ngIf="userRole == 'User'">
+            <div class="menu__header">Объявления</div>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Мои объявления</span>
+            </a>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify userMenu__icon" data-icon="carbon:favorite-filled" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Избранное</span>
+            </a>
+        </div>
+
+        <div class="menu__block" *ngIf="userRole == 'Moderator'">
+            <div class="menu__header">Панель модератора</div>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Смена ролей</span>
+            </a>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Рассылка</span>
+            </a>
+            <a class="menu__item" (click)="userLogout()">
+                <span class="iconify menu__icon" data-icon="icomoon-free:exit" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Выход</span>
+            </a>
+        </div>
+
+        <div class="menu__block" *ngIf="userRole == 'Admin'">
+            <div class="menu__header">Панель администратора</div>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Смена ролей</span>
+            </a>
+            <a class="menu__item" routerLink="advertisements">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Рассылка</span>
+            </a>
+            <a class="menu__item" (click)="userLogout()">
+                <span class="iconify menu__icon" data-icon="icomoon-free:exit" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="menu__text">Выход</span>
+            </a>
+        </div>
+    </div>
+    <div class="container__content">
+        <router-outlet></router-outlet>
+    </div>
+</div>

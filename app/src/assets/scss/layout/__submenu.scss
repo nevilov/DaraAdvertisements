@@ -1,4 +1,4 @@
-@import '../../../assets/scss/main.scss';
+@import "../../../assets/scss/main.scss";
 
 .submenu {
     padding: 60px 200px;
@@ -17,13 +17,14 @@
         flex-grow: 1;
     }
 
-    &__categorie {}
+    &__categorie {
+    }
 
     &__categoryHeader {
         display: flex;
         align-items: center;
         margin-bottom: 30px;
-        & img {
+        & .iconify {
             margin-right: 5px;
         }
         & span {
@@ -52,7 +53,7 @@
                 opacity: 0;
             }
             &:hover::before {
-                content: ' ';
+                content: " ";
                 transition: opacity 1s;
                 display: block;
                 opacity: 1;
@@ -82,7 +83,8 @@
             max-width: 200px;
             margin-bottom: 15px;
         }
-        & .btn {}
+        & .btn {
+        }
     }
 
     &__listItem {
@@ -109,7 +111,7 @@
     &__categoriesPreview {
         display: flex;
         justify-content: space-between;
-        
+
         & img {
             width: 100%;
             margin-bottom: 15px;
@@ -126,7 +128,7 @@
         flex-basis: 0;
         flex-grow: 1;
         width: 25%;
-        
+
         // flex-grow: 1;
         margin-bottom: 30px;
         margin-right: 20px;
@@ -162,7 +164,8 @@
         display: flex;
     }
 
-    &__list {}
+    &__list {
+    }
 
     &__listItem {
         padding: 20px 15px 20px 0;
@@ -217,10 +220,11 @@
             margin-bottom: 10px;
         }
         & p {
-            color: #79797C;
+            color: #79797c;
             margin-bottom: 25px;
         }
     }
 
-    &__adBtn {}
+    &__adBtn {
+    }
 }

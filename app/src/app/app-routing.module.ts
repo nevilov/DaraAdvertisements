@@ -1,3 +1,4 @@
+import { UserProfilePersonalComponent } from './layout/user/userProfile/userProfilePersonal/userProfilePersonal.component';
 import { EditAdvertisementPageComponent } from './layout/advertisement/editAdvertisementPage/editAdvertisementPage.component';
 import { NewAdvertisementPageComponent } from './layout/advertisement/newAdvertisementPage/newAdvertisementPage.component';
 import { AdvertisementDetailPageComponent } from './layout/advertisement/advertisementDetailPage/advertisementDetailPage.component';
@@ -11,33 +12,114 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdvertisementPageComponent } from './layout/advertisement/advertisementPage/advertisementPage.component';
 import { PublicProfileComponent } from './layout/user/publicProfile/publicProfile.component';
-import {ForgotPasswordPageComponent} from './layout/auth/forgotPasswordPage/forgotPasswordPage.component';
-import {ResetPasswordPageComponent} from "./layout/auth/resetPasswordPage/resetPasswordPage.component";
+import { ForgotPasswordPageComponent } from './layout/auth/forgotPasswordPage/forgotPasswordPage.component';
+import { ResetPasswordPageComponent } from "./layout/auth/resetPasswordPage/resetPasswordPage.component";
+import { UserChatsComponent } from "./layout/user/userChats/userChats.component";
+import { UserProfileLoginPassComponent } from './layout/user/userProfile/userProfileLoginPass/userProfileLoginPass.component';
+import { UserProfileAdvertisementsComponent } from './layout/user/userProfile/userProfileAdvertisements/userProfileAdvertisements.component';
+import { UserProfileSettingsComponent } from './layout/user/userProfile/userProfileSettings/userProfileSettings.component';
+import { UserProfileComponent } from './layout/user/userProfile/userProfile.component';
+import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
+import { LoginGuard } from './Guards/login.guard';
 
 const routes: Routes = [
-  { path: '', component: AdvertisementPageComponent },
-  { path: 'registration', component: RegistrationPageComponent },
-  { path: 'autorization', component: LoginPageComponent },
-  { path: 'help', component: HelpComponent },
-  { path: 'contact', component: ContactsComponent },
-  { path: 'abuse', component: AbusePageComponent },
-  { path: 'newAbuse', component: NewAbusePageComponent },
-  { path: 'advertisements', component: AdvertisementPageComponent },
-  { path: 'advertisements/:id', component: AdvertisementDetailPageComponent },
-  { path: 'newAdvertisement', component: NewAdvertisementPageComponent },
-  { path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent },
-  { path: 'profile/:Username', component: PublicProfileComponent },
-  { path: 'forgotPassword', component: ForgotPasswordPageComponent},
-  { path: 'resetPassword', component: ResetPasswordPageComponent },
-  {
-    path: 'profile/:Username/advertisements/:id',
-    pathMatch: 'full',
-    redirectTo: 'advertisements/:id',
-  }, // TODO Fix this redirect
+    // { path: '**', component: PageNotFoundComponent }
+    { path: '', redirectTo: 'advertisements', pathMatch: 'full' },
+    { path: 'registration', component: RegistrationPageComponent },
+    { path: 'autorization', component: LoginPageComponent },
+    {
+        path: 'help', component: HelpComponent, data: {
+            breadcrumb: [
+                { label: 'Главная', url: '' },
+                { label: 'Помощь', url: '/help' },
+            ]
+        },
+    },
+    {
+        path: 'contact', component: ContactsComponent, data: {
+            breadcrumb: [
+                { label: 'Главная', url: '' },
+                { label: 'Контакты', url: '/contact' },
+            ]
+        },
+    },
+    {
+        path: 'abuse', component: AbusePageComponent, data: {
+            breadcrumb: [
+                { label: 'Главная', url: '' },
+                { label: 'Жалобы', url: 'abuse' },
+            ]
+        },
+    },
+    {
+        path: 'newAbuse', component: NewAbusePageComponent, data: {
+            breadcrumb: [
+                { label: 'Главная', url: '' },
+                { label: 'Жалобы', url: 'abuse' },
+                { label: 'Новая жалоба', url: '/newAbuse' },
+            ]
+        },
+    },
+    {
+        path: 'advertisements', component: AdvertisementPageComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' }
+            ]
+        },
+    },
+    {
+        path: 'advertisements/:id', component: AdvertisementPageWithSubCategoriesComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' },
+                { label: '{{categoryName}}', url: 'advertisements/:id' },
+            ]
+        },
+    },
+    {
+        path: 'advertisement/:id', component: AdvertisementDetailPageComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' },
+                { label: '{{category}}', url: '/advertisements/:id' },
+                { label: '{{title}}', url: 'advertisement/:id' },
+            ]
+        },
+    },
+    {
+        path: 'newAdvertisement', component: NewAdvertisementPageComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' },
+                { label: 'Новое объявление', url: '/newAdvertisement' },
+            ]
+        },
+    },
+    {
+        path: 'editAdvertisement/:id', component: EditAdvertisementPageComponent, data: {
+            breadcrumb: [
+                { label: 'Объявления', url: '/advertisements' },
+                { label: 'Редактирование', url: 'editAdvertisement/:id' },
+            ]
+        },
+    },
+    { path: 'forgotPassword', component: ForgotPasswordPageComponent },
+    { path: 'resetPassword', component: ResetPasswordPageComponent },
+    { path: 'chats', component: UserChatsComponent },
+    { path: 'profile/:Username', component: PublicProfileComponent, canActivate: [LoginGuard] },
+    {
+        path: 'cabinet',
+        canActivate: [LoginGuard],
+        component: UserProfileComponent,
+        children: [
+            { path: 'personal', component: UserProfilePersonalComponent, },
+            { path: 'changeinfo', component: UserProfileLoginPassComponent, },
+            { path: 'advertisements', component: UserProfileAdvertisementsComponent, },
+            { path: 'favorites', component: UserProfileSettingsComponent, },
+        ],
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
+    providers: [LoginGuard],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
