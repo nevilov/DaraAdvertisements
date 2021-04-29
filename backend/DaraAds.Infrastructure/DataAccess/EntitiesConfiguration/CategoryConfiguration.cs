@@ -28,15 +28,15 @@ namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
 
             builder.HasMany(a => a.Advertisements);
 
-            builder.HasData(SeedData());
+            //builder.HasData(SeedData());
         }
 
-        private static IEnumerable<Category> SeedData()
-        {
-            using var r = new StreamReader((@"../DaraAds.Infrastructure/DataAccess/EntitiesConfiguration/Categories.json"));
-            var json = r.ReadToEnd();
-            var categories = JsonConvert.DeserializeObject<List<Category>>(json);
-            return categories;
-        }
+        // private static IEnumerable<Category> SeedData()
+        // {
+        //     using var r = new StreamReader((@"../DaraAds.Infrastructure/DataAccess/EntitiesConfiguration/Categories.json"));
+        //     var json = r.ReadToEnd();
+        //     var categories = JsonConvert.DeserializeObject<List<Category>>(json);
+        //     return categories;
+        // }
     }
 }
