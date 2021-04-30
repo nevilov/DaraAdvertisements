@@ -19,6 +19,7 @@ using DaraAds.Application.Services.Message.Interfaces;
 using DaraAds.Application.Services.User.Implementations;
 using DaraAds.Application.Services.User.Interfaces;
 using DaraAds.Infrastructure;
+using DaraAds.Infrastructure.Consumers;
 using DaraAds.Infrastructure.DataAccess.Repositories;
 using DaraAds.Infrastructure.Helpers;
 using DaraAds.Infrastructure.Mail;
@@ -82,13 +83,17 @@ namespace DaraAds.API
 
             services.AddMassTransit(conf =>
             {
+                conf.AddConsumer<ImportExcelConsumer>();
+
                 conf.UsingRabbitMq((context, c) =>
                 {
-                    c.Host("amqps://xydeljsx:uryKLQKQi22gDn5-X6piBDwlfKv6UvH2@clam.rmq.cloudamqp.com/xydeljsx", host =>
+                    c.Host(Configuration.GetValue<string>("RabbitMq:Host"), host =>
                     {
-                        host.Username("xydeljsx");
-                        host.Password("uryKLQKQi22gDn5-X6piBDwlfKv6UvH2");
+                        host.Username(Configuration.GetValue<string>("RabbitMq:Username"));
+                        host.Password(Configuration.GetValue<string>("RabbitMq:Password"));
                     });
+
+                    c.ReceiveEndpoint("import_excel", e => e.ConfigureConsumer<ImportExcelConsumer>(context));
                 });
             });
             services.AddMassTransitHostedService();

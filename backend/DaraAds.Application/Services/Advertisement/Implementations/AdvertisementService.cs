@@ -11,6 +11,7 @@ using DaraAds.Application.Services.S3.Contracts.Exceptions;
 using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 using ExcelDataReader;
+using MassTransit;
 using System;
 using System.Data;
 using System.IO;
@@ -32,13 +33,14 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         private readonly IImageService _imageService;
         private readonly IS3Service _s3Service;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
         public AdvertisementService(
             IAdvertisementRepository repository,
             IIdentityService identityService,
             IImageService imageService,
             IRepository<Domain.Image, string> imageRepository, IS3Service s3Service,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository, ISendEndpointProvider sendEndpointProvider)
         {
             _repository = repository;
             _identityService = identityService;
@@ -46,6 +48,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             _imageRepository = imageRepository;
             _s3Service = s3Service;
             _categoryRepository = categoryRepository;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
         private const string S3Url = "https://storage.yandexcloud.net/dara-ads-images/";
@@ -491,6 +494,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken)
         {
+            var importExcelEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:import_excel"));
             using (IExcelDataReader excelReader = ExcelReaderFactory.CreateReader(excelFileStream))
             {
                 DataSet excelFileData = excelReader.AsDataSet(new ExcelDataSetConfiguration 
@@ -508,6 +512,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Description = row.ItemArray[1].ToString(),
                         Price = Convert.ToDecimal(row.ItemArray[2].ToString())
                     };
+                    await importExcelEndpoint.Send(message);
                 }
             }
         }
