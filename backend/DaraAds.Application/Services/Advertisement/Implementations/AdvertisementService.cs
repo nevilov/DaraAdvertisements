@@ -10,7 +10,9 @@ using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Application.Services.S3.Contracts.Exceptions;
 using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
+using ExcelDataReader;
 using System;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -487,9 +489,27 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         }
 
-        public Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken)
+        public async Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            using (IExcelDataReader excelReader = ExcelReaderFactory.CreateReader(excelFileStream))
+            {
+                DataSet excelFileData = excelReader.AsDataSet(new ExcelDataSetConfiguration 
+                { 
+                    ConfigureDataTable = _ => new ExcelDataTableConfiguration { UseHeaderRow = true}
+                });
+
+                DataRowCollection excelRows = excelFileData.Tables[0].Rows;
+
+                foreach(DataRow row in excelRows)
+                {
+                    var message = new ImportExcelMessage
+                    {
+                        Title = row.ItemArray[0].ToString(),
+                        Description = row.ItemArray[1].ToString(),
+                        Price = Convert.ToDecimal(row.ItemArray[2].ToString())
+                    };
+                }
+            }
         }
     }
 }

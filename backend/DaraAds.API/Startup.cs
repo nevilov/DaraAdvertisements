@@ -107,6 +107,7 @@ namespace DaraAds.API
 
             services.ValidatorModule();
 
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
