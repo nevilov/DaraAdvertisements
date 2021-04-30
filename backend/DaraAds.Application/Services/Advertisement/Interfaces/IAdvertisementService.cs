@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
@@ -26,5 +27,7 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
         Task AddImage(AddImage.Request request, CancellationToken cancellationToken);
 
         Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken);
+
+        Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken);
     }
 }

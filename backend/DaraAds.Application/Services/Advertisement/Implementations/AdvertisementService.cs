@@ -11,6 +11,7 @@ using DaraAds.Application.Services.S3.Contracts.Exceptions;
 using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -486,6 +487,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         }
 
-
+        public Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
