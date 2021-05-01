@@ -19,6 +19,16 @@ export class UserService {
         );
     }
 
+    public getCurrentUser(): Observable<User> {
+        return this.http.get<User>(
+            AppComponent.backendAddress + '/api/User/get?isCurrent=true',
+            {
+                headers: new HttpHeaders({
+                    Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+                }),
+            });
+    }
+
     public getUserAdvertisementsWithLimit(
         id: string,
         limit: number,
@@ -47,11 +57,11 @@ export class UserService {
         );
     }
 
-    public blockUser(form: any): Observable<any>{
-      return this.http.post(AppComponent.backendAddress + '/api/User/block', form,   {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
-        }),
-      });
+    public blockUser(form: any): Observable<any> {
+        return this.http.post(AppComponent.backendAddress + '/api/User/block', form, {
+            headers: new HttpHeaders({
+                Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+            }),
+        });
     }
 }

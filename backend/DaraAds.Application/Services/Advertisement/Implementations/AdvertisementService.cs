@@ -112,6 +112,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Owner = new Get.Response.OwnerResponse
                 {
                     Id = ad.OwnerUser.Id,
+                    Username = ad.OwnerUser.Username,
                     Name = ad.OwnerUser.Name,
                     Phone = ad.OwnerUser.Phone,
                     Lastname = ad.OwnerUser.LastName,

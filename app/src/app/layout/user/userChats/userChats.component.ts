@@ -35,10 +35,11 @@ export class UserChatsComponent implements OnInit {
         this.getChats();
 
         const username = this.cookieService.get('AuthUsername');
-        this.userService.getUser(username).subscribe((data) => {
+
+        // this.userService.getUser(username)
+        this.userService.getCurrentUser().subscribe((data) => {
             this.userId = data.id;
         });
-
     }
 
     private _handleMessage = (message: Message) => {
@@ -69,7 +70,6 @@ export class UserChatsComponent implements OnInit {
     getCurrentRecipient(recipientId: string) {
         this.currentRecipientId = recipientId;
     }
-
 
     getChats() {
         this.chatService.getChats(this.isSeller).subscribe((data) => {
