@@ -7,9 +7,9 @@ namespace DaraAds.API.Controllers.Notification
     public partial class NotificationController
     {
         [HttpPost("send")]
-        public async Task<IActionResult> SendNotifications(string Text, CancellationToken cancellationToken)
+        public async Task<IActionResult> SendNotifications(string subject, string text, CancellationToken cancellationToken)
         {
-            await _notificationService.Send(Text, cancellationToken);
+            await _notificationService.Send(subject, text, cancellationToken);
             return Ok();
         }
     }

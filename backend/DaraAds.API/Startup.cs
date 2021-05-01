@@ -16,6 +16,8 @@ using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Application.Services.Message.Implementations;
 using DaraAds.Application.Services.Message.Interfaces;
+using DaraAds.Application.Services.Notification.Implementations;
+using DaraAds.Application.Services.Notification.Interfaces;
 using DaraAds.Application.Services.User.Implementations;
 using DaraAds.Application.Services.User.Interfaces;
 using DaraAds.Infrastructure;
@@ -54,7 +56,8 @@ namespace DaraAds.API
             .AddScoped<ICategoryService, CategoryService>()
             .AddScoped<IFavoriteService, FavoriteService>()
             .AddScoped<IChatService, ChatService>()
-            .AddScoped<IMessageService, MessageService>();
+            .AddScoped<IMessageService, MessageService>()
+            .AddScoped<INotificationService, NotificationService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
@@ -84,6 +87,7 @@ namespace DaraAds.API
             services.AddMassTransit(conf =>
             {
                 conf.AddConsumer<ImportExcelConsumer>();
+                conf.AddConsumer<SendNotificationConsumer>();
 
                 conf.UsingRabbitMq((context, c) =>
                 {
@@ -94,6 +98,7 @@ namespace DaraAds.API
                     });
 
                     c.ReceiveEndpoint("import_excel", e => e.ConfigureConsumer<ImportExcelConsumer>(context));
+                    c.ReceiveEndpoint("send_notifications", e => e.ConfigureConsumer<SendNotificationConsumer>(context));
                 });
             }).AddMassTransitHostedService();
 

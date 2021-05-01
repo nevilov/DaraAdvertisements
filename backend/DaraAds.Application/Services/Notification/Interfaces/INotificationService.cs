@@ -5,6 +5,6 @@ namespace DaraAds.Application.Services.Notification.Interfaces
 {
     public interface INotificationService
     {
-        Task Send(string Text, CancellationToken cancellationToken);
+        Task Send(string subject, string text, CancellationToken cancellationToken);
     }
 }

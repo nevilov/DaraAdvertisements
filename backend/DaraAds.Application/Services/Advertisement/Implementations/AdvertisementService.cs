@@ -40,8 +40,10 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             IAdvertisementRepository repository,
             IIdentityService identityService,
             IImageService imageService,
-            IRepository<Domain.Image, string> imageRepository, IS3Service s3Service,
-            ICategoryRepository categoryRepository, ISendEndpointProvider sendEndpointProvider)
+            IRepository<Domain.Image, string> imageRepository,
+            IS3Service s3Service,
+            ICategoryRepository categoryRepository,
+            ISendEndpointProvider sendEndpointProvider)
         {
             _repository = repository;
             _identityService = identityService;
@@ -506,7 +508,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         CategoryId = Convert.ToInt32(row.ItemArray[3].ToString()),
                         OwnerId = userId
                     };
-                    await importExcelEndpoint.Send(message);
+                    await importExcelEndpoint.Send(message, cancellationToken);
                 }
             }
         }

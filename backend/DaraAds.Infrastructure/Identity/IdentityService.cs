@@ -170,20 +170,18 @@ namespace DaraAds.Infrastructure.Identity
                 )
             );
 
-            var rolesList = await _userManager.GetRolesAsync(identityUser).ConfigureAwait(false);
 
-            var newUserId = await _userManager.GetUserIdAsync(identityUser).ConfigureAwait(false);
-
-            var newUser = await _userRepository.FindById(newUserId, cancellationToken);
+            var domainUserId = await _userManager.GetUserIdAsync(identityUser).ConfigureAwait(false);
+            var domainUser = await _userRepository.FindById(domainUserId, cancellationToken);
 
 
             return new CreateToken.Response
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                UserName = newUser.Username,
-                UserAvatar = newUser.Avatar,
-                UserRole = rolesList[0],
-                UserId = newUserId
+                UserRole = userRoles[0],
+                UserName = domainUser.Username,
+                UserAvatar = domainUser.Avatar,
+                UserId = domainUserId
             };
         }
 
