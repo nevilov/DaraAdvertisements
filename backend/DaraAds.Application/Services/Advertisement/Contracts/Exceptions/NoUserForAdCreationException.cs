@@ -2,7 +2,7 @@
 
 namespace DaraAds.Application.Services.Advertisement.Contracts.Exceptions
 {
-    public sealed class NoUserForAdCreationException : NoRightException
+    public sealed class NoUserForAdCreationException : NoRightsException
     {
         public NoUserForAdCreationException(string message) : base(message)
         {

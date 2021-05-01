@@ -28,6 +28,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
     images: any[];
     imageValues: string[];
     userId: number = 0;
+    userAvatar: string;
     sameAdvertisements: Advertisement[] | null = null;
     userAdvertisements: Advertisement[] | null = null;
 
@@ -43,6 +44,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
         this.advertisement = {} as Advertisement;
         this.images = [];
         this.imageValues = [];
+        this.userAvatar = "";
         this.ownerPhone = "Не указан";
     }
 
@@ -72,6 +74,15 @@ export class AdvertisementDetailPageComponent implements OnInit {
                 const breadcrumb = { categoryId: this.advertisement.category.id, category: this.advertisement.category.name, title: this.advertisement.title };
                 this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
 
+              if (this.advertisement.owner.avatar === null) {
+                this.advertisement.owner.avatar = "default";
+              }
+
+              this.imageService.getImageById(this.advertisement.owner.avatar)
+              .pipe(untilDestroyed(this))
+              .subscribe((data: any) => {
+                this.userAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+              });
                 this.images = data.images;
                 this.formatPhone();
 

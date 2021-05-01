@@ -108,11 +108,18 @@ namespace DaraAds.Application.Services.User.Implementations
                     Image = request.Image
                 }, cancellationToken);
 
-            var image = await _imageRepository.FindById(response.Id, cancellationToken);
-
             var user = await _repository.FindById(userId, cancellationToken);
 
-            user.Images.Add(image);
+            if (!string.IsNullOrEmpty(user.Avatar))
+            {
+                await _imageService.Delete(
+                    new Image.Contracts.DeleteImage.Request
+                    {
+                        Id = user.Avatar
+                    }, cancellationToken);
+            }
+
+            user.Avatar = response.Id;
 
             await _repository.Save(user, cancellationToken);
         }

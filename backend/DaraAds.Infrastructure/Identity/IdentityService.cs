@@ -12,6 +12,7 @@ using DaraAds.Application.Common;
 using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Identity.Interfaces;
+using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Favorite.Contracts.Exceptions;
 using DaraAds.Application.Services.Mail;
 using DaraAds.Application.Services.Mail.Contracts.Exceptions;
@@ -26,6 +27,7 @@ namespace DaraAds.Infrastructure.Identity
 {
     public class IdentityService : IIdentityService
     {
+        private readonly IRepository<Domain.User, string> _userRepository;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
@@ -33,13 +35,16 @@ namespace DaraAds.Infrastructure.Identity
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public IdentityService(UserManager<IdentityUser> userManager, 
+        public IdentityService(
+            IRepository<Domain.User, string> userRepository,
+            UserManager<IdentityUser> userManager, 
             IHttpContextAccessor httpContextAccessor,
             IConfiguration configuration,
             IMailService mailService,
             RoleManager<IdentityRole> roleManager,
             SignInManager<IdentityUser> signInManager)
         {
+            _userRepository = userRepository;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
@@ -116,6 +121,7 @@ namespace DaraAds.Infrastructure.Identity
             if (identityUserFindByEmail == null)
             {
                 var identityUserFindByUsername = await _userManager.FindByNameAsync(request.Login);
+
                 if (identityUserFindByUsername == null)
                 {
                     throw new IdentityUserNotFoundException("Пользователь не найден");
@@ -166,11 +172,19 @@ namespace DaraAds.Infrastructure.Identity
 
             var rolesList = await _userManager.GetRolesAsync(identityUser).ConfigureAwait(false);
 
+            var newUserId = await _userManager.GetUserIdAsync(identityUser).ConfigureAwait(false);
+
+            var newUser = await _userRepository.FindById(newUserId, cancellationToken);
+
+
             return new CreateToken.Response
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                UserRole = rolesList[0]
-        };
+                UserName = newUser.Username,
+                UserAvatar = newUser.Avatar,
+                UserRole = rolesList[0],
+                UserId = newUserId
+            };
         }
 
         public async Task<bool> ConfirmEmail(string userId, string token, CancellationToken cancellationToken = default)

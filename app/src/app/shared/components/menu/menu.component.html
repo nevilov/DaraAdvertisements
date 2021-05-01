@@ -48,7 +48,7 @@
             <span class="menu__userRole">{{ currentUserRole }}</span>
         </div>
         <figure class="menu__userAvatar" (click)="showUsermenu()">
-            <img src="./../../../../assets/images/menu/avatar.png" alt="">
+            <img [src]="currentUserAvatar" alt="">
         </figure>
     </div>
 

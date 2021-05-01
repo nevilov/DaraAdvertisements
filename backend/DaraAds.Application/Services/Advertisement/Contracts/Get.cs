@@ -18,7 +18,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Phone { get; set; }
                 public string Name { get; set; }
                 public string Lastname { get; set; }
-                public IEnumerable<ImageResponse> Images{ get; set; }
+                public string Avatar { get; set; }
             }
             
             public sealed class CategoryResponse

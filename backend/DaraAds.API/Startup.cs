@@ -105,7 +105,7 @@ namespace DaraAds.API
             //Our db
             services.AddDbContext<DaraAdsDbContext>(p =>
             {
-                p.UseNpgsql(Configuration.GetConnectionString("PostgreDB")).UseLazyLoadingProxies();
+                p.UseNpgsql(Configuration.GetConnectionString("PostgresDb")).UseLazyLoadingProxies();
             });
 
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
@@ -124,9 +124,9 @@ namespace DaraAds.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DaraAds.API v1"));
             }
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DaraAds.API v1"));
 
             app.UseHttpsRedirection();
             app.UseApplicationException();

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using NoRightsException = DaraAds.Domain.Shared.Exceptions.NoRightsException;
 
 namespace DaraAds.API.Controllers
 {

@@ -37,9 +37,11 @@ export class SignService {
             .pipe(
                 tap((response: any) => {
                     console.log(response);
-                    this.cookieService.set('AuthUsername', user.login);
+                    this.cookieService.set('AuthUsername', response.userName);
                     this.cookieService.set('AuthToken', response.token);
+                    this.cookieService.set('UserAvatar', response.userAvatar);
                     this.cookieService.set('UserRole', response.userRole);
+                    this.cookieService.set('UserId', response.userId);
                     this.dataSharingService.isUserLoggedIn.next(true);
                 }),
                 // catchError(this.checkError)
@@ -56,7 +58,9 @@ export class SignService {
     // }
 
     public logout() {
+        console.log("user logged out");
         this.cookieService.deleteAll();
+        this.cookieService.deleteAll('/');
         this.dataSharingService.isUserLoggedIn.next(true);
         this.router.navigateByUrl('/');
     }

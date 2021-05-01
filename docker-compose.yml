@@ -31,7 +31,7 @@ services:
         - POSTGRES_DB=DaraAds
         - POSTGRES_PASSWORD=12345678
     ports: 
-        - "5432:5432"
+        - "5433:5433"
     volumes: # persist data even if container shuts down
         - postgres_data:/var/lib/postgresql/data/
 
