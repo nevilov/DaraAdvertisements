@@ -29,5 +29,7 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
         Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken);
 
         Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken);
+
+        Task CreateByExcelConsumer(ImportExcelMessage message, CancellationToken cancellationToken);
     }
 }

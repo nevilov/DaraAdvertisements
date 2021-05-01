@@ -12,6 +12,7 @@ using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
 using ExcelDataReader;
 using MassTransit;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Data;
 using System.IO;
@@ -105,8 +106,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Images = ad.Images.Select(i => new Get.Response.ImageResponse
                 {
                     Id = i.Id,
-                    ImageUrl =  S3Url + i.Name
-//                    ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    ImageUrl =  S3Url + i.Name,
+                    ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                 }),
 
                 Category = new Get.Response.CategoryResponse
@@ -124,8 +125,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Images = ad.OwnerUser.Images.Select(i => new Get.Response.ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl =  S3Url + i.Name
- //                       ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     })
                 }
             };
@@ -203,16 +204,16 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Images = a.OwnerUser.Images.Select(i => new ImageResponse
                         {
                             Id = i.Id,
-                            ImageUrl =  S3Url + i.Name
- //                           ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                            ImageUrl =  S3Url + i.Name,
+                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                         })
                     },
 
                     Images = a.Images.Select(i => new ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl =  S3Url + i.Name
-//                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     }),
                 }),
                 Total = ads.Total,
@@ -309,16 +310,16 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Images = a.OwnerUser.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
                         {
                             Id = i.Id,
-                            ImageUrl = S3Url + i.Name
-                            //                           ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                            ImageUrl = S3Url + i.Name,
+                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                         })
                     },
 
                     Images = a.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl = S3Url + i.Name
-                        //                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        ImageUrl = S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     }),
                 }),
                 Total = advertisementsByCategories.Count(),
@@ -356,8 +357,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Images = a.Images.Select(i => new Search.Response.ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl =  S3Url + i.Name
- //                     ImageBase64 = Convert.ToBase64String(i.ImageBlob), 
+                        ImageUrl =  S3Url + i.Name,
+                        ImageBase64 = Convert.ToBase64String(i.ImageBlob), 
                     })
                 }),
                 Total = total,
@@ -494,6 +495,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken)
         {
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
             var importExcelEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:import_excel"));
             using (IExcelDataReader excelReader = ExcelReaderFactory.CreateReader(excelFileStream))
             {
@@ -510,11 +512,29 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     {
                         Title = row.ItemArray[0].ToString(),
                         Description = row.ItemArray[1].ToString(),
-                        Price = Convert.ToDecimal(row.ItemArray[2].ToString())
+                        Price = Convert.ToDecimal(row.ItemArray[2].ToString()),
+                        CategoryId = Convert.ToInt32(row.ItemArray[3].ToString()),
+                        OwnerId = userId
                     };
                     await importExcelEndpoint.Send(message);
                 }
             }
+        }
+
+        public async Task CreateByExcelConsumer(ImportExcelMessage message, CancellationToken cancellationToken)
+        {
+            var advertisement = new Domain.Advertisement
+            {
+                Title = message.Title,
+                Description = message.Description,
+                Price = message.Price,
+                OwnerId = message.OwnerId,
+                CategoryId = message.CategoryId,
+                CreatedDate = DateTime.UtcNow,
+                Status = Domain.Advertisement.Statuses.Created
+            };
+            
+            await _repository.Save(advertisement, cancellationToken);
         }
     }
 }

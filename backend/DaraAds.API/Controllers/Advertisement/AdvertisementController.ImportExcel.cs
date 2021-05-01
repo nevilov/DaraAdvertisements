@@ -15,7 +15,7 @@ namespace DaraAds.API.Controllers.Advertisement
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("import")]
-        [AllowAnonymous]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> ImportExcel(IFormFile request, CancellationToken cancellationToken)
         {
             await _service.ImportExcelProducer(request.OpenReadStream(), cancellationToken);

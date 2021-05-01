@@ -9,5 +9,9 @@
         public decimal Price { get; set; }
 
         public string OwnerId { get; set; }
+
+        public int CategoryId { get; set; }
+
+        
     }
 }
