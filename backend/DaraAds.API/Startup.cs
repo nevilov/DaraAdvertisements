@@ -95,8 +95,7 @@ namespace DaraAds.API
 
                     c.ReceiveEndpoint("import_excel", e => e.ConfigureConsumer<ImportExcelConsumer>(context));
                 });
-            });
-            services.AddMassTransitHostedService();
+            }).AddMassTransitHostedService();
 
             services.AddControllers();
 

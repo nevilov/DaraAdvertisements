@@ -43,6 +43,8 @@ namespace DaraAds.Domain
         /// </summary>
         public string Phone { get; set; }
 
+
+
         /// <summary>
         /// Избранные объявелния пользователя
         /// </summary>

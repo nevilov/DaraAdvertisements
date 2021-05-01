@@ -19,8 +19,8 @@ namespace DaraAds.Infrastructure
                 .AddEntityFrameworkStores<DaraAdsDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.Configure<DataProtectionTokenProviderOptions>(opt => 
-            opt.TokenLifespan = TimeSpan.FromHours(2));
+           // services.Configure<DataProtectionTokenProviderOptions>(opt => 
+           // opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.Configure<IdentityOptions>(options =>
             {
