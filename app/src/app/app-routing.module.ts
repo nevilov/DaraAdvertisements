@@ -62,29 +62,49 @@ const routes: Routes = [
         },
     },
     {
-        path: 'advertisements', component: AdvertisementPageComponent, data: {
+        path: 'advertisements', component: AdvertisementPageWithSubCategoriesComponent, data: {
             breadcrumb: [
                 { label: 'Объявления', url: '/advertisements' }
             ]
-        },
+        }
     },
     {
-        path: 'advertisements/:id', component: AdvertisementPageWithSubCategoriesComponent, data: {
+        path: 'advertisements/:categoryId', component: AdvertisementPageWithSubCategoriesComponent, data: {
             breadcrumb: [
                 { label: 'Объявления', url: '/advertisements' },
                 { label: '{{categoryName}}', url: 'advertisements/:id' },
             ]
         },
     },
+    // {
+    //     path: 'advertisements/advertisement/:id', component: AdvertisementDetailPageComponent, data: {
+    //         breadcrumb: [
+    //             { label: 'Объявления', url: '/advertisements' },
+    //             { label: '{{category}}', url: '/advertisements/:categoryId' },
+    //             { label: '{{title}}', url: 'advertisements/:categoryId/advertisement/:id' },
+    //         ]
+    //     },
+    // },
     {
-        path: 'advertisement/:id', component: AdvertisementDetailPageComponent, data: {
+        path: 'advertisements/:categoryId/advertisement/:id', component: AdvertisementDetailPageComponent, data: {
             breadcrumb: [
                 { label: 'Объявления', url: '/advertisements' },
-                { label: '{{category}}', url: '/advertisements/:id' },
-                { label: '{{title}}', url: 'advertisement/:id' },
+                { label: '{{category}}', url: '/advertisements/:categoryId' },
+                { label: '{{title}}', url: 'advertisements/:categoryId/advertisement/:id' },
             ]
         },
     },
+
+    // {
+    //     path: 'advertisement/:id', component: AdvertisementDetailPageComponent, data: {
+    //         breadcrumb: [
+    //             { label: 'Объявления', url: '/advertisements' },
+    //             { label: '{{category}}', url: '/advertisements/:categoryId' },
+    //             { label: '{{title}}', url: 'advertisements/:categoryId/advertisement/:id' },
+    //         ]
+    //     },
+    // },
+
     {
         path: 'newAdvertisement', component: NewAdvertisementPageComponent, data: {
             breadcrumb: [
@@ -120,7 +140,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [
+        // RouterModule.forRoot(routes),
+        RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })
+    ],
     exports: [RouterModule],
     providers: [LoginGuard],
 })

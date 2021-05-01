@@ -49,15 +49,15 @@ export class MenuComponent implements OnInit {
         if (this.currentUserAvatar == "null") {
             this.currentUserAvatar = "default";
         }
-        
+
         console.log("data requested" + this.currentUserAvatar);
         this.imageService.getImageById(this.currentUserAvatar)
-        .subscribe((data: any) => {
-            if (data.imageBlob) {
-                this.currentUserAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
-                console.log("data received");
-            }
-        });
+            .subscribe((data: any) => {
+                if (data.imageBlob) {
+                    this.currentUserAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+                    console.log("data received");
+                }
+            });
     }
 
     public userLogout() {
@@ -78,7 +78,7 @@ export class MenuComponent implements OnInit {
     }
 
     constructor(
-        
+
         private imageService: ImageService,
         private cookieService: CookieService,
         private dataSharingService: DataSharingService,
