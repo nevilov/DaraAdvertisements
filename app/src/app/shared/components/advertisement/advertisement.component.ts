@@ -31,6 +31,8 @@ export class AdvertisementComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.cover);
+        console.log(this.avatar);
         this.imageService.getImageById(this.cover)
             .pipe(untilDestroyed(this))
             .subscribe((data: any) => {
