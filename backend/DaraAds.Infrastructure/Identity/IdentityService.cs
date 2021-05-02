@@ -170,10 +170,8 @@ namespace DaraAds.Infrastructure.Identity
                 )
             );
 
-
             var domainUserId = await _userManager.GetUserIdAsync(identityUser).ConfigureAwait(false);
             var domainUser = await _userRepository.FindById(domainUserId, cancellationToken);
-
 
             return new CreateToken.Response
             {
