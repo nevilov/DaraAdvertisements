@@ -70,6 +70,15 @@ export class AdvertisementService {
             });
     }
 
+    public deleteAdvertisement(id: number) {
+        return this.http.delete(AppComponent.backendAddress + '/api/Advertisement/' + id, {
+            headers: new HttpHeaders({
+                Authorization: 'Bearer ' + this.cookieService.get('AuthToken')
+            })
+        })
+            .pipe(catchError(this.checkError));
+    }
+
     public checkError(error: any) {
         alert('Произошла ошибка: ' + error.error.error);
         console.log(error);

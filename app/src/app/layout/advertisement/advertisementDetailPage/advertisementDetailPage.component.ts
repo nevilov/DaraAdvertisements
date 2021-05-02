@@ -30,7 +30,9 @@ export class AdvertisementDetailPageComponent implements OnInit {
     userId: number = 0;
     userAvatar: string;
     categoryId: number = 0;
-    isAuthors: boolean;
+    isAuthors: boolean = false;
+    deleteConfirmed: boolean = false;
+    deleteText: string = 'Удалить объявление';
     sameAdvertisements: Advertisement[] | null = null;
     userAdvertisements: Advertisement[] | null = null;
 
@@ -49,7 +51,6 @@ export class AdvertisementDetailPageComponent implements OnInit {
         this.imageValues = [];
         this.userAvatar = "";
         this.ownerPhone = "Не указан";
-        this.isAuthors = false;
     }
 
     changeImage(i: number) {
@@ -138,13 +139,24 @@ export class AdvertisementDetailPageComponent implements OnInit {
     }
 
     onDeleteClicked() {
-
+        
+        if (this.deleteConfirmed) {
+        this.advertisementService.deleteAdvertisement(this.id)
+            .subscribe((r) => {
+                this.router.navigateByUrl('/');
+            });
+        }
+        else {
+            this.deleteText = 'Подтвердить удаление?'
+            this.deleteConfirmed = true;
+        }
     }
 
     onCreateChat() {
-        this.chatService.createChat(this.id)
+            this.chatService.createChat(this.id)
             .subscribe((r) => {
                 this.router.navigateByUrl('/chats');
             });
+
     }
 }

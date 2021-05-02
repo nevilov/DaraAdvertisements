@@ -161,7 +161,7 @@ namespace DaraAds.Infrastructure.Identity
             var token = new JwtSecurityToken
             (
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddHours(168),
                 notBefore: DateTime.UtcNow,
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"])),
