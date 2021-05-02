@@ -53,14 +53,15 @@ export class UserProfilePersonalComponent implements OnInit {
                     this.loadUserAvatar();
                     this.dataSharingService.isUserLoggedIn.next(true);
                 });
-                }, error => {
-                  console.log(error);
-                });
+            }, error => {
+                console.log(error);
+            });
         }
     }
 
     loadUserInfo() {
-        this.userService.getUser(this.userName).subscribe((data) => {
+        // this.userService.getUser(this.userName)
+        this.userService.getCurrentUser().subscribe((data) => {
             this.user = data;
             console.log(data);
         });
@@ -82,12 +83,12 @@ export class UserProfilePersonalComponent implements OnInit {
         }
 
         this.imageService.getImageById(this.avatar)
-        .pipe(untilDestroyed(this))
-        .subscribe((data: any) => {
-            if (data.imageBlob) {
-                this.userImageBlob = 'data:image/jpeg;base64,' + data.imageBlob;
-            }
-        });
+            .pipe(untilDestroyed(this))
+            .subscribe((data: any) => {
+                if (data.imageBlob) {
+                    this.userImageBlob = 'data:image/jpeg;base64,' + data.imageBlob;
+                }
+            });
     };
 
 }

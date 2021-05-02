@@ -1,21 +1,23 @@
 <div class="container">
-    <a [routerLink]="['/advertisement/', routLink]">
+    <a [routerLink]="['/advertisements/',0,'advertisement', routLink]">
         <figure class="container__image">
             <img [src]="imageBlob" alt="">
         </figure>
     </a>
     <div class="container__content">
-        <a [routerLink]="['/advertisement/', routLink]">
+        <a [routerLink]="['/advertisements/0/advertisement/', routLink]">
             <h3 class="container__title">{{title}}</h3>
         </a>
         <span class="container__price">{{price}} руб.</span>
         <div class="container__userInfo userInfo" *ngIf="!thisUserAdvertisement">
-            <figure class="userInfo__avatar">
-                <img [src]="avatarBlob" alt="">
-            </figure>
+            <a [routerLink]="[ '/profile/', ownerLogin ]">
+                <figure class="userInfo__avatar">
+                    <img [src]="avatarBlob" alt="">
+                </figure>
+            </a>
             <div class="userInfo__left">
-                <div class="userInfo__name">{{ ownerName }}</div>
-                <a class="userInfo__link" href="">Другие объявления</a>
+                <a [routerLink]="[ '/profile/', ownerLogin ]" class="userInfo__name">{{ ownerName }}</a>
+                <a class="userInfo__link" [routerLink]="[ '/profile/', ownerLogin ]">Другие объявления</a>
             </div>
         </div>
         <div class="container__advInfo">

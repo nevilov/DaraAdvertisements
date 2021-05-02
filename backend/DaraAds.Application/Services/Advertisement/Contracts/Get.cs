@@ -15,6 +15,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             public sealed class OwnerResponse
             {
                 public string Id { get; set; }
+                public string Username { get; set; }
                 public string Phone { get; set; }
                 public string Name { get; set; }
                 public string Lastname { get; set; }
@@ -31,7 +32,6 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             {
                 public string Id { get; set; }
                 public string ImageUrl { get; set; }
-                public string ImageBase64 { get; set; }
             }
             
             public string Title { get; set; }

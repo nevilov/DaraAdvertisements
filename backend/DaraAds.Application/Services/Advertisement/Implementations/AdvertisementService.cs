@@ -108,8 +108,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Images = ad.Images.Select(i => new Get.Response.ImageResponse
                 {
                     Id = i.Id,
-                    ImageUrl =  S3Url + i.Name,
-                    ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                    ImageUrl =  S3Url + i.Name
                 }),
 
                 Category = new Get.Response.CategoryResponse
@@ -121,6 +120,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Owner = new Get.Response.OwnerResponse
                 {
                     Id = ad.OwnerUser.Id,
+                    Username = ad.OwnerUser.Username,
                     Name = ad.OwnerUser.Name,
                     Phone = ad.OwnerUser.Phone,
                     Lastname = ad.OwnerUser.LastName,
@@ -204,8 +204,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Images = a.Images.Select(i => new ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl =  S3Url + i.Name,
-                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        ImageUrl =  S3Url + i.Name
                     }),
                 }),
                 Total = ads.Total,
@@ -302,16 +301,14 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Images = a.OwnerUser.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
                         {
                             Id = i.Id,
-                            ImageUrl = S3Url + i.Name,
-                            ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                            ImageUrl = S3Url + i.Name
                         })
                     },
 
                     Images = a.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl = S3Url + i.Name,
-                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
+                        ImageUrl = S3Url + i.Name
                     }),
                 }),
                 Total = advertisementsByCategories.Count(),
@@ -349,8 +346,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Images = a.Images.Select(i => new Search.Response.ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl =  S3Url + i.Name,
-                        ImageBase64 = Convert.ToBase64String(i.ImageBlob), 
+                        ImageUrl =  S3Url + i.Name
                     })
                 }),
                 Total = total,

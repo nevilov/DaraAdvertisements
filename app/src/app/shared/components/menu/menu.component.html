@@ -70,17 +70,17 @@
     <div class="container__userMenu userMenu" #usermenu>
         <div class="userMenu__block">
             <div class="userMenu__header">Аккаунт</div>
-            <a (click)="showUsermenu()" class="userMenu__item" routerLink="cabinet/personal">
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/personal">
                 <span class="iconify userMenu__icon" data-icon="bx:bxs-user-account" data-inline="false"
                     style="color: #222222;"></span>
                 <span routerLink="personal" class="userMenu__text">Персональная информация</span>
             </a>
-            <a (click)="showUsermenu()" class="userMenu__item" routerLink="cabinet/changeinfo">
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/changeinfo">
                 <span class="iconify userMenu__icon" data-icon="ri:lock-password-fill" data-inline="false"
                     style="color: #222222;"></span>
                 <span routerLink="changeinfo" class="userMenu__text">Логин & Пароль</span>
             </a>
-            <a (click)="showUsermenu()" class="userMenu__item" (click)="userLogout()">
+            <a class="userMenu__item" (click)="userLogout()">
                 <span class="iconify userMenu__icon" data-icon="icomoon-free:exit" data-inline="false"
                     style="color: #222222;"></span>
                 <span class="userMenu__text">Выход</span>
@@ -89,7 +89,7 @@
 
         <div class="userMenu__block">
             <div class="userMenu__header">Объявления</div>
-            <a (click)="showUsermenu()" class="userMenu__item" routerLink="cabinet/advertisements">
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/advertisements">
                 <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
                     style="color: #222222;"></span>
                 <span routerLink="advertisements" class="userMenu__text">Мои объявления</span>

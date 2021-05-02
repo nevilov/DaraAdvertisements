@@ -18,9 +18,8 @@
 
         <div class="content__advertisements">
 
-            <app-advertisement *ngFor="let advertisement of advertisements;"
-                [routerLink]="['advertisements', advertisement.id]" [title]="advertisement.title"
-                [price]="advertisement.price"
+            <app-advertisement *ngFor="let advertisement of advertisements;" [routLink]="advertisement.id"
+                [title]="advertisement.title" [price]="advertisement.price"
                 [ownerName]="advertisement?.owner?.name + ' ' + advertisement?.owner?.lastname">
             </app-advertisement>
         </div>

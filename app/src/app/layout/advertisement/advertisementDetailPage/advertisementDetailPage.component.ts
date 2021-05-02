@@ -29,6 +29,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
     imageValues: string[];
     userId: number = 0;
     userAvatar: string;
+    categoryId: number = 0;
     sameAdvertisements: Advertisement[] | null = null;
     userAdvertisements: Advertisement[] | null = null;
 
@@ -66,23 +67,35 @@ export class AdvertisementDetailPageComponent implements OnInit {
         )
             .subscribe(data => this.id = +data);
 
+        this.route.paramMap.pipe(
+            switchMap(params => params.getAll('categoryId'))
+        )
+            .subscribe(data => {
+                this.categoryId = +data;
+            });
+
         this.advertisementService.getAdvertisementById(this.id)
             .subscribe((data: Advertisement) => {
                 this.advertisement = data;
                 console.log(this.advertisement);
 
-                const breadcrumb = { categoryId: this.advertisement.category.id, category: this.advertisement.category.name, title: this.advertisement.title };
+                if (this.categoryId == 0) {
+                    this.categoryId = this.advertisement.category.id;
+                    this.router.navigateByUrl("advertisements/" + this.categoryId + "/advertisement/" + this.id);
+                }
+
+                const breadcrumb = { category: this.advertisement.category.name, title: this.advertisement.title };
                 this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
 
-              if (this.advertisement.owner.avatar === null) {
-                this.advertisement.owner.avatar = "default";
-              }
+                if (this.advertisement.owner.avatar === null) {
+                    this.advertisement.owner.avatar = "default";
+                }
 
-              this.imageService.getImageById(this.advertisement.owner.avatar)
-              .pipe(untilDestroyed(this))
-              .subscribe((data: any) => {
-                this.userAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
-              });
+                this.imageService.getImageById(this.advertisement.owner.avatar)
+                    .pipe(untilDestroyed(this))
+                    .subscribe((data: any) => {
+                        this.userAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+                    });
                 this.images = data.images;
                 this.formatPhone();
 
