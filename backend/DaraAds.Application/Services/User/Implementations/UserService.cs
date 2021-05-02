@@ -177,6 +177,8 @@ namespace DaraAds.Application.Services.User.Implementations
                 Avatar = user.Avatar,
                 Phone = user.Phone,
                 Username = user.Username,
+                IsSubscribedToNotifications = user.IsSubscribedToNotifications,
+                IsCorporation = user.IsCorporation,
                 CreatedDate = user.CreatedDate
             };
         }
@@ -199,8 +201,21 @@ namespace DaraAds.Application.Services.User.Implementations
                 Avatar = user.Avatar,
                 Phone = user.Phone,
                 Username = user.Username,
+                IsSubscribedToNotifications = user.IsSubscribedToNotifications,
+                IsCorporation = user.IsCorporation,
                 CreatedDate = user.CreatedDate,
             };
+        }
+
+        public async Task Notifications(bool isSubscribe, CancellationToken cancellationToken)
+        {
+            var userId = await _identity.GetCurrentUserId(cancellationToken);
+
+            var domainUser = await _repository.FindById(userId, cancellationToken);
+
+            domainUser.IsSubscribedToNotifications = isSubscribe;
+
+            await _repository.Save(domainUser, cancellationToken);
         }
     }
 }

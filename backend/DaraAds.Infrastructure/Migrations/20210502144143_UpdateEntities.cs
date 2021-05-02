@@ -15,7 +15,7 @@ namespace DaraAds.Infrastructure.Migrations
                 defaultValue: false);
 
             migrationBuilder.AddColumn<bool>(
-                name: "IsSubscribedToNotification",
+                name: "IsSubscribedToNotifications",
                 table: "DomainUsers",
                 type: "boolean",
                 nullable: false,
@@ -32,33 +32,33 @@ namespace DaraAds.Infrastructure.Migrations
                 keyColumn: "Id",
                 keyValue: "7ca197bb-d569-4fb9-b214-7f719973050e",
                 column: "ConcurrencyStamp",
-                value: "c7e43ce6-8f14-4643-a8f8-095335b1ccdf");
+                value: "b68e835c-92d4-431a-9b13-aba9f78e0f9f");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
                 column: "ConcurrencyStamp",
-                value: "824b028b-74b5-4056-bfb6-fe5810a9b928");
+                value: "06300d6b-c574-4530-b361-655071f6a852");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "E8E08651-ED1B-468E-A931-F73E2563CD85",
                 column: "ConcurrencyStamp",
-                value: "ba7e050c-941f-4302-817c-979cd8cb20d7");
+                value: "97ce845f-9335-490e-a98d-2f0a6b38aa98");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                 columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
-                values: new object[] { "e5f41021-602f-4201-b020-3956ff90c3fa", "AQAAAAEAACcQAAAAEPyxVj6iC98zlLhPn1c7BGItGXEpydfGH1S7WtmX639Fqh0p6ZqQVbYkl50xYfWY2g==", "d9116f7d-dd0b-4e7d-be33-beceb926a653" });
+                values: new object[] { "7ddcadf7-a26e-4c2a-befc-c659fe0e1da9", "AQAAAAEAACcQAAAAENiHKhhx4exa5F6WJ52Yl9PbpSXQBAr/7EHuyRauf/H7etQC9RzekoFy578n9w/XLQ==", "d7728e79-059c-4541-a5da-3363ac9b1b56" });
 
             migrationBuilder.InsertData(
                 table: "DomainUsers",
-                columns: new[] { "Id", "Avatar", "CreatedDate", "Email", "IsCorporation", "IsSubscribedToNotification", "LastName", "Name", "Phone", "RemovedDate", "UpdatedDate", "Username" },
-                values: new object[] { "e4266faa-8fc0-4972-bf1c-14533f1ccffd", null, new DateTime(2021, 5, 2, 14, 11, 26, 447, DateTimeKind.Utc).AddTicks(3623), "admin", false, false, "admin", "admin", null, null, null, "admin" });
+                columns: new[] { "Id", "Avatar", "CreatedDate", "Email", "IsCorporation", "IsSubscribedToNotifications", "LastName", "Name", "Phone", "RemovedDate", "UpdatedDate", "Username" },
+                values: new object[] { "e4266faa-8fc0-4972-bf1c-14533f1ccffd", null, new DateTime(2021, 5, 2, 14, 41, 43, 224, DateTimeKind.Utc).AddTicks(4289), "admin", false, false, "admin", "admin", null, null, null, "admin" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -73,7 +73,7 @@ namespace DaraAds.Infrastructure.Migrations
                 table: "DomainUsers");
 
             migrationBuilder.DropColumn(
-                name: "IsSubscribedToNotification",
+                name: "IsSubscribedToNotifications",
                 table: "DomainUsers");
 
             migrationBuilder.DropColumn(

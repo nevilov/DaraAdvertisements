@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DaraAds.Infrastructure.Migrations
 {
     [DbContext(typeof(DaraAdsDbContext))]
-    [Migration("20210502141127_UpdateEntities")]
+    [Migration("20210502144143_UpdateEntities")]
     partial class UpdateEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -456,7 +456,7 @@ namespace DaraAds.Infrastructure.Migrations
                     b.Property<bool>("IsCorporation")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsSubscribedToNotification")
+                    b.Property<bool>("IsSubscribedToNotifications")
                         .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
@@ -494,10 +494,10 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
-                            CreatedDate = new DateTime(2021, 5, 2, 14, 11, 26, 447, DateTimeKind.Utc).AddTicks(3623),
+                            CreatedDate = new DateTime(2021, 5, 2, 14, 41, 43, 224, DateTimeKind.Utc).AddTicks(4289),
                             Email = "admin",
                             IsCorporation = false,
-                            IsSubscribedToNotification = false,
+                            IsSubscribedToNotifications = false,
                             LastName = "admin",
                             Name = "admin",
                             Username = "admin"
@@ -572,14 +572,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e5f41021-602f-4201-b020-3956ff90c3fa",
+                            ConcurrencyStamp = "7ddcadf7-a26e-4c2a-befc-c659fe0e1da9",
                             Email = "admin",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPyxVj6iC98zlLhPn1c7BGItGXEpydfGH1S7WtmX639Fqh0p6ZqQVbYkl50xYfWY2g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENiHKhhx4exa5F6WJ52Yl9PbpSXQBAr/7EHuyRauf/H7etQC9RzekoFy578n9w/XLQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d9116f7d-dd0b-4e7d-be33-beceb926a653",
+                            SecurityStamp = "d7728e79-059c-4541-a5da-3363ac9b1b56",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -614,21 +614,21 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "c7e43ce6-8f14-4643-a8f8-095335b1ccdf",
+                            ConcurrencyStamp = "b68e835c-92d4-431a-9b13-aba9f78e0f9f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "824b028b-74b5-4056-bfb6-fe5810a9b928",
+                            ConcurrencyStamp = "06300d6b-c574-4530-b361-655071f6a852",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "E8E08651-ED1B-468E-A931-F73E2563CD85",
-                            ConcurrencyStamp = "ba7e050c-941f-4302-817c-979cd8cb20d7",
+                            ConcurrencyStamp = "97ce845f-9335-490e-a98d-2f0a6b38aa98",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         });

@@ -34,7 +34,9 @@ namespace DaraAds.Application.Services.Notification.Implementations
                 throw new HaveNoRightException("Нет прав сделать рассылку");
             }
             var sendNotificationEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:send_notifications"));
-            var recipients = await _userRepository.GetPaged(a => a.Email.Length != 0, 0, 1000, cancellationToken); //FOR TEST!
+
+            var recipients = await _userRepository.GetPaged(a => a.IsSubscribedToNotifications, 0, 1000, cancellationToken); //FOR TEST!
+
             foreach(var recipient in recipients)
              {
                 await sendNotificationEndpoint.Send(new SendNotificationMessage 

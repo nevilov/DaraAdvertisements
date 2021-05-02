@@ -51,7 +51,7 @@ namespace DaraAds.Domain
         /// <summary>
         /// Подписка на уведомления
         /// </summary>
-        public bool IsSubscribedToNotification { get; set; }
+        public bool IsSubscribedToNotifications { get; set; }
 
         /// <summary>
         /// Избранные объявелния пользователя
