@@ -19,5 +19,7 @@ namespace DaraAds.Application.Services.User.Interfaces
         Task<GetByUsername.Response> GetByUsername(GetByUsername.Request request, CancellationToken cancellationToken);
 
         Task Notifications(bool isSubscribe, CancellationToken cancellationToken);
+
+        Task ChangeUserCorporationStatus(string userId, bool isCorporation, CancellationToken cancellationToken);
     } 
 }

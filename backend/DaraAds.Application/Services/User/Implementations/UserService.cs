@@ -210,10 +210,22 @@ namespace DaraAds.Application.Services.User.Implementations
         public async Task Notifications(bool isSubscribe, CancellationToken cancellationToken)
         {
             var userId = await _identity.GetCurrentUserId(cancellationToken);
-
             var domainUser = await _repository.FindById(userId, cancellationToken);
 
             domainUser.IsSubscribedToNotifications = isSubscribe;
+
+            await _repository.Save(domainUser, cancellationToken);
+        }
+
+        public async Task ChangeUserCorporationStatus(string userId, bool isCorporation, CancellationToken cancellationToken)
+        {
+            var domainUser = await _repository.FindById(userId, cancellationToken);
+            if(domainUser == null)
+            {
+                throw new NoUserFoundException($"Пользоваетль с id {userId} не найден"); 
+            }
+
+            domainUser.IsCorporation = isCorporation;
 
             await _repository.Save(domainUser, cancellationToken);
         }
