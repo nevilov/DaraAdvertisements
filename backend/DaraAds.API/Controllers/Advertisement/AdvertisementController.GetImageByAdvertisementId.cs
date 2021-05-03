@@ -12,18 +12,18 @@ namespace DaraAds.API.Controllers.Advertisement
         /// <summary>
         /// Получить обложку по идентификатору объявления
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("getCover/{Id}")]
         public async Task<IActionResult> GetCover(
-            [FromRoute] int Id,
+            [FromRoute] int id,
             CancellationToken cancellationToken)
         {
             var response = await _service.GetImageByAdvertisement(new GetImageByAdvertisement.Request
             {
-                Id = Id
+                Id = id
             }, cancellationToken);
 
             return Ok(response);
