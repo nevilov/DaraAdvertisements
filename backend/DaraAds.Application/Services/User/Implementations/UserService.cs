@@ -110,7 +110,7 @@ namespace DaraAds.Application.Services.User.Implementations
 
             var user = await _repository.FindById(userId, cancellationToken);
 
-            if (user.Avatar != "")
+            if (!string.IsNullOrEmpty(user.Avatar))
             {
                 var image = await _imageRepository.FindById(user.Avatar, cancellationToken);
                 await _imageService.Delete(
