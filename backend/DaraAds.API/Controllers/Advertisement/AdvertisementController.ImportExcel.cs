@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,14 +12,14 @@ namespace DaraAds.API.Controllers.Advertisement
         /// <summary>
         /// Импорт объявлений с Excel файла
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="excel"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpPost("import")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> ImportExcel(IFormFile request, CancellationToken cancellationToken)
+        public async Task<IActionResult> ImportExcel([Required] IFormFile excel, CancellationToken cancellationToken)
         {
-            await _service.ImportExcelProducer(request.OpenReadStream(), cancellationToken);
+            await _service.ImportExcelProducer(excel.OpenReadStream(), cancellationToken);
             return Ok();
         }
     }

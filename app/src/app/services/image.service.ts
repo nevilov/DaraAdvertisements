@@ -31,7 +31,6 @@ export class ImageService {
     public sendUserAvatarImage(image: File) {
       var formData = new FormData();
       formData.append("image", image, image.name)
-
       return this.http
         .patch(AppComponent.backendAddress + '/api/User/images', formData, {
           headers: new HttpHeaders({

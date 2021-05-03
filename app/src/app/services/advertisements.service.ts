@@ -59,6 +59,17 @@ export class AdvertisementService {
             );
     }
 
+    public importExcel(excelFile: File){
+      const formExcel = new FormData;
+      formExcel.append('excel', excelFile, excelFile.name);
+      return this.http
+        .post(AppComponent.backendAddress + '/api/Advertisement/import', formExcel, {
+          headers: new HttpHeaders({
+            Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+          }),
+        });
+    }
+
     public checkError(error: any) {
         alert('Произошла ошибка: ' + error.error.error);
         console.log(error);

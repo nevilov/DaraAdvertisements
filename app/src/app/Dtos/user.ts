@@ -5,5 +5,7 @@ export interface User {
     name: string;
     lastname: string;
     avatar: string;
+    isSubscribeToNotifications: boolean;
+    isCorporation: boolean;
     createdDate: Date;
 }

@@ -1,4 +1,5 @@
 ﻿using DaraAds.Application.Common;
+using DaraAds.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
@@ -31,6 +32,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         private readonly Repositories.IAdvertisementRepository _repository;
         private readonly IIdentityService _identityService;
         private readonly IRepository<Domain.Image, string> _imageRepository;
+        private readonly IRepository<Domain.User, string> _userRepository;
         private readonly IImageService _imageService;
         private readonly IS3Service _s3Service;
         private readonly ICategoryRepository _categoryRepository;
@@ -43,7 +45,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             IRepository<Domain.Image, string> imageRepository,
             IS3Service s3Service,
             ICategoryRepository categoryRepository,
-            ISendEndpointProvider sendEndpointProvider)
+            ISendEndpointProvider sendEndpointProvider,
+            IRepository<Domain.User, string> userRepository)
         {
             _repository = repository;
             _identityService = identityService;
@@ -52,6 +55,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             _s3Service = s3Service;
             _categoryRepository = categoryRepository;
             _sendEndpointProvider = sendEndpointProvider;
+            _userRepository = userRepository;
         }
 
         private const string S3Url = "https://storage.yandexcloud.net/dara-ads-images/";
@@ -484,6 +488,13 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         public async Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
+            var domainUser = await _userRepository.FindById(userId, cancellationToken);
+
+            if (!domainUser.IsCorporation)
+            {
+                throw new HaveNoRightException($"У пользователя с id {userId} нет прав массово загружать объявелния");
+            }
+
             var importExcelEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:import_excel"));
             using (IExcelDataReader excelReader = ExcelReaderFactory.CreateReader(excelFileStream))
             {

@@ -9,6 +9,7 @@ import { UserProfileLoginPassComponent } from './userProfileLoginPass/userProfil
 import { UserProfilePersonalComponent } from './userProfilePersonal/userProfilePersonal.component';
 import { UserProfileSettingsComponent } from './userProfileSettings/userProfileSettings.component';
 import {UserProfileBlockComponent} from "./userProfileBlock/userProfileBlock.component";
+import {UserProfileBulkLoadingComponent} from "./userProfileBulkLoading/userProfileBulkLoading.component";
 
 @NgModule({
 	imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
@@ -18,7 +19,8 @@ import {UserProfileBlockComponent} from "./userProfileBlock/userProfileBlock.com
 		UserProfileLoginPassComponent,
 		UserProfilePersonalComponent,
 		UserProfileSettingsComponent,
-    UserProfileBlockComponent
+    UserProfileBlockComponent,
+    UserProfileBulkLoadingComponent
 	],
 	exports: [
 		UserProfileComponent,
@@ -26,7 +28,8 @@ import {UserProfileBlockComponent} from "./userProfileBlock/userProfileBlock.com
 		UserProfileLoginPassComponent,
 		UserProfilePersonalComponent,
 		UserProfileSettingsComponent,
-    UserProfileBlockComponent
+    UserProfileBlockComponent,
+    UserProfileBulkLoadingComponent
 	],
 })
 export class UserProfileModule { }

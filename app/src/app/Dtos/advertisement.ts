@@ -27,3 +27,4 @@ export interface ListOfItems<T> {
     offset: number;
     items: T[];
 }
+
