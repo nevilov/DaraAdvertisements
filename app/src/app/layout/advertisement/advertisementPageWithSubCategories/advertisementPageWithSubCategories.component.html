@@ -15,14 +15,16 @@
         <div class="header__filters"></div>
     </div>
     <div class="content">
-
         <div class="content__advertisements">
 
             <app-advertisement *ngFor="let advertisement of advertisements;" [routLink]="advertisement.id"
                 [title]="advertisement.title" [price]="advertisement.price"
-                [ownerName]="advertisement?.owner?.name + ' ' + advertisement?.owner?.lastname">
+                [ownerName]='advertisement.owner.name + " " + advertisement.owner.lastname'
+                [createdDate]="advertisement.createdDate" [ownerId]="advertisement?.owner?.id+''"
+                [ownerLogin]="advertisement?.owner?.username+''" [cover]="advertisement.images[0].id"
+                [avatar]="advertisement?.owner?.avatar+''">
             </app-advertisement>
-        </div>
 
+        </div>
     </div>
 </div>

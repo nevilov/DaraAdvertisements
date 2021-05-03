@@ -33,11 +33,10 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
 
         this.route.paramMap.pipe(
             switchMap(params => params.getAll('categoryId'))
-        )
-            .subscribe(data => {
-                this.categoryId = +data;
-                this.getCategoriesById(this.categoryId);
-            });
+        ).subscribe(data => {
+            this.categoryId = +data;
+            this.getCategoriesById(this.categoryId);
+        });
 
         if (this.categoryId == -1) {
             this.loadAdvertisements();
@@ -47,16 +46,16 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     }
 
     loadAdvertisementsByCategory(categoryId: number) {
-
         this.advertisementService.getAdvertisementsByCategoryId(categoryId)
             .subscribe(data => {
                 this.advertisements = data.items;
-                console.log(this.advertisements)
                 for (let i = 0; i < this.advertisements.length; i++) {
                     if (this.advertisements[i].images[0] === undefined) {
                         this.advertisements[i].images[0] = { id: "default" };
                     }
                 }
+                console.log(data);
+
             });
     }
 
@@ -72,10 +71,15 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     }
 
     loadAdvertisements() {
-        this.advertisementService.getAllAdvertisements()
-            .subscribe(data => {
-                this.advertisements = data.items;
-                console.log(this.advertisements)
-            });
+        this.advertisementService.getAllAdvertisements().subscribe((data) => {
+            this.advertisements = data.items;
+            for (let i = 0; i < this.advertisements.length; i++) {
+                if (this.advertisements[i].images[0] === undefined) {
+                    this.advertisements[i].images[0] = { id: "default" };
+                }
+            }
+            console.log(this.advertisements);
+        });
     }
+
 }
