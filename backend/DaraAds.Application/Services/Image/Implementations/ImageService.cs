@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Repositories;
-using DaraAds.Application.Services.Advertisement.Interfaces;
 using DaraAds.Application.Services.Image.Contracts;
 using DaraAds.Application.Services.Image.Contracts.Exceptions;
 using DaraAds.Application.Services.Image.Interfaces;
@@ -17,9 +16,7 @@ namespace DaraAds.Application.Services.Image.Implementations
         private readonly IRepository<Domain.Image, string> _repository;
         private readonly IS3Service _s3Service;
 
-        public ImageService(
-            IRepository<Domain.Image, string> repository,
-            IS3Service s3Service)
+        public ImageService(IRepository<Domain.Image, string> repository, IS3Service s3Service)
         {
             _repository = repository;
             _s3Service = s3Service;
