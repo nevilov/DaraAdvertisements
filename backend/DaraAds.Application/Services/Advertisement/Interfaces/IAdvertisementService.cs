@@ -26,7 +26,5 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
         Task AddImage(AddImage.Request request, CancellationToken cancellationToken);
 
         Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken);
-
-        Task<GetImageByAdvertisement.Response> GetImageByAdvertisement(GetImageByAdvertisement.Request request, CancellationToken cancellationToken);
     }
 }
