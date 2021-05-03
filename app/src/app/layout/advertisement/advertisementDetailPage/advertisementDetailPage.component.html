@@ -84,7 +84,14 @@
                         <span class="user__phone">{{ownerPhone}}</span>
                     </div>
                 </div>
-                <a (click)="onCreateChat()" class="btn btn-main">Написать продавцу</a>
+                
+                <div id="write" *ngIf="!isAuthors">
+                    <a (click)="onCreateChat()" class="btn btn-main">Написать продавцу</a>
+                </div>
+                <div id="write" *ngIf="isAuthors">
+                    <a (click)="onEditClicked()" class="btn btn-main">Редактировать</a>
+                    <a (click)="onDeleteClicked()" class="btn btn-main" style="background-color: lightcoral;">{{ deleteText }}</a>
+                </div>
 
                 <div class="container__mainActions">
                     <div class="container__action">
@@ -120,7 +127,8 @@
         <div class="container__row">
             <app-advertisement *ngFor="let advertisement of userAdvertisements;" [routLink]="advertisement.id"
                 [title]="advertisement.title" [price]="advertisement.price" [createdDate]="advertisement.createdDate"
-                [thisUserAdvertisement]="true" [ownerLogin]="advertisement?.owner?.username+''">
+                [thisUserAdvertisement]="true" [ownerLogin]="advertisement?.owner?.username+''"
+                >
             </app-advertisement>
         </div>
         <h2>Похожие объявления</h2>

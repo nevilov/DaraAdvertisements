@@ -40,6 +40,14 @@ export class ImageService {
         });
     }
 
+    public deleteImageFromAdvertisement(advId: number, imageId: string) {
+      return this.http.delete<any>(AppComponent.backendAddress + '/api/Advertisement/' + advId + '/images/' + imageId, {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        }),
+      });
+    }
+
     public getImageById(imageId: string) {
           return this.http.get<any>(AppComponent.backendAddress + '/api/images/' + imageId);
     }
