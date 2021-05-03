@@ -40,7 +40,7 @@ export class AbuseService {
                 Authorization: 'Bearer ' + this.cookieService.get('AuthToken')
             })
         })
-            .pipe(catchError(this.checkError));;
+            .pipe(catchError(this.checkError));
         console.log(closeId);
     }
 

@@ -11,7 +11,9 @@ namespace DaraAds.API.Controllers.Image
     {
         private readonly IImageService _imageService;
 
-        public ImageController(IImageService imageService)
+        public ImageController(
+            IImageService imageService
+            )
         {
             _imageService = imageService;
         }

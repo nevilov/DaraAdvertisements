@@ -31,7 +31,7 @@ export class AdvertisementComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.imageService.getImageById(this.cover)
+        this.imageService.getImageByAdvertisementId(this.routLink)
             .pipe(untilDestroyed(this))
             .subscribe((data: any) => {
                 if (data.imageBlob) {

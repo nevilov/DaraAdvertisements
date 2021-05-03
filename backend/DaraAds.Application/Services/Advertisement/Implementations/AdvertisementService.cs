@@ -485,6 +485,33 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         }
 
+        public async Task<GetImageByAdvertisement.Response> GetImageByAdvertisement(GetImageByAdvertisement.Request request, CancellationToken cancellationToken)
+        {
+            var ad = await _repository.FindById(request.Id, cancellationToken);
+
+            if (ad == null)
+            {
+                throw new AdNotFoundException(request.Id);
+            }
+
+            var advertisementCover = ad.Images.ElementAt(0).Id;
+
+            var image = await _imageRepository.FindById(advertisementCover, cancellationToken);
+
+            if (image == null)
+            {
+                throw new ImageNotFoundException();
+            }
+
+            var imageUrl = $"https://storage.yandexcloud.net/dara-ads-images/{image.Name}";
+
+            return new GetImageByAdvertisement.Response
+            {
+                ImageUrl = imageUrl,
+                ImageBlob = Convert.ToBase64String(image.ImageBlob)
+            };
+        }
+
         public async Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);

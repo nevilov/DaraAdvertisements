@@ -31,5 +31,7 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
         Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken);
 
         Task CreateByExcelConsumer(ImportExcelMessage message, CancellationToken cancellationToken);
+
+        Task<GetImageByAdvertisement.Response> GetImageByAdvertisement(GetImageByAdvertisement.Request request, CancellationToken cancellationToken);
     }
 }

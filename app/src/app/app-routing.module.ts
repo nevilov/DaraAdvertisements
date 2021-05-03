@@ -63,7 +63,7 @@ const routes: Routes = [
         },
     },
     {
-        path: 'advertisements', component: AdvertisementPageWithSubCategoriesComponent, data: {
+        path: 'advertisements', component: AdvertisementPageComponent, data: {
             breadcrumb: [
                 { label: 'Объявления', url: '/advertisements' }
             ]
