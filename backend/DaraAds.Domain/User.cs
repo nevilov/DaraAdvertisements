@@ -54,7 +54,7 @@ namespace DaraAds.Domain
         public bool IsSubscribedToNotifications { get; set; }
 
         /// <summary>
-        /// Избранные объявелния пользователя
+        /// Избранные объявления пользователя
         /// </summary>
         public virtual ICollection<Favorite> Favorites { get; set; }
     }

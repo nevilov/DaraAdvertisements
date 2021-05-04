@@ -17,9 +17,9 @@ namespace DaraAds.API.Controllers.Advertisement
         /// <returns></returns>
         [HttpPost("import")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> ImportExcel([Required] IFormFile excel, CancellationToken cancellationToken)
+        public async Task<IActionResult> ImportExcel([Required]IFormFile excel, CancellationToken cancellationToken)
         {
-            await _service.ImportExcelProducer(excel.OpenReadStream(), cancellationToken);
+            await _service.ImportExcelProducer(excel, cancellationToken);
             return Ok();
         }
     }

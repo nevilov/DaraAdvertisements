@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
+using Microsoft.AspNetCore.Http;
 
 namespace DaraAds.Application.Services.Advertisement.Interfaces
 {
@@ -28,7 +29,7 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
 
         Task DeleteImage(DeleteImage.Request request, CancellationToken cancellationToken);
 
-        Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken);
+        Task ImportExcelProducer(IFormFile excel, CancellationToken cancellationToken);
 
         Task CreateByExcelConsumer(ImportExcelMessage message, CancellationToken cancellationToken);
 

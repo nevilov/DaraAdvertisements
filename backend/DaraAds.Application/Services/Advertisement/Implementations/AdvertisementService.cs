@@ -486,14 +486,27 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         }
 
 
-        public async Task ImportExcelProducer(Stream excelFileStream, CancellationToken cancellationToken)
+        public async Task ImportExcelProducer(IFormFile excel, CancellationToken cancellationToken)
         {
+            if(excel.Length > 10000)
+            {
+                throw new ImportExcelException("Файл не может быть больше 10 000 байт");
+            }
+            var supportedExcelFiles = new[] { "xls", "xlsx" };
+            var fileExt = System.IO.Path.GetExtension(excel.FileName).Substring(1);
+            if (!supportedExcelFiles.Contains(fileExt))
+            {
+                throw new ImportExcelException("Данный формат файла не поддерживается, загрузите excel файл");
+            }
+
+             var excelFileStream = excel.OpenReadStream();
+
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
             var domainUser = await _userRepository.FindById(userId, cancellationToken);
 
             if (!domainUser.IsCorporation)
             {
-                throw new HaveNoRightException($"У пользователя с id {userId} нет прав массово загружать объявелния");
+                throw new HaveNoRightException($"У пользователя с id {userId} нет прав массово загружать объявления");
             }
 
             var importExcelEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:import_excel"));

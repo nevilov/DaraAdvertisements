@@ -54,6 +54,9 @@ namespace DaraAds.Infrastructure.Identity
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
+
+        private const int TOKEN_EXPIRES_TIME = 10;
+
         public Task<string> GetCurrentUserId(CancellationToken cancellationToken = default)
         {
             var claimsPrincipal = _httpContextAccessor.HttpContext?.User;
@@ -164,7 +167,7 @@ namespace DaraAds.Infrastructure.Identity
             var token = new JwtSecurityToken
             (
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(168),
+                expires: DateTime.UtcNow.AddHours(TOKEN_EXPIRES_TIME),
                 notBefore: DateTime.UtcNow,
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"])),
