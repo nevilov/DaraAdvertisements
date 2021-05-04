@@ -51,10 +51,6 @@ export class ImageService {
           return this.http.get<any>(AppComponent.backendAddress + '/api/images/' + imageId);
     }
 
-    public getImageByAdvertisementId(Id: number) {
-      return this.http.get<any>(AppComponent.backendAddress + '/api/Advertisement/getCover/' + Id);
-    }
-
     public checkError(error: any) {
         alert('Произошла ошибка: ' + error.error.error);
         console.log(error);
