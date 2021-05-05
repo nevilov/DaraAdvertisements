@@ -395,7 +395,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Cover = a.Cover,
                     CreatedDate = a.CreatedDate,
                     Price = a.Price,
-
+                    Images = a.Images.Select(i => new GetUserAdvertisements.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl = S3Url + i.Name
+                    }),
                     Status = a.Status.ToString()
                 }),
                 Total = result.Count(),

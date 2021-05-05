@@ -78,19 +78,18 @@ export class AdvertisementDetailPageComponent implements OnInit {
                 this.categoryId = +data;
             });
 
-        window.scroll(0,0);
+        window.scroll(0, 0);
 
         this.advertisementService.getAdvertisementById(this.id)
             .subscribe((data: Advertisement) => {
                 this.advertisement = data;
-                console.log(this.advertisement);
+                // console.log(this.advertisement);
 
                 if (this.cookieService.get('UserId')) {
-                    if(this.advertisement.owner.id == this.cookieService.get('UserId')) {
+                    if (this.advertisement.owner.id == this.cookieService.get('UserId')) {
                         this.isAuthors = true;
                     }
                 }
-
 
                 if (this.categoryId == 0) {
                     this.categoryId = this.advertisement.category.id;
@@ -112,13 +111,26 @@ export class AdvertisementDetailPageComponent implements OnInit {
                 this.images = data.images;
                 this.formatPhone();
 
-                this.advertisementService.getSameAdvertisementsWithLimit(this.advertisement.category.id, 4).subscribe((data) => {
-                    this.sameAdvertisements = data.items;
-                });
-
                 this.userService.getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0).subscribe((data) => {
                     this.userAdvertisements = data.items;
-                    console.log(data);
+                    console.log("USER");
+                    console.log(this.userAdvertisements);
+                    for (let i = 0; i < this.userAdvertisements.length; i++) {
+                        if (this.userAdvertisements[i].images[0] === undefined) {
+                            this.userAdvertisements[i].images[0] = { id: "default" };
+                        }
+                    }
+                });
+
+                this.advertisementService.getSameAdvertisementsWithLimit(this.advertisement.category.id, 4).subscribe((data) => {
+                    this.sameAdvertisements = data.items;
+                    for (let i = 0; i < this.sameAdvertisements.length; i++) {
+                        if (this.sameAdvertisements[i].images[0] === undefined) {
+                            this.sameAdvertisements[i].images[0] = { id: "default" };
+                        }
+                    }
+                    console.log("SAME");
+                    console.log(this.sameAdvertisements);
                 });
 
                 for (let i = 0; i < this.images.length; i++) {
@@ -135,16 +147,16 @@ export class AdvertisementDetailPageComponent implements OnInit {
     }
 
     onEditClicked() {
-		this.router.navigateByUrl('/editAdvertisement/' + this.id);
+        this.router.navigateByUrl('/editAdvertisement/' + this.id);
     }
 
     onDeleteClicked() {
 
         if (this.deleteConfirmed) {
-        this.advertisementService.deleteAdvertisement(this.id)
-            .subscribe((r) => {
-                this.router.navigateByUrl('/');
-            });
+            this.advertisementService.deleteAdvertisement(this.id)
+                .subscribe((r) => {
+                    this.router.navigateByUrl('/');
+                });
         }
         else {
             this.deleteText = 'Подтвердить удаление?'
@@ -153,7 +165,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
     }
 
     onCreateChat() {
-            this.chatService.createChat(this.id)
+        this.chatService.createChat(this.id)
             .subscribe((r) => {
                 this.router.navigateByUrl('/chats');
             });
