@@ -1,9 +1,5 @@
 @import "../../../assets/scss/main.scss";
 
-app-submenu {
-    // display: none;
-}
-
 .menu {
     position: relative;
     display: flex;
@@ -117,14 +113,13 @@ app-submenu {
 
     &__userAvatar {
         border-radius: 50%;
-        max-width: 48px;
-        max-height: 48px;
-        min-width: 28px;
-        min-height: 28px;
+        width: 48px;
+        height: 48px;
 
         & img {
             height: 100%;
             width: 100%;
+            object-fit: cover;
             border-radius: 50%;
         }
     }

@@ -302,6 +302,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Email = a.OwnerUser.Email,
                         Name = a.OwnerUser.Name,
                         Lastname = a.OwnerUser.LastName,
+                        Avatar = a.OwnerUser.Avatar,
                         Images = a.OwnerUser.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
                         {
                             Id = i.Id,
@@ -394,7 +395,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Cover = a.Cover,
                     CreatedDate = a.CreatedDate,
                     Price = a.Price,
-
+                    Images = a.Images.Select(i => new GetUserAdvertisements.Response.ImageResponse
+                    {
+                        Id = i.Id,
+                        ImageUrl = S3Url + i.Name
+                    }),
                     Status = a.Status.ToString()
                 }),
                 Total = result.Count(),
