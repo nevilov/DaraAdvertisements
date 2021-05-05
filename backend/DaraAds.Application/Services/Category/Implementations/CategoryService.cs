@@ -12,7 +12,7 @@ namespace DaraAds.Application.Services.Category.Implementations
     {
         private readonly ICategoryRepository _categoryReposity;
 
-        public CategoryService(ICategoryRepository categoryReposity, IAdvertisementRepository advertisementRepository)
+        public CategoryService(ICategoryRepository categoryReposity)
         {
             _categoryReposity = categoryReposity;
         }

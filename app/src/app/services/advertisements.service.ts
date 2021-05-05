@@ -53,9 +53,30 @@ export class AdvertisementService {
             })
             .pipe(
                 tap((response: any) => {
+                    this.cookieService.delete('LatestRedirectId');
                     this.cookieService.set('LatestRedirectId', response.redirectId);
                 })
             );
+    }
+
+    public updateAdvertisement(advertisement: NewAdvertisement, id: number) {
+        console.log('Update service called');
+
+        return this.http
+            .put(AppComponent.backendAddress + '/api/Advertisement/' + id, advertisement, {
+                headers: new HttpHeaders({
+                    Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+                }),
+            });
+    }
+
+    public deleteAdvertisement(id: number) {
+        return this.http.delete(AppComponent.backendAddress + '/api/Advertisement/' + id, {
+            headers: new HttpHeaders({
+                Authorization: 'Bearer ' + this.cookieService.get('AuthToken')
+            })
+        })
+            .pipe(catchError(this.checkError));
     }
 
     public checkError(error: any) {

@@ -4,6 +4,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './../../../services/datasharing.service';
 import { SignService } from './../../../services/sign.service';
 import { ToastrService } from 'ngx-toastr';
+import { ImageService } from 'src/app/services/image.service';
+import { untilDestroyed } from '@ngneat/until-destroy';
 
 @Component({
     selector: 'app-menu',
@@ -13,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class MenuComponent implements OnInit {
     currentUserName: string = '';
     currentUserRole: string = '';
+    currentUserAvatar: string = '';
     isAutorized: boolean = false;
 
     @ViewChild('usermenu', { read: ElementRef }) UserMenu!: ElementRef;
@@ -40,6 +43,23 @@ export class MenuComponent implements OnInit {
         }
     }
 
+    public updateAvatar() {
+        this.currentUserAvatar = this.cookieService.get('UserAvatar');
+
+        if (this.currentUserAvatar == "null") {
+            this.currentUserAvatar = "default";
+        }
+
+        console.log("data requested" + this.currentUserAvatar);
+        this.imageService.getImageById(this.currentUserAvatar)
+            .subscribe((data: any) => {
+                if (data.imageBlob) {
+                    this.currentUserAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+                    console.log("data received");
+                }
+            });
+    }
+
     public userLogout() {
         this.signService.logout();
         this.isAutorized = false;
@@ -51,12 +71,15 @@ export class MenuComponent implements OnInit {
             this.isAutorized = true;
             this.currentUserName = this.cookieService.get('AuthUsername');
             this.currentUserRole = this.cookieService.get('UserRole');
+            this.updateAvatar();
         } else {
             this.isAutorized = false;
         }
     }
 
     constructor(
+
+        private imageService: ImageService,
         private cookieService: CookieService,
         private dataSharingService: DataSharingService,
         private signService: SignService,

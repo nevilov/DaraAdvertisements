@@ -63,7 +63,7 @@ namespace DaraAds.Application.Tests
         private void advertisementServiceGetConfigure(Domain.Advertisement adResponse)
         {
             _advertisementRepositoryMock
-                .Setup(_ => _.FindByIdWithUser(It.IsAny<int>(), It.IsAny<CancellationToken>()))
+                .Setup(_ => _.FindById(It.IsAny<int>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(adResponse);
         }
     }

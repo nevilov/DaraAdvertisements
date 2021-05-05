@@ -9,29 +9,30 @@ using System.Threading.Tasks;
 using DaraAds.Application.Helpers;
 using DaraAds.Application.Services.Advertisement.Contracts;
 using DaraAds.Infrastructure.Helpers;
+using DaraAds.Domain;
+using Amazon.S3.Model;
 
 namespace DaraAds.Infrastructure.DataAccess.Repositories
 {
     public class AdvertisementRepository : Repository<Domain.Advertisement, int>, IAdvertisementRepository
     {
-        private ISortHelper<Domain.Advertisement> _sortHelper;
+        private readonly ISortHelper<Domain.Advertisement> _sortHelper;
         public AdvertisementRepository(DaraAdsDbContext context, ISortHelper<Domain.Advertisement> sortHelper) : base(context)
         {
             _sortHelper = sortHelper;
         }
 
-        public async Task<IEnumerable<Domain.Advertisement>> FindByCategory(int id, int limit, int offset, CancellationToken cancellationToken)
-        {
-            return await _context.Advertisements.Where(e => e.CategoryId == id).Take(limit).Skip(offset).ToListAsync(cancellationToken);
-        }
 
-        public async Task<Domain.Advertisement> FindByIdWithUser(int id, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Domain.Advertisement>> FindAdvertisementsByCategoryIds(List<int> ids, int limit, int offset, CancellationToken cancellationToken)
         {
             return await _context.Advertisements
-                .Include(a => a.OwnerUser)
-                .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+                .Where(a => ids.Contains(a.CategoryId) && (a.Status.Equals(Domain.Advertisement.Statuses.Created)))
+                .Skip(offset)
+                .Take(limit)
+                .ToListAsync(cancellationToken);
         }
 
+        
         public async Task<IEnumerable<Domain.Advertisement>> Search(Expression<Func<Domain.Advertisement, bool>> predicate, int limit, int offset, CancellationToken cancellationToken)
         {
             return await _context.Advertisements
@@ -56,7 +57,8 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                  a.Price >= parameters.MinPrice && 
                  a.Price <= parameters.MaxPrice &&
                  a.CreatedDate.Date >= parameters.MinDate &&
-                 a.CreatedDate.Date <= parameters.MaxDate);
+                 a.CreatedDate.Date <= parameters.MaxDate &&
+                 a.Status.Equals(Domain.Advertisement.Statuses.Created));
  
              
              SearchByTitleOrDescription(ref ads, parameters.SearchString);

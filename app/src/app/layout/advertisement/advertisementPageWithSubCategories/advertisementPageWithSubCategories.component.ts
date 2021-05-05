@@ -32,7 +32,7 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     ngOnInit() {
 
         this.route.paramMap.pipe(
-            switchMap(params => params.getAll('id'))
+            switchMap(params => params.getAll('categoryId'))
         )
             .subscribe(data => {
                 this.categoryId = +data;
@@ -65,7 +65,6 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
             this.categories = data.parent;
 
             console.log(this.categories);
-
 
             const breadcrumb = { categoryName: this.categories.name };
             this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);

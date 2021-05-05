@@ -10,7 +10,8 @@
                 [title]="advertisement.title" [price]="advertisement.price"
                 [ownerName]='advertisement.owner.name + " " + advertisement.owner.lastname'
                 [createdDate]="advertisement.createdDate" [ownerId]="advertisement?.owner?.id+''"
-                [ownerLogin]="advertisement?.owner?.username+''" [cover]="advertisement.images[0].id">
+                [ownerLogin]="advertisement?.owner?.username+''" [cover]="advertisement.images[0].id"
+                [avatar]="advertisement?.owner?.avatar+''">
             </app-advertisement>
         </div>
     </div>

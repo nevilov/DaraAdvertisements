@@ -21,6 +21,7 @@ import { UserProfileSettingsComponent } from './layout/user/userProfile/userProf
 import { UserProfileComponent } from './layout/user/userProfile/userProfile.component';
 import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
 import { LoginGuard } from './Guards/login.guard';
+import {UserProfileBlockComponent} from "./layout/user/userProfile/userProfileBlock/userProfileBlock.component";
 
 const routes: Routes = [
     // { path: '**', component: PageNotFoundComponent }
@@ -65,25 +66,45 @@ const routes: Routes = [
             breadcrumb: [
                 { label: 'Объявления', url: '/advertisements' }
             ]
-        },
+        }
     },
     {
-        path: 'advertisements/:id', component: AdvertisementPageWithSubCategoriesComponent, data: {
+        path: 'advertisements/:categoryId', component: AdvertisementPageWithSubCategoriesComponent, data: {
             breadcrumb: [
                 { label: 'Объявления', url: '/advertisements' },
                 { label: '{{categoryName}}', url: 'advertisements/:id' },
             ]
         },
     },
+    // {
+    //     path: 'advertisements/advertisement/:id', component: AdvertisementDetailPageComponent, data: {
+    //         breadcrumb: [
+    //             { label: 'Объявления', url: '/advertisements' },
+    //             { label: '{{category}}', url: '/advertisements/:categoryId' },
+    //             { label: '{{title}}', url: 'advertisements/:categoryId/advertisement/:id' },
+    //         ]
+    //     },
+    // },
     {
-        path: 'advertisement/:id', component: AdvertisementDetailPageComponent, data: {
+        path: 'advertisements/:categoryId/advertisement/:id', component: AdvertisementDetailPageComponent, data: {
             breadcrumb: [
                 { label: 'Объявления', url: '/advertisements' },
-                { label: '{{category}}', url: '/advertisements/:id' },
-                { label: '{{title}}', url: 'advertisement/:id' },
+                { label: '{{category}}', url: '/advertisements/:categoryId' },
+                { label: '{{title}}', url: 'advertisements/:categoryId/advertisement/:id' },
             ]
         },
     },
+
+    // {
+    //     path: 'advertisement/:id', component: AdvertisementDetailPageComponent, data: {
+    //         breadcrumb: [
+    //             { label: 'Объявления', url: '/advertisements' },
+    //             { label: '{{category}}', url: '/advertisements/:categoryId' },
+    //             { label: '{{title}}', url: 'advertisements/:categoryId/advertisement/:id' },
+    //         ]
+    //     },
+    // },
+
     {
         path: 'newAdvertisement', component: NewAdvertisementPageComponent, data: {
             breadcrumb: [
@@ -112,13 +133,17 @@ const routes: Routes = [
             { path: 'personal', component: UserProfilePersonalComponent, },
             { path: 'changeinfo', component: UserProfileLoginPassComponent, },
             { path: 'advertisements', component: UserProfileAdvertisementsComponent, },
+            { path: 'block', component: UserProfileBlockComponent, },
             { path: 'favorites', component: UserProfileSettingsComponent, },
         ],
     },
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [
+        // RouterModule.forRoot(routes),
+        RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })
+    ],
     exports: [RouterModule],
     providers: [LoginGuard],
 })

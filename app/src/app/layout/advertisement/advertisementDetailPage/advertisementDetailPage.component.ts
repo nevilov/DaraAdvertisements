@@ -28,11 +28,17 @@ export class AdvertisementDetailPageComponent implements OnInit {
     images: any[];
     imageValues: string[];
     userId: number = 0;
+    userAvatar: string;
+    categoryId: number = 0;
+    isAuthors: boolean = false;
+    deleteConfirmed: boolean = false;
+    deleteText: string = 'Удалить объявление';
     sameAdvertisements: Advertisement[] | null = null;
     userAdvertisements: Advertisement[] | null = null;
 
     constructor(
         private route: ActivatedRoute,
+        private cookieService: CookieService,
         private advertisementService: AdvertisementService,
         private imageService: ImageService,
         private chatService: ChatService,
@@ -43,6 +49,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
         this.advertisement = {} as Advertisement;
         this.images = [];
         this.imageValues = [];
+        this.userAvatar = "";
         this.ownerPhone = "Не указан";
     }
 
@@ -64,14 +71,44 @@ export class AdvertisementDetailPageComponent implements OnInit {
         )
             .subscribe(data => this.id = +data);
 
+        this.route.paramMap.pipe(
+            switchMap(params => params.getAll('categoryId'))
+        )
+            .subscribe(data => {
+                this.categoryId = +data;
+            });
+
+        window.scroll(0,0);
+
         this.advertisementService.getAdvertisementById(this.id)
             .subscribe((data: Advertisement) => {
                 this.advertisement = data;
                 console.log(this.advertisement);
 
-                const breadcrumb = { categoryId: this.advertisement.category.id, category: this.advertisement.category.name, title: this.advertisement.title };
+                if (this.cookieService.get('UserId')) {
+                    if(this.advertisement.owner.id == this.cookieService.get('UserId')) {
+                        this.isAuthors = true;
+                    }
+                }
+
+
+                if (this.categoryId == 0) {
+                    this.categoryId = this.advertisement.category.id;
+                    this.router.navigateByUrl("advertisements/" + this.categoryId + "/advertisement/" + this.id);
+                }
+
+                const breadcrumb = { category: this.advertisement.category.name, title: this.advertisement.title };
                 this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
 
+                if (this.advertisement.owner.avatar === null) {
+                    this.advertisement.owner.avatar = "default";
+                }
+
+                this.imageService.getImageById(this.advertisement.owner.avatar)
+                    .pipe(untilDestroyed(this))
+                    .subscribe((data: any) => {
+                        this.userAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+                    });
                 this.images = data.images;
                 this.formatPhone();
 
@@ -97,10 +134,29 @@ export class AdvertisementDetailPageComponent implements OnInit {
             });
     }
 
+    onEditClicked() {
+		this.router.navigateByUrl('/editAdvertisement/' + this.id);
+    }
+
+    onDeleteClicked() {
+        
+        if (this.deleteConfirmed) {
+        this.advertisementService.deleteAdvertisement(this.id)
+            .subscribe((r) => {
+                this.router.navigateByUrl('/');
+            });
+        }
+        else {
+            this.deleteText = 'Подтвердить удаление?'
+            this.deleteConfirmed = true;
+        }
+    }
+
     onCreateChat() {
-        this.chatService.createChat(this.id)
+            this.chatService.createChat(this.id)
             .subscribe((r) => {
                 this.router.navigateByUrl('/chats');
             });
+
     }
 }
