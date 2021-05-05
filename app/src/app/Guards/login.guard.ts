@@ -13,11 +13,10 @@ export class LoginGuard implements CanActivate {
     constructor(private cookieService: CookieService, private router: Router) {
 
     }
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
 
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
         var cookieRole = this.cookieService.get('UserRole');
         var userRole = cookieRole != "" ? this.cookieService.get('UserRole') != "" : "noRole";
-        // alert(userRole);
         if (userRole == "noRole") {
             this.router.navigate(['/']);
             return false;

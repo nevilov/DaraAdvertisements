@@ -5,7 +5,7 @@ import { ImageService } from 'src/app/services/image.service';
 @Component({
     selector: 'app-advertisement',
     templateUrl: './advertisement.component.html',
-    styleUrls: ['./advertisement.component.scss'],
+    styleUrls: ['./../../../../assets/scss/layout/__advertisement.scss']
 })
 
 @UntilDestroy()
@@ -37,18 +37,18 @@ export class AdvertisementComponent implements OnInit {
                 if (data.imageBlob) {
                     this.imageBlob = 'data:image/jpeg;base64,' + data.imageBlob;
                 }
-                
+
                 if (this.avatar == "null") {
                     this.avatar = "default";
                 }
 
                 this.imageService.getImageById(this.avatar)
-                .pipe(untilDestroyed(this))
-                .subscribe((data: any) => {
-                    if (data.imageBlob) {
-                        this.avatarBlob = 'data:image/jpeg;base64,' + data.imageBlob;
-                    }
-                });
+                    .pipe(untilDestroyed(this))
+                    .subscribe((data: any) => {
+                        if (data.imageBlob) {
+                            this.avatarBlob = 'data:image/jpeg;base64,' + data.imageBlob;
+                        }
+                    });
             });
     }
 }
