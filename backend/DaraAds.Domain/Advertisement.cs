@@ -35,6 +35,11 @@ namespace DaraAds.Domain
         public decimal Price { get; set; }
 
         /// <summary>
+        /// Локация объявления
+        /// </summary>
+        public string Location { get; set; }
+
+        /// <summary>
         /// Статус
         /// </summary>
         public Statuses Status { get; set; }

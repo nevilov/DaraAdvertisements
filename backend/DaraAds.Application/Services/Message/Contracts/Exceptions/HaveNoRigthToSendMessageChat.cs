@@ -2,7 +2,7 @@
 
 namespace DaraAds.Application.Services.Message.Contracts.Exceptions
 {
-    public class HaveNoRigthToSendMessageChat : NoRightException
+    public class HaveNoRigthToSendMessageChat : NoRightsException
     {
         public HaveNoRigthToSendMessageChat(string message) : base(message)
         {

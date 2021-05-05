@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="container__header">
+    <span class="header__title">Массовая загрузка объявлений</span>
+  </div>
+  <div class="container__content">
+      <div class="container__input input">
+        <label class="container__label">Загрузите Excel файл</label>
+        <div class="input__value">
+          <input type="file" (change)="onUploadFile($event)">
+        </div>
+      </div>
+      <div class="import___warnings">
+        <span>Прежде чем загружать, ознакомьте с <a style="color: red">правилами</a></span>
+      </div>
+      <button (click)="onSendExcel()" [disabled]="isDisabled">Загрузить</button>
+  </div>
+</div>

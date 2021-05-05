@@ -1,34 +1,38 @@
+using DaraAds.API.Controllers;
+using DaraAds.Application.Helpers;
+using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Abuse.Implementations;
 using DaraAds.Application.Services.Abuse.Interfaces;
+using DaraAds.Application.Services.Advertisement.Implementations;
+using DaraAds.Application.Services.Advertisement.Interfaces;
+using DaraAds.Application.Services.Category.Implementations;
+using DaraAds.Application.Services.Category.Interfaces;
+using DaraAds.Application.Services.Chat.Implementations;
+using DaraAds.Application.Services.Chat.Interfaces;
+using DaraAds.Application.Services.Favorite.Implementations;
+using DaraAds.Application.Services.Favorite.Interfaces;
+using DaraAds.Application.Services.Image.Implementations;
+using DaraAds.Application.Services.Image.Interfaces;
+using DaraAds.Application.Services.Mail.Interfaces;
+using DaraAds.Application.Services.Message.Implementations;
+using DaraAds.Application.Services.Message.Interfaces;
+using DaraAds.Application.Services.Notification.Implementations;
+using DaraAds.Application.Services.Notification.Interfaces;
 using DaraAds.Application.Services.User.Implementations;
 using DaraAds.Application.Services.User.Interfaces;
 using DaraAds.Infrastructure;
+using DaraAds.Infrastructure.Consumers;
+using DaraAds.Infrastructure.DataAccess.Repositories;
+using DaraAds.Infrastructure.Helpers;
+using DaraAds.Infrastructure.Mail;
+using DaraAds.Infrastructure.SignalR.Hubs;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DaraAds.Application.Services.Advertisement.Implementations;
-using DaraAds.Application.Services.Advertisement.Interfaces;
-using DaraAds.API.Controllers;
-using DaraAds.Infrastructure.DataAccess.Repositories;
-using DaraAds.Application.Repositories;
-using DaraAds.Application.Services.Mail.Interfaces;
-using DaraAds.Infrastructure.Mail;
-using DaraAds.Application.Helpers;
-using DaraAds.Application.Services.Image.Implementations;
-using DaraAds.Application.Services.Image.Interfaces;
-using DaraAds.Infrastructure.Helpers;
-using DaraAds.Application.Services.Favorite.Interfaces;
-using DaraAds.Application.Services.Favorite.Implementations;
-using DaraAds.Application.Services.Category.Interfaces;
-using DaraAds.Application.Services.Category.Implementations;
-using DaraAds.Application.Services.Chat.Interfaces;
-using DaraAds.Application.Services.Chat.Implementations;
-using DaraAds.Application.Services.Message.Interfaces;
-using DaraAds.Application.Services.Message.Implementations;
-using DaraAds.Infrastructure.SignalR.Hubs;
 
 namespace DaraAds.API
 {
@@ -52,7 +56,8 @@ namespace DaraAds.API
             .AddScoped<ICategoryService, CategoryService>()
             .AddScoped<IFavoriteService, FavoriteService>()
             .AddScoped<IChatService, ChatService>()
-            .AddScoped<IMessageService, MessageService>();
+            .AddScoped<IMessageService, MessageService>()
+            .AddScoped<INotificationService, NotificationService>();
 
             services
              .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
@@ -78,6 +83,25 @@ namespace DaraAds.API
 
             services.AddIdentity(Configuration);
 
+
+            services.AddMassTransit(conf =>
+            {
+                conf.AddConsumer<ImportExcelConsumer>();
+                conf.AddConsumer<SendNotificationConsumer>();
+
+                conf.UsingRabbitMq((context, c) =>
+                {
+                    c.Host(Configuration.GetValue<string>("RabbitMq:Host"), host =>
+                    {
+                        host.Username(Configuration.GetValue<string>("RabbitMq:Username"));
+                        host.Password(Configuration.GetValue<string>("RabbitMq:Password"));
+                    });
+
+                    c.ReceiveEndpoint("import_excel", e => e.ConfigureConsumer<ImportExcelConsumer>(context));
+                    c.ReceiveEndpoint("send_notifications", e => e.ConfigureConsumer<SendNotificationConsumer>(context));
+                });
+            }).AddMassTransitHostedService();
+
             services.AddControllers();
 
             services.AddSwaggerModule();
@@ -92,6 +116,7 @@ namespace DaraAds.API
 
             services.ValidatorModule();
 
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
