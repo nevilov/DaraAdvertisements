@@ -36,7 +36,6 @@ export class AdvertisementPageComponent implements OnInit {
     }
 
     loadAdvertisementsByCategory(categoryId: number) {
-
         this.advertisementService.getAdvertisementsByCategoryId(categoryId)
             .subscribe(data => {
                 this.advertisements = data.items;

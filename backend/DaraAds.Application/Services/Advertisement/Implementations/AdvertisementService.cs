@@ -1,4 +1,5 @@
 ﻿using DaraAds.Application.Common;
+using DaraAds.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Repositories;
 using DaraAds.Application.Services.Advertisement.Contracts;
@@ -10,7 +11,12 @@ using DaraAds.Application.Services.Image.Interfaces;
 using DaraAds.Application.Services.S3.Contracts.Exceptions;
 using DaraAds.Application.Services.S3.Interfaces;
 using DaraAds.Application.Services.User.Contracts.Exceptions;
+using ExcelDataReader;
+using MassTransit;
+using Microsoft.AspNetCore.Http;
 using System;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,16 +32,21 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         private readonly Repositories.IAdvertisementRepository _repository;
         private readonly IIdentityService _identityService;
         private readonly IRepository<Domain.Image, string> _imageRepository;
+        private readonly IRepository<Domain.User, string> _userRepository;
         private readonly IImageService _imageService;
         private readonly IS3Service _s3Service;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
         public AdvertisementService(
             IAdvertisementRepository repository,
             IIdentityService identityService,
             IImageService imageService,
-            IRepository<Domain.Image, string> imageRepository, IS3Service s3Service,
-            ICategoryRepository categoryRepository)
+            IRepository<Domain.Image, string> imageRepository,
+            IS3Service s3Service,
+            ICategoryRepository categoryRepository,
+            ISendEndpointProvider sendEndpointProvider,
+            IRepository<Domain.User, string> userRepository)
         {
             _repository = repository;
             _identityService = identityService;
@@ -43,6 +54,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             _imageRepository = imageRepository;
             _s3Service = s3Service;
             _categoryRepository = categoryRepository;
+            _sendEndpointProvider = sendEndpointProvider;
+            _userRepository = userRepository;
         }
 
         private const string S3Url = "https://storage.yandexcloud.net/dara-ads-images/";
@@ -99,7 +112,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Images = ad.Images.Select(i => new Get.Response.ImageResponse
                 {
                     Id = i.Id,
-                    ImageUrl = S3Url + i.Name
+                    ImageUrl =  S3Url + i.Name
                 }),
 
                 Category = new Get.Response.CategoryResponse
@@ -196,7 +209,6 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     {
                         Id = i.Id,
                         ImageUrl =  S3Url + i.Name
-//                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     }),
                 }),
                 Total = ads.Total,
@@ -295,7 +307,6 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         {
                             Id = i.Id,
                             ImageUrl = S3Url + i.Name
-                            //                           ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                         })
                     },
 
@@ -303,7 +314,6 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     {
                         Id = i.Id,
                         ImageUrl = S3Url + i.Name
-                        //                        ImageBase64 = Convert.ToBase64String(i.ImageBlob),
                     }),
                 }),
                 Total = advertisementsByCategories.Count(),
@@ -342,7 +352,6 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     {
                         Id = i.Id,
                         ImageUrl =  S3Url + i.Name
- //                     ImageBase64 = Convert.ToBase64String(i.ImageBlob), 
                     })
                 }),
                 Total = total,
@@ -477,32 +486,69 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         }
 
-        public async Task<GetImageByAdvertisement.Response> GetImageByAdvertisement(GetImageByAdvertisement.Request request, CancellationToken cancellationToken)
+
+        public async Task ImportExcelProducer(IFormFile excel, CancellationToken cancellationToken)
         {
-            var ad = await _repository.FindById(request.Id, cancellationToken);
-
-            if (ad == null)
+            if(excel.Length > 10000)
             {
-                throw new AdNotFoundException(request.Id);
+                throw new ImportExcelException("Файл не может быть больше 10 000 байт");
+            }
+            var supportedExcelFiles = new[] { "xls", "xlsx" };
+            var fileExt = System.IO.Path.GetExtension(excel.FileName).Substring(1);
+            if (!supportedExcelFiles.Contains(fileExt))
+            {
+                throw new ImportExcelException("Данный формат файла не поддерживается, загрузите excel файл");
             }
 
-            var advertisementCover = ad.Images.ElementAt(0).Id;
+             var excelFileStream = excel.OpenReadStream();
 
-            var image = await _imageRepository.FindById(advertisementCover, cancellationToken);
+            var userId = await _identityService.GetCurrentUserId(cancellationToken);
+            var domainUser = await _userRepository.FindById(userId, cancellationToken);
 
-            if (image == null)
+            if (!domainUser.IsCorporation)
             {
-                throw new ImageNotFoundException();
+                throw new HaveNoRightException($"У пользователя с id {userId} нет прав массово загружать объявления");
             }
 
-            var imageUrl = $"https://storage.yandexcloud.net/dara-ads-images/{image.Name}";
-
-            return new GetImageByAdvertisement.Response
+            var importExcelEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:import_excel"));
+            using (IExcelDataReader excelReader = ExcelReaderFactory.CreateReader(excelFileStream))
             {
-                ImageUrl = imageUrl,
-                ImageBlob = Convert.ToBase64String(image.ImageBlob)
-            };
+                DataSet excelFileData = excelReader.AsDataSet(new ExcelDataSetConfiguration 
+                { 
+                    ConfigureDataTable = _ => new ExcelDataTableConfiguration { UseHeaderRow = true}
+                });
+
+                DataRowCollection excelRows = excelFileData.Tables[0].Rows;
+
+                foreach(DataRow row in excelRows)
+                {
+                    var message = new ImportExcelMessage
+                    {
+                        Title = row.ItemArray[0].ToString(),
+                        Description = row.ItemArray[1].ToString(),
+                        Price = Convert.ToDecimal(row.ItemArray[2].ToString()),
+                        CategoryId = Convert.ToInt32(row.ItemArray[3].ToString()),
+                        OwnerId = userId
+                    };
+                    await importExcelEndpoint.Send(message, cancellationToken);
+                }
+            }
         }
 
+        public async Task CreateByExcelConsumer(ImportExcelMessage message, CancellationToken cancellationToken)
+        {
+            var advertisement = new Domain.Advertisement
+            {
+                Title = message.Title,
+                Description = message.Description,
+                Price = message.Price,
+                OwnerId = message.OwnerId,
+                CategoryId = message.CategoryId,
+                CreatedDate = DateTime.UtcNow,
+                Status = Domain.Advertisement.Statuses.Created
+            };
+            
+            await _repository.Save(advertisement, cancellationToken);
+        }
     }
 }

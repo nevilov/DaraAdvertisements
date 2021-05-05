@@ -35,7 +35,6 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
             {
                 await _context.AddAsync(entity, cancellationToken);
             }
-
             await _context.SaveChangesAsync(cancellationToken);
         }
 

@@ -18,6 +18,8 @@ namespace DaraAds.Application.Services.User.Contracts
             public string Lastname { get; set; }
             public string Phone { get; set; }
             public string Avatar { get; set; }
+            public bool IsSubscribedToNotifications { get; set; }
+            public bool IsCorporation { get; set; }
             public DateTime CreatedDate { get; set; }
         }
     }

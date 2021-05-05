@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Identity.Contracts;
+using DaraAds.Application.Services.Mail.Contracts;
 
 namespace DaraAds.Application.Identity.Interfaces
 {
@@ -31,5 +32,7 @@ namespace DaraAds.Application.Identity.Interfaces
         Task<ResetUserPassword.Response> ResetPassword(ResetUserPassword.Request request, CancellationToken cancellationToken = default);
 
         Task<bool> BlockUser(string userId, DateTime untillDate, CancellationToken cancellationToken = default);
+
+        Task SendEmailConfirmationToken(string userId, string email, CancellationToken cancellationToken = default);
     }
 }

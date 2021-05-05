@@ -36,6 +36,12 @@
                     style="color: #222222;"></span>
                 <span class="menu__text">Избранное</span>
             </a>
+          <!--If isCorporation-->
+          <a  class="menu__item" routerLink="import">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                      style="color: #222222;"></span>
+            <span class="menu__text">Массовая загрузка</span>
+          </a>
         </div>
 
         <div class="menu__block" *ngIf="userRole == 'Moderator'">
@@ -49,6 +55,11 @@
 
         <div class="menu__block" *ngIf="userRole == 'Admin'">
             <div class="menu__header">Панель администратора</div>
+             <a class="menu__item" routerLink="block">
+                <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                      style="color: #222222;"></span>
+            <span class="menu__text">Блокировка пользователей</span>
+            </a>
             <a class="menu__item" routerLink="advertisements">
                 <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
                     style="color: #222222;"></span>
@@ -58,11 +69,6 @@
                 <span class="iconify menu__icon" data-icon="ri:advertisement-fill" data-inline="false"
                     style="color: #222222;"></span>
                 <span class="menu__text">Рассылка</span>
-            </a>
-            <a class="menu__item" (click)="userLogout()">
-                <span class="iconify menu__icon" data-icon="icomoon-free:exit" data-inline="false"
-                    style="color: #222222;"></span>
-                <span class="menu__text">Выход</span>
             </a>
         </div>
     </div>

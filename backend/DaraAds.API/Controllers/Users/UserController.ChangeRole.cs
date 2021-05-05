@@ -20,7 +20,7 @@ namespace DaraAds.API.Controllers.Users
         public async Task<IActionResult> ChangeRole(ChangeRoleRequest request, CancellationToken cancellationToken)
         {
             await _identityService.ChangeRole(new ChangeRole.Request { 
-            Email = request.Email,
+            UserId = request.UserId,
             NewRole = request.NewRole
             }, cancellationToken);
 

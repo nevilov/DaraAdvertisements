@@ -73,6 +73,9 @@ namespace DaraAds.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<string>("Location")
+                        .HasColumnType("text");
+
                     b.Property<string>("OwnerId")
                         .HasColumnType("text");
 
@@ -448,6 +451,12 @@ namespace DaraAds.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<bool>("IsCorporation")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsSubscribedToNotifications")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -478,6 +487,19 @@ namespace DaraAds.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DomainUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
+                            CreatedDate = new DateTime(2021, 5, 4, 17, 52, 5, 945, DateTimeKind.Utc).AddTicks(2320),
+                            Email = "admin",
+                            IsCorporation = false,
+                            IsSubscribedToNotifications = false,
+                            LastName = "admin",
+                            Name = "admin",
+                            Username = "admin"
+                        });
                 });
 
             modelBuilder.Entity("DaraAds.Infrastructure.Identity.IdentityUser", b =>
@@ -548,14 +570,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "557ccb13-0954-40e4-8885-c90f44997487",
+                            ConcurrencyStamp = "2907ea6d-83a0-4a70-a813-08baa66c3aef",
                             Email = "admin",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPDRf4Y7CWI6BX+4Aco9ptSlnztAkzUi80SMEqoeJteTmIRDfnOk6DfFA0pT+edDcA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBw9T7rgb4d7q9KocLp1boyKBo+hczdfPu3ty53FTjV5dc2Rc78+VERy8sls4XXR3g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fb0b6733-5ab3-4eaa-a739-f695a2df2f16",
+                            SecurityStamp = "e8534124-5333-42e2-9f2a-263b04b9c185",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -590,21 +612,21 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "71082343-a8e3-4bb2-aede-cedc0b04a86d",
+                            ConcurrencyStamp = "32546c8d-67d8-49c6-8352-a7f88154f331",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "2ca22f37-d843-4f5d-bb9c-aca151f40b8c",
+                            ConcurrencyStamp = "14675ffb-9e49-40a8-ab37-6cd0f5c47740",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "E8E08651-ED1B-468E-A931-F73E2563CD85",
-                            ConcurrencyStamp = "3cb4d6c9-6042-4080-9876-4fc9cc8887e0",
+                            ConcurrencyStamp = "2a685740-2a2a-4aec-965c-f2b823dcc669",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         });
@@ -724,7 +746,7 @@ namespace DaraAds.Infrastructure.Migrations
             modelBuilder.Entity("DaraAds.Domain.Advertisement", b =>
                 {
                     b.HasOne("DaraAds.Domain.Category", "Category")
-                        .WithMany("Advertisements")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -878,8 +900,6 @@ namespace DaraAds.Infrastructure.Migrations
 
             modelBuilder.Entity("DaraAds.Domain.Category", b =>
                 {
-                    b.Navigation("Advertisements");
-
                     b.Navigation("ChildCategories");
                 });
 

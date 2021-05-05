@@ -31,7 +31,6 @@ export class ImageService {
     public sendUserAvatarImage(image: File) {
       var formData = new FormData();
       formData.append("image", image, image.name)
-
       return this.http
         .patch(AppComponent.backendAddress + '/api/User/images', formData, {
           headers: new HttpHeaders({
@@ -50,10 +49,6 @@ export class ImageService {
 
     public getImageById(imageId: string) {
           return this.http.get<any>(AppComponent.backendAddress + '/api/images/' + imageId);
-    }
-
-    public getImageByAdvertisementId(Id: number) {
-      return this.http.get<any>(AppComponent.backendAddress + '/api/Advertisement/getCover/' + Id);
     }
 
     public checkError(error: any) {

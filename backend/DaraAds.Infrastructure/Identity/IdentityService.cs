@@ -13,8 +13,10 @@ using DaraAds.Application.Identity.Contracts;
 using DaraAds.Application.Identity.Contracts.Exceptions;
 using DaraAds.Application.Identity.Interfaces;
 using DaraAds.Application.Repositories;
+using DaraAds.Application.Services.Advertisement.Contracts.Exceptions;
 using DaraAds.Application.Services.Favorite.Contracts.Exceptions;
 using DaraAds.Application.Services.Mail;
+using DaraAds.Application.Services.Mail.Contracts;
 using DaraAds.Application.Services.Mail.Contracts.Exceptions;
 using DaraAds.Application.Services.Mail.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -52,6 +54,9 @@ namespace DaraAds.Infrastructure.Identity
             _roleManager = roleManager;
             _signInManager = signInManager;
         }
+
+        private const int TOKEN_EXPIRES_TIME = 10;
+
         public Task<string> GetCurrentUserId(CancellationToken cancellationToken = default)
         {
             var claimsPrincipal = _httpContextAccessor.HttpContext?.User;
@@ -89,7 +94,7 @@ namespace DaraAds.Infrastructure.Identity
 
                 var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                 var encodedToken = HttpUtility.UrlEncode(confirmationToken);
-                var message = MessageToConfirmEmail.Message(newUser.Id, encodedToken, _configuration["ApiUri"]);
+                var message = MessageToConfirmEmail.Message(newUser.Id, newUser.Id,encodedToken, _configuration["ApiUri"]);
                 try
                 {
                     await _mailService.Send(request.Email, "Подтвердите Email!", message, cancellationToken);
@@ -121,6 +126,7 @@ namespace DaraAds.Infrastructure.Identity
             if (identityUserFindByEmail == null)
             {
                 var identityUserFindByUsername = await _userManager.FindByNameAsync(request.Login);
+
                 if (identityUserFindByUsername == null)
                 {
                     throw new IdentityUserNotFoundException("Пользователь не найден");
@@ -161,7 +167,7 @@ namespace DaraAds.Infrastructure.Identity
             var token = new JwtSecurityToken
             (
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(168),
+                expires: DateTime.UtcNow.AddHours(TOKEN_EXPIRES_TIME),
                 notBefore: DateTime.UtcNow,
                 signingCredentials: new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"])),
@@ -169,21 +175,32 @@ namespace DaraAds.Infrastructure.Identity
                 )
             );
 
-            var rolesList = await _userManager.GetRolesAsync(identityUser).ConfigureAwait(false);
-
-            var newUserId = await _userManager.GetUserIdAsync(identityUser).ConfigureAwait(false);
-
-            var newUser = await _userRepository.FindById(newUserId, cancellationToken);
-
+            var domainUserId = await _userManager.GetUserIdAsync(identityUser).ConfigureAwait(false);
+            var domainUser = await _userRepository.FindById(domainUserId, cancellationToken);
 
             return new CreateToken.Response
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                UserName = newUser.Username,
-                UserAvatar = newUser.Avatar,
-                UserRole = rolesList[0],
-                UserId = newUserId
+                UserRole = userRoles[0],
+                UserName = domainUser.Username,
+                UserAvatar = domainUser.Avatar,
+                UserId = domainUserId
             };
+        }
+
+        public async Task SendEmailConfirmationToken(string userId, string email, CancellationToken cancellationToken = default)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if(user == null)
+            {
+                throw new NoUserFound($"Пользователь с id {userId} не был найден");
+            }
+
+            var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedToken = HttpUtility.UrlEncode(confirmationToken);
+            var message = MessageToConfirmEmail.Message(user.Id, email, encodedToken, _configuration["ApiUri"]);
+
+            await _mailService.Send(email, "Подтвердите Email!", message, cancellationToken);
         }
 
         public async Task<bool> ConfirmEmail(string userId, string token, CancellationToken cancellationToken = default)
@@ -199,11 +216,11 @@ namespace DaraAds.Infrastructure.Identity
 
         public async Task ChangeRole(ChangeRole.Request request, CancellationToken cancellationToken = default)
         {
-            var identityUser = await _userManager.FindByEmailAsync(request.Email);
+            var identityUser = await _userManager.FindByIdAsync(request.UserId);
 
             if (identityUser == null)
             {
-                throw new IdentityUserNotFoundException($"Пользователь с email {request.Email} не был найден");
+                throw new IdentityUserNotFoundException($"Пользователь с email {request.UserId} не был найден");
             }
 
             var newRole = await _roleManager.FindByNameAsync(request.NewRole);
@@ -413,7 +430,6 @@ namespace DaraAds.Infrastructure.Identity
                 throw new IdentityServiceException($"Произошла ошибка при блокировки пользователя с email {userId}" 
                     + blockResult.Errors.Select(e => e.Description).ToList());
             }
-
             await _signInManager.RefreshSignInAsync(blockingUser);
             return blockResult.Succeeded;
         }

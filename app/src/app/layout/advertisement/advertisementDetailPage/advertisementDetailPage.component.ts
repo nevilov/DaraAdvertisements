@@ -139,7 +139,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
     }
 
     onDeleteClicked() {
-        
+
         if (this.deleteConfirmed) {
         this.advertisementService.deleteAdvertisement(this.id)
             .subscribe((r) => {
