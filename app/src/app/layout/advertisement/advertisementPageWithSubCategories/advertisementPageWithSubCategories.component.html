@@ -1,28 +1,37 @@
 <div class="container">
-    <app-breadcrumbs></app-breadcrumbs>
-    <div class="container__subcategories subcategories" *ngIf="categories?.childCategories?.length != 0">
-        <h2>{{categories?.name}}</h2>
-        <div class="subcategories__content">
-            <a [routerLink]="['/advertisements/', category.id]" class="subcategories__item"
-                *ngFor="let category of categories?.childCategories">
-                <span class="subcategories__itemTitle">{{category.name}}</span>
-                <!-- <span class="subcategories__itemCount">3464</span> -->
-            </a>
-        </div>
+  <app-breadcrumbs></app-breadcrumbs>
+  <div
+    class="container__subcategories subcategories"
+    *ngIf="categories?.childCategories?.length != 0"
+  >
+    <h2>{{ categories?.name }}</h2>
+    <div class="subcategories__content">
+      <a
+        [routerLink]="['/advertisements/', category.id]"
+        class="subcategories__item"
+        *ngFor="let category of categories?.childCategories"
+      >
+        <span class="subcategories__itemTitle">{{ category.name }}</span>
+        <!-- <span class="subcategories__itemCount">3464</span> -->
+      </a>
     </div>
-    <div class="header">
-        <h1>Доска объявлений</h1>
-        <div class="header__filters"></div>
+  </div>
+  <div class="header">
+    <h1>Доска объявлений</h1>
+    <div class="header__filters"></div>
+  </div>
+  <div class="content">
+    <div class="content__advertisements">
+      <app-advertisement
+        *ngFor="let advertisement of advertisements"
+        [routLink]="advertisement.id"
+        [title]="advertisement.title"
+        [price]="advertisement.price"
+        [ownerName]="
+          advertisement?.owner?.name + ' ' + advertisement?.owner?.lastname
+        "
+      >
+      </app-advertisement>
     </div>
-    <div class="content">
-
-        <div class="content__advertisements">
-
-            <app-advertisement *ngFor="let advertisement of advertisements;" [routLink]="advertisement.id"
-                [title]="advertisement.title" [price]="advertisement.price"
-                [ownerName]="advertisement?.owner?.name + ' ' + advertisement?.owner?.lastname">
-            </app-advertisement>
-        </div>
-
-    </div>
+  </div>
 </div>
