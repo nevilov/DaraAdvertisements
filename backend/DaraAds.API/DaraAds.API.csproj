@@ -29,6 +29,9 @@
     <ProjectReference Include="..\DaraAds.Infrastructure\DaraAds.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dto\Notification\" />
+  </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

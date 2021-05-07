@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="container__header">
+    <span class="header__title">Массовая рассылка</span>
+  </div>
+  <div class="container__content">
+    <form [formGroup]="notificationForm" (ngSubmit)="onSend()">
+      <div class="container__input input">
+        <div class="input__value">
+          <input formControlName="subject" type="text"
+                 placeholder="Заголовок">
+        </div>
+        <div class="input__value">
+          <input formControlName="message" type="text"
+                 placeholder="Сообщение">
+        </div>
+      </div>
+      <button [disabled]="isDisabled">Сделать рассылку</button>
+
+    </form>
+  </div>
+</div>

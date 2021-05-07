@@ -80,5 +80,10 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
             return await data.Where(predicate).OrderBy(e => e.Id).Take(limit).Skip(offset)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<IEnumerable<TEntity>> ListFindWhere(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+        {
+            return await _context.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken);
+        }
     }
 }
