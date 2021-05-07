@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DaraAds.Application.Common;
 using DaraAds.Infrastructure.DataAccess.EntitiesConfiguration;
+using System;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace DaraAds.Infrastructure
 {
@@ -93,6 +95,7 @@ namespace DaraAds.Infrastructure
             });
 
             var passwordHasher = new PasswordHasher<IdentityUser>();
+
             var adminUser = new IdentityUser
             {
                 Id = ADMIN_ID,
@@ -102,11 +105,26 @@ namespace DaraAds.Infrastructure
                 NormalizedUserName = "ADMIN"
             };
 
+            var domainAdminUser = new Domain.User
+            {
+                Id = ADMIN_ID,
+                Username = "admin",
+                Email = "admin",
+                CreatedDate = DateTime.UtcNow,
+                Name = "admin",
+                LastName = "admin",
+            };
+
             adminUser.PasswordHash = passwordHasher.HashPassword(adminUser, "admin");
 
             modelBuilder.Entity<Identity.IdentityUser>(x =>
             {
                 x.HasData(adminUser);
+            });
+
+            modelBuilder.Entity<Domain.User>(x =>
+            {
+                x.HasData(domainAdminUser);
             });
 
             modelBuilder.Entity<IdentityUserRole<string>>(x =>

@@ -10,7 +10,7 @@ namespace DaraAds.Application.Identity.Contracts
     {
         public class Request
         {
-            public string Email;
+            public string UserId;
 
             public string NewRole;
         }

@@ -72,6 +72,20 @@ export class AdvertisementService {
       );
   }
 
+  public importExcel(excelFile: File) {
+    const formExcel = new FormData();
+    formExcel.append('excel', excelFile, excelFile.name);
+    return this.http.post(
+      AppComponent.backendAddress + '/api/Advertisement/import',
+      formExcel,
+      {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        }),
+      }
+    );
+  }
+
   public updateAdvertisement(advertisement: NewAdvertisement, id: number) {
     console.log('Update service called');
 

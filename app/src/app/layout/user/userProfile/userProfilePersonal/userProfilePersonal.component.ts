@@ -25,7 +25,9 @@ export class UserProfilePersonalComponent implements OnInit {
         private userService: UserService,
         private cookieService: CookieService,
         private imageService: ImageService,
-        private dataSharingService: DataSharingService) {
+        private dataSharingService: DataSharingService
+    )
+    {
         this.avatar = "default";
         this.fileToUpload = {} as File;
         this.userImageBlob = "";

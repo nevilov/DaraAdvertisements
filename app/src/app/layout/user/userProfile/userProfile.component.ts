@@ -18,6 +18,7 @@ export class UserProfileComponent implements OnInit {
     constructor(private signService: SignService, private cookieService: CookieService) { }
 
     ngOnInit() {
+        this.cookieService.deleteAll('/cabinet');  // TODO Быстрое решение дублирования кук из кабинета
         this.userRole = this.cookieService.get('UserRole');
     }
 }

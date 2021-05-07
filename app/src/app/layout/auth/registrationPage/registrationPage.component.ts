@@ -46,9 +46,6 @@ export class RegistrationPageComponent implements OnInit {
 
     onSubmit() {
         const formValue = this.registrationForm.value;
-        //TODO REMOVE AFTER FIX BACK
-        formValue.username = formValue.name;
-        formValue.lastName = formValue.name;
 
         this.sub = this.signService.register(formValue).pipe(untilDestroyed(this)).subscribe(() => {
             this.router.navigateByUrl('/autorization');

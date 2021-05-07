@@ -26,8 +26,5 @@ namespace DaraAds.Domain
         /// Список подкатегорий
         /// </summary>
         public virtual IList<Category> ChildCategories { get; set; }
-
-        public virtual IList<Advertisement> Advertisements { get; set; }
-        
     }
 }

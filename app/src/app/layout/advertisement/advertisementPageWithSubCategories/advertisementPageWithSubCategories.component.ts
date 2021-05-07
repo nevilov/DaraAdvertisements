@@ -48,12 +48,12 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
       .getAdvertisementsByCategoryId(categoryId)
       .subscribe((data) => {
         this.advertisements = data.items;
-        console.log(this.advertisements);
         for (let i = 0; i < this.advertisements.length; i++) {
           if (this.advertisements[i].images[0] === undefined) {
             this.advertisements[i].images[0] = { id: 'default' };
           }
         }
+        console.log(data);
       });
   }
 
@@ -69,8 +69,14 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
   }
 
   loadAdvertisements() {
+    //TODO сделать  добавление пагинации тут
     this.advertisementService.getAllAdvertisements(10, 0).subscribe((data) => {
       this.advertisements = data.items;
+      for (let i = 0; i < this.advertisements.length; i++) {
+        if (this.advertisements[i].images[0] === undefined) {
+          this.advertisements[i].images[0] = { id: 'default' };
+        }
+      }
       console.log(this.advertisements);
     });
   }

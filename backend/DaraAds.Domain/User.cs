@@ -44,7 +44,17 @@ namespace DaraAds.Domain
         public string Phone { get; set; }
 
         /// <summary>
-        /// Избранные объявелния пользователя
+        /// Корпоративный аккаунт
+        /// </summary>
+        public bool IsCorporation { get; set; }
+
+        /// <summary>
+        /// Подписка на уведомления
+        /// </summary>
+        public bool IsSubscribedToNotifications { get; set; }
+
+        /// <summary>
+        /// Избранные объявления пользователя
         /// </summary>
         public virtual ICollection<Favorite> Favorites { get; set; }
     }

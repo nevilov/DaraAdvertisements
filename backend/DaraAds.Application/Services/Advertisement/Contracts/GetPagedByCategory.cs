@@ -24,6 +24,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Name { get; set; }
                 public string Lastname { get; set; }
                 public string Username { get; set; }
+                public string Avatar { get; set; }
                 public IEnumerable<ImageResponse> Images { get; set; }
             }
 
@@ -31,7 +32,6 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             {
                 public string Id { get; set; }
                 public string ImageUrl { get; set; }
-                //               public string ImageBase64 { get; set; }
             }
 
             public sealed class Item

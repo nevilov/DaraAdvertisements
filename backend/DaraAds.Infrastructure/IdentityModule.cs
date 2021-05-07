@@ -13,6 +13,8 @@ namespace DaraAds.Infrastructure
 {
     public static class IdentityModule
     {
+        private const int LOCKAUT_TIME_SPAN = 10;
+        private const int TOKEN_LIFE_SPAN = 2;
         public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentity<Identity.IdentityUser, IdentityRole>()
@@ -20,12 +22,12 @@ namespace DaraAds.Infrastructure
                 .AddDefaultTokenProviders();
 
             services.Configure<DataProtectionTokenProviderOptions>(opt => 
-            opt.TokenLifespan = TimeSpan.FromHours(2));
+            opt.TokenLifespan = TimeSpan.FromHours(TOKEN_LIFE_SPAN));
 
             services.Configure<IdentityOptions>(options =>
             {
                 options.Lockout.AllowedForNewUsers = true;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(LOCKAUT_TIME_SPAN);
                 options.Lockout.MaxFailedAccessAttempts = 5;
 
                 // Default Password settings.
