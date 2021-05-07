@@ -1,4 +1,3 @@
-
 import { CookieService } from 'ngx-cookie-service';
 import { UserService } from './../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,150 +12,180 @@ import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 
 @UntilDestroy()
 @Component({
-    selector: 'app-advertisementDetailPage',
-    templateUrl: './advertisementDetailPage.component.html',
-    styleUrls: ['./advertisementDetailPage.component.scss'],
-    providers: [
-        AdvertisementService
-    ]
+  selector: 'app-advertisementDetailPage',
+  templateUrl: './advertisementDetailPage.component.html',
+  styleUrls: ['./advertisementDetailPage.component.scss'],
+  providers: [AdvertisementService],
 })
 export class AdvertisementDetailPageComponent implements OnInit {
+  id: number = 0;
+  ownerPhone: string;
+  advertisement: Advertisement;
+  images: any[];
+  imageValues: string[];
+  userId: number = 0;
+  userAvatar: string;
+  categoryId: number = 0;
+  isAuthors: boolean = false;
+  deleteConfirmed: boolean = false;
+  deleteText: string = 'Удалить объявление';
+  sameAdvertisements: Advertisement[] | null = null;
+  userAdvertisements: Advertisement[] | null = null;
 
-    id: number = 0;
-    ownerPhone: string;
-    advertisement: Advertisement;
-    images: any[];
-    imageValues: string[];
-    userId: number = 0;
-    userAvatar: string;
-    categoryId: number = 0;
-    isAuthors: boolean = false;
-    deleteConfirmed: boolean = false;
-    deleteText: string = 'Удалить объявление';
-    sameAdvertisements: Advertisement[] | null = null;
-    userAdvertisements: Advertisement[] | null = null;
+  constructor(
+    private route: ActivatedRoute,
+    private cookieService: CookieService,
+    private advertisementService: AdvertisementService,
+    private imageService: ImageService,
+    private chatService: ChatService,
+    private router: Router,
+    private userService: UserService,
+    private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
+  ) {
+    this.advertisement = {} as Advertisement;
+    this.images = [];
+    this.imageValues = [];
+    this.userAvatar = '';
+    this.ownerPhone = 'Не указан';
+  }
 
-    constructor(
-        private route: ActivatedRoute,
-        private cookieService: CookieService,
-        private advertisementService: AdvertisementService,
-        private imageService: ImageService,
-        private chatService: ChatService,
-        private router: Router,
-        private userService: UserService,
-        private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
+  changeImage(i: number) {
+    this.imageValues[0] = this.imageValues[i];
+  }
+
+  formatPhone() {
+    if (
+      this.advertisement?.owner?.phone != null &&
+      this.advertisement?.owner?.phone.length == 12
     ) {
-        this.advertisement = {} as Advertisement;
-        this.images = [];
-        this.imageValues = [];
-        this.userAvatar = "";
-        this.ownerPhone = "Не указан";
+      let tempPhone: string = this.advertisement?.owner?.phone;
+      let newPhone: string =
+        tempPhone[0] +
+        tempPhone[1] +
+        ' ' +
+        tempPhone[2] +
+        tempPhone[3] +
+        tempPhone[4] +
+        ' ' +
+        tempPhone[5] +
+        tempPhone[6] +
+        tempPhone[7] +
+        '-' +
+        tempPhone[8] +
+        tempPhone[9] +
+        '-' +
+        tempPhone[10] +
+        tempPhone[11];
+      this.ownerPhone = newPhone;
     }
+  }
 
-    changeImage(i: number) {
-        this.imageValues[0] = this.imageValues[i];
-    }
+  ngOnInit() {
+    this.route.paramMap
+      .pipe(switchMap((params) => params.getAll('id')))
+      .subscribe((data) => (this.id = +data));
 
-    formatPhone() {
-        if (this.advertisement?.owner?.phone != null && this.advertisement?.owner?.phone.length == 12) {
-            let tempPhone: string = this.advertisement?.owner?.phone;
-            let newPhone: string = tempPhone[0] + tempPhone[1] + " " + tempPhone[2] + tempPhone[3] + tempPhone[4] + " " + tempPhone[5] + tempPhone[6] + tempPhone[7] + "-" + tempPhone[8] + tempPhone[9] + "-" + tempPhone[10] + tempPhone[11];
-            this.ownerPhone = newPhone;
+    this.route.paramMap
+      .pipe(switchMap((params) => params.getAll('categoryId')))
+      .subscribe((data) => {
+        this.categoryId = +data;
+      });
+
+    window.scroll(0, 0);
+
+    this.advertisementService
+      .getAdvertisementById(this.id)
+      .subscribe((data: Advertisement) => {
+        this.advertisement = data;
+
+        if (this.cookieService.get('UserId')) {
+          if (this.advertisement.owner.id == this.cookieService.get('UserId')) {
+            this.isAuthors = true;
+          }
         }
-    }
 
-    ngOnInit() {
-        this.route.paramMap.pipe(
-            switchMap(params => params.getAll('id'))
-        )
-            .subscribe(data => this.id = +data);
+        if (this.categoryId == 0) {
+          this.categoryId = this.advertisement.category.id;
+          this.router.navigateByUrl(
+            'advertisements/' + this.categoryId + '/advertisement/' + this.id
+          );
+        }
 
-        this.route.paramMap.pipe(
-            switchMap(params => params.getAll('categoryId'))
-        )
-            .subscribe(data => {
-                this.categoryId = +data;
-            });
+        const breadcrumb = {
+          category: this.advertisement.category.name,
+          title: this.advertisement.title,
+        };
+        this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
 
-        window.scroll(0,0);
+        if (this.advertisement.owner.avatar === null) {
+          this.advertisement.owner.avatar = 'default';
+        }
 
-        this.advertisementService.getAdvertisementById(this.id)
-            .subscribe((data: Advertisement) => {
-                this.advertisement = data;
-                console.log(this.advertisement);
+        this.imageService
+          .getImageById(this.advertisement.owner.avatar)
+          .pipe(untilDestroyed(this))
+          .subscribe((data: any) => {
+            this.userAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+          });
+        this.images = data.images;
+        this.formatPhone();
 
-                if (this.cookieService.get('UserId')) {
-                    if(this.advertisement.owner.id == this.cookieService.get('UserId')) {
-                        this.isAuthors = true;
-                    }
-                }
+        this.advertisementService
+          .getSameAdvertisementsWithLimit(this.advertisement.category.id, 4)
+          .subscribe((data) => {
+            this.sameAdvertisements = data.items;
+            for (let i = 0; i < this.sameAdvertisements.length; i++) {
+              if (this.sameAdvertisements[i].images[0] === undefined) {
+                this.sameAdvertisements[i].images[0] = { id: 'default' };
+              }
+            }
+          });
 
+        this.userService
+          .getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0)
+          .subscribe((data) => {
+            this.userAdvertisements = data.items;
+            // for (let i = 0; i < this.userAdvertisements.length; i++) {
+            //   if (this.userAdvertisements[i].images[0] === undefined) {
+            //     this.userAdvertisements[i].images[0] = { id: 'default' };
+            //   }
+            // }
+            console.log('user', this.userAdvertisements);
+          });
 
-                if (this.categoryId == 0) {
-                    this.categoryId = this.advertisement.category.id;
-                    this.router.navigateByUrl("advertisements/" + this.categoryId + "/advertisement/" + this.id);
-                }
-
-                const breadcrumb = { category: this.advertisement.category.name, title: this.advertisement.title };
-                this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
-
-                if (this.advertisement.owner.avatar === null) {
-                    this.advertisement.owner.avatar = "default";
-                }
-
-                this.imageService.getImageById(this.advertisement.owner.avatar)
-                    .pipe(untilDestroyed(this))
-                    .subscribe((data: any) => {
-                        this.userAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
-                    });
-                this.images = data.images;
-                this.formatPhone();
-
-                this.advertisementService.getSameAdvertisementsWithLimit(this.advertisement.category.id, 4).subscribe((data) => {
-                    this.sameAdvertisements = data.items;
-                });
-
-                this.userService.getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0).subscribe((data) => {
-                    this.userAdvertisements = data.items;
-                    console.log(data);
-                });
-
-                for (let i = 0; i < this.images.length; i++) {
-                    this.imageService.getImageById(this.images[i].id)
-                        .pipe(untilDestroyed(this))
-                        .subscribe((data: any) => {
-                            this.imageValues[i + 1] = 'data:image/jpeg;base64,' + data.imageBlob;
-                            if (i == 0) {
-                                this.imageValues[0] = this.imageValues[1];
-                            }
-                        });
-                }
-            });
-    }
-
-    onEditClicked() {
-		this.router.navigateByUrl('/editAdvertisement/' + this.id);
-    }
-
-    onDeleteClicked() {
-        
-        if (this.deleteConfirmed) {
-        this.advertisementService.deleteAdvertisement(this.id)
-            .subscribe((r) => {
-                this.router.navigateByUrl('/');
+        for (let i = 0; i < this.images.length; i++) {
+          this.imageService
+            .getImageById(this.images[i].id)
+            .pipe(untilDestroyed(this))
+            .subscribe((data: any) => {
+              this.imageValues[i + 1] =
+                'data:image/jpeg;base64,' + data.imageBlob;
+              if (i == 0) {
+                this.imageValues[0] = this.imageValues[1];
+              }
             });
         }
-        else {
-            this.deleteText = 'Подтвердить удаление?'
-            this.deleteConfirmed = true;
-        }
-    }
+      });
+  }
 
-    onCreateChat() {
-            this.chatService.createChat(this.id)
-            .subscribe((r) => {
-                this.router.navigateByUrl('/chats');
-            });
+  onEditClicked() {
+    this.router.navigateByUrl('/editAdvertisement/' + this.id);
+  }
 
+  onDeleteClicked() {
+    if (this.deleteConfirmed) {
+      this.advertisementService.deleteAdvertisement(this.id).subscribe((r) => {
+        this.router.navigateByUrl('/');
+      });
+    } else {
+      this.deleteText = 'Подтвердить удаление?';
+      this.deleteConfirmed = true;
     }
+  }
+
+  onCreateChat() {
+    this.chatService.createChat(this.id).subscribe((r) => {
+      this.router.navigateByUrl('/chats');
+    });
+  }
 }

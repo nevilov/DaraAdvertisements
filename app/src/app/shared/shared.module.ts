@@ -9,6 +9,7 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { AdvertisementComponent } from './components/advertisement/advertisement.component';
 import { NgDynamicBreadcrumbModule } from 'ng-dynamic-breadcrumb';
 import { PaginationControlComponent } from './components/pagination-control/pagination-control.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { PaginationControlComponent } from './components/pagination-control/pagi
     BreadcrumbsComponent,
     AdvertisementComponent,
     PaginationControlComponent,
+    SearchComponent,
   ],
   exports: [
     FooterComponent,
@@ -32,6 +34,7 @@ import { PaginationControlComponent } from './components/pagination-control/pagi
     BreadcrumbsComponent,
     AdvertisementComponent,
     PaginationControlComponent,
+    SearchComponent,
   ],
 })
 export class SharedModule {}

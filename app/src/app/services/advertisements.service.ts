@@ -2,11 +2,10 @@ import { ListOfItems, NewAdvertisement } from './../Dtos/advertisement';
 import { AppComponent } from './../app.component';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Advertisement } from '../Dtos/advertisement';
 import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -59,8 +58,6 @@ export class AdvertisementService {
   }
 
   public createAdvertisement(advertisement: NewAdvertisement) {
-    console.log('service called');
-
     return this.http
       .post(AppComponent.backendAddress + '/api/Advertisement', advertisement, {
         headers: new HttpHeaders({

@@ -19,7 +19,7 @@ namespace DaraAds.Application.Helpers
         public static async Task<PagedList<TEntity>> ToPagedListAsync(IQueryable<TEntity> entity, int limit, int offset, CancellationToken cancellationToken)
         {
             var total = await entity.CountAsync(cancellationToken);
-            var items = await entity.Take(limit).Skip(offset).ToListAsync(cancellationToken);
+            var items = await entity.Skip(offset).Take(limit).ToListAsync(cancellationToken);
 
             return new PagedList<TEntity>(items, total);
         }

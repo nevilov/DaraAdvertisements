@@ -1,7 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from 'src/app/Dtos/category';
 import { CategoryService } from './../../../services/category.service';
-import { HttpClient } from '@angular/common/http';
 import { AdvertisementService } from 'src/app/services/advertisements.service';
 import { Component, OnInit } from '@angular/core';
 import { Advertisement } from 'src/app/Dtos/advertisement';

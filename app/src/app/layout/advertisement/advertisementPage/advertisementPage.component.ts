@@ -1,4 +1,3 @@
-import { switchMap, catchError } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Advertisement } from 'src/app/Dtos/advertisement';
@@ -15,7 +14,7 @@ export class AdvertisementPageComponent implements OnInit {
 
   total: number = 0;
   offset: number = 0;
-  limit: number = 10;
+  limit: number = 20;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +30,7 @@ export class AdvertisementPageComponent implements OnInit {
       .getAllAdvertisements(limit, offset)
       .subscribe((data) => {
         this.advertisements = data.items;
+
         this.total = data.total;
 
         for (let i = 0; i < this.advertisements.length; i++) {
@@ -57,7 +57,6 @@ export class AdvertisementPageComponent implements OnInit {
 
   onPageChange(offset: number) {
     this.offset = offset;
-    console.log(offset);
     this.loadAdvertisements(this.limit, this.offset);
   }
 }
