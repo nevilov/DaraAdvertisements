@@ -15,6 +15,11 @@
             <span (click)="onCategorySelected(category, i)">{{category}}</span>
           </div>
         </div>
+        <div class="content__categoryFormListSecondLevel" [style]='isCategorySecondLevelVisible ? "visibility: visible;" : "visibility: hidden;"'>
+          <div *ngFor="let category of categoriesSecondLevel[selectedCategoryFirstLevel]; let i = index" style="display:flex; margin: 5px 0 5px 0;">
+           <span (click)="onCategorySecondLevelSelected(category, i)">{{category}}</span>
+          </div>
+        </div>
       </div>
       <div class="content__fileSelector">
         <span *ngFor="let file of filesToUpload; let i = index" style="display:flex; margin: 5px 0 5px 0;">
