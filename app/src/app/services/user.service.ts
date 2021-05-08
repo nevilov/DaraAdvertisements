@@ -64,4 +64,13 @@ export class UserService {
             }),
         });
     }
+
+    public changeRole(form: any): Observable<any>{
+      console.log(form);
+      return this.http.post(AppComponent.backendAddress + '/api/User/changerole', form, {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        }),
+      });
+    }
 }

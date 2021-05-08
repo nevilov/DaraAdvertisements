@@ -23,6 +23,7 @@ import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisem
 import { LoginGuard } from './Guards/login.guard';
 import { UserProfileBlockComponent } from "./layout/user/userProfile/userProfileBlock/userProfileBlock.component"; import { UserProfileBulkLoadingComponent } from "./layout/user/userProfile/userProfileBulkLoading/userProfileBulkLoading.component";
 import {UserProfileSendNotificationsComponent} from "./layout/user/userProfile/userProfileSendNotifications/userProfileSendNotifications.component";
+import {UserProfileChangeRoleComponent} from "./layout/user/userProfile/userProfileChangeRole/userProfileChangeRole.component";
 
 const routes: Routes = [
     // { path: '**', component: PageNotFoundComponent }
@@ -118,6 +119,7 @@ const routes: Routes = [
             { path: 'favorites', component: UserProfileSettingsComponent, },
             { path: 'import', component: UserProfileBulkLoadingComponent, },
             { path: 'sendnotify', component: UserProfileSendNotificationsComponent, },
+            { path: 'changerole', component: UserProfileChangeRoleComponent, }
         ],
     },
 ];

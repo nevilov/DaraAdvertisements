@@ -11,6 +11,7 @@ import { UserProfileSettingsComponent } from './userProfileSettings/userProfileS
 import {UserProfileBlockComponent} from "./userProfileBlock/userProfileBlock.component";
 import {UserProfileBulkLoadingComponent} from "./userProfileBulkLoading/userProfileBulkLoading.component";
 import {UserProfileSendNotificationsComponent} from "./userProfileSendNotifications/userProfileSendNotifications.component";
+import {UserProfileChangeRoleComponent} from "./userProfileChangeRole/userProfileChangeRole.component";
 
 @NgModule({
 	imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
@@ -22,7 +23,8 @@ import {UserProfileSendNotificationsComponent} from "./userProfileSendNotificati
 		UserProfileSettingsComponent,
     UserProfileBlockComponent,
     UserProfileBulkLoadingComponent,
-    UserProfileSendNotificationsComponent
+    UserProfileSendNotificationsComponent,
+    UserProfileChangeRoleComponent
 	],
 	exports: [
 		UserProfileComponent,
@@ -32,7 +34,8 @@ import {UserProfileSendNotificationsComponent} from "./userProfileSendNotificati
 		UserProfileSettingsComponent,
     UserProfileBlockComponent,
     UserProfileBulkLoadingComponent,
-    UserProfileSendNotificationsComponent
+    UserProfileSendNotificationsComponent,
+    UserProfileChangeRoleComponent
 	],
 })
 export class UserProfileModule { }
