@@ -1,30 +1,60 @@
 <div class="container">
-    <app-breadcrumbs></app-breadcrumbs>
-    <div class="container__subcategories subcategories" *ngIf="categories?.childCategories?.length != 0">
-        <h2>{{categories?.name}}</h2>
-        <div class="subcategories__content">
-            <a [routerLink]="['/advertisements/', category.id]" class="subcategories__item"
-                *ngFor="let category of categories?.childCategories">
-                <span class="subcategories__itemTitle">{{category.name}}</span>
-                <!-- <span class="subcategories__itemCount">3464</span> -->
-            </a>
-        </div>
+  <app-breadcrumbs></app-breadcrumbs>
+  <div
+    class="container__subcategories subcategories"
+    *ngIf="categories?.childCategories?.length != 0"
+  >
+    <h2>{{ categories?.name }}</h2>
+    <div class="subcategories__content">
+      <a
+        [routerLink]="['/advertisements/', category.id]"
+        class="subcategories__item"
+        *ngFor="let category of categories?.childCategories"
+      >
+        <span class="subcategories__itemTitle">{{ category.name }}</span>
+      </a>
     </div>
-    <div class="header">
-        <h1>Доска объявлений</h1>
-        <div class="header__filters"></div>
-    </div>
-    <div class="content">
-        <div class="content__advertisements">
+  </div>
+  <div class="header">
+    <h1>Доска объявлений</h1>
+    <div class="header__filters">
+      <div>
+        <app-search
+          placeholder="Поиск"
+          (setValue)="onSearch($event)"
+        ></app-search>
+        <app-sort
+          [sotringElements]="sotringElements"
+          (setValue)="onSort($event)"
+        ></app-sort>
+      </div>
 
-            <app-advertisement *ngFor="let advertisement of advertisements;" [routLink]="advertisement.id"
-                [title]="advertisement.title" [price]="advertisement.price"
-                [ownerName]='advertisement.owner.name + " " + advertisement.owner.lastname'
-                [createdDate]="advertisement.createdDate" [ownerId]="advertisement?.owner?.id+''"
-                [ownerLogin]="advertisement?.owner?.username+''" [cover]="advertisement.images[0].id"
-                [avatar]="advertisement?.owner?.avatar+''">
-            </app-advertisement>
-
-        </div>
+      <app-filter (filterParams)="onFilter($event)"></app-filter>
     </div>
+  </div>
+  <div class="content">
+    <div class="content__advertisements">
+      <app-advertisement
+        *ngFor="let advertisement of advertisements"
+        [routLink]="advertisement.id"
+        [title]="advertisement.title"
+        [price]="advertisement.price"
+        [ownerName]="
+          advertisement.owner.name + ' ' + advertisement.owner.lastname
+        "
+        [createdDate]="advertisement.createdDate"
+        [ownerId]="advertisement?.owner?.id + ''"
+        [ownerLogin]="advertisement?.owner?.username + ''"
+        [cover]="advertisement.images[0].id"
+        [avatar]="advertisement?.owner?.avatar + ''"
+      >
+      </app-advertisement>
+    </div>
+    <app-pagination-control
+      [offset]="queryParams.offset"
+      [limit]="queryParams.limit"
+      [total]="total"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination-control>
+  </div>
 </div>
