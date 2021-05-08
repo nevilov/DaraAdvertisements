@@ -113,84 +113,88 @@ export class AdvertisementDetailPageComponent implements OnInit {
 
         window.scroll(0, 0);
 
-        this.advertisementService.getAdvertisementById(this.id)
-            .subscribe((data: Advertisement) => {
-                this.advertisement = data;
-                // console.log(this.advertisement);
+        this.advertisementService
+          .getAdvertisementById(this.id)
+          .subscribe((data: Advertisement) => {
+            this.advertisement = data;
+            // console.log(this.advertisement);
 
-                if (this.cookieService.get('UserId')) {
-                    if (this.advertisement.owner.id == this.cookieService.get('UserId')) {
-                        this.isAuthors = true;
-                    }
+            if (this.cookieService.get('UserId')) {
+              if (
+                this.advertisement.owner.id == this.cookieService.get('UserId')
+              ) {
+                this.isAuthors = true;
+              }
+            }
+
+            if (this.categoryId == 0) {
+              this.categoryId = this.advertisement.category.id;
+              this.router.navigateByUrl(
+                'advertisements/' +
+                  this.categoryId +
+                  '/advertisement/' +
+                  this.id
+              );
+            }
+
+            const breadcrumb = {
+              category: this.advertisement.category.name,
+              title: this.advertisement.title,
+            };
+            this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
+
+            if (this.advertisement.owner.avatar === null) {
+              this.advertisement.owner.avatar = 'default';
+            }
+
+            this.imageService
+              .getImageById(this.advertisement.owner.avatar)
+              .pipe(untilDestroyed(this))
+              .subscribe((data: any) => {
+                this.userAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+              });
+            this.images = data.images;
+            this.formatPhone();
+
+            this.userService
+              .getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0)
+              .subscribe((data) => {
+                this.userAdvertisements = data.items;
+                console.log('USER');
+                console.log(this.userAdvertisements);
+                for (let i = 0; i < this.userAdvertisements.length; i++) {
+                  if (this.userAdvertisements[i].images[0] === undefined) {
+                    this.userAdvertisements[i].images[0] = { id: 'default' };
+                  }
                 }
+              });
 
-                if (this.categoryId == 0) {
-                    this.categoryId = this.advertisement.category.id;
-                    this.router.navigateByUrl("advertisements/" + this.categoryId + "/advertisement/" + this.id);
+            this.advertisementService
+              .getSameAdvertisementsWithLimit(this.advertisement.category.id, 4)
+              .subscribe((data) => {
+                this.sameAdvertisements = data.items;
+                for (let i = 0; i < this.sameAdvertisements.length; i++) {
+                  if (this.sameAdvertisements[i].images[0] === undefined) {
+                    this.sameAdvertisements[i].images[0] = { id: 'default' };
+                  }
                 }
+                console.log('SAME');
+                console.log(this.sameAdvertisements);
+              });
 
-                const breadcrumb = { category: this.advertisement.category.name, title: this.advertisement.title };
-                this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
-
-                if (this.advertisement.owner.avatar === null) {
-                    this.advertisement.owner.avatar = "default";
-                }
-
-                this.imageService.getImageById(this.advertisement.owner.avatar)
-                    .pipe(untilDestroyed(this))
-                    .subscribe((data: any) => {
-                        this.userAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
-                    });
-                this.images = data.images;
-                this.formatPhone();
-
-                this.userService.getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0).subscribe((data) => {
-                    this.userAdvertisements = data.items;
-                    console.log("USER");
-                    console.log(this.userAdvertisements);
-                    for (let i = 0; i < this.userAdvertisements.length; i++) {
-                        if (this.userAdvertisements[i].images[0] === undefined) {
-                            this.userAdvertisements[i].images[0] = { id: "default" };
-                        }
-                    }
+            for (let i = 0; i < this.images.length; i++) {
+              this.imageService
+                .getImageById(this.images[i].id)
+                .pipe(untilDestroyed(this))
+                .subscribe((data: any) => {
+                  this.imageValues[i + 1] =
+                    'data:image/jpeg;base64,' + data.imageBlob;
+                  if (i == 0) {
+                    this.imageValues[0] = this.imageValues[1];
+                  }
                 });
-
-                this.advertisementService.getSameAdvertisementsWithLimit(this.advertisement.category.id, 4).subscribe((data) => {
-                    this.sameAdvertisements = data.items;
-                    for (let i = 0; i < this.sameAdvertisements.length; i++) {
-                        if (this.sameAdvertisements[i].images[0] === undefined) {
-                            this.sameAdvertisements[i].images[0] = { id: "default" };
-                        }
-                    }
-                    console.log("SAME");
-                    console.log(this.sameAdvertisements);
-                });
-
-                for (let i = 0; i < this.images.length; i++) {
-                    this.imageService.getImageById(this.images[i].id)
-                        .pipe(untilDestroyed(this))
-                        .subscribe((data: any) => {
-                            this.imageValues[i + 1] = 'data:image/jpeg;base64,' + data.imageBlob;
-                            if (i == 0) {
-                                this.imageValues[0] = this.imageValues[1];
-                            }
-                        });
-                }
-            });
-    }
-
-    onEditClicked() {
-        this.router.navigateByUrl('/editAdvertisement/' + this.id);
-    }
-
-    onDeleteClicked() {
-
-        if (this.deleteConfirmed) {
-            this.advertisementService.deleteAdvertisement(this.id)
-                .subscribe((r) => {
-                    this.router.navigateByUrl('/');
-                });
-        }
+            }
+          });
       });
   }
 
@@ -209,11 +213,9 @@ export class AdvertisementDetailPageComponent implements OnInit {
     }
   }
 
-    onCreateChat() {
-        this.chatService.createChat(this.id)
-            .subscribe((r) => {
-                this.router.navigateByUrl('/chats');
-            });
-
-    }
+  onCreateChat() {
+    this.chatService.createChat(this.id).subscribe((r) => {
+      this.router.navigateByUrl('/chats');
+    });
+  }
 }

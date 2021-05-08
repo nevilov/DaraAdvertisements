@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Advertisement } from 'src/app/Dtos/advertisement';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 import { switchMap } from 'rxjs/operators';
+import { SortItem } from 'src/app/Dtos/sorting';
 
 @Component({
   selector: 'app-advertisementPageWithSubCategories',
@@ -17,6 +18,23 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
   advertisements: Advertisement[] = [];
   categories: Category | null = null;
   categoryId = -1;
+
+  sotringElements: SortItem[] = [
+    { title: 'По умолчанию', value: 'Id' },
+    { title: 'Дешевле', value: 'Price' },
+    { title: 'Дороже', value: 'Price_desc' },
+    { title: 'Сначала новые', value: 'CreatedDate_desc' },
+    { title: 'Сначала старые', value: 'CreatedDate' },
+  ];
+
+  total: number = 0;
+
+  queryParams = {
+    limit: 10,
+    offset: 0,
+    searchString: '',
+    orderBy: '',
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +55,7 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
       });
 
     if (this.categoryId == -1) {
-      this.loadAdvertisements();
+      this.loadAdvertisements(this.queryParams);
     } else {
       this.loadAdvertisementsByCategory(this.categoryId);
     }
@@ -53,7 +71,6 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
             this.advertisements[i].images[0] = { id: 'default' };
           }
         }
-        console.log(data);
       });
   }
 
@@ -61,23 +78,42 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     this.categoryService.getCategoryChildrens(id).subscribe((data) => {
       this.categories = data.parent;
 
-      console.log(this.categories);
-
       const breadcrumb = { categoryName: this.categories.name };
       this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
     });
   }
 
-  loadAdvertisements() {
-    //TODO сделать  добавление пагинации тут
-    this.advertisementService.getAllAdvertisements(10, 0).subscribe((data) => {
-      this.advertisements = data.items;
-      for (let i = 0; i < this.advertisements.length; i++) {
-        if (this.advertisements[i].images[0] === undefined) {
-          this.advertisements[i].images[0] = { id: 'default' };
+  loadAdvertisements(queryParams: any) {
+    this.advertisementService
+      .getAllAdvertisements(queryParams)
+      .subscribe((data) => {
+        this.advertisements = data.items;
+        this.total = data.total;
+        for (let i = 0; i < this.advertisements.length; i++) {
+          if (this.advertisements[i].images[0] === undefined) {
+            this.advertisements[i].images[0] = { id: 'default' };
+          }
         }
-      }
-      console.log(this.advertisements);
-    });
+      });
+  }
+
+  onPageChange(offset: number) {
+    this.queryParams = { ...this.queryParams, offset };
+    this.loadAdvertisements(this.queryParams);
+  }
+
+  onSearch(searchString: string) {
+    this.queryParams = { ...this.queryParams, offset: 0, searchString };
+    this.loadAdvertisements(this.queryParams);
+  }
+
+  onSort(orderBy: string) {
+    this.queryParams = { ...this.queryParams, offset: 0, orderBy };
+    this.loadAdvertisements(this.queryParams);
+  }
+
+  onFilter(filterParams: object) {
+    this.queryParams = { ...this.queryParams, offset: 0, ...filterParams };
+    this.loadAdvertisements(this.queryParams);
   }
 }

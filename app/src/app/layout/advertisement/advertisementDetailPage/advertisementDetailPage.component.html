@@ -20,13 +20,14 @@
     </div>
   </div>
 
-    <div class="container__description">
-        <p>Дополнительно:
-            <span>{{advertisement?.description}}</span>
-        </p>
-    </div>
-    <div class="container__info container__rows">
-        <!-- <div class="container__characteristics">
+  <div class="container__description">
+    <p>
+      Дополнительно:
+      <span>{{ advertisement?.description }}</span>
+    </p>
+  </div>
+  <div class="container__info container__rows">
+    <!-- <div class="container__characteristics">
             <h2>Характеристики</h2>
             <div class="container__characteristicsItems">
                 <div class="container__characteristicsItem">
@@ -71,94 +72,27 @@
                 </div>
             </div>
         </div> -->
-        <div class="container__map">
-            <h2>Расположение</h2>
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2841.2774564682622!2d33.47450371549089!3d44.59135027910036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40953cac4f4ca0e1%3A0xc278b28e7acda39!2sUlitsa%20Universitetskaya%2C%20Sevastopol!5e0!3m2!1sen!2s!4v1616948472330!5m2!1sen!2s"
-                style="border:0; width: 100%; min-height: 500px;" allowfullscreen="True" loading="lazy"></iframe>
-        </div>
-        <div class="container__commonInfo">
-            <h2>Цена: {{advertisement?.price}} руб.</h2>
-            <div class="container__userInfo user">
-
-                <div class="user__info">
-                    <a [routerLink]="['/profile/', advertisement?.owner?.username]">
-                        <figure class="user__avatar">
-                            <img src="./../../../../assets/images/menu/avatar.png" alt="">
-                        </figure>
-                    </a>
-                    <div class="user__container">
-                        <a [routerLink]="['/profile/', advertisement?.owner?.username]"
-                            class="user__name">{{advertisement?.owner?.name + ' ' +
-                            advertisement?.owner?.lastname}}</a>
-                        <span class="user__phone">{{ownerPhone}}</span>
-                    </div>
-                </div>
-
-                <div id="write" *ngIf="!isAuthors">
-                    <a (click)="onCreateChat()" class="btn btn-main">Написать продавцу</a>
-                </div>
-                <div id="write" *ngIf="isAuthors">
-                    <a (click)="onEditClicked()" class="btn btn-main">Редактировать</a>
-                    <a (click)="onDeleteClicked()" class="btn btn-main" style="background-color: lightcoral;">{{
-                        deleteText }}</a>
-                </div>
-
-                <div class="container__mainActions">
-                    <div class="container__action">
-                        <span class="iconify" data-height="24px" data-icon="fluent:thumb-like-16-filled"
-                            data-inline="false" style="color: #1890FF;"></span>
-                        <span>Добавить в избранное</span>
-                    </div>
-                    <div class="container__action">
-                        <span class="iconify" data-height="24px" data-icon="fluent:thumb-dislike-20-filled"
-                            data-inline="false" style="color: #1890FF;"></span>
-                        <span>Пожаловаться на объявление</span>
-                    </div>
-                    <div class="container__action">
-                        <span class="iconify" data-height="24px" data-icon="bi:share-fill" data-inline="false"
-                            style="color: #1890FF;"></span>
-                        <span>Поделиться объявлением</span>
-                    </div>
-                    <div class="container__action">
-                        <span class="iconify" data-height="24px" data-icon="fa-solid:rocket" data-inline="false"
-                            style="color: #1890FF;"></span>
-                        <span>Продвинуть объявление</span>
-                    </div>
-                </div>
-
-                <span class="advertisement__info">Объявление №{{id}} от {{ advertisement?.createdDate| date:'dd.MM.yyyy'
-                    }}</span>
-            </div>
-        </div>
-        <div class="container__characteristicsItem">
-          <span>Комплектация</span>
-          <span class="container__characteristicsItemState"
-            >3.5 AT Executive Safety</span
-          >
-        </div>
-        <div class="container__characteristicsItem">
-          <span>Розыск</span>
-          <span class="container__characteristicsItemState">нет</span>
-        </div>
-        <div class="container__characteristicsItem">
-          <span>Город</span>
-          <span class="container__characteristicsItemState">Севастополь</span>
-        </div>
-      </div>
+    <div class="container__map">
+      <h2>Расположение</h2>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2841.2774564682622!2d33.47450371549089!3d44.59135027910036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40953cac4f4ca0e1%3A0xc278b28e7acda39!2sUlitsa%20Universitetskaya%2C%20Sevastopol!5e0!3m2!1sen!2s!4v1616948472330!5m2!1sen!2s"
+        style="border: 0; width: 100%; min-height: 500px"
+        allowfullscreen="True"
+        loading="lazy"
+      ></iframe>
     </div>
     <div class="container__commonInfo">
       <h2>Цена: {{ advertisement?.price }} руб.</h2>
       <div class="container__userInfo user">
         <div class="user__info">
-          <a [routerLink]="['/profile/', advertisement.owner.username]">
+          <a [routerLink]="['/profile/', advertisement?.owner?.username]">
             <figure class="user__avatar">
               <img src="./../../../../assets/images/menu/avatar.png" alt="" />
             </figure>
           </a>
           <div class="user__container">
             <a
-              [routerLink]="['/profile/', advertisement.owner.username]"
+              [routerLink]="['/profile/', advertisement?.owner?.username]"
               class="user__name"
               >{{
                 advertisement?.owner?.name +
@@ -170,7 +104,6 @@
           </div>
         </div>
 
-<<<<<<< HEAD
         <div id="write" *ngIf="!isAuthors">
           <a (click)="onCreateChat()" class="btn btn-main">Написать продавцу</a>
         </div>
@@ -182,26 +115,6 @@
             style="background-color: lightcoral"
             >{{ deleteText }}</a
           >
-=======
-    <div class="container__advertisements">
-        <h2>Объявления этого автора</h2>
-        <div class="container__row">
-            <app-advertisement *ngFor="let advertisement of userAdvertisements;" [routLink]="advertisement.id"
-                [title]="advertisement.title" [price]="advertisement.price" [createdDate]="advertisement.createdDate"
-                [ownerLogin]="advertisement?.owner?.username+''" [thisUserAdvertisement]="true"
-                [cover]="advertisement?.images[0]?.id">
-            </app-advertisement>
-        </div>
-        <h2>Похожие объявления</h2>
-        <div class="container__row">
-            <app-advertisement *ngFor="let advertisement of sameAdvertisements;" [routLink]="advertisement.id"
-                [title]="advertisement.title" [price]="advertisement.price"
-                [ownerName]='advertisement.owner.name + " " + advertisement.owner.lastname'
-                [createdDate]="advertisement.createdDate" [ownerId]="advertisement?.owner?.id+''"
-                [ownerLogin]="advertisement?.owner?.username+''" [cover]="advertisement.images[0].id"
-                [avatar]="advertisement?.owner?.avatar+''">
-            </app-advertisement>
->>>>>>> 97f485db9397063f28323b5ef97964e9cc56d8f9
         </div>
 
         <div class="container__mainActions">
@@ -255,22 +168,20 @@
     </div>
   </div>
 
-<<<<<<< HEAD
   <div class="container__advertisements">
     <h2>Объявления этого автора</h2>
     <div class="container__row">
-      <!-- <app-advertisement
+      <app-advertisement
         *ngFor="let advertisement of userAdvertisements"
         [routLink]="advertisement.id"
         [title]="advertisement.title"
         [price]="advertisement.price"
         [createdDate]="advertisement.createdDate"
-        [thisUserAdvertisement]="true"
         [ownerLogin]="advertisement?.owner?.username + ''"
-        [cover]="advertisement.images[0].id"
-        [avatar]="advertisement?.owner?.avatar + ''"
+        [thisUserAdvertisement]="true"
+        [cover]="advertisement?.images[0]?.id"
       >
-      </app-advertisement> -->
+      </app-advertisement>
     </div>
     <h2>Похожие объявления</h2>
     <div class="container__row">
@@ -291,17 +202,4 @@
       </app-advertisement>
     </div>
   </div>
-
-  <div class="container__map">
-    <h2>Расположение</h2>
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2841.2774564682622!2d33.47450371549089!3d44.59135027910036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40953cac4f4ca0e1%3A0xc278b28e7acda39!2sUlitsa%20Universitetskaya%2C%20Sevastopol!5e0!3m2!1sen!2s!4v1616948472330!5m2!1sen!2s"
-      style="border: 0; width: 100%; min-height: 500px"
-      allowfullscreen="True"
-      loading="lazy"
-    ></iframe>
-  </div>
 </div>
-=======
-</div>
->>>>>>> 97f485db9397063f28323b5ef97964e9cc56d8f9

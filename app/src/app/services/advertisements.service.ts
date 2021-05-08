@@ -14,16 +14,10 @@ export class AdvertisementService {
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   public getAllAdvertisements(
-    limit: number,
-    offset: number
+    queryParams?: any
   ): Observable<ListOfItems<Advertisement>> {
     let url = AppComponent.backendAddress + '/api/Advertisement';
-    let params = new HttpParams();
-
-    if (limit) params = params.append('limit', limit.toString());
-    if (offset) params = params.append('offset', offset.toString());
-
-    return this.http.get<ListOfItems<Advertisement>>(url, { params });
+    return this.queryPaginated<Advertisement>(this.http, url, queryParams);
   }
 
   public getSameAdvertisementsWithLimit(
@@ -108,6 +102,28 @@ export class AdvertisementService {
         }),
       })
       .pipe(catchError(this.checkError));
+  }
+
+  private queryPaginated<T>(
+    http: HttpClient,
+    baseUrl: string,
+    queryParams?: any
+  ): Observable<ListOfItems<T>> {
+    let params = new HttpParams();
+    let url = baseUrl;
+
+    Object.keys(queryParams)
+      .sort()
+      .forEach((key) => {
+        const value = queryParams[key];
+        if (value !== null && value !== '') {
+          params = params.set(key, value.toString());
+        }
+      });
+
+    return http.get<ListOfItems<T>>(url, {
+      params,
+    });
   }
 
   public checkError(error: any) {
