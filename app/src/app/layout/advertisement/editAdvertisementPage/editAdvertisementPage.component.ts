@@ -20,6 +20,7 @@ export class EditAdvertisementPageComponent implements OnInit {
 
   id: number = 0;
   advertisement: Advertisement;
+  creationFormState: string;
 
   filesToUpload: File[] = [];
   imagePreviews: any[] = [];
@@ -28,11 +29,17 @@ export class EditAdvertisementPageComponent implements OnInit {
 
   isButtonEnabled: boolean;
 
-  creationFormState: string;
   isCategoryVisible: boolean;
+  isCategorySecondLevelVisible: boolean;
   newCategoryId: number;
   selectedCategory: string;
+  outputSelectedCategory: number = 0;
+  selectorCategories: number[] = [0, 4, 9, 15];
+  selectedCategoryFirstLevel: number = 0;
   categories: string[] = ["Транспорт", "Недвижимость", "Бытовая техника", "Животные"];
+  categoriesSecondLevel: string[][] = [[ "Автомобили", "Мотоциклы", "Спецтехника", "Запчасти"], ["Квартиры", "Дома", "Новостройки", "Гаражи", "Участки"], ["Аудио и видео", "Игры, приставки", "Компьютеры", "Ноутбуки", "Телефоны, планшеты", "Фототехника"], ["Собаки", "Кошки", "Птицы", "Аквариум", "Товары для животных"]];
+  editorCategories: string[] = [ "Автомобили", "Мотоциклы", "Спецтехника", "Запчасти", "Квартиры", "Дома", "Новостройки", "Гаражи", "Участки", "Аудио и видео", "Игры, приставки", "Компьютеры", "Ноутбуки", "Телефоны, планшеты", "Фототехника", "Собаки", "Кошки", "Птицы", "Аквариум", "Товары для животных"];
+
 
   advertisementForm = new FormGroup({
     title: new FormControl('', [
@@ -65,6 +72,7 @@ export class EditAdvertisementPageComponent implements OnInit {
       this.newCategoryId = 0;
       this.selectedCategory = "Выберите категорию"
       this.isCategoryVisible = false;
+      this.isCategorySecondLevelVisible = false;
       console.log(this.filesToUpload);
     }
   
@@ -73,10 +81,19 @@ export class EditAdvertisementPageComponent implements OnInit {
     }
 
     onCategorySelected(newText:string, newCat: number) {
-      console.log(newCat);
+      this.selectedCategoryFirstLevel = newCat;
+      this.outputSelectedCategory = this.selectorCategories[newCat];
+      this.isCategorySecondLevelVisible = true;
+    }
+
+    onCategorySecondLevelSelected(newText:string, newCat: number) {
+      console.log(newText);
       this.newCategoryId = newCat + 1;
       this.selectedCategory = newText;
+      this.outputSelectedCategory += (newCat + 1);
+      console.log(this.outputSelectedCategory);
       this.isCategoryVisible = false;
+      this.isCategorySecondLevelVisible = false;
     }
 
     newFile() {
@@ -122,7 +139,7 @@ export class EditAdvertisementPageComponent implements OnInit {
         description: this.advertisementForm.value.description,
         price: this.advertisementForm.value.price,
         cover: "true",
-        categoryId: this.newCategoryId
+        categoryId: this.outputSelectedCategory
       };
       
       this.advertisementService.updateAdvertisement(advertisementToSend, this.id)
@@ -226,8 +243,8 @@ export class EditAdvertisementPageComponent implements OnInit {
 					price: this.advertisement.price
 				});
 
-				this.selectedCategory = this.categories[this.advertisement.category.id]
-				this.newCategoryId = this.advertisement.category.id;
+				this.selectedCategory = this.editorCategories[this.advertisement.category.id - 1]
+				this.outputSelectedCategory = this.advertisement.category.id;
 
 				for (let z = 0; z < this.advertisement.images.length - 1; z++) {
 					this.filesToUpload.push({} as File);
