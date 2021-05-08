@@ -10,7 +10,6 @@ import { LoginPageComponent } from './layout/auth/loginPage/loginPage.component'
 import { RegistrationPageComponent } from './layout/auth/registrationPage/registrationPage.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdvertisementPageComponent } from './layout/advertisement/advertisementPage/advertisementPage.component';
 import { PublicProfileComponent } from './layout/user/publicProfile/publicProfile.component';
 import { ForgotPasswordPageComponent } from './layout/auth/forgotPasswordPage/forgotPasswordPage.component';
 import { ResetPasswordPageComponent } from './layout/auth/resetPasswordPage/resetPasswordPage.component';
