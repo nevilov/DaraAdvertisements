@@ -87,7 +87,7 @@
         <div class="user__info">
           <a [routerLink]="['/profile/', advertisement?.owner?.username]">
             <figure class="user__avatar">
-              <img src="./../../../../assets/images/menu/avatar.png" alt="" />
+              <img [src]="userAvatar" alt="" />
             </figure>
           </a>
           <div class="user__container">
@@ -136,7 +136,7 @@
               data-inline="false"
               style="color: #1890ff"
             ></span>
-            <span>Пожаловаться на объявление</span>
+            <span style="color: #ff7722"><a href="/newAbuse/{{id}}">Пожаловаться на объявление</a></span>
           </div>
           <div class="container__action">
             <span
