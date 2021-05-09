@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { SortItem } from 'src/app/Dtos/sorting';
 
 @Component({
@@ -8,10 +9,12 @@ import { SortItem } from 'src/app/Dtos/sorting';
 })
 export class SortComponent implements OnInit {
   @Input() sotringElements: SortItem[] = [];
-  @Output() setValue: EventEmitter<string> = new EventEmitter<string>();
+  @Output() setValue = new EventEmitter<{}>();
 
-  onSort(inputValue: string) {
-    this.setValue.emit(inputValue);
+  selectedValue!: object;
+
+  onSort(setValue: any) {
+    this.setValue.emit(setValue);
   }
 
   constructor() {}

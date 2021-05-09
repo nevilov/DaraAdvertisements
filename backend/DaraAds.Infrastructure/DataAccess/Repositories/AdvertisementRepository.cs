@@ -63,7 +63,7 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
              
              SearchByTitleOrDescription(ref ads, parameters.SearchString);
              
-             var sortAds = _sortHelper.ApplySort(ads, parameters.SortOrder);
+             var sortAds = _sortHelper.ApplySort(ads, parameters.SortBy, parameters.SortDirection);
 
              return await PagedList<Domain.Advertisement>.ToPagedListAsync(sortAds, parameters.Limit, parameters.Offset,
                  cancellationToken);

@@ -26,23 +26,12 @@ namespace DaraAds.API.Controllers.Advertisement
             [FromQuery] AdvertisementGetRequest request,
             CancellationToken cancellationToken)
         {
-            var isValidPriceRange = request.MaxPrice > request.MinPrice;
-            if (!isValidPriceRange)
-            {
-                return BadRequest("Максимальная цена не может быть меньше минимальной цены");
-            }
-            
-            var isValidDateRange = request.MaxDate > request.MinDate;
-            if (!isValidDateRange)
-            {
-                return BadRequest("Максимальная дата не может быть меньше минимальной даты");
-            }
-            
             var response = await _service.GetPages(new GetPages.Request
             {
                 Limit = request.Limit,
                 Offset = request.Offset,
-                SortOrder = request.OrderBy,
+                SortBy = request.SortBy,
+                SortDirection = request.SortDirection,
                 SearchString = request.SearchString,
                 CategoryId = request.CategoryId,
                 MinPrice = request.MinPrice,

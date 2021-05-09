@@ -1,4 +1,9 @@
+interface OrderBy {
+  sortBy: string;
+  sortDirection: string;
+}
+
 export interface SortItem {
   title: string;
-  value: string;
+  orderBy: OrderBy;
 }

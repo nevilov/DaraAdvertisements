@@ -19,12 +19,43 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
   categories: Category | null = null;
   categoryId = -1;
 
+  selectedSorting: object = {};
   sotringElements: SortItem[] = [
-    { title: 'По умолчанию', value: 'Id' },
-    { title: 'Дешевле', value: 'Price' },
-    { title: 'Дороже', value: 'Price_desc' },
-    { title: 'Сначала новые', value: 'CreatedDate_desc' },
-    { title: 'Сначала старые', value: 'CreatedDate' },
+    {
+      title: 'По умолчанию',
+      orderBy: {
+        sortBy: 'Id',
+        sortDirection: 'asc',
+      },
+    },
+    {
+      title: 'Дешевле',
+      orderBy: {
+        sortBy: 'Price',
+        sortDirection: 'asc',
+      },
+    },
+    {
+      title: 'Дороже',
+      orderBy: {
+        sortBy: 'Price',
+        sortDirection: 'desc',
+      },
+    },
+    {
+      title: 'Сначала новые',
+      orderBy: {
+        sortBy: 'CreatedDate',
+        sortDirection: 'desc',
+      },
+    },
+    {
+      title: 'Сначала старые',
+      orderBy: {
+        sortBy: 'CreatedDate',
+        sortDirection: 'asc',
+      },
+    },
   ];
 
   total: number = 0;
@@ -33,7 +64,7 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     limit: 10,
     offset: 0,
     searchString: '',
-    orderBy: '',
+    categoryId: 0,
   };
 
   constructor(
@@ -54,18 +85,18 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
         this.getCategoriesById(this.categoryId);
       });
 
-    if (this.categoryId == -1) {
-      this.loadAdvertisements(this.queryParams);
-    } else {
-      this.loadAdvertisementsByCategory(this.categoryId);
+    if (this.categoryId !== -1) {
+      this.queryParams = { ...this.queryParams, categoryId: this.categoryId };
     }
+    this.loadAdvertisements(this.queryParams);
   }
-
+  //Можно сносить - работает без него
   loadAdvertisementsByCategory(categoryId: number) {
     this.advertisementService
       .getAdvertisementsByCategoryId(categoryId)
       .subscribe((data) => {
         this.advertisements = data.items;
+        console.log(data.items);
         for (let i = 0; i < this.advertisements.length; i++) {
           if (this.advertisements[i].images[0] === undefined) {
             this.advertisements[i].images[0] = { id: 'default' };
@@ -107,8 +138,8 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     this.loadAdvertisements(this.queryParams);
   }
 
-  onSort(orderBy: string) {
-    this.queryParams = { ...this.queryParams, offset: 0, orderBy };
+  onSort(orderBy: any) {
+    this.queryParams = { ...this.queryParams, offset: 0, ...orderBy };
     this.loadAdvertisements(this.queryParams);
   }
 
