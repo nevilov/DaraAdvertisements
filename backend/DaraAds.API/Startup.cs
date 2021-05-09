@@ -33,6 +33,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 namespace DaraAds.API
 {
@@ -82,7 +83,7 @@ namespace DaraAds.API
             services.AddS3(Configuration);
 
             services.AddIdentity(Configuration);
-
+           
 
             services.AddMassTransit(conf =>
             {
@@ -101,8 +102,6 @@ namespace DaraAds.API
                     c.ReceiveEndpoint("send_notifications", e => e.ConfigureConsumer<SendNotificationConsumer>(context));
                 });
             }).AddMassTransitHostedService();
-
-            services.AddControllers();
 
             services.AddSwaggerModule();
 

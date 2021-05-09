@@ -66,11 +66,18 @@ export class UserService {
     }
 
     public changeRole(form: any): Observable<any>{
-      console.log(form);
       return this.http.post(AppComponent.backendAddress + '/api/User/changerole', form, {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
         }),
+      });
+    }
+
+    public changeCorporationStatus(userId: string, isCorporation:boolean ){
+      return this.http.patch(AppComponent.backendAddress + '/api/User/changeUserStatus', {userId, isCorporation}, {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        })
       });
     }
 }
