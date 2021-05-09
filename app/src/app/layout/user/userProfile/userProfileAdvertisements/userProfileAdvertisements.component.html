@@ -1,47 +1,58 @@
 <div class="table">
-    <div class="table_head">
-        <div class="table_headItems">
-            <div class="table_headItem table_col">
-                Картинка
-            </div>
-            <div class="table_headItem table_col">
-                Заголовок
-            </div>
-            <div class="table_headItem table_col">
-                Цена
-            </div>
-            <div class="table_headItem table_col">
-                Адрес
-            </div>
-            <div class="table_headItem table_col">
-                Создано
-            </div>
-            <div class="table_headItem table_col">
-                Действия
-            </div>
-        </div>
+  <app-sort
+    [sotringElements]="sotringElements"
+    (setValue)="onSort($event)"
+  ></app-sort>
+  <div class="table_head">
+    <div class="table_headItems">
+      <div class="table_headItem table_col">Картинка</div>
+      <div class="table_headItem table_col">Заголовок</div>
+      <div class="table_headItem table_col">Цена</div>
+      <div class="table_headItem table_col">Адрес</div>
+      <div class="table_headItem table_col">Создано</div>
+      <div class="table_headItem table_col">Действия</div>
     </div>
-    <div class="table_body">
-
-        <div class="table_row" *ngFor="let advertisement of advertisements;">
-            <div class="table_col">
-                <figure><img src="./../../../../../assets/images/advertisement/car.png" alt=""></figure>
-            </div>
-            <div class="table_col">{{advertisement.title}}</div>
-            <div class="table_col">{{advertisement.price}}</div>
-            <div class="table_col">Сюда бы адресс добавить</div>
-            <div class="table_col">{{advertisement.createdDate}}</div>
-            <div class="table_col table_editPanel">
-                <a href="#">
-                    <span class="iconify table_editIcon" data-icon="ant-design:edit-filled" data-height="24px"
-                        data-inline="false"></span>
-                </a>
-                <a href="#">
-                    <span class="iconify table_deleteIcon" data-height="24px" data-icon="ant-design:delete-filled"
-                        data-inline="false"></span>
-                </a>
-            </div>
-        </div>
-
+  </div>
+  <div class="table_body">
+    <div class="table_row" *ngFor="let advertisement of advertisements">
+      <div class="table_col">
+        <figure>
+          <img
+            src="./../../../../../assets/images/advertisement/car.png"
+            alt=""
+          />
+        </figure>
+      </div>
+      <div class="table_col">{{ advertisement.title }}</div>
+      <div class="table_col">{{ advertisement.price }}</div>
+      <div class="table_col">Сюда бы адресс добавить</div>
+      <div class="table_col">
+        {{ advertisement.createdDate | date: "dd-MM-yyyy" }}
+      </div>
+      <div class="table_col table_editPanel">
+        <a href="#">
+          <span
+            class="iconify table_editIcon"
+            data-icon="ant-design:edit-filled"
+            data-height="24px"
+            data-inline="false"
+          ></span>
+        </a>
+        <a href="#">
+          <span
+            class="iconify table_deleteIcon"
+            data-height="24px"
+            data-icon="ant-design:delete-filled"
+            data-inline="false"
+          ></span>
+        </a>
+      </div>
     </div>
+  </div>
+  <app-pagination-control
+    [offset]="queryParams.offset"
+    [limit]="queryParams.limit"
+    [total]="total"
+    (pageChange)="onPageChange($event)"
+  ></app-pagination-control>
 </div>

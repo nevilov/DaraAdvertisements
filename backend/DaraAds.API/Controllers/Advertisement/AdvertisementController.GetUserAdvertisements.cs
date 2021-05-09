@@ -22,6 +22,8 @@ namespace DaraAds.API.Controllers.Advertisement
             var result = await _service.GetUserAdvertisements(new GetUserAdvertisements.Request
             {
                 Id = request.Id,
+                SortBy = request.SortBy,
+                SortDirection = request.SortDirection,
                 Offset = request.Offset,
                 Limit = request.Limit
             }, cancellationToken);

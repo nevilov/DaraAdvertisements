@@ -16,7 +16,6 @@ using MassTransit;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Data;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +28,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 {
     public sealed class AdvertisementService : IAdvertisementService
     {
-        private readonly Repositories.IAdvertisementRepository _repository;
+        private readonly IAdvertisementRepository _repository;
         private readonly IIdentityService _identityService;
         private readonly IRepository<Domain.Image, string> _imageRepository;
         private readonly IRepository<Domain.User, string> _userRepository;
@@ -362,8 +361,20 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         public async Task<GetUserAdvertisements.Response> GetUserAdvertisements(GetUserAdvertisements.Request request, CancellationToken cancellationToken)
         {
+            
+            var total = await _repository.Count(cancellationToken);
+            if (total == 0)
+            {
+                return new GetUserAdvertisements.Response
+                {
+                    Total = 0,
+                    Offset = request.Offset,
+                    Limit = request.Limit
+                };
+            }
+            
             string userId;
-
+            
             if (string.IsNullOrEmpty(request.Id))
             {
                 var userIdFromClaims = await _identityService.GetCurrentUserId(cancellationToken);
@@ -378,7 +389,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 userId = request.Id;
             }
 
-            var result = await _repository.FindUserAdvertisements(userId, request.Limit, request.Offset, cancellationToken);
+            var result = await _repository.FindUserAdvertisements(userId, request.Limit, request.Offset, request.SortBy, request.SortDirection, cancellationToken);
 
             if (result == null)
             {
@@ -402,7 +413,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     }),
                     Status = a.Status.ToString()
                 }),
-                Total = result.Count(),
+                Total = result.Total,
                 Offset = request.Offset,
                 Limit = request.Limit
             };

@@ -12,6 +12,9 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
         public class Request : Paged.Request
         {
             public string Id { get; set; }
+            public string SortBy { get; set; }
+            public string SortDirection { get; set; }
+
             
         }
 

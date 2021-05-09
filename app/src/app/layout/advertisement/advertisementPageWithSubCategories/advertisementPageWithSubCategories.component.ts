@@ -90,7 +90,7 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     }
     this.loadAdvertisements(this.queryParams);
   }
-  //Можно сносить - работает без него
+  //TODO Можно сносить - работает без него
   loadAdvertisementsByCategory(categoryId: number) {
     this.advertisementService
       .getAdvertisementsByCategoryId(categoryId)

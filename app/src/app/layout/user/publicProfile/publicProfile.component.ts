@@ -5,40 +5,47 @@ import { User } from 'src/app/Dtos/user';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-    selector: 'app-publicProfile',
-    templateUrl: './publicProfile.component.html',
-    styleUrls: ['./publicProfile.component.scss'],
+  selector: 'app-publicProfile',
+  templateUrl: './publicProfile.component.html',
+  styleUrls: ['./publicProfile.component.scss'],
 })
 export class PublicProfileComponent implements OnInit {
+  advertisements: Advertisement[] = [];
+  user: User | null = null;
+  userName: string = '';
 
-    advertisements: Advertisement[] = [];
-    user: User | null = null;
-    userName: string = '';
+  total: number = 0;
 
-    constructor(
-        private userService: UserService,
-        private route: ActivatedRoute
-    ) { }
+  queryParams = {
+    Id: '',
+    limit: 10,
+    offset: 0,
+  };
 
-    ngOnInit() {
-        this.route.params.subscribe((params) => {
-            this.userName = params['Username'];
-        });
-        this.loadUserInfo();
-    }
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute
+  ) {}
 
-    loadAdvertisements(id: string) {
-        this.userService.getUserAdvertisements(id).subscribe((data) => {
-            this.advertisements = data.items;
-            console.log(data);
-        });
-    }
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.userName = params['Username'];
+    });
+    this.loadUserInfo();
+  }
 
-    loadUserInfo() {
-        this.userService.getUser(this.userName).subscribe((data) => {
-            this.user = data;
-            this.loadAdvertisements(data.id);
-            console.log(data);
-        });
-    }
+  loadAdvertisements(id: string) {
+    this.userService.getUserAdvertisements(id).subscribe((data) => {
+      this.advertisements = data.items;
+      console.log(data);
+    });
+  }
+
+  loadUserInfo() {
+    this.userService.getUser(this.userName).subscribe((data) => {
+      this.user = data;
+      this.loadAdvertisements(data.id);
+      console.log(data);
+    });
+  }
 }
