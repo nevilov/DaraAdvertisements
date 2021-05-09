@@ -1,0 +1,39 @@
+.iconify {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #d3d3d4;
+  border-radius: 4px;
+  &:hover {
+    background: #222222;
+    color: #ffffff;
+    opacity: 0.6;
+  }
+}
+
+.filters-form {
+  width: 350px;
+  padding: 15px;
+  background: white;
+  border: 1px solid #d3d3d4;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 1;
+  right: 200px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  button {
+    margin-top: 4px;
+  }
+}
+
+input {
+  width: 50%;
+  height: 30px;
+  padding: 6px 8px;
+  margin: 4px 0;
+  box-sizing: border-box;
+  display: inline-block;
+}

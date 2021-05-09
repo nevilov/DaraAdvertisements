@@ -1,0 +1,5 @@
+<select #select (change)="onSort(select.value)">
+  <option *ngFor="let sortItems of sotringElements" [value]="sortItems.value">
+    {{ sortItems.title }}
+  </option>
+</select>

@@ -1,0 +1,45 @@
+<ul class="pagination">
+  <li
+    [class.disabled]="currentPage == 1"
+    (click)="selectPage(1)"
+    title="Перейти на первую страницу"
+  >
+    <span>&laquo;</span>
+  </li>
+  <li
+    [class.disabled]="currentPage == 1"
+    (click)="selectPage(currentPage - 1)"
+    title="Перейти на предыдущую страницу"
+  >
+    <span>&lsaquo;</span>
+  </li>
+  <li class="disabled" *ngIf="currentPage - range > 1">
+    <span>...</span>
+  </li>
+  <li
+    *ngFor="let page of pages"
+    [class.active]="page == currentPage"
+    (click)="selectPage(page)"
+  >
+    <span>
+      {{ page }}
+    </span>
+  </li>
+  <li class="disabled" *ngIf="currentPage + range < totalPages">
+    <span>...</span>
+  </li>
+  <li
+    (click)="selectPage(currentPage + 1)"
+    [class.disabled]="currentPage == totalPages"
+    title="Перейти на следующую страницу"
+  >
+    <span>&rsaquo;</span>
+  </li>
+  <li
+    (click)="selectPage(totalPages)"
+    [class.disabled]="currentPage == totalPages"
+    title="Перейти на последнюю страницу"
+  >
+    <span>&raquo;</span>
+  </li>
+</ul>

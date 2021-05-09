@@ -27,10 +27,16 @@ export class NewAdvertisementPageComponent implements OnInit {
 
   creationFormState: string;
   newId: string;
+
   isCategoryVisible: boolean;
+  isCategorySecondLevelVisible: boolean;
   newCategoryId: number;
   selectedCategory: string;
+  outputSelectedCategory: number = 0;
+  selectorCategories: number[] = [0, 4, 9, 15];
+  selectedCategoryFirstLevel: number = 0;
   categories: string[] = ["Транспорт", "Недвижимость", "Бытовая техника", "Животные"];
+  categoriesSecondLevel: string[][] = [[ "Автомобили", "Мотоциклы", "Спецтехника", "Запчасти"], ["Квартиры", "Дома", "Новостройки", "Гаражи", "Участки"], ["Аудио и видео", "Игры, приставки", "Компьютеры", "Ноутбуки", "Телефоны, планшеты", "Фототехника"], ["Собаки", "Кошки", "Птицы", "Аквариум", "Товары для животных"]];
 
   advertisementForm = new FormGroup({
     title: new FormControl('', [
@@ -61,18 +67,31 @@ export class NewAdvertisementPageComponent implements OnInit {
       this.newCategoryId = 0;
       this.selectedCategory = "Выберите категорию"
       this.isCategoryVisible = false;
+      this.isCategorySecondLevelVisible = false;
       console.log(this.filesToUpload);
     }
   
     categorySelectorClicked() {
       this.isCategoryVisible = !this.isCategoryVisible;
+      if (this.isCategorySecondLevelVisible) {
+        this.isCategorySecondLevelVisible = false;
+      }
     }
 
     onCategorySelected(newText:string, newCat: number) {
-      console.log(newCat);
+      this.selectedCategoryFirstLevel = newCat;
+      this.outputSelectedCategory = this.selectorCategories[newCat];
+      this.isCategorySecondLevelVisible = true;
+    }
+
+    onCategorySecondLevelSelected(newText:string, newCat: number) {
+      console.log(newText);
       this.newCategoryId = newCat + 1;
       this.selectedCategory = newText;
+      this.outputSelectedCategory += (newCat + 1);
+      console.log(this.outputSelectedCategory);
       this.isCategoryVisible = false;
+      this.isCategorySecondLevelVisible = false;
     }
 
     newFile() {
@@ -115,7 +134,7 @@ export class NewAdvertisementPageComponent implements OnInit {
         description: this.advertisementForm.value.description,
         price: this.advertisementForm.value.price,
         cover: "true",
-        categoryId: this.newCategoryId
+        categoryId: this.outputSelectedCategory
       };
       
       this.advertisementService.createAdvertisement(advertisementToSend)
@@ -136,14 +155,14 @@ export class NewAdvertisementPageComponent implements OnInit {
               console.log("concatted" + singleMedia);
               if (fileIteratorIndex > this.filesToUpload.length) {
                   this.creationFormState = 'Файлы загружены... переход на страницу объявления..';
-                  this.router.navigateByUrl('/advertisement/' + this.newId);
+                  this.router.navigateByUrl('/advertisements/' + this.outputSelectedCategory + '/advertisement/' + this.newId);
               }
               },
               error => {
               }); 
             } else {
               this.creationFormState = 'Информация загружена... переход на страницу объявления..';
-              this.router.navigateByUrl('/advertisement/' + this.newId);
+              this.router.navigateByUrl('/advertisements/' + this.outputSelectedCategory + '/advertisement/' + this.newId);
             }
 
 
