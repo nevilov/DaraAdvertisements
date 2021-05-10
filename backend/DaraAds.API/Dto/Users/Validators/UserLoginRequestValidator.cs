@@ -9,7 +9,7 @@ namespace DaraAds.API.Dto.Users.Validators
         {
             RuleFor(x => x.Login)
                 .NotEmpty().WithMessage("Логин не может быть пустым")
-                .MaximumLength(MAX_LENGTH).WithMessage("Логин может содержать не более 100 символов");
+                .MaximumLength(MAX_LENGTH).WithMessage($"Логин может содержать не более {MAX_LENGTH} символов");
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Пароль не может быть пустым");

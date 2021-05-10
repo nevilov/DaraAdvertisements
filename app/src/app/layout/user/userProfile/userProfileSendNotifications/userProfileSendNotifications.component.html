@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="container__header">
+    <span class="header__title">Массовая рассылка</span>
+  </div>
+  <div class="container__content">
+    <form [formGroup]="notificationForm" (ngSubmit)="onSend()">
+      <div class="container__input input">
+        <label class="container__label">Заголовок</label>
+        <div class="input__value">
+          <input formControlName="subject" type="text"
+                 placeholder="Скидка 10% на все объявления!">
+        </div>
+        <label class="container__label">Сообщение</label>
+        <div class="input__value">
+          <input formControlName="message" type="text"
+                 placeholder="В честь весны!">
+        </div>
+      </div>
+      <button [disabled]="isDisabled">Сделать рассылку</button>
+    </form>
+  </div>
+</div>

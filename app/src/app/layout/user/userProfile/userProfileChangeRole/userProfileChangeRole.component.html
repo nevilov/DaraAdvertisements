@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="container__header">
+    <span class="header__title">Смена роли пользователю</span>
+  </div>
+  <div class="container__content">
+    <form [formGroup]="changeRoleForm" (ngSubmit)="onSend()">
+
+      <div class="container__input input">
+        <label class="container__label">Id пользователя</label>
+        <div class="input__value">
+          <input formControlName="userId" type="text"
+                 placeholder="42bd1cd5-f93e-4e1f-8757-2124f32e941f">
+        </div>
+        <label class="container__label">Новая роль</label>
+        <div class="input__value">
+          <input formControlName="newRole" type="text"
+                 placeholder="Moderator">
+        </div>
+      </div>
+      <button>Смень роль пользователю</button>
+
+    </form>
+  </div>
+</div>

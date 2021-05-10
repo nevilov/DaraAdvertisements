@@ -66,33 +66,33 @@ export class UserService {
     }
 
     public blockUser(form: any): Observable<any> {
-        return this.http.post(
-            AppComponent.backendAddress + '/api/User/block',
-            form,
-            {
-                headers: new HttpHeaders({
-                    Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
-                }),
-            }
-        );
+        return this.http.post(AppComponent.backendAddress + '/api/User/block', form, {
+            headers: new HttpHeaders({
+                Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+            }),
+        });
+    }
+
+    public changeRole(form: any): Observable<any>{
+      return this.http.post(AppComponent.backendAddress + '/api/User/changerole', form, {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        }),
+      });
+    }
+
+    public changeCorporationStatus(userId: string, isCorporation: boolean ) {
+      return this.http.patch(AppComponent.backendAddress + '/api/User/changeUserStatus', {userId, isCorporation}, {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        })
+      });
     }
 
     public setNotificationState(state: boolean): Observable<any> {
         return this.http.patch(
             AppComponent.backendAddress + '/api/User/notifications?isSubscribe=' + state,
             state,
-            {
-                headers: new HttpHeaders({
-                    Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
-                }),
-            }
-        );
-    }
-
-    public setCorporationState(userId: string, isCorporation: boolean): Observable<any> {
-        return this.http.patch(
-            AppComponent.backendAddress + '/api/User/corporation?userId=' + userId + '&isCorporation=' + isCorporation,
-            isCorporation,
             {
                 headers: new HttpHeaders({
                     Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),

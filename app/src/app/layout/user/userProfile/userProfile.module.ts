@@ -10,6 +10,9 @@ import { UserProfilePersonalComponent } from './userProfilePersonal/userProfileP
 import { UserProfileSettingsComponent } from './userProfileSettings/userProfileSettings.component';
 import {UserProfileBlockComponent} from "./userProfileBlock/userProfileBlock.component";
 import {UserProfileBulkLoadingComponent} from "./userProfileBulkLoading/userProfileBulkLoading.component";
+import {UserProfileSendNotificationsComponent} from "./userProfileSendNotifications/userProfileSendNotifications.component";
+import {UserProfileChangeRoleComponent} from "./userProfileChangeRole/userProfileChangeRole.component";
+import {UserProfileChangeUserStatusComponent} from "./userProfileChangeUserStatus/userProfileChangeUserStatus.component";
 
 @NgModule({
 	imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
@@ -20,7 +23,10 @@ import {UserProfileBulkLoadingComponent} from "./userProfileBulkLoading/userProf
 		UserProfilePersonalComponent,
 		UserProfileSettingsComponent,
     UserProfileBlockComponent,
-    UserProfileBulkLoadingComponent
+    UserProfileBulkLoadingComponent,
+    UserProfileSendNotificationsComponent,
+    UserProfileChangeRoleComponent,
+    UserProfileChangeUserStatusComponent
 	],
 	exports: [
 		UserProfileComponent,
@@ -29,7 +35,10 @@ import {UserProfileBulkLoadingComponent} from "./userProfileBulkLoading/userProf
 		UserProfilePersonalComponent,
 		UserProfileSettingsComponent,
     UserProfileBlockComponent,
-    UserProfileBulkLoadingComponent
+    UserProfileBulkLoadingComponent,
+    UserProfileSendNotificationsComponent,
+    UserProfileChangeRoleComponent,
+    UserProfileChangeUserStatusComponent
 	],
 })
 export class UserProfileModule { }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {AdvertisementService} from "../../../../services/advertisements.service";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-userProfileBulkLoading',
@@ -12,7 +13,9 @@ export class UserProfileBulkLoadingComponent implements OnInit{
 
   public excelFile!: File;
   public isDisabled: boolean = false;
-  constructor(private advertisementService: AdvertisementService, private router: Router) {
+  constructor(private advertisementService: AdvertisementService,
+              private router: Router,
+              private toastrService: ToastrService) {
   }
   onUploadFile(event: any){
     this.excelFile =  event.target.files[0];
@@ -24,7 +27,8 @@ export class UserProfileBulkLoadingComponent implements OnInit{
   onSendExcel(){
     this.isDisabled = true;
     this.advertisementService.importExcel(this.excelFile).subscribe(a => {
-      this.router.navigateByUrl('/');
+      this.toastrService.success('Данные успешно загружены');
+      return  this.router.navigateByUrl('/');
     });
   }
 }
