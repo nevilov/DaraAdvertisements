@@ -47,6 +47,8 @@ namespace DaraAds.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson();
+
             services
             .AddScoped<IUserService, UserService>()
             .AddScoped<IAdvertisementService, AdvertisementService>()
@@ -83,7 +85,6 @@ namespace DaraAds.API
 
             services.AddIdentity(Configuration);
 
-
             services.AddMassTransit(conf =>
             {
                 conf.AddConsumer<ImportExcelConsumer>();
@@ -101,8 +102,6 @@ namespace DaraAds.API
                     c.ReceiveEndpoint("send_notifications", e => e.ConfigureConsumer<SendNotificationConsumer>(context));
                 });
             }).AddMassTransitHostedService();
-
-            services.AddControllers();
 
             services.AddSwaggerModule();
 
@@ -137,7 +136,7 @@ namespace DaraAds.API
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:4200")
+                builder.WithOrigins("http://185.60.134.206:4200", "http://localhost:4200")
                 .AllowAnyHeader()
                 .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                 .AllowCredentials();

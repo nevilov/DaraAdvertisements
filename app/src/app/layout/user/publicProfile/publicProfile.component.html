@@ -10,11 +10,11 @@
     <div class="container-right">
         <h1>Все объявления продавца</h1>
         <div class="content">
-            <app-advertisement *ngFor="let advertisement of advertisements;"
+            <app-ads *ngFor="let advertisement of advertisements;"
                 [routerLink]="['/advertisements', advertisement.id]" [title]="advertisement.title"
                 [price]="advertisement.price" [ownerName]='user?.name + " "+ user?.lastname'
                 [createdDate]="advertisement.createdDate">
-            </app-advertisement>
+            </app-ads>
         </div>
     </div>
 </div>

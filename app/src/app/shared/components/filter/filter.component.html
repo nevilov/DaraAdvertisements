@@ -1,33 +1,28 @@
 <div (click)="toggleFiltersMenu()">
-  <span class="iconify" data-icon="mdi-filter" data-inline="false"></span>
+    <!-- <span class="iconify" data-icon="majesticons:filter" data-inline="false"></span> -->
+    <span class="iconify" data-icon="majesticons:filter" data-inline="false" style="color: #222"></span>
 </div>
 
-<form
-  class="filters-form"
-  [formGroup]="filtersForm"
-  *ngIf="isVisible"
-  (ngSubmit)="onSubmit()"
->
-  <p>Цена:</p>
-  <input type="text" formControlName="minPrice" size="10" placeholder="От" />
-  <input
-    type="text"
-    formControlName="maxPrice"
-    size="10"
-    placeholder="до руб."
-  />
+<form class="filters-form" [formGroup]="filtersForm" *ngIf="isVisible" (ngSubmit)="onSubmit()">
+    <div>
+        <p>Цена:</p>
+        <div>
+            <input type="text" formControlName="minPrice" size="10" placeholder="От" />
+            <input type="text" formControlName="maxPrice" size="10" placeholder="до руб." />
+        </div>
+    </div>
 
-  <p>Дата:</p>
-  <input type="date" formControlName="minDate" max="{{ currentDate }}" />
-  <input
-    type="date"
-    formControlName="maxDate"
-    min="{{ filtersForm.value.minDate }}"
-    max="{{ currentDate }}"
-  />
+    <div>
+        <p>Дата:</p>
+        <div>
+            <input type="date" formControlName="minDate" max="{{ currentDate }}" />
+            <input type="date" formControlName="maxDate" min="{{ filtersForm.value.minDate }}"
+                max="{{ currentDate }}" />
+        </div>
+    </div>
 
-  <div class="container">
-    <button class="btn btn-main" type="submit">Применить</button>
-    <button class="btn btn-main" type="reset">Сбросить фильтры</button>
-  </div>
+    <div class="container">
+        <button class="btn btn-main" type="submit">Применить</button>
+        <button class="btn btn-main" type="reset">Сбросить фильтры</button>
+    </div>
 </form>
