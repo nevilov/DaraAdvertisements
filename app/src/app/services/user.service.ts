@@ -81,8 +81,8 @@ export class UserService {
       });
     }
 
-    public changeCorporationStatus(userId: string, userStatus: string ){
-      return this.http.patch(AppComponent.backendAddress + '/api/User/changeUserStatus', {userId, userStatus}, {
+    public changeCorporationStatus(userId: string, isCorporation: boolean ){
+      return this.http.patch(AppComponent.backendAddress + '/api/User/changeUserStatus', {userId, isCorporation}, {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
         })

@@ -19,12 +19,12 @@ export class UserProfileChangeUserStatusComponent {
 
   changeCorporationForm = new FormGroup({
     userId: new FormControl(),
-    userStatus: new FormControl()
+    isCorporation: new FormControl()
   });
 
   onSend(){
     this.userService.changeCorporationStatus(this.changeCorporationForm.value.userId,
-      this.changeCorporationForm.value.userStatus).subscribe(a => {
+      this.changeCorporationForm.value.isCorporation).subscribe(a => {
       this.toastrService.success('Статус пользователя изменен');
       return this.router.navigateByUrl('/cabinet/personal');
     });

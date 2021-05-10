@@ -20,6 +20,6 @@ namespace DaraAds.Application.Services.User.Interfaces
 
         Task Notifications(bool isSubscribe, CancellationToken cancellationToken);
 
-        Task ChangeUserCorporationStatus(string userId, string userStatus, CancellationToken cancellationToken);
+        Task ChangeUserCorporationStatus(string userId, bool isCorporation, CancellationToken cancellationToken);
     } 
 }

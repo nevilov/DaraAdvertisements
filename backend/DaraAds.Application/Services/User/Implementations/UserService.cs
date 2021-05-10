@@ -217,7 +217,7 @@ namespace DaraAds.Application.Services.User.Implementations
             await _repository.Save(domainUser, cancellationToken);
         }
 
-        public async Task ChangeUserCorporationStatus(string userId, string userStatus, CancellationToken cancellationToken)
+        public async Task ChangeUserCorporationStatus(string userId, bool isCorporation, CancellationToken cancellationToken)
         {
             var domainUser = await _repository.FindById(userId, cancellationToken);
             if(domainUser == null)
@@ -225,15 +225,7 @@ namespace DaraAds.Application.Services.User.Implementations
                 throw new NoUserFoundException($"Пользоваетль с id {userId} не найден"); 
             }
 
-            if (userStatus.Equals("Corporation"))
-            {
-                domainUser.IsCorporation = true;
-            }
-
-            if (userStatus.Equals("Personal"))
-            {
-                domainUser.IsCorporation = false;
-            }
+            domainUser.IsCorporation = isCorporation;
 
             await _repository.Save(domainUser, cancellationToken);
         }

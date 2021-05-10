@@ -33,7 +33,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 
 namespace DaraAds.API
 {
@@ -48,6 +47,8 @@ namespace DaraAds.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson();
+
             services
             .AddScoped<IUserService, UserService>()
             .AddScoped<IAdvertisementService, AdvertisementService>()
@@ -83,7 +84,6 @@ namespace DaraAds.API
             services.AddS3(Configuration);
 
             services.AddIdentity(Configuration);
-           
 
             services.AddMassTransit(conf =>
             {
