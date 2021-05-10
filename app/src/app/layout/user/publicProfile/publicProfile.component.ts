@@ -37,7 +37,6 @@ export class PublicProfileComponent implements OnInit {
   loadAdvertisements(id: string) {
     this.userService.getUserAdvertisements(id).subscribe((data) => {
       this.advertisements = data.items;
-      console.log(data);
     });
   }
 
@@ -45,7 +44,6 @@ export class PublicProfileComponent implements OnInit {
     this.userService.getUser(this.userName).subscribe((data) => {
       this.user = data;
       this.loadAdvertisements(data.id);
-      console.log(data);
     });
   }
 }

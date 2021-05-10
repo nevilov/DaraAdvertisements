@@ -1,7 +1,7 @@
 import { ListOfItems, NewAdvertisement } from './../Dtos/advertisement';
 import { AppComponent } from './../app.component';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Advertisement } from '../Dtos/advertisement';

@@ -19,7 +19,6 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
   categories: Category | null = null;
   categoryId = -1;
 
-  selectedSorting: object = {};
   sotringElements: SortItem[] = [
     {
       title: 'По умолчанию',
@@ -96,7 +95,6 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
       .getAdvertisementsByCategoryId(categoryId)
       .subscribe((data) => {
         this.advertisements = data.items;
-        console.log(data.items);
         for (let i = 0; i < this.advertisements.length; i++) {
           if (this.advertisements[i].images[0] === undefined) {
             this.advertisements[i].images[0] = { id: 'default' };

@@ -117,7 +117,6 @@ export class AdvertisementDetailPageComponent implements OnInit {
           .getAdvertisementById(this.id)
           .subscribe((data: Advertisement) => {
             this.advertisement = data;
-            // console.log(this.advertisement);
 
             if (this.cookieService.get('UserId')) {
               if (
@@ -160,8 +159,6 @@ export class AdvertisementDetailPageComponent implements OnInit {
               .getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0)
               .subscribe((data) => {
                 this.userAdvertisements = data.items;
-                console.log('USER');
-                console.log(this.userAdvertisements);
                 for (let i = 0; i < this.userAdvertisements.length; i++) {
                   if (this.userAdvertisements[i].images[0] === undefined) {
                     this.userAdvertisements[i].images[0] = { id: 'default' };
@@ -178,8 +175,6 @@ export class AdvertisementDetailPageComponent implements OnInit {
                     this.sameAdvertisements[i].images[0] = { id: 'default' };
                   }
                 }
-                console.log('SAME');
-                console.log(this.sameAdvertisements);
               });
 
             for (let i = 0; i < this.images.length; i++) {

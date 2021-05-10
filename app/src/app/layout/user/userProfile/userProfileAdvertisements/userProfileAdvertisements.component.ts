@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Advertisement } from 'src/app/Dtos/advertisement';
 import { CookieService } from 'ngx-cookie-service';
 import { SortItem } from 'src/app/Dtos/sorting';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-userProfileAdvertisements',
@@ -53,6 +55,8 @@ export class UserProfileAdvertisementsComponent implements OnInit {
 
   total: number = 0;
 
+  imageBlob: string;
+
   queryParams = {
     id: '',
     limit: 10,
@@ -61,8 +65,11 @@ export class UserProfileAdvertisementsComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private imageService: ImageService,
     private cookieService: CookieService
-  ) {}
+  ) {
+    this.imageBlob = 'data:image/jpeg;base64, no_image';
+  }
 
   ngOnInit() {
     this.userName = this.cookieService.get('AuthUsername');
@@ -73,7 +80,18 @@ export class UserProfileAdvertisementsComponent implements OnInit {
     this.userService.getUserAdvertisements(queryParams).subscribe((data) => {
       this.advertisements = data.items;
       this.total = data.total;
-      console.log(data);
+      for (let i = 0; i < this.advertisements.length; i++) {
+        if (this.advertisements[i].images[0] === undefined) {
+          this.advertisements[i].images[0] = { id: 'default' };
+        }
+        this.imageService
+          .getImageById(this.advertisements[i].images[0].id)
+          .subscribe((data: any) => {
+            if (data.imageBlob) {
+              this.imageBlob = 'data:image/jpeg;base64,' + data.imageBlob;
+            }
+          });
+      }
     });
   }
 

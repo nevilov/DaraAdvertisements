@@ -17,15 +17,12 @@
     <div class="table_row" *ngFor="let advertisement of advertisements">
       <div class="table_col">
         <figure>
-          <img
-            src="./../../../../../assets/images/advertisement/car.png"
-            alt=""
-          />
+          <img [src]="imageBlob" />
         </figure>
       </div>
       <div class="table_col">{{ advertisement.title }}</div>
       <div class="table_col">{{ advertisement.price }}</div>
-      <div class="table_col">Сюда бы адресс добавить</div>
+      <div class="table_col">Сюда бы адрес добавить</div>
       <div class="table_col">
         {{ advertisement.createdDate | date: "dd-MM-yyyy" }}
       </div>
