@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { CategoryService } from './../../../services/category.service';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Category } from 'src/app/Dtos/category';
+import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 
 @Component({
     selector: 'app-submenu',
@@ -15,7 +16,8 @@ export class SubmenuComponent implements OnInit {
     @Output() isSubMenuShownOutput = new EventEmitter<boolean>();
 
     constructor(
-        private categoryService: CategoryService,) { }
+        private categoryService: CategoryService,
+        private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService) { }
 
     ngOnInit() {
         this.getAllCategories();
@@ -31,6 +33,16 @@ export class SubmenuComponent implements OnInit {
     public closeSubMenu() {
         this.isSubMenuShown = false;
         this.isSubMenuShownOutput.emit(this.isSubMenuShown);
-        // document.location.reload();
     }
+
+    public reloadBreadcrumbs(categoryId: number) {
+
+        this.categoryService.getCategoryChildrens(categoryId).subscribe((data) => {
+            // console.log(data.parent.name);
+            // alert(data.parent.name);
+            const breadcrumb = { categoryName: data.parent.name };
+            this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
+        });
+    }
+
 }
