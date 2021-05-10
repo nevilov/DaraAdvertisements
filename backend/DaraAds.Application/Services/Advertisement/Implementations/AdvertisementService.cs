@@ -205,6 +205,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Avatar = a.OwnerUser.Avatar
                     },
 
+                    Category = new GetPages.Response.CategoryResponse
+                    {
+                        Id = a.Category.Id,
+                        Name = a.Category.Name
+                    },
+
                     Images = a.Images.Select(i => new ImageResponse
                     {
                         Id = i.Id,
@@ -310,6 +316,12 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         })
                     },
 
+                    Category = new GetPagedByCategory.Response.CategoryResponse
+                    {
+                        Id = a.Category.Id,
+                        Name = a.Category.Name
+                    },
+
                     Images = a.Images.Select(i => new GetPagedByCategory.Response.ImageResponse
                     {
                         Id = i.Id,
@@ -395,6 +407,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Cover = a.Cover,
                     CreatedDate = a.CreatedDate,
                     Price = a.Price,
+                    Category = new GetUserAdvertisements.Response.CategoryResponse
+                    {
+                        Id = a.Category.Id,
+                        Name = a.Category.Name
+                    },
                     Images = a.Images.Select(i => new GetUserAdvertisements.Response.ImageResponse
                     {
                         Id = i.Id,

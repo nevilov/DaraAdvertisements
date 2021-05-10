@@ -1,39 +1,58 @@
 .iconify {
-  width: 30px;
-  height: 30px;
-  border: 1px solid #d3d3d4;
-  border-radius: 4px;
-  &:hover {
-    background: #222222;
-    color: #ffffff;
-    opacity: 0.6;
-  }
+    width: 30px;
+    height: 30px;
+    // border: 1px solid #d3d3d4;
+    border-radius: 4px;
+    transition: all ease 0.3s;
+    &:hover {
+        transition: all ease 0.3s;
+        // background: #dbdbdb;
+        color: #222;
+        opacity: 0.8;
+    }
 }
 
 .filters-form {
-  width: 350px;
-  padding: 15px;
-  background: white;
-  border: 1px solid #d3d3d4;
-  border-radius: 4px;
-  position: absolute;
-  z-index: 1;
-  right: 200px;
+    max-width: 470px;
+    padding: 15px;
+    background: white;
+    border: 1px solid #d3d3d4;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 1;
+    right: 200px;
+    & p {
+        font-weight: 600;
+    }
+    & div {
+        margin-bottom: 10px;
+        & div {
+            display: flex;
+            & input {
+                margin-right: 5px;
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  button {
-    margin-top: 4px;
-  }
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(2, 1fr);
+    // flex-direction: column;
+    button {
+        margin-top: 4px;
+    }
 }
 
 input {
-  width: 50%;
-  height: 30px;
-  padding: 6px 8px;
-  margin: 4px 0;
-  box-sizing: border-box;
-  display: inline-block;
+    width: 50%;
+    height: 30px;
+    padding: 6px 8px;
+    margin: 4px 0;
+    box-sizing: border-box;
+    display: inline-block;
 }
