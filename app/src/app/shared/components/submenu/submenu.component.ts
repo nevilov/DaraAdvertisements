@@ -39,9 +39,9 @@ export class SubmenuComponent implements OnInit {
 
         this.categoryService.getCategoryChildrens(categoryId).subscribe((data) => {
             // console.log(data.parent.name);
-            // alert(data.parent.name);
-            const breadcrumb = { categoryName: data.parent.name };
-            this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
+            // alert("1");
+            // const breadcrumb = { categoryName: data.parent.name };
+            // this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
         });
     }
 

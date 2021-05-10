@@ -84,7 +84,7 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
         this.categoryService.getCategoryChildrens(id).subscribe((data) => {
             this.category = data.parent;
 
-            // alert(this.category.name);
+            // alert("2 " + this.category.name);
 
             const breadcrumb = { categoryName: this.category.name };
             this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
