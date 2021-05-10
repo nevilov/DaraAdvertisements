@@ -71,10 +71,9 @@
 
         <div class="container__map">
             <h2>Расположение</h2>
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d20309.075323923767!2d30.4721233!3d50.4851493!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2s!4v1620489215187!5m2!1sru!2s"
-                width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-
+            <ya-map [center]="[lat, lon]" [zoom]="15">
+                <ya-placemark [geometry]="[lat, lon]"></ya-placemark>
+            </ya-map>
         </div>
         <div class="container__commonInfo">
             <h2>Цена: {{ advertisement?.price }} руб.</h2>
@@ -113,7 +112,7 @@
                     <div class="container__action">
                         <span class="iconify" data-height="24px" data-icon="fluent:thumb-dislike-20-filled"
                             data-inline="false" style="color: #1890ff"></span>
-                        <span style="color: #ff7722"><a href="/newAbuse/{{id}}">Пожаловаться на объявление</a></span>
+                        <span><a href="/newAbuse/{{id}}">Пожаловаться на объявление</a></span>
                     </div>
                     <div class="container__action">
                         <span class="iconify" data-height="24px" data-icon="bi:share-fill" data-inline="false"

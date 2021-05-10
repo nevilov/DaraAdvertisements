@@ -31,6 +31,8 @@ export class AdvertisementDetailPageComponent implements OnInit {
     deleteText: string = 'Удалить объявление';
     sameAdvertisements: Advertisement[] | null = null;
     userAdvertisements: Advertisement[] | null = null;
+    lat = 44.5950483;
+    lon = 33.4758289;
 
     constructor(
         private route: ActivatedRoute,

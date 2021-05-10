@@ -30,6 +30,7 @@
     "@taiga-ui/addon-mobile": "^2.6.2",
     "@taiga-ui/addon-table": "^2.6.2",
     "@taiga-ui/addon-tablebars": "^2.6.2",
+    "angular8-yandex-maps": "^11.0.2",
     "jwt-decode": "^3.1.2",
     "ng-dynamic-breadcrumb": "^5.0.1",
     "ngx-cookie-service": "^11.0.2",
