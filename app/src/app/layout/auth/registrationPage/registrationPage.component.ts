@@ -16,6 +16,8 @@ export class RegistrationPageComponent implements OnInit {
     registrationState: string = "Регистрация";
     isClickAllowed: boolean = true;
     passwordRegex: RegExp = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+    emailRegex: RegExp = new RegExp('.{1,}@[^.]{1,}');
+    phoneRegex: RegExp = new RegExp('[- +()0-9]+');
     private sub: Subscription;
 
     registrationForm = new FormGroup({
