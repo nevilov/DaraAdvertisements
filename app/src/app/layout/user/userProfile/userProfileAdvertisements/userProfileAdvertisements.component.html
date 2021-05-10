@@ -14,7 +14,16 @@
     </div>
   </div>
   <div class="table_body">
-    <div class="table_row" *ngFor="let advertisement of advertisements">
+    <div
+      class="table_row"
+      [routerLink]="[
+        '/advertisements/',
+        advertisement.category.id,
+        'advertisement',
+        advertisement.id
+      ]"
+      *ngFor="let advertisement of advertisements"
+    >
       <div class="table_col">
         <figure>
           <img [src]="imageBlob" />

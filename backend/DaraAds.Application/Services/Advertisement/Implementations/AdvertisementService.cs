@@ -411,6 +411,11 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Id = i.Id,
                         ImageUrl = S3Url + i.Name
                     }),
+                    Category = new GetUserAdvertisements.Response.CategoryResponse
+                    {
+                        Id = a.Category.Id,
+                        Name = a.Category.Name
+                    },
                     Status = a.Status.ToString()
                 }),
                 Total = result.Total,

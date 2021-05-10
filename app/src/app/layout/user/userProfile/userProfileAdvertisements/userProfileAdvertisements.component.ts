@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { Advertisement } from 'src/app/Dtos/advertisement';
 import { CookieService } from 'ngx-cookie-service';
 import { SortItem } from 'src/app/Dtos/sorting';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ImageService } from 'src/app/services/image.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-userProfileAdvertisements',
   templateUrl: './userProfileAdvertisements.component.html',
@@ -80,12 +81,15 @@ export class UserProfileAdvertisementsComponent implements OnInit {
     this.userService.getUserAdvertisements(queryParams).subscribe((data) => {
       this.advertisements = data.items;
       this.total = data.total;
+      console.log(data);
+
       for (let i = 0; i < this.advertisements.length; i++) {
         if (this.advertisements[i].images[0] === undefined) {
           this.advertisements[i].images[0] = { id: 'default' };
         }
         this.imageService
           .getImageById(this.advertisements[i].images[0].id)
+          .pipe(untilDestroyed(this))
           .subscribe((data: any) => {
             if (data.imageBlob) {
               this.imageBlob = 'data:image/jpeg;base64,' + data.imageBlob;
