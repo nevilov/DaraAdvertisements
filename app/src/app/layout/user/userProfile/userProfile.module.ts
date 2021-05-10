@@ -12,7 +12,7 @@ import {UserProfileBlockComponent} from "./userProfileBlock/userProfileBlock.com
 import {UserProfileBulkLoadingComponent} from "./userProfileBulkLoading/userProfileBulkLoading.component";
 import {UserProfileSendNotificationsComponent} from "./userProfileSendNotifications/userProfileSendNotifications.component";
 import {UserProfileChangeRoleComponent} from "./userProfileChangeRole/userProfileChangeRole.component";
-import {UserProfileChangeCorporationStatusComponent} from "./userProfileChangeCorporationStatus/userProfileChangeCorporationStatus.component";
+import {UserProfileChangeUserStatusComponent} from "./userProfileChangeUserStatus/userProfileChangeUserStatus.component";
 
 @NgModule({
 	imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
@@ -26,7 +26,7 @@ import {UserProfileChangeCorporationStatusComponent} from "./userProfileChangeCo
     UserProfileBulkLoadingComponent,
     UserProfileSendNotificationsComponent,
     UserProfileChangeRoleComponent,
-    UserProfileChangeCorporationStatusComponent
+    UserProfileChangeUserStatusComponent
 	],
 	exports: [
 		UserProfileComponent,
@@ -38,7 +38,7 @@ import {UserProfileChangeCorporationStatusComponent} from "./userProfileChangeCo
     UserProfileBulkLoadingComponent,
     UserProfileSendNotificationsComponent,
     UserProfileChangeRoleComponent,
-    UserProfileChangeCorporationStatusComponent
+    UserProfileChangeUserStatusComponent
 	],
 })
 export class UserProfileModule { }

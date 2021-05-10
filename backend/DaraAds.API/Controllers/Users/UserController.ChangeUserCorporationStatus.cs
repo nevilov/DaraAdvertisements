@@ -12,7 +12,7 @@ namespace DaraAds.API.Controllers.Users
         [Authorize(Roles = "Moderator")]
         public async Task<IActionResult> ChangeUserCorporationStatus(ChangeUserCorporationStatus request, CancellationToken cancellationToken)
         {
-            await _userService.ChangeUserCorporationStatus(request.UserId, request.IsCorporation, cancellationToken);
+            await _userService.ChangeUserCorporationStatus(request.UserId, request.UserStatus, cancellationToken);
             return Ok();
         }
     }

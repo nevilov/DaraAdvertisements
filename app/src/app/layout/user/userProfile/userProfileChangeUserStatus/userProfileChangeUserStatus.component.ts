@@ -6,12 +6,12 @@ import {ToastrService} from "ngx-toastr";
 
 
 @Component({
-  selector: 'app-userProfileChangeCorporationStatus',
-  templateUrl: './userProfileChangeCorporationStatus.component.html',
-  styleUrls: ['./userProfileChangeCorporationStatus.component.scss']
+  selector: 'app-userProfileChangeUserStatus',
+  templateUrl: './userProfileChangeUserStatus.component.html',
+  styleUrls: ['./userProfileChangeUserStatus.component.scss']
 })
 
-export class UserProfileChangeCorporationStatusComponent {
+export class UserProfileChangeUserStatusComponent {
   constructor(private userService: UserService,
               private router: Router,
               private toastrService: ToastrService) {
@@ -19,13 +19,14 @@ export class UserProfileChangeCorporationStatusComponent {
 
   changeCorporationForm = new FormGroup({
     userId: new FormControl(),
-    isCorporation: new FormControl()
+    userStatus: new FormControl()
   });
 
   onSend(){
     this.userService.changeCorporationStatus(this.changeCorporationForm.value.userId,
-      this.changeCorporationForm.value.isCorporation).subscribe(a => {
+      this.changeCorporationForm.value.userStatus).subscribe(a => {
       this.toastrService.success('Статус пользователя изменен');
-      return this.router.navigateByUrl('/cabinet/profile');
-    });}
+      return this.router.navigateByUrl('/cabinet/personal');
+    });
+  }
 }

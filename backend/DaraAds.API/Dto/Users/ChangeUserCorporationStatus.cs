@@ -5,6 +5,6 @@ namespace DaraAds.API.Dto.Users
     {
         public string UserId { get; set; }
 
-        public bool IsCorporation { get; set; }
+        public string UserStatus { get; set; }
     }
 }
