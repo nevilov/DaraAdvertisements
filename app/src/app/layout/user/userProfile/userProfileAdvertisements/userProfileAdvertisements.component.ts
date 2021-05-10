@@ -56,8 +56,6 @@ export class UserProfileAdvertisementsComponent implements OnInit {
 
   total: number = 0;
 
-  imageBlob: string;
-
   queryParams = {
     id: '',
     limit: 10,
@@ -68,9 +66,7 @@ export class UserProfileAdvertisementsComponent implements OnInit {
     private userService: UserService,
     private imageService: ImageService,
     private cookieService: CookieService
-  ) {
-    this.imageBlob = 'data:image/jpeg;base64, no_image';
-  }
+  ) {}
 
   ngOnInit() {
     this.userName = this.cookieService.get('AuthUsername');
@@ -92,7 +88,8 @@ export class UserProfileAdvertisementsComponent implements OnInit {
           .pipe(untilDestroyed(this))
           .subscribe((data: any) => {
             if (data.imageBlob) {
-              this.imageBlob = 'data:image/jpeg;base64,' + data.imageBlob;
+              this.advertisements[i].images[0] =
+                'data:image/jpeg;base64,' + data.imageBlob;
             }
           });
       }
