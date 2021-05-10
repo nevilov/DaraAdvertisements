@@ -89,19 +89,6 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     }
     this.loadAdvertisements(this.queryParams);
   }
-  //TODO Можно сносить - работает без него
-  loadAdvertisementsByCategory(categoryId: number) {
-    this.advertisementService
-      .getAdvertisementsByCategoryId(categoryId)
-      .subscribe((data) => {
-        this.advertisements = data.items;
-        for (let i = 0; i < this.advertisements.length; i++) {
-          if (this.advertisements[i].images[0] === undefined) {
-            this.advertisements[i].images[0] = { id: 'default' };
-          }
-        }
-      });
-  }
 
   public getCategoriesById(id: number) {
     this.categoryService.getCategoryChildrens(id).subscribe((data) => {

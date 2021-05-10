@@ -1,30 +1,34 @@
 <div class="container">
-    <a [routerLink]="['/advertisements/',0,'advertisement', routLink]">
-        <figure class="container__image">
-            <img [src]="imageBlob" alt="">
-        </figure>
+  <a [routerLink]="['/advertisements/', 0, 'advertisement', routLink]">
+    <figure class="container__image">
+      <img [src]="imageBlob" alt="" />
+    </figure>
+  </a>
+  <div class="container__content">
+    <a [routerLink]="['/advertisements/0/advertisement/', routLink]">
+      <h3 class="container__title">{{ title }}</h3>
     </a>
-    <div class="container__content">
-        <a [routerLink]="['/advertisements/0/advertisement/', routLink]">
-            <h3 class="container__title">{{title}}</h3>
-        </a>
-        <span class="container__price">{{price}} руб.</span>
-        <div class="container__userInfo userInfo" *ngIf="!thisUserAdvertisement">
-            <a [routerLink]="[ '/profile/', ownerLogin ]">
-                <figure class="userInfo__avatar">
-                    <img [src]="avatarBlob" alt="">
-                </figure>
-            </a>
-            <div class="userInfo__left">
-                <a [routerLink]="[ '/profile/', ownerLogin ]" class="userInfo__name">{{ ownerName }}</a>
-                <a class="userInfo__link" [routerLink]="[ '/profile/', ownerLogin ]">Другие объявления</a>
-            </div>
-        </div>
-        <div class="container__advInfo">
-            <div class="container__adress">
-                г. Севастополь, Гагаринский
-            </div>
-            <span class="container__date">{{ createdDate | date:'dd-MM-yyyy hh:mm' }}</span>
-        </div>
+    <span class="container__price">{{ price }} руб.</span>
+    <div class="container__userInfo userInfo" *ngIf="!thisUserAdvertisement">
+      <a [routerLink]="['/profile/', ownerLogin]">
+        <figure class="userInfo__avatar">
+          <img [src]="avatarBlob" alt="" />
+        </figure>
+      </a>
+      <div class="userInfo__left">
+        <a [routerLink]="['/profile/', ownerLogin]" class="userInfo__name">{{
+          ownerName
+        }}</a>
+        <a class="userInfo__link" [routerLink]="['/profile/', ownerLogin]"
+          >Другие объявления</a
+        >
+      </div>
     </div>
+    <div class="container__advInfo">
+      <div class="container__adress">г. Севастополь, Гагаринский</div>
+      <span class="container__date">{{
+        createdDate | date: "dd-MM-yyyy hh:mm"
+      }}</span>
+    </div>
+  </div>
 </div>

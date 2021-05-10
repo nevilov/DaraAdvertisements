@@ -1,20 +1,40 @@
 <div class="container">
-    <div class="container-left userInfo">
-        <figure class="userInfo__avatar">
-            <img src="./../../../../assets/images/menu/avatar.png" alt="">
-        </figure>
-        <p class="userInfo__name">{{ user?.name + " " + user?.lastname }}</p>
-        <a routerLink="/chat" class="menu__btn btn-main">Написать продавцу</a>
-        <p class="userInfo__date">На DaraAds с {{ user?.createdDate| date:'dd.MM.yyyy' }}</p>
+  <div class="container-left userInfo">
+    <figure class="userInfo__avatar">
+      <img [src]="user?.avatar" alt="" />
+    </figure>
+    <p class="userInfo__name">{{ user?.name + " " + user?.lastname }}</p>
+    <a routerLink="/chats" class="menu__btn btn-main">Написать продавцу</a>
+    <p class="userInfo__date">
+      На DaraAds с {{ user?.createdDate | date: "dd.MM.yyyy" }}
+    </p>
+  </div>
+  <div class="container-right">
+    <h1>Все объявления продавца</h1>
+    <app-sort
+      [sotringElements]="sotringElements"
+      (setValue)="onSort($event)"
+    ></app-sort>
+    <div class="content">
+      <app-advertisement
+        *ngFor="let advertisement of advertisements"
+        [routLink]="advertisement.id"
+        [title]="advertisement.title"
+        [price]="advertisement.price"
+        [ownerName]="user?.name + ' ' + user?.lastname"
+        [createdDate]="advertisement.createdDate"
+        [cover]="advertisement.images[0].id"
+        [ownerLogin]="advertisement?.owner?.username + ''"
+        [thisUserAdvertisement]="true"
+        [avatar]="advertisement?.owner?.avatar + ''"
+      >
+      </app-advertisement>
     </div>
-    <div class="container-right">
-        <h1>Все объявления продавца</h1>
-        <div class="content">
-            <app-advertisement *ngFor="let advertisement of advertisements;"
-                [routerLink]="['/advertisements', advertisement.id]" [title]="advertisement.title"
-                [price]="advertisement.price" [ownerName]='user?.name + " "+ user?.lastname'
-                [createdDate]="advertisement.createdDate">
-            </app-advertisement>
-        </div>
-    </div>
+    <app-pagination-control
+      [offset]="queryParams.offset"
+      [limit]="queryParams.limit"
+      [total]="total"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination-control>
+  </div>
 </div>

@@ -87,7 +87,7 @@
         <div class="user__info">
           <a [routerLink]="['/profile/', advertisement?.owner?.username]">
             <figure class="user__avatar">
-              <img src="./../../../../assets/images/menu/avatar.png" alt="" />
+              <img [src]="userAvatar" alt="" />
             </figure>
           </a>
           <div class="user__container">
@@ -180,6 +180,7 @@
         [ownerLogin]="advertisement?.owner?.username + ''"
         [thisUserAdvertisement]="true"
         [cover]="advertisement?.images[0]?.id"
+        [avatar]="advertisement?.owner?.avatar + ''"
       >
       </app-advertisement>
     </div>
