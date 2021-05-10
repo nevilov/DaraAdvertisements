@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
 	title = 'DaraAds';
-	public static backendAddress: string = 'https://localhost:5001';
+	public static backendAddress: string = 'http://localhost:80';
 }
