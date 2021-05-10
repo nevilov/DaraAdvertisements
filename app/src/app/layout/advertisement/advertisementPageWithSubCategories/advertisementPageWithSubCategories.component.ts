@@ -111,6 +111,9 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
                 console.log(data);
 
                 this.total = data.total;
+                var a = this.total < 1;
+                console.log(a);
+
                 for (let i = 0; i < this.advertisements.length; i++) {
                     if (this.advertisements[i].images[0] === undefined) {
                         this.advertisements[i].images[0] = { id: 'default' };
