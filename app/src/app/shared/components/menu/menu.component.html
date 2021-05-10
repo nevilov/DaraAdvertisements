@@ -78,31 +78,67 @@
             <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/personal">
                 <span class="iconify userMenu__icon" data-icon="bx:bxs-user-account" data-inline="false"
                     style="color: #222222;"></span>
-                <span routerLink="personal" class="userMenu__text">Персональная информация</span>
+                <span class="userMenu__text">Персональная информация</span>
             </a>
             <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/changeinfo">
                 <span class="iconify userMenu__icon" data-icon="ri:lock-password-fill" data-inline="false"
                     style="color: #222222;"></span>
-                <span routerLink="changeinfo" class="userMenu__text">Логин & Пароль</span>
+                <span class="userMenu__text">Логин & Пароль</span>
             </a>
-            <a class="userMenu__item" (click)="userLogout()">
+            <a class="userMenu__item" (click)="userLogout(); showUsermenu()">
                 <span class="iconify userMenu__icon" data-icon="icomoon-free:exit" data-inline="false"
                     style="color: #222222;"></span>
                 <span class="userMenu__text">Выход</span>
             </a>
         </div>
 
-        <div class="userMenu__block">
+        <div class="userMenu__block" *ngIf="currentUserRole == 'User'">
             <div class="userMenu__header">Объявления</div>
             <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/advertisements">
                 <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
                     style="color: #222222;"></span>
-                <span routerLink="advertisements" class="userMenu__text">Мои объявления</span>
+                <span class="userMenu__text">Мои объявления</span>
             </a>
-            <a (click)="showUsermenu()" class="userMenu__item">
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/favorites">
                 <span class="iconify userMenu__icon" data-icon="carbon:favorite-filled" data-inline="false"
                     style="color: #222222;"></span>
-                <span routerLink="advertisements" class="userMenu__text">Избранное</span>
+                <span class="userMenu__text">Избранное</span>
+            </a>
+            <!-- If isCorporative-->
+            <a *ngIf="isCorporation" (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/import">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="userMenu__text">Массовая загрузка</span>
+            </a>
+        </div>
+
+        <div class="userMenu__block" *ngIf="currentUserRole == 'Moderator'">
+            <div class="userMenu__header">Панель модератора</div>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/block">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="userMenu__text">Блокировка пользователей</span>
+            </a>
+        </div>
+
+        <div class="userMenu__block" *ngIf="currentUserRole == 'Admin'">
+            <div class="userMenu__header">Панель администратора</div>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/block">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="userMenu__text">Блокировка пользователей</span>
+            </a>
+            <!-- TODO FIX ROUTING -->
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/advertisements">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="userMenu__text">Смена ролей</span>
+            </a>
+            <!-- TODO FIX ROUTING -->
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/advertisements">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="userMenu__text">Рассылка</span>
             </a>
         </div>
     </div>

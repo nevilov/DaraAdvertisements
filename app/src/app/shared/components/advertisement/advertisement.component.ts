@@ -1,3 +1,4 @@
+import { Advertisement } from 'src/app/Dtos/advertisement';
 import { Component, Input, OnInit } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ImageService } from 'src/app/services/image.service';
@@ -18,8 +19,9 @@ export class AdvertisementComponent implements OnInit {
     @Input() ownerId: string = ""; // Решение на скорую руку TODO Исправить
     @Input() avatar: string = "";
     @Input() createdDate: Date = new Date();
-    @Input() routLink: number = 0;
+    @Input() advertisementId: number = 0;
     @Input() thisUserAdvertisement: boolean = false;
+    @Input() categoryId: number | undefined = 0;
     imageBlob: string;
     avatarBlob: string;
 

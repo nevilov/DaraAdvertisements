@@ -1,11 +1,11 @@
 <div class="container">
-    <a [routerLink]="['/advertisements/',0,'advertisement', routLink]">
+    <a [routerLink]="['/advertisements/',categoryId,'advertisement', advertisementId]">
         <figure class="container__image">
             <img [src]="imageBlob" alt="">
         </figure>
     </a>
     <div class="container__content">
-        <a [routerLink]="['/advertisements/0/advertisement/', routLink]">
+        <a [routerLink]="['/advertisements/',categoryId,'advertisement', advertisementId]">
             <h3 class="container__title">{{title}}</h3>
         </a>
         <span class="container__price">{{price}} руб.</span>

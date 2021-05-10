@@ -2,15 +2,16 @@
     <div class="submenu__main">
         <div class="submenu__categories">
             <div class="submenu__categorie" *ngFor="let category of categories">
-                <a [routerLink]="['/advertisements/', category.id]" (click)="closeSubMenu()"
-                    class="submenu__categoryHeader">
-                    <span class="iconify" data-icon="dashicons:category" data-height="28px" data-inline="false"
+                <a [routerLink]="['/advertisements/', category.id]"
+                    (click)="closeSubMenu(); reloadBreadcrumbs(category.id)" class="submenu__categoryHeader">
+                    <span class="iconify" data-icon="bx:bxs-category" data-height="28px" data-inline="false"
                         style="color: #1890ff;"></span>
                     <span>{{category.name}}</span>
                 </a>
                 <div class="submenu__categoryItems">
-                    <a (click)="closeSubMenu()" [routerLink]="['/advertisements/', subcategory.id]"
-                        class="submenu__categoryItem" *ngFor="let subcategory of category.childCategories">
+                    <a (click)="closeSubMenu(); reloadBreadcrumbs(category.id)"
+                        [routerLink]="['/advertisements/', subcategory.id]" class="submenu__categoryItem"
+                        *ngFor="let subcategory of category.childCategories">
                         <span>{{subcategory.name}}</span>
                     </a>
                 </div>
@@ -27,7 +28,7 @@
         </div>
     </div>
 
-    <div class="submenu__best">
+    <!-- <div class="submenu__best">
         <h1>Лучшее из категорий</h1>
         <div class="submenu__categoriesPreview">
             <div class="submenu__categoriesPreviewContent pointer">
@@ -112,5 +113,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

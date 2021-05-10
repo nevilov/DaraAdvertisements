@@ -7,20 +7,27 @@ import { AdvertisementDetailPageComponent } from './advertisementDetailPage/adve
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdvertisementPageWithSubCategoriesComponent } from './advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SharedModule, ReactiveFormsModule],
-  declarations: [
-    NewAdvertisementPageComponent,
-    EditAdvertisementPageComponent,
-    AdvertisementDetailPageComponent,
-    AdvertisementPageWithSubCategoriesComponent,
-  ],
-  exports: [
-    NewAdvertisementPageComponent,
-    EditAdvertisementPageComponent,
-    AdvertisementDetailPageComponent,
-    AdvertisementPageWithSubCategoriesComponent,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        SharedModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+    ],
+    declarations: [
+        NewAdvertisementPageComponent,
+        EditAdvertisementPageComponent,
+        AdvertisementDetailPageComponent,
+        AdvertisementPageWithSubCategoriesComponent,
+    ],
+    exports: [
+        NewAdvertisementPageComponent,
+        EditAdvertisementPageComponent,
+        AdvertisementDetailPageComponent,
+        AdvertisementPageWithSubCategoriesComponent,
+    ],
 })
-export class AdvertisementModule {}
+export class AdvertisementModule { }

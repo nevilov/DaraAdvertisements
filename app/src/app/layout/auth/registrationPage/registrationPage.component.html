@@ -31,18 +31,23 @@
             <div class="content__form_main_values">
                 <input formControlName="username" class="content__formInput" type="text" name="login"
                     placeholder="Укажите Ваш будущий логин">
+                <small style="{{(registrationForm.get('username')!.value.length > 0) ? (registrationForm.get('username')!.value.length < 5) ? 'color: rgb(235,59,59);' : 'color: rgb(59, 59, 59);' : 'visibility: hidden;' }}">Не менее 5 символов латинскими буквами </small>
                 <input formControlName="password" class="content__formInput" type="password" name="password"
                     placeholder="Ваш пароль">
-
+                <small style="{{(registrationForm.get('password')!.value.length > 0) ? (passwordRegex.test(registrationForm.get('password')!.value)) ? 'color: rgb(59,59,59);' : 'color: rgb(235, 59, 59);' : 'visibility: hidden;' }}">Не менее 6 символов, цифры, буквы, спецсимвол. Пример: 123456Qq!</small>
                 <input formControlName="name" class="content__formInput" type="text" name="login"
                     placeholder="Укажите Ваше имя">
+                <small style="{{(registrationForm.get('name')!.value.length > 0) ? (registrationForm.get('name')!.value.length < 5) ? 'color: rgb(235,59,59);' : 'color: rgb(59, 59, 59);' : 'visibility: hidden;' }}">Не менее 5 символов</small>
                 <input formControlName="lastName" class="content__formInput" type="text" name="login"
                     placeholder="Укажите Вашу фамилию">
+                <small style="{{(registrationForm.get('lastName')!.value.length > 0) ? (registrationForm.get('lastName')!.value.length < 5) ? 'color: rgb(235,59,59);' : 'color: rgb(59, 59, 59);' : 'visibility: hidden;' }}">Не менее 5 символов</small>
                 <input formControlName="email" class="content__formInput" type="email" name="email"
                     placeholder="Укажите Ваш email">
+                <small style="{{(registrationForm.get('email')!.value.length > 0) ? (emailRegex.test(registrationForm.get('email')!.value)) ? 'color: rgb(59,59,59);' : 'color: rgb(235, 59, 59);' : 'visibility: hidden;' }}">Не менее 5 символов, нужен действующий E-mail</small>
                 <input formControlName="phone" class="content__formInput" type="text" name="login"
                     placeholder="Укажите телефонный номер для объявлений">
-                <button>Регистрация <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
+                <small style="{{(registrationForm.get('phone')!.value.length > 0) ? (phoneRegex.test(registrationForm.get('phone')!.value)) ? 'color: rgb(59,59,59);' : 'color: rgb(235, 59, 59);' : 'visibility: hidden;' }}">Не менее 5 символов. Телефонный формат. Например: +79781234567</small>
+                <button  style="margin-top: 15px;">{{registrationState}} <span class="iconify" data-icon="bi:arrow-right" data-inline="false"
                         style="color: white;"></span></button>
             </div>
         </div>

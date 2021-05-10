@@ -29,6 +29,12 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Avatar { get; set; }
             }
 
+            public sealed class CategoryResponse
+            {
+                public int Id { get; set; }
+                public string Name { get; set; }
+            }
+
             public sealed class ImageResponse
             {
                 public string Id { get; set; }
@@ -46,6 +52,7 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public DateTime CreatedDate { get; set; }
                 public OwnerResponse Owner { get; set; }
                 public IEnumerable<ImageResponse> Images { get; set; }
+                public CategoryResponse Category { get; set; }
             }
         }
     }
