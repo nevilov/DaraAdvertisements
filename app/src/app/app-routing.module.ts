@@ -59,15 +59,15 @@ const routes: Routes = [
         },
     },
     {
-        path: 'newAbuse',
+        path: 'newAbuse/:id',
         component: NewAbusePageComponent,
         data: {
             breadcrumb: [
                 { label: 'Главная', url: '' },
                 { label: 'Жалобы', url: 'abuse' },
-                { label: 'Новая жалоба', url: '/newAbuse' },
+                { label: 'Новая жалоба', url: 'newAbuse/:id' },
             ],
-        }
+        },
     },
     {
         path: 'advertisements',
