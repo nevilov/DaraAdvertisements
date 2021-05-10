@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 
 export class AppComponent {
-	title = 'DaraAds';
-	public static backendAddress: string = 'https://localhost:5001';
+    title = 'DaraAds';
+    public static backendAddress: string = 'https://localhost:5001';
 }
