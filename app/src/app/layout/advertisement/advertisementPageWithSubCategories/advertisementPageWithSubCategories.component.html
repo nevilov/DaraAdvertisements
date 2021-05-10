@@ -103,13 +103,13 @@
                 <p>Может попробуем еще раз с другими настройками?</p>
             </div>
 
-            <app-advertisement *ngFor="let advertisement of advertisements;" [advertisementId]="advertisement.id"
+            <app-ads *ngFor="let advertisement of advertisements;" [advertisementId]="advertisement.id"
                 [title]="advertisement.title" [price]="advertisement.price"
                 [ownerName]='advertisement.owner.name + " " + advertisement.owner.lastname'
                 [createdDate]="advertisement.createdDate" [ownerId]="advertisement?.owner?.id+''"
                 [ownerLogin]="advertisement?.owner?.username+''" [cover]="advertisement.images[0].id"
                 [avatar]="advertisement?.owner?.avatar+''" [categoryId]="advertisement?.category?.id">
-            </app-advertisement>
+            </app-ads>
 
         </div>
 

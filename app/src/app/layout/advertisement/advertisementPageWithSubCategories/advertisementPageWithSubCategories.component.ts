@@ -9,7 +9,7 @@ import { switchMap } from 'rxjs/operators';
 import { SortItem } from 'src/app/Dtos/sorting';
 
 @Component({
-    selector: 'app-advertisementPageWithSubCategories',
+    selector: 'app-adsPageWithSubCategories',
     templateUrl: './advertisementPageWithSubCategories.component.html',
     styleUrls: ['./advertisementPageWithSubCategories.component.scss'],
     providers: [AdvertisementService],

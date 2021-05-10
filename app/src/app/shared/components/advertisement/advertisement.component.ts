@@ -4,7 +4,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ImageService } from 'src/app/services/image.service';
 
 @Component({
-    selector: 'app-advertisement',
+    selector: 'app-ads',
     templateUrl: './advertisement.component.html',
     styleUrls: ['./../../../../assets/scss/layout/__advertisement.scss']
 })
