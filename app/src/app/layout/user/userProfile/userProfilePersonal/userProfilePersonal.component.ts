@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
@@ -20,23 +21,41 @@ export class UserProfilePersonalComponent implements OnInit {
     avatar: string;
     userImageBlob: string;
     fileToUpload: File;
+    isNotificated: boolean;
+    isCorporative: boolean;
 
     constructor(
         private userService: UserService,
         private cookieService: CookieService,
         private imageService: ImageService,
-        private dataSharingService: DataSharingService
-    )
-    {
+        private dataSharingService: DataSharingService,
+        private toastr: ToastrService
+    ) {
         this.avatar = "default";
         this.fileToUpload = {} as File;
         this.userImageBlob = "";
+        this.isNotificated = false;
+        this.isCorporative = false;
     }
 
     ngOnInit() {
         this.userName = this.cookieService.get('AuthUsername');
         this.loadUserInfo();
         this.loadUserAvatar();
+    }
+
+    setNotityState(event: any) {
+        var userId = this.user?.id + "";
+        if (event.currentTarget.checked) {
+            this.userService.setNotificationState(true).subscribe((data) => {
+                this.toastr.success("Ваша подписка успешно оформлена", "Успешно!");
+            });
+        } else {
+            this.userService.setNotificationState(false).subscribe((data) => {
+                this.toastr.warning("Вы отписались от рассылки", "Выполнено!");
+            });
+        }
+
     }
 
     onFileChange(event: any) {
@@ -63,6 +82,8 @@ export class UserProfilePersonalComponent implements OnInit {
         // this.userService.getUser(this.userName)
         this.userService.getCurrentUser().subscribe((data) => {
             this.user = data;
+            this.isNotificated = this.user.isSubscribeToNotifications;
+            this.isCorporative = this.user.isCorporation;
             console.log(data);
         });
     }

@@ -34,13 +34,15 @@
             <div class="container__accountType">
                 <form action="">
 
-                    <div class="container__accountType-row">
-                        <input type="radio" name="account" value="personal">
+                    <div class="container__accountType-row "
+                        [ngClass]="{'container__accountType-active' : !isCorporative}">
+                        <input checked={{!isCorporative}} disabled type="radio" name="account" value="personal">
                         <label for="personalAccount">Персональный аккаунт</label>
                     </div>
 
-                    <div class="container__accountType-row">
-                        <input type="radio" name="account" value="corporative">
+                    <div class="container__accountType-row"
+                        [ngClass]="{'container__accountType-active' : isCorporative}">
+                        <input checked={{isCorporative}} disabled type="radio" name="account" value="corporative">
                         <label for="corporativeAccount">Корпоративный аккаунт</label>
                     </div>
 
@@ -102,17 +104,19 @@
 
                 <div class="container__checkbox">
                     <div class="input__value">
-                        <input name="getNotify" type="checkbox">
+                        <input checked={{!isNotificated}} (change)="setNotityState($event)" name="getNotify"
+                            type="checkbox">
+
                     </div>
                     <label for="country" class="container__label">Я хочу получать напоминания</label>
                 </div>
 
-                <div class="container__checkbox">
+                <!-- <div class="container__checkbox">
                     <div class="input__value">
                         <input name="getNotify" type="checkbox">
                     </div>
                     <label for="country" class="container__label">И тут какая-то еще ерунда</label>
-                </div>
+                </div> -->
 
             </div>
         </div>

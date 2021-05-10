@@ -1,3 +1,5 @@
+import { UserService } from 'src/app/services/user.service';
+import { User } from './../../../Dtos/chat';
 import { SubmenuComponent } from '../submenu/submenu.component';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
@@ -17,6 +19,7 @@ export class MenuComponent implements OnInit {
     currentUserRole: string = '';
     currentUserAvatar: string = '';
     isAutorized: boolean = false;
+    isCorporation: boolean = false;
 
     @ViewChild('usermenu', { read: ElementRef }) UserMenu!: ElementRef;
     @ViewChild('btnShowsSubmenu', { read: ElementRef }) span!: ElementRef;
@@ -63,7 +66,6 @@ export class MenuComponent implements OnInit {
     public userLogout() {
         this.signService.logout();
         this.isAutorized = false;
-        this.showUsermenu();
     }
 
     public checkAuthorized() {
@@ -83,7 +85,8 @@ export class MenuComponent implements OnInit {
         private cookieService: CookieService,
         private dataSharingService: DataSharingService,
         private signService: SignService,
-        public toastr: ToastrService
+        // private toastr: ToastrService,
+        private userService: UserService
     ) {
         this.dataSharingService.isUserLoggedIn.subscribe(() => {
             this.checkAuthorized();
@@ -92,5 +95,8 @@ export class MenuComponent implements OnInit {
 
     ngOnInit() {
         this.checkAuthorized();
+        this.userService.getCurrentUser().subscribe((data) => {
+            this.isCorporation = data.isCorporation;
+        });
     }
 }
