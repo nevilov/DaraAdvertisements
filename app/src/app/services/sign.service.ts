@@ -37,11 +37,11 @@ export class SignService {
             .pipe(
                 tap((response: any) => {
                     console.log(response);
-                    this.cookieService.set('AuthUsername', response.userName);
-                    this.cookieService.set('AuthToken', response.token);
-                    this.cookieService.set('UserAvatar', response.userAvatar);
-                    this.cookieService.set('UserRole', response.userRole);
-                    this.cookieService.set('UserId', response.userId);
+                    this.cookieService.set('AuthUsername', response.userName, 1, '/');
+                    this.cookieService.set('AuthToken', response.token, 1, '/');
+                    this.cookieService.set('UserAvatar', response.userAvatar, 1, '/');
+                    this.cookieService.set('UserRole', response.userRole, 1, '/');
+                    this.cookieService.set('UserId', response.userId, 1, '/');
                     this.dataSharingService.isUserLoggedIn.next(true);
                 }),
                 // catchError(this.checkError)
