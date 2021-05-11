@@ -18,6 +18,7 @@ export class MenuComponent implements OnInit {
     currentUserName: string = '';
     currentUserRole: string = '';
     currentUserAvatar: string = '';
+    currentUserAvatarBlob: string = '';
     isAutorized: boolean = false;
     isCorporation: boolean = false;
 
@@ -48,7 +49,6 @@ export class MenuComponent implements OnInit {
 
     public updateAvatar() {
         this.currentUserAvatar = this.cookieService.get('UserAvatar');
-
         if (this.currentUserAvatar == "null") {
             this.currentUserAvatar = "default";
         }
@@ -57,7 +57,7 @@ export class MenuComponent implements OnInit {
         this.imageService.getImageById(this.currentUserAvatar)
             .subscribe((data: any) => {
                 if (data.imageBlob) {
-                    this.currentUserAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+                    this.currentUserAvatarBlob = 'data:image/jpeg;base64,' + data.imageBlob;
                     console.log("data received");
                 }
             });

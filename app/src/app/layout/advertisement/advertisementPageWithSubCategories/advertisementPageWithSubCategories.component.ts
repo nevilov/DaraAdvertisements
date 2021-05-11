@@ -17,7 +17,7 @@ import { SortItem } from 'src/app/Dtos/sorting';
 export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
 
     advertisements: Advertisement[] = [];
-    category: Category | null = null;
+    category: Category;
     categoryId = -1;
 
     sotringElements: SortItem[] = [
@@ -44,6 +44,7 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
         private advertisementService: AdvertisementService,
         private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
     ) {
+        this.category = {} as Category;
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
 
