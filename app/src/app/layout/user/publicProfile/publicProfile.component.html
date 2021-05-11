@@ -18,6 +18,7 @@
     <div class="content">
       <app-advertisement
         *ngFor="let advertisement of advertisements"
+        [class.disabled]="advertisement.status !== 'Created'"
         [routLink]="advertisement.id"
         [title]="advertisement.title"
         [price]="advertisement.price"

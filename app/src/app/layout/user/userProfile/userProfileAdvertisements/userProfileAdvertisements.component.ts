@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { SortItem } from 'src/app/Dtos/sorting';
 import { ImageService } from 'src/app/services/image.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { AdvertisementService } from 'src/app/services/advertisements.service';
+import { ToastrService } from 'ngx-toastr';
 
 @UntilDestroy()
 @Component({
@@ -65,7 +67,9 @@ export class UserProfileAdvertisementsComponent implements OnInit {
   constructor(
     private userService: UserService,
     private imageService: ImageService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private advertisementService: AdvertisementService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -97,10 +101,29 @@ export class UserProfileAdvertisementsComponent implements OnInit {
   }
 
   loadUserInfo() {
-    this.userService.getUser(this.userName).subscribe((data) => {
-      this.queryParams = { ...this.queryParams, id: data.id };
-      this.loadAdvertisements(this.queryParams);
-    });
+    this.userService
+      .getUser(this.userName)
+      .pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.queryParams = { ...this.queryParams, id: data.id };
+        this.loadAdvertisements(this.queryParams);
+      });
+  }
+
+  onRemove(id: number, event: any) {
+    event.stopPropagation();
+    event.preventDefault();
+    let isConfirmed = confirm('Вы действивтельно хотите удалить объявление?');
+
+    if (isConfirmed) {
+      this.advertisementService
+        .deleteAdvertisement(id)
+        .pipe(untilDestroyed(this))
+        .subscribe(() => {
+          this.loadUserInfo();
+        });
+      this.toastr.success('', 'Успешно удалено!');
+    }
   }
 
   onPageChange(offset: number) {

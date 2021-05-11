@@ -16,6 +16,7 @@
   <div class="table_body">
     <div
       class="table_row"
+      [class.disabled]="advertisement.status !== 'Created'"
       [routerLink]="[
         '/advertisements/',
         advertisement.category.id,
@@ -36,7 +37,7 @@
         {{ advertisement.createdDate | date: "dd-MM-yyyy" }}
       </div>
       <div class="table_col table_editPanel">
-        <a href="#">
+        <a [routerLink]="['/editAdvertisement/', advertisement.id]">
           <span
             class="iconify table_editIcon"
             data-icon="ant-design:edit-filled"
@@ -44,7 +45,7 @@
             data-inline="false"
           ></span>
         </a>
-        <a href="#">
+        <a href="" (click)="onRemove(advertisement.id, $event)">
           <span
             class="iconify table_deleteIcon"
             data-height="24px"

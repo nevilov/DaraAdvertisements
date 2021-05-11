@@ -108,10 +108,12 @@
           <a (click)="onCreateChat()" class="btn btn-main">Написать продавцу</a>
         </div>
         <div id="write" *ngIf="isAuthors">
-          <a (click)="onEditClicked()" class="btn btn-main">Редактировать</a>
+          <a (click)="onEditClicked()" class="btn btn-main pointer"
+            >Редактировать</a
+          >
           <a
             (click)="onDeleteClicked()"
-            class="btn btn-main"
+            class="btn btn-main pointer"
             style="background-color: lightcoral"
             >{{ deleteText }}</a
           >
