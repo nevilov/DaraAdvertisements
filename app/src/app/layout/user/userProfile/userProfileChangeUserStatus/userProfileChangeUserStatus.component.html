@@ -1,21 +1,21 @@
 <div class="container">
-  <div class="container__header">
-    <span class="header__title">Назначить/Снять корпоративный статус пользователю</span>
-  </div>
-  <div class="container__content" [formGroup]="changeCorporationForm" (ngSubmit)="onSend()">
-    <form action="">
-      <label class="container__label">Идентификатор пользователя</label>
-      <div class="input__value">
-        <input type="text" formControlName="userId" placeholder="UserId"/>
-      </div>
-      <label class="container__label">Выберите статус</label>
-      <div class="input__value">
-       <select formControlName="isCorporation">
-         <option value="false">Персональный</option>
-         <option value="true">Коропративный</option>
-       </select>
-      </div>
-      <button>Изменить статус</button>
-    </form>
-  </div>
+    <div class="container__header">
+        <span class="header__title">Назначить/Снять корпоративный статус пользователю</span>
+    </div>
+    <div class="container__content" [formGroup]="changeCorporationForm" (ngSubmit)="onSend()">
+        <form action="">
+            <label class="container__label">Идентификатор пользователя</label>
+            <div class="input__value">
+                <input type="text" formControlName="userId" placeholder="UserId" />
+            </div>
+            <label class="container__label">Выберите статус</label>
+            <div class="input__value">
+                <select formControlName="isCorporation">
+                    <option value="false">Персональный</option>
+                    <option value="true">Корпоративный</option>
+                </select>
+            </div>
+            <button>Изменить статус</button>
+        </form>
+    </div>
 </div>
