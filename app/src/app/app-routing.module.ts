@@ -22,9 +22,9 @@ import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisem
 import { LoginGuard } from './Guards/login.guard';
 import { UserProfileBlockComponent } from "./layout/user/userProfile/userProfileBlock/userProfileBlock.component";
 import { UserProfileBulkLoadingComponent } from "./layout/user/userProfile/userProfileBulkLoading/userProfileBulkLoading.component";
-import {UserProfileSendNotificationsComponent} from "./layout/user/userProfile/userProfileSendNotifications/userProfileSendNotifications.component";
-import {UserProfileChangeRoleComponent} from "./layout/user/userProfile/userProfileChangeRole/userProfileChangeRole.component";
-import {UserProfileChangeUserStatusComponent} from "./layout/user/userProfile/userProfileChangeUserStatus/userProfileChangeUserStatus.component";
+import { UserProfileSendNotificationsComponent } from "./layout/user/userProfile/userProfileSendNotifications/userProfileSendNotifications.component";
+import { UserProfileChangeRoleComponent } from "./layout/user/userProfile/userProfileChangeRole/userProfileChangeRole.component";
+import { UserProfileChangeUserStatusComponent } from "./layout/user/userProfile/userProfileChangeUserStatus/userProfileChangeUserStatus.component";
 const routes: Routes = [
     // { path: '**', component: PageNotFoundComponent }
     { path: '', redirectTo: 'advertisements', pathMatch: 'full' },
@@ -104,6 +104,7 @@ const routes: Routes = [
     },
     {
         path: 'newAdvertisement',
+        canActivate: [LoginGuard],
         component: NewAdvertisementPageComponent,
         data: {
             breadcrumb: [
@@ -114,6 +115,7 @@ const routes: Routes = [
     },
     {
         path: 'editAdvertisement/:id',
+        canActivate: [LoginGuard],
         component: EditAdvertisementPageComponent,
         data: {
             breadcrumb: [
@@ -124,11 +126,15 @@ const routes: Routes = [
     },
     { path: 'forgotPassword', component: ForgotPasswordPageComponent },
     { path: 'resetPassword', component: ResetPasswordPageComponent },
-    { path: 'chats', component: UserChatsComponent },
+    {
+        path: 'chats',
+        canActivate: [LoginGuard],
+        component: UserChatsComponent
+    },
     {
         path: 'profile/:Username',
         component: PublicProfileComponent,
-        canActivate: [LoginGuard],
+        // canActivate: [LoginGuard],
     },
     {
         path: 'cabinet',
