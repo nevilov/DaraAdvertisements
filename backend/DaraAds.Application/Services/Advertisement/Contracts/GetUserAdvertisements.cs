@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DaraAds.Application.Common;
 
 namespace DaraAds.Application.Services.Advertisement.Contracts
 {
@@ -15,7 +11,6 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             public string SortBy { get; set; }
             public string SortDirection { get; set; }
 
-            
         }
 
         public class Response : Paged.Response<Response.Item>

@@ -20,8 +20,8 @@ namespace DaraAds.API.Controllers.Favorite
             {
                 AdvertisementId = advertisementId
             }, cancellationToken);
-
-            return Ok($"Объявление с Id {advertisementId} из избранного было удалено");
+            
+            return NoContent();
         }
     }
 }

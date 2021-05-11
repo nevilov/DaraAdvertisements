@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.API.Dto.Favorite;
 
 namespace DaraAds.API.Controllers.Favorite
 {
@@ -17,12 +18,14 @@ namespace DaraAds.API.Controllers.Favorite
         /// <returns></returns>
         [HttpGet("get")]
         [Authorize]
-        public async Task<IActionResult> GetFavorite([FromQuery] PagedDto request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetFavorite([FromQuery] GetRequest request, CancellationToken cancellationToken)
         {
             var result = await _service.GetFavorites(new GetFavorites.Request
-            {
+            {   
                 Limit = request.Limit,
-                Offset = request.Offset
+                Offset = request.Offset,
+                SortBy = request.SortBy,
+                SortDirection = request.SortDirection,
             }, cancellationToken);
 
             return Ok(result);

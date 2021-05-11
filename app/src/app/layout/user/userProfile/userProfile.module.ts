@@ -8,28 +8,31 @@ import { UserProfileAdvertisementsComponent } from './userProfileAdvertisements/
 import { UserProfileLoginPassComponent } from './userProfileLoginPass/userProfileLoginPass.component';
 import { UserProfilePersonalComponent } from './userProfilePersonal/userProfilePersonal.component';
 import { UserProfileSettingsComponent } from './userProfileSettings/userProfileSettings.component';
-import {UserProfileBlockComponent} from "./userProfileBlock/userProfileBlock.component";
-import {UserProfileBulkLoadingComponent} from "./userProfileBulkLoading/userProfileBulkLoading.component";
+import { UserProfileBlockComponent } from './userProfileBlock/userProfileBlock.component';
+import { UserProfileBulkLoadingComponent } from './userProfileBulkLoading/userProfileBulkLoading.component';
+import { UserProfileFavoritesComponent } from './user-profile-favorites/user-profile-favorites.component';
 
 @NgModule({
-	imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
-	declarations: [
-		UserProfileComponent,
-		UserProfileAdvertisementsComponent,
-		UserProfileLoginPassComponent,
-		UserProfilePersonalComponent,
-		UserProfileSettingsComponent,
+  imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
+  declarations: [
+    UserProfileComponent,
+    UserProfileAdvertisementsComponent,
+    UserProfileLoginPassComponent,
+    UserProfilePersonalComponent,
+    UserProfileSettingsComponent,
     UserProfileBlockComponent,
-    UserProfileBulkLoadingComponent
-	],
-	exports: [
-		UserProfileComponent,
-		UserProfileAdvertisementsComponent,
-		UserProfileLoginPassComponent,
-		UserProfilePersonalComponent,
-		UserProfileSettingsComponent,
+    UserProfileBulkLoadingComponent,
+    UserProfileFavoritesComponent,
+  ],
+  exports: [
+    UserProfileComponent,
+    UserProfileAdvertisementsComponent,
+    UserProfileLoginPassComponent,
+    UserProfilePersonalComponent,
+    UserProfileSettingsComponent,
     UserProfileBlockComponent,
-    UserProfileBulkLoadingComponent
-	],
+    UserProfileBulkLoadingComponent,
+    UserProfileFavoritesComponent,
+  ],
 })
-export class UserProfileModule { }
+export class UserProfileModule {}

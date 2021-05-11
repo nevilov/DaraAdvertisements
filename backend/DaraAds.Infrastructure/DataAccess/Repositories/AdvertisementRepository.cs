@@ -8,9 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Helpers;
 using DaraAds.Application.Services.Advertisement.Contracts;
-using DaraAds.Infrastructure.Helpers;
-using DaraAds.Domain;
-using Amazon.S3.Model;
 
 namespace DaraAds.Infrastructure.DataAccess.Repositories
 {

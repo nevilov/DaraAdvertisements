@@ -126,8 +126,8 @@
     <div class="userMenu__block">
       <div class="userMenu__header">Объявления</div>
       <a
-        (click)="showUsermenu()"
         class="userMenu__item"
+        (click)="showUsermenu()"
         routerLink="/cabinet/advertisements"
       >
         <span
@@ -136,11 +136,13 @@
           data-inline="false"
           style="color: #222222"
         ></span>
-        <span routerLink="advertisements" class="userMenu__text"
-          >Мои объявления</span
-        >
+        <span class="userMenu__text">Мои объявления</span>
       </a>
-      <a (click)="showUsermenu()" class="userMenu__item">
+      <a
+        (click)="showUsermenu()"
+        class="userMenu__item"
+        routerLink="/cabinet/favorites"
+      >
         <span
           class="iconify userMenu__icon"
           data-icon="carbon:favorite-filled"

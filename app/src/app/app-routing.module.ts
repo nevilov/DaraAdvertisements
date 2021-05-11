@@ -22,6 +22,7 @@ import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisem
 import { LoginGuard } from './Guards/login.guard';
 import { UserProfileBlockComponent } from './layout/user/userProfile/userProfileBlock/userProfileBlock.component';
 import { UserProfileBulkLoadingComponent } from './layout/user/userProfile/userProfileBulkLoading/userProfileBulkLoading.component';
+import { UserProfileFavoritesComponent } from './layout/user/userProfile/user-profile-favorites/user-profile-favorites.component';
 
 const routes: Routes = [
   // { path: '**', component: PageNotFoundComponent }
@@ -137,7 +138,7 @@ const routes: Routes = [
       { path: 'changeinfo', component: UserProfileLoginPassComponent },
       { path: 'advertisements', component: UserProfileAdvertisementsComponent },
       { path: 'block', component: UserProfileBlockComponent },
-      { path: 'favorites', component: UserProfileSettingsComponent },
+      { path: 'favorites', component: UserProfileFavoritesComponent },
       { path: 'import', component: UserProfileBulkLoadingComponent },
     ],
   },

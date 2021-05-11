@@ -5,7 +5,8 @@ import { ListOfItems } from '../Dtos/advertisement';
 export function queryPaginated<T>(
   http: HttpClient,
   baseUrl: string,
-  queryParams?: any
+  queryParams?: any,
+  headers?: any
 ): Observable<ListOfItems<T>> {
   let params = new HttpParams();
   let url = baseUrl;
@@ -21,5 +22,6 @@ export function queryPaginated<T>(
 
   return http.get<ListOfItems<T>>(url, {
     params,
+    headers,
   });
 }

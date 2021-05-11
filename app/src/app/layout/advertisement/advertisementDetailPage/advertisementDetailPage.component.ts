@@ -9,6 +9,8 @@ import { AdvertisementService } from 'src/app/services/advertisements.service';
 import { ImageService } from 'src/app/services/image.service';
 import { ChatService } from '../../../services/chat.service';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
+import { FavoritesService } from 'src/app/services/favorites.service';
+import { ToastrService } from 'ngx-toastr';
 
 @UntilDestroy()
 @Component({
@@ -40,6 +42,8 @@ export class AdvertisementDetailPageComponent implements OnInit {
     private chatService: ChatService,
     private router: Router,
     private userService: UserService,
+    private favoritesService: FavoritesService,
+    private toastr: ToastrService,
     private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
   ) {
     this.advertisement = {} as Advertisement;
@@ -165,6 +169,18 @@ export class AdvertisementDetailPageComponent implements OnInit {
             });
         }
       });
+  }
+
+  //TODO обратотать повторное нажатие
+  addToFavorites() {
+    this.favoritesService.addToFavorites(this.id).subscribe();
+    this.toastr.success('', 'Добавлено в избранное!');
+  }
+
+  //TODO обратотать повторное нажатие
+  deleteFromFavorites() {
+    this.favoritesService.deleteFromFavorites(this.id).subscribe();
+    this.toastr.success('', 'Удалено из избранного!');
   }
 
   onEditClicked() {
