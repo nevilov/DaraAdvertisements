@@ -39,6 +39,8 @@ export class NewAdvertisementPageComponent implements OnInit {
     categories: string[] = ["Транспорт", "Недвижимость", "Бытовая техника", "Животные"];
     categoriesSecondLevel: string[][] = [["Автомобили", "Мотоциклы", "Спецтехника", "Запчасти"], ["Квартиры", "Дома", "Новостройки", "Гаражи", "Участки"], ["Аудио и видео", "Игры, приставки", "Компьютеры", "Ноутбуки", "Телефоны, планшеты", "Фототехника"], ["Собаки", "Кошки", "Птицы", "Аквариум", "Товары для животных"]];
 
+    addressData!: DadataAddress;
+
     advertisementForm = new FormGroup({
         title: new FormControl('', [
             Validators.required,
@@ -50,7 +52,10 @@ export class NewAdvertisementPageComponent implements OnInit {
         ]),
         price: new FormControl('', [
             Validators.required
-        ])
+        ]),
+        currentAddress: new FormControl('', [
+            Validators.required
+        ]),
     });
 
     constructor(
@@ -69,7 +74,6 @@ export class NewAdvertisementPageComponent implements OnInit {
         this.selectedCategory = "Выберите категорию"
         this.isCategoryVisible = false;
         this.isCategorySecondLevelVisible = false;
-        console.log(this.filesToUpload);
     }
 
     config: DadataConfig = {
@@ -78,9 +82,7 @@ export class NewAdvertisementPageComponent implements OnInit {
     };
 
     onAddressSelected(event: DadataSuggestion) {
-        const addressData = event.data as DadataAddress;
-        console.log(addressData);
-        alert(addressData);
+        this.addressData = event.data as DadataAddress;
     }
 
     categorySelectorClicked() {
@@ -97,11 +99,9 @@ export class NewAdvertisementPageComponent implements OnInit {
     }
 
     onCategorySecondLevelSelected(newText: string, newCat: number) {
-        console.log(newText);
         this.newCategoryId = newCat + 1;
         this.selectedCategory = newText;
         this.outputSelectedCategory += (newCat + 1);
-        console.log(this.outputSelectedCategory);
         this.isCategoryVisible = false;
         this.isCategorySecondLevelVisible = false;
     }
@@ -119,7 +119,6 @@ export class NewAdvertisementPageComponent implements OnInit {
                 this.imagePreviews.splice(i, 1);
             }
         }
-        console.log(this.filesToUpload);
     }
 
     onFileChange(event: any, i: number) {
@@ -131,7 +130,6 @@ export class NewAdvertisementPageComponent implements OnInit {
             reader.onload = (_event) => {
                 this.imagePreviews[i] = reader.result;
             }
-            console.log(i);
         }
     }
 
@@ -139,24 +137,23 @@ export class NewAdvertisementPageComponent implements OnInit {
         if (this.isButtonEnabled) {
             this.isButtonEnabled = false;
 
-            console.log("Advertisement form info", this.advertisementForm.value);
             this.creationFormState = 'Создание объявления... подождите..';
+
             const advertisementToSend: NewAdvertisement = {
                 title: this.advertisementForm.value.title,
                 description: this.advertisementForm.value.description,
                 price: this.advertisementForm.value.price,
                 cover: "true",
                 categoryId: this.outputSelectedCategory,
-                Location: this.advertisementForm.value.currentAddress,
-                GeoLat: 55,
-                GeoLon: 55
+                location: this.advertisementForm.value.currentAddress,
+                geoLat: Number(this.addressData.geo_lat),
+                geoLon: Number(this.addressData.geo_lon)
             };
 
             this.advertisementService.createAdvertisement(advertisementToSend)
                 .pipe(untilDestroyed(this))
                 .subscribe(
                     res => {
-                        console.log("Received" + res);
                         this.newId = this.cookieService.get('LatestRedirectId');
                         if (this.hasFiles) {
                             this.creationFormState = 'Загрузка файлов к новому объявлению №' + this.newId + '... подождите..';
@@ -167,7 +164,6 @@ export class NewAdvertisementPageComponent implements OnInit {
                             concat(...observables).subscribe(singleMedia => {
                                 fileIteratorIndex += 1;
                                 this.creationFormState = 'Загружено..' + fileIteratorIndex + '/' + this.filesToUpload.length + 'файлов.. подождите';
-                                console.log("concatted" + singleMedia);
                                 if (fileIteratorIndex > this.filesToUpload.length) {
                                     this.creationFormState = 'Файлы загружены... переход на страницу объявления..';
                                     this.router.navigateByUrl('/advertisements/' + this.outputSelectedCategory + '/advertisement/' + this.newId);

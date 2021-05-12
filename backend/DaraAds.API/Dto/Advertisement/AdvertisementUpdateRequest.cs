@@ -13,5 +13,8 @@ namespace DaraAds.API.Dto.Advertisement
         public string Cover { get; set; }
         
         public int CategoryId { get; set; }
+        public string Location { get; set; }
+        public decimal GeoLat { get; set; }
+        public decimal GeoLon { get; set; }
     }
 }

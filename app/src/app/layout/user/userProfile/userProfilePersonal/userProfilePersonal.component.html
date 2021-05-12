@@ -36,13 +36,13 @@
 
                     <div class="container__accountType-row "
                         [ngClass]="{'container__accountType-active' : !isCorporative}">
-                        <input checked={{!isCorporative}} disabled type="radio" name="account" value="personal">
+                        <input [checked]="!isCorporative" disabled type="radio" name="account" value="personal">
                         <label for="personalAccount">Персональный аккаунт</label>
                     </div>
 
                     <div class="container__accountType-row"
                         [ngClass]="{'container__accountType-active' : isCorporative}">
-                        <input checked={{isCorporative}} disabled type="radio" name="account" value="corporative">
+                        <input [checked]="isCorporative" disabled type="radio" name="account" value="corporative">
                         <label for="corporativeAccount">Корпоративный аккаунт</label>
                     </div>
 

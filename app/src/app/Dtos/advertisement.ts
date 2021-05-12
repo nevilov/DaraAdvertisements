@@ -12,9 +12,9 @@ export interface Advertisement {
     category: Category;
     owner: User;
     createdDate: Date;
-    Location: string;
-    GeoLat: number;
-    GeoLon: number;
+    location: string;
+    geoLat: number;
+    geoLon: number;
 }
 
 export interface NewAdvertisement {
@@ -23,9 +23,9 @@ export interface NewAdvertisement {
     price: number;
     cover: string;
     categoryId: number;
-    Location: string;
-    GeoLat: number;
-    GeoLon: number;
+    location: string;
+    geoLat: number;
+    geoLon: number;
 }
 
 export interface ListOfItems<T> {

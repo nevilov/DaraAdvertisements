@@ -1,5 +1,5 @@
 import { CookieService } from 'ngx-cookie-service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Advertisement, NewAdvertisement } from 'src/app/Dtos/advertisement';
 import { AdvertisementService } from 'src/app/services/advertisements.service';
@@ -9,6 +9,7 @@ import { ImageService } from 'src/app/services/image.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { concat, Observable } from 'rxjs';
 import { ThrowStmt } from '@angular/compiler';
+import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolkov/ngx-dadata';
 
 @UntilDestroy()
 @Component({
@@ -52,7 +53,10 @@ export class EditAdvertisementPageComponent implements OnInit {
         ]),
         price: new FormControl('', [
             Validators.required
-        ])
+        ]),
+        currentAddress: new FormControl('', [
+            Validators.required
+        ]),
     });
 
     constructor(
@@ -73,7 +77,6 @@ export class EditAdvertisementPageComponent implements OnInit {
         this.selectedCategory = "Выберите категорию"
         this.isCategoryVisible = false;
         this.isCategorySecondLevelVisible = false;
-        console.log(this.filesToUpload);
     }
 
     categorySelectorClicked() {
@@ -87,11 +90,9 @@ export class EditAdvertisementPageComponent implements OnInit {
     }
 
     onCategorySecondLevelSelected(newText: string, newCat: number) {
-        console.log(newText);
         this.newCategoryId = newCat + 1;
         this.selectedCategory = newText;
         this.outputSelectedCategory += (newCat + 1);
-        console.log(this.outputSelectedCategory);
         this.isCategoryVisible = false;
         this.isCategorySecondLevelVisible = false;
     }
@@ -111,7 +112,6 @@ export class EditAdvertisementPageComponent implements OnInit {
                 this.imagePreviews.splice(i, 1);
             }
         }
-        console.log(this.filesToUpload);
     }
 
     onFileChange(event: any, i: number) {
@@ -123,33 +123,45 @@ export class EditAdvertisementPageComponent implements OnInit {
             reader.onload = (_event) => {
                 this.imagePreviews[i] = reader.result;
             }
-            console.log(i);
         }
-        console.log(this.filesToUpload);
+    }
+
+    addressData!: DadataAddress;
+    lat = 0;
+    lon = 0;
+
+    config: DadataConfig = {
+        apiKey: 'd0b907d9aa0979c8443d039023f99a6847d8b0c9',
+        type: DadataType.address
+    };
+
+    onAddressSelected(event: DadataSuggestion) {
+        this.addressData = event.data as DadataAddress;
+        this.lat = Number(this.addressData.geo_lat);
+        this.lon = Number(this.addressData.geo_lon);
     }
 
     onSubmit() {
         if (this.isButtonEnabled) {
             this.isButtonEnabled = false;
 
-            console.log("Advertisement form info", this.advertisementForm.value);
             this.creationFormState = 'Идёт обновление объявления... подождите..';
+
             const advertisementToSend: NewAdvertisement = {
                 title: this.advertisementForm.value.title,
                 description: this.advertisementForm.value.description,
                 price: this.advertisementForm.value.price,
                 cover: "true",
                 categoryId: this.outputSelectedCategory,
-                Location: this.advertisementForm.value.currentAddress.city_with_type + " " + street_with_type + house_type_full + house,
-                GeoLat: this.advertisementForm.value.currentAddress.geo_lat,
-                GeoLon: this.advertisementForm.value.currentAddress.geo_lon
+                location: this.advertisementForm.value.currentAddress,
+                geoLat: this.lat,
+                geoLon: this.lon
             };
 
             this.advertisementService.updateAdvertisement(advertisementToSend, this.id)
                 .pipe(untilDestroyed(this))
                 .subscribe(
                     res => {
-                        console.log("Received" + res);
                         if (this.hasFilesChanged) {
                             this.creationFormState = 'Загрузка файлов к объявлению №' + this.id + '... подождите..';
 
@@ -161,7 +173,6 @@ export class EditAdvertisementPageComponent implements OnInit {
                                 concat(...deleteObservables).subscribe(singleFile => {
                                     fileRemoverIndex += 1;
                                     this.creationFormState = 'Удалено..' + fileRemoverIndex + '/' + this.advertisement.images.length + 'файлов.. подождите';
-                                    console.log("concatted" + singleFile);
                                     if (fileRemoverIndex == this.advertisement.images.length) {
                                         this.sendFiles();
                                     }
@@ -178,8 +189,6 @@ export class EditAdvertisementPageComponent implements OnInit {
                             this.creationFormState = 'Информация загружена... переход на страницу объявления..';
                             this.router.navigateByUrl('/advertisements/' + this.advertisement.category.id + '/advertisement/' + this.id);
                         }
-
-
                     },
                     error => {
                         this.isButtonEnabled = true;
@@ -197,7 +206,6 @@ export class EditAdvertisementPageComponent implements OnInit {
         concat(...observables).subscribe(singleMedia => {
             fileIteratorIndex += 1;
             this.creationFormState = 'Загружено..' + fileIteratorIndex + '/' + this.filesToUpload.length + 'файлов.. подождите';
-            console.log("concatted" + singleMedia);
             if (fileIteratorIndex > this.filesToUpload.length) {
                 this.creationFormState = 'Файлы загружены... переход на страницу объявления..';
                 this.router.navigateByUrl('/advertisements/' + this.advertisement.category.id + '/advertisement/' + this.id);
@@ -239,12 +247,17 @@ export class EditAdvertisementPageComponent implements OnInit {
         this.advertisementService.getAdvertisementById(this.id)
             .subscribe((data: Advertisement) => {
                 this.advertisement = data;
-                console.log(this.advertisement);
                 this.advertisementForm.setValue({
                     title: this.advertisement.title,
                     description: this.advertisement.description,
-                    price: this.advertisement.price
+                    price: this.advertisement.price,
+                    currentAddress: this.advertisement.location,
                 });
+                this.lat = this.advertisement.geoLat;
+                this.lon = this.advertisement.geoLon;
+
+                console.log("!!!!!!!!!!!!");
+                console.log(this.addressData);
 
                 this.selectedCategory = this.editorCategories[this.advertisement.category.id - 1]
                 this.outputSelectedCategory = this.advertisement.category.id;
@@ -265,7 +278,6 @@ export class EditAdvertisementPageComponent implements OnInit {
                                 type: "image/jpeg"
                             });
                             this.filesToUpload[zi] = imageFile;
-                            console.log(this.filesToUpload);
                         });
                 }
             });

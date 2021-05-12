@@ -99,6 +99,8 @@ export class AdvertisementDetailPageComponent implements OnInit {
             .getAdvertisementById(this.id)
             .subscribe((data: Advertisement) => {
                 this.advertisement = data;
+                this.lat = this.advertisement.geoLat;
+                this.lon = this.advertisement.geoLon;
 
                 if (this.cookieService.get('UserId')) {
                     if (this.advertisement.owner.id == this.cookieService.get('UserId')) {
