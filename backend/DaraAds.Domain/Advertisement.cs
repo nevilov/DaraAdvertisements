@@ -40,6 +40,16 @@ namespace DaraAds.Domain
         public string Location { get; set; }
 
         /// <summary>
+        /// Координата объявления (Широта)
+        /// </summary>
+        public decimal GeoLat { get; set; }
+
+        /// <summary>
+        /// Координата объявления (Долгота)
+        /// </summary>
+        public decimal GeoLon { get; set; }
+
+        /// <summary>
         /// Статус
         /// </summary>
         public Statuses Status { get; set; }
