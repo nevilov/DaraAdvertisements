@@ -43,6 +43,9 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             public DateTime CreatedDate { get; set; }
             public CategoryResponse Category { get; set; }
             public OwnerResponse Owner { get; set; }
+            public string Location { get; set; }
+            public decimal GeoLat { get; set; }
+            public decimal GeoLon { get; set; }
         }
     }
 }

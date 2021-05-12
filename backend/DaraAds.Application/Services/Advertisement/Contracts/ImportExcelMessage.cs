@@ -12,6 +12,10 @@
 
         public int CategoryId { get; set; }
 
-        
+        public string Location { get; set; }
+
+        public decimal GetLat { get; set; }
+
+        public decimal GeoLon { get; set; }
     }
 }
