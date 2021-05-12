@@ -26,6 +26,7 @@ import { ToastrModule } from 'ngx-toastr';
             extendedTimeOut: 1000,
             progressBar: true,
             enableHtml: true,
+            positionClass: 'toast-bottom-right',
             closeButton: true,
             tapToDismiss: true,
             progressAnimation: 'increasing',

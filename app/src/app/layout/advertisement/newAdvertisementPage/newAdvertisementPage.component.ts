@@ -9,6 +9,7 @@ import { ImageService } from 'src/app/services/image.service';
 import { tap } from 'rxjs/operators';
 import { concat, Observable } from 'rxjs';
 import { ThrowStmt } from '@angular/compiler';
+import { DadataAddress, DadataConfig, DadataSuggestion, DadataType } from '@kolkov/ngx-dadata';
 
 @UntilDestroy()
 @Component({
@@ -69,6 +70,17 @@ export class NewAdvertisementPageComponent implements OnInit {
         this.isCategoryVisible = false;
         this.isCategorySecondLevelVisible = false;
         console.log(this.filesToUpload);
+    }
+
+    config: DadataConfig = {
+        apiKey: 'd0b907d9aa0979c8443d039023f99a6847d8b0c9',
+        type: DadataType.address
+    };
+
+    onAddressSelected(event: DadataSuggestion) {
+        const addressData = event.data as DadataAddress;
+        console.log(addressData);
+        alert(addressData);
     }
 
     categorySelectorClicked() {
@@ -134,7 +146,10 @@ export class NewAdvertisementPageComponent implements OnInit {
                 description: this.advertisementForm.value.description,
                 price: this.advertisementForm.value.price,
                 cover: "true",
-                categoryId: this.outputSelectedCategory
+                categoryId: this.outputSelectedCategory,
+                Location: this.advertisementForm.value.currentAddress,
+                GeoLat: 55,
+                GeoLon: 55
             };
 
             this.advertisementService.createAdvertisement(advertisementToSend)

@@ -8,6 +8,8 @@
                 placeholder="Введите название объявления">
             <textarea formControlName="description" class="content__formInput" name="description" cols="30" rows="5"
                 placeholder="Введите описание"></textarea>
+            <ngx-dadata formControlName="currentAddress" [config]="config" (selected)="onAddressSelected($event)">
+            </ngx-dadata>
             <input formControlName="price" class="content__formInput" type="number" name="title"
                 placeholder="Введите стоимость (в рублях)">
             <div class="category-selector">

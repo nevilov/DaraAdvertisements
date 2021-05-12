@@ -28,7 +28,7 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
         { title: 'Сначала старые', value: 'CreatedDate' },
     ];
 
-    total: number = 0;
+    total: number = -1;
 
     queryParams = {
         limit: 12,
@@ -71,7 +71,7 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
                 this.advertisements = data.items;
                 console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-                console.log(this.advertisements);
+                console.log(data);
 
                 for (let i = 0; i < this.advertisements.length; i++) {
                     if (this.advertisements[i].images[0] === undefined) {

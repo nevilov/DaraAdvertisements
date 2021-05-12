@@ -80,6 +80,12 @@
 
     &__accountType {
         display: flex;
+        flex-direction: column;
+
+        & span {
+            font-size: 12px;
+            margin-top: 15px;
+        }
 
         & form {
             width: 100%;

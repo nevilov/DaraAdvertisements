@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AdvertisementPageWithSubCategoriesComponent } from './advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularYandexMapsModule, YA_CONFIG } from 'angular8-yandex-maps';
+import { NgxDadataModule } from '@kolkov/ngx-dadata';
 
 @NgModule({
     imports: [
@@ -17,7 +18,9 @@ import { AngularYandexMapsModule, YA_CONFIG } from 'angular8-yandex-maps';
         SharedModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AngularYandexMapsModule
+        AngularYandexMapsModule,
+        HttpClientModule,
+        NgxDadataModule
     ],
     declarations: [
         NewAdvertisementPageComponent,
