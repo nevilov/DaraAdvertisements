@@ -27,7 +27,7 @@ namespace DaraAds.Infrastructure.DataAccess.EntitiesConfiguration
                 .OnDelete(DeleteBehavior.Restrict);
 
 
-            //builder.HasData(SeedData());
+            builder.HasData(SeedData());
         }
 
          private static IEnumerable<Category> SeedData()
