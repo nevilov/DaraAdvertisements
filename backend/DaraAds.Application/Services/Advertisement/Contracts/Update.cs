@@ -14,6 +14,9 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
             public Statuses Status { get; set; }
             public DateTime UpdateDate = DateTime.UtcNow;
             public int CategoryId { get; set; }
+            public string Location { get; set; }
+            public decimal GeoLat { get; set; }
+            public decimal GeoLon { get; set; }
         }
         
         public sealed class Response

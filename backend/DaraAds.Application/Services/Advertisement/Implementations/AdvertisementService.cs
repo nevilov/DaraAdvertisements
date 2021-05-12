@@ -77,6 +77,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Cover = request.Cover,
                 OwnerId = userId,
                 Status = Domain.Advertisement.Statuses.Created,
+                Location = request.Location,
+                GeoLat = request.GeoLat,
+                GeoLon = request.GeoLon,
                 CreatedDate = DateTime.UtcNow,
                 CategoryId = request.CategoryId
             };
@@ -87,6 +90,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Id = ad.Id
             };
         }
+
         public async Task<Get.Response> Get(Get.Request request, CancellationToken cancellationToken)
         {
             var ad = await _repository.FindById(request.Id, cancellationToken);
@@ -109,6 +113,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Price = ad.Price,
                 Cover = ad.Cover,
                 CreatedDate = ad.CreatedDate,
+                Location = ad.Location,
+                GeoLat = ad.GeoLat,
+                GeoLon = ad.GeoLon,
                 Images = ad.Images.Select(i => new Get.Response.ImageResponse
                 {
                     Id = i.Id,
@@ -194,6 +201,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Price = a.Price,
                     CreatedDate = a.CreatedDate,
                     Status = a.Status.ToString(),
+                    Location = a.Location,
 
                     Owner = new OwnerResponse
                     {
@@ -252,6 +260,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             }
 
             advertisement.Title = request.Title;
+            advertisement.Location = request.Location;
+            advertisement.GeoLat = request.GeoLat;
+            advertisement.GeoLon = request.GeoLon;
             advertisement.Description = request.Description;
             advertisement.Price = request.Price;
             advertisement.Cover = request.Cover;
@@ -300,6 +311,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Price = a.Price,
                     CreatedDate = a.CreatedDate,
                     Status = a.Status.ToString(),
+                    Location = a.Location,
+                    GeoLat = a.GeoLat,
+                    GeoLon = a.GeoLon,
 
                     Owner = new GetPagedByCategory.Response.OwnerResponse
                     {
@@ -407,6 +421,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Cover = a.Cover,
                     CreatedDate = a.CreatedDate,
                     Price = a.Price,
+                    Location = a.Location,
                     Category = new GetUserAdvertisements.Response.CategoryResponse
                     {
                         Id = a.Category.Id,
@@ -549,6 +564,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                         Description = row.ItemArray[1].ToString(),
                         Price = Convert.ToDecimal(row.ItemArray[2].ToString()),
                         CategoryId = Convert.ToInt32(row.ItemArray[3].ToString()),
+                        Location = Convert.ToString(row.ItemArray[4].ToString()),
+                        GetLat = Convert.ToDecimal(row.ItemArray[5].ToString()),
+                        GeoLon = Convert.ToDecimal(row.ItemArray[6].ToString()),
                         OwnerId = userId
                     };
                     await importExcelEndpoint.Send(message, cancellationToken);
@@ -566,6 +584,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 OwnerId = message.OwnerId,
                 CategoryId = message.CategoryId,
                 CreatedDate = DateTime.UtcNow,
+                Location = message.Location,
+                GeoLat = message.GetLat,
+                GeoLon = message.GeoLon,
                 Status = Domain.Advertisement.Statuses.Created
             };
             

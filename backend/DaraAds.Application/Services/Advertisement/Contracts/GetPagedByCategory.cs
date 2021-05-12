@@ -52,6 +52,9 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public OwnerResponse Owner { get; set; }
                 public CategoryResponse Category { get; set; }
                 public IEnumerable<ImageResponse> Images { get; set; }
+                public string Location { get; set; }
+                public decimal GeoLat { get; set; }
+                public decimal GeoLon { get; set; }
             }
         }
     }
