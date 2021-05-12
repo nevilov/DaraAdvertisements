@@ -1,8 +1,8 @@
+import { UserService } from 'src/app/services/user.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { DataSharingService } from './../../../services/datasharing.service';
 import { SignService } from './../../../services/sign.service';
-import { ToastrService } from 'ngx-toastr';
 import { ImageService } from 'src/app/services/image.service';
 
 @Component({
@@ -14,7 +14,9 @@ export class MenuComponent implements OnInit {
   currentUserName: string = '';
   currentUserRole: string = '';
   currentUserAvatar: string = '';
+  currentUserAvatarBlob: string = '';
   isAutorized: boolean = false;
+  isCorporation: boolean = false;
 
   @ViewChild('usermenu', { read: ElementRef }) UserMenu!: ElementRef;
   @ViewChild('btnShowsSubmenu', { read: ElementRef }) span!: ElementRef;
@@ -43,15 +45,18 @@ export class MenuComponent implements OnInit {
 
   public updateAvatar() {
     this.currentUserAvatar = this.cookieService.get('UserAvatar');
-
     if (this.currentUserAvatar == 'null') {
       this.currentUserAvatar = 'default';
     }
+
+    console.log('data requested' + this.currentUserAvatar);
     this.imageService
       .getImageById(this.currentUserAvatar)
       .subscribe((data: any) => {
         if (data.imageBlob) {
-          this.currentUserAvatar = 'data:image/jpeg;base64,' + data.imageBlob;
+          this.currentUserAvatarBlob =
+            'data:image/jpeg;base64,' + data.imageBlob;
+          console.log('data received');
         }
       });
   }
@@ -59,7 +64,6 @@ export class MenuComponent implements OnInit {
   public userLogout() {
     this.signService.logout();
     this.isAutorized = false;
-    this.showUsermenu();
   }
 
   public checkAuthorized() {
@@ -78,7 +82,7 @@ export class MenuComponent implements OnInit {
     private cookieService: CookieService,
     private dataSharingService: DataSharingService,
     private signService: SignService,
-    public toastr: ToastrService
+    private userService: UserService
   ) {
     this.dataSharingService.isUserLoggedIn.subscribe(() => {
       this.checkAuthorized();
@@ -87,5 +91,8 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.checkAuthorized();
+    this.userService.getCurrentUser().subscribe((data) => {
+      this.isCorporation = data.isCorporation;
+    });
   }
 }
