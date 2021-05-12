@@ -24,6 +24,8 @@ export class NewAdvertisementPageComponent implements OnInit {
     fileToUpload: File = {} as File;
     hasFiles: boolean;
 
+    defaultImage: string = "/assets/images/icons/upload.png";
+
     isButtonEnabled: boolean;
 
     creationFormState: string;
