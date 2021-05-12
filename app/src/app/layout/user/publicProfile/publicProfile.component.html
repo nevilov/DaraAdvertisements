@@ -16,10 +16,10 @@
       (setValue)="onSort($event)"
     ></app-sort>
     <div class="content">
-      <app-advertisement
+      <app-ads
         *ngFor="let advertisement of advertisements"
         [class.disabled]="advertisement.status !== 'Created'"
-        [routLink]="advertisement.id"
+        [advertisementId]="advertisement.id"
         [title]="advertisement.title"
         [price]="advertisement.price"
         [ownerName]="user?.name + ' ' + user?.lastname"
@@ -28,8 +28,9 @@
         [ownerLogin]="advertisement?.owner?.username + ''"
         [thisUserAdvertisement]="true"
         [avatar]="advertisement?.owner?.avatar + ''"
+        [categoryId]="advertisement?.category?.id"
       >
-      </app-advertisement>
+      </app-ads>
     </div>
     <app-pagination-control
       [offset]="queryParams.offset"

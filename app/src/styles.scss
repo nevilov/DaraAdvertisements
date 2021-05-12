@@ -114,7 +114,7 @@ button.toast-close-button {
 }
 .toast-container {
     pointer-events: none;
-    position: absolute;
+    position: fixed;
     top: 90px;
     z-index: 999999;
 }
@@ -217,5 +217,19 @@ button.toast-close-button {
     .toast-container .ngx-toastr.div {
         padding: 15px 15px 15px 50px;
         width: 25em;
+    }
+}
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+ngx-dadata {
+    & .autocomplete input {
+        background-color: red;
     }
 }

@@ -1,0 +1,55 @@
+@import "../../../../../assets/scss/abstacts/_variables";
+.container {
+  box-shadow: 0 4px 4px rgba($color: #333333, $alpha: 0.04), 0 4px 16px rgba($color: #333333, $alpha: 0.08);
+
+  &__header {
+    border-bottom: 1px solid #ececec;
+    padding: 20px;
+
+    .header__title{
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+
+  &__content {
+    padding: 20px;
+  }
+
+  .input {
+    margin-bottom: 30px;
+
+    &__value {
+      display: flex;
+
+      & input {
+        padding: 8px 12px;
+        margin-right: 10px;
+        margin-top: 10px;
+        flex-grow: 1;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+      }
+    }
+  }
+  button {
+    padding: 8px 25px;
+    border-radius: 2px;
+    border: none;
+    background-color: $main-blue;
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 16px;
+  }
+
+  .input__value{
+    margin: 10px 0px;
+  }
+
+  select{
+    height: 30px;
+    padding: 5px;
+    border: 1px solid #d9d9d9;
+  }
+}

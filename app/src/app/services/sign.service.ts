@@ -34,7 +34,6 @@ export class SignService {
       AppComponent.backendAddress + '/api/User/register',
       user
     );
-    // .pipe(catchError(this.checkError));
   }
 
   public login(user: any): Observable<SignInResult> {
@@ -42,25 +41,15 @@ export class SignService {
       .post<SignInResult>(AppComponent.backendAddress + '/api/User/login', user)
       .pipe(
         tap((response: any) => {
-          this.cookieService.set('AuthUsername', response.userName);
-          this.cookieService.set('AuthToken', response.token);
-          this.cookieService.set('UserAvatar', response.userAvatar);
-          this.cookieService.set('UserRole', response.userRole);
-          this.cookieService.set('UserId', response.userId);
+          this.cookieService.set('AuthUsername', response.userName, 1, '/');
+          this.cookieService.set('AuthToken', response.token, 1, '/');
+          this.cookieService.set('UserAvatar', response.userAvatar, 1, '/');
+          this.cookieService.set('UserRole', response.userRole, 1, '/');
+          this.cookieService.set('UserId', response.userId, 1, '/');
           this.dataSharingService.isUserLoggedIn.next(true);
         })
-        // catchError(this.checkError)
       );
   }
-
-  // public checkError(error: HttpErrorResponse) {
-  //     console.log(error.error.error);
-  //     return {
-  //         error: {
-  //             error: error.error.error
-  //         }
-  //     };
-  // }
 
   public logout() {
     this.cookieService.deleteAll();
@@ -76,7 +65,6 @@ export class SignService {
         tap((response: any) => {
           this.cookieService.set('LatestRedirectId', '/');
         })
-        // catchError(this.checkError));
       );
   }
 
@@ -90,7 +78,6 @@ export class SignService {
         tap((response: any) => {
           this.cookieService.set('redirect', '/');
         })
-        // catchError(this.checkError)
       );
   }
 }

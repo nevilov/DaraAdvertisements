@@ -80,35 +80,41 @@ export class PublicProfileComponent implements OnInit {
   }
 
   loadUserInfo() {
-    this.userService.getUser(this.userName).subscribe((data) => {
-      this.user = data;
-      if (this.user.avatar == null) {
-        this.user.avatar = 'default';
-      }
+    this.userService
+      .getUser(this.userName)
+      .pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.user = data;
+        if (this.user.avatar == null) {
+          this.user.avatar = 'default';
+        }
 
-      this.imageService
-        .getImageById(this.user.avatar)
-        .pipe(untilDestroyed(this))
-        .subscribe((data: any) => {
-          this.user!.avatar = 'data:image/jpeg;base64,' + data.imageBlob;
-        });
+        this.imageService
+          .getImageById(this.user.avatar)
+          .pipe(untilDestroyed(this))
+          .subscribe((data: any) => {
+            this.user!.avatar = 'data:image/jpeg;base64,' + data.imageBlob;
+          });
 
-      this.queryParams = { ...this.queryParams, id: data.id };
-      this.loadAdvertisements(this.queryParams);
-    });
+        this.queryParams = { ...this.queryParams, id: data.id };
+        this.loadAdvertisements(this.queryParams);
+      });
   }
 
   loadAdvertisements(queryParams: any) {
-    this.userService.getUserAdvertisements(queryParams).subscribe((data) => {
-      this.advertisements = data.items;
-      this.total = data.total;
-
-      for (let i = 0; i < this.advertisements.length; i++) {
-        if (this.advertisements[i].images[0] === undefined) {
-          this.advertisements[i].images[0] = { id: 'default' };
+    this.userService
+      .getUserAdvertisements(queryParams)
+      .pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.advertisements = data.items;
+        this.total = data.total;
+        console.log(data);
+        for (let i = 0; i < this.advertisements.length; i++) {
+          if (this.advertisements[i].images[0] === undefined) {
+            this.advertisements[i].images[0] = { id: 'default' };
+          }
         }
-      }
-    });
+      });
   }
 
   onPageChange(offset: number) {

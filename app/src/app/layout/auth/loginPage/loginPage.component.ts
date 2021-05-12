@@ -34,6 +34,8 @@ export class LoginPageComponent implements OnInit {
     };
     this.signService.login(user).subscribe(
       (data) => {
+        console.log(data);
+        this.toastr.success('Вы успешно авторизованы', 'Успешно!');
         this.router.navigateByUrl('/');
       },
       (error: HttpErrorResponse) => {

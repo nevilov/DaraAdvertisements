@@ -15,7 +15,7 @@ namespace DaraAds.Infrastructure.Consumers
         public async Task Consume (ConsumeContext<SendNotificationMessage> context)
         {
             var message = context.Message;
-            await _mailService.Send(message.RecipientEmail, message.Subject, message.Text, new System.Threading.CancellationToken());
+            await _mailService.Send(message.RecipientEmail, message.Subject, message.Message, new System.Threading.CancellationToken());
         }
     }
 }

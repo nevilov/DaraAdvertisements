@@ -26,7 +26,7 @@ namespace DaraAds.Application.Services.Notification.Implementations
             _userRepository = userRepository;
         }
 
-        public async Task Send(string subject, string text, CancellationToken cancellationToken)
+        public async Task Send(string subject, string message, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
             if(!await _identityService.IsInRole(userId, RoleConstants.AdminRole, cancellationToken))
@@ -35,7 +35,7 @@ namespace DaraAds.Application.Services.Notification.Implementations
             }
             var sendNotificationEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:send_notifications"));
 
-            var recipients = await _userRepository.GetPaged(a => a.IsSubscribedToNotifications, 0, 1000, cancellationToken); //FOR TEST!
+            var recipients = await _userRepository.ListFindWhere(a => a.IsSubscribedToNotifications, cancellationToken);
 
             foreach(var recipient in recipients)
              {
@@ -43,7 +43,7 @@ namespace DaraAds.Application.Services.Notification.Implementations
                 {
                     RecipientEmail = recipient.Email,
                     Subject = subject,
-                    Text = text
+                    Message = message
                 }, cancellationToken);
             }
         }

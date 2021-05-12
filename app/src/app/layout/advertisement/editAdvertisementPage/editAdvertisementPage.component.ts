@@ -1,5 +1,5 @@
 import { CookieService } from 'ngx-cookie-service';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Advertisement, NewAdvertisement } from 'src/app/Dtos/advertisement';
 import { AdvertisementService } from 'src/app/services/advertisements.service';
@@ -8,6 +8,13 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ImageService } from 'src/app/services/image.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { concat, Observable } from 'rxjs';
+import { ThrowStmt } from '@angular/compiler';
+import {
+  DadataAddress,
+  DadataConfig,
+  DadataSuggestion,
+  DadataType,
+} from '@kolkov/ngx-dadata';
 
 @UntilDestroy()
 @Component({
@@ -18,6 +25,7 @@ import { concat, Observable } from 'rxjs';
 export class EditAdvertisementPageComponent implements OnInit {
   id: number = 0;
   advertisement: Advertisement;
+  creationFormState: string;
 
   filesToUpload: File[] = [];
   imagePreviews: any[] = [];
@@ -26,15 +34,53 @@ export class EditAdvertisementPageComponent implements OnInit {
 
   isButtonEnabled: boolean;
 
-  creationFormState: string;
   isCategoryVisible: boolean;
+  isCategorySecondLevelVisible: boolean;
   newCategoryId: number;
   selectedCategory: string;
+  outputSelectedCategory: number = 0;
+  selectorCategories: number[] = [0, 4, 9, 15];
+  selectedCategoryFirstLevel: number = 0;
   categories: string[] = [
     'Транспорт',
     'Недвижимость',
     'Бытовая техника',
     'Животные',
+  ];
+  categoriesSecondLevel: string[][] = [
+    ['Автомобили', 'Мотоциклы', 'Спецтехника', 'Запчасти'],
+    ['Квартиры', 'Дома', 'Новостройки', 'Гаражи', 'Участки'],
+    [
+      'Аудио и видео',
+      'Игры, приставки',
+      'Компьютеры',
+      'Ноутбуки',
+      'Телефоны, планшеты',
+      'Фототехника',
+    ],
+    ['Собаки', 'Кошки', 'Птицы', 'Аквариум', 'Товары для животных'],
+  ];
+  editorCategories: string[] = [
+    'Автомобили',
+    'Мотоциклы',
+    'Спецтехника',
+    'Запчасти',
+    'Квартиры',
+    'Дома',
+    'Новостройки',
+    'Гаражи',
+    'Участки',
+    'Аудио и видео',
+    'Игры, приставки',
+    'Компьютеры',
+    'Ноутбуки',
+    'Телефоны, планшеты',
+    'Фототехника',
+    'Собаки',
+    'Кошки',
+    'Птицы',
+    'Аквариум',
+    'Товары для животных',
   ];
 
   advertisementForm = new FormGroup({
@@ -44,11 +90,13 @@ export class EditAdvertisementPageComponent implements OnInit {
       Validators.minLength(5),
     ]),
     price: new FormControl('', [Validators.required]),
+    currentAddress: new FormControl('', [Validators.required]),
   });
 
   constructor(
     private advertisementService: AdvertisementService,
     private route: ActivatedRoute,
+    private cookieService: CookieService,
     private router: Router,
     private imageService: ImageService
   ) {
@@ -62,6 +110,7 @@ export class EditAdvertisementPageComponent implements OnInit {
     this.newCategoryId = 0;
     this.selectedCategory = 'Выберите категорию';
     this.isCategoryVisible = false;
+    this.isCategorySecondLevelVisible = false;
   }
 
   categorySelectorClicked() {
@@ -69,9 +118,17 @@ export class EditAdvertisementPageComponent implements OnInit {
   }
 
   onCategorySelected(newText: string, newCat: number) {
+    this.selectedCategoryFirstLevel = newCat;
+    this.outputSelectedCategory = this.selectorCategories[newCat];
+    this.isCategorySecondLevelVisible = true;
+  }
+
+  onCategorySecondLevelSelected(newText: string, newCat: number) {
     this.newCategoryId = newCat + 1;
     this.selectedCategory = newText;
+    this.outputSelectedCategory += newCat + 1;
     this.isCategoryVisible = false;
+    this.isCategorySecondLevelVisible = false;
   }
 
   newFile() {
@@ -103,17 +160,36 @@ export class EditAdvertisementPageComponent implements OnInit {
     }
   }
 
+  addressData!: DadataAddress;
+  lat = 0;
+  lon = 0;
+
+  config: DadataConfig = {
+    apiKey: 'd0b907d9aa0979c8443d039023f99a6847d8b0c9',
+    type: DadataType.address,
+  };
+
+  onAddressSelected(event: DadataSuggestion) {
+    this.addressData = event.data as DadataAddress;
+    this.lat = Number(this.addressData.geo_lat);
+    this.lon = Number(this.addressData.geo_lon);
+  }
+
   onSubmit() {
     if (this.isButtonEnabled) {
       this.isButtonEnabled = false;
 
       this.creationFormState = 'Идёт обновление объявления... подождите..';
+
       const advertisementToSend: NewAdvertisement = {
         title: this.advertisementForm.value.title,
         description: this.advertisementForm.value.description,
         price: this.advertisementForm.value.price,
         cover: 'true',
-        categoryId: this.newCategoryId,
+        categoryId: this.outputSelectedCategory,
+        location: this.advertisementForm.value.currentAddress,
+        geoLat: this.lat,
+        geoLon: this.lon,
       };
 
       this.advertisementService
@@ -141,7 +217,6 @@ export class EditAdvertisementPageComponent implements OnInit {
                       '/' +
                       this.advertisement.images.length +
                       'файлов.. подождите';
-
                     if (fileRemoverIndex == this.advertisement.images.length) {
                       this.sendFiles();
                     }
@@ -165,6 +240,7 @@ export class EditAdvertisementPageComponent implements OnInit {
           (error) => {
             this.isButtonEnabled = true;
             this.creationFormState = 'Произошла ошибка. Попробовать снова?';
+            console.log(error);
           }
         );
     }
@@ -184,7 +260,6 @@ export class EditAdvertisementPageComponent implements OnInit {
           '/' +
           this.filesToUpload.length +
           'файлов.. подождите';
-
         if (fileIteratorIndex > this.filesToUpload.length) {
           this.creationFormState =
             'Файлы загружены... переход на страницу объявления..';
@@ -235,15 +310,21 @@ export class EditAdvertisementPageComponent implements OnInit {
       .getAdvertisementById(this.id)
       .subscribe((data: Advertisement) => {
         this.advertisement = data;
-
         this.advertisementForm.setValue({
           title: this.advertisement.title,
           description: this.advertisement.description,
           price: this.advertisement.price,
+          currentAddress: this.advertisement.location,
         });
+        this.lat = this.advertisement.geoLat;
+        this.lon = this.advertisement.geoLon;
 
-        this.selectedCategory = this.categories[this.advertisement.category.id];
-        this.newCategoryId = this.advertisement.category.id;
+        console.log('!!!!!!!!!!!!');
+        console.log(this.addressData);
+
+        this.selectedCategory =
+          this.editorCategories[this.advertisement.category.id - 1];
+        this.outputSelectedCategory = this.advertisement.category.id;
 
         for (let z = 0; z < this.advertisement.images.length - 1; z++) {
           this.filesToUpload.push({} as File);

@@ -72,14 +72,12 @@
                 </div>
             </div>
         </div> -->
+
     <div class="container__map">
       <h2>Расположение</h2>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2841.2774564682622!2d33.47450371549089!3d44.59135027910036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40953cac4f4ca0e1%3A0xc278b28e7acda39!2sUlitsa%20Universitetskaya%2C%20Sevastopol!5e0!3m2!1sen!2s!4v1616948472330!5m2!1sen!2s"
-        style="border: 0; width: 100%; min-height: 500px"
-        allowfullscreen="True"
-        loading="lazy"
-      ></iframe>
+      <ya-map [center]="[lat, lon]" [zoom]="15">
+        <ya-placemark [geometry]="[lat, lon]"></ya-placemark>
+      </ya-map>
     </div>
     <div class="container__commonInfo">
       <h2>Цена: {{ advertisement?.price }} руб.</h2>
@@ -105,15 +103,15 @@
         </div>
 
         <div id="write" *ngIf="!isAuthors">
-          <a (click)="onCreateChat()" class="btn btn-main">Написать продавцу</a>
+          <a (click)="onCreateChat()" class="btn btn-main pointer"
+            >Написать продавцу</a
+          >
         </div>
         <div id="write" *ngIf="isAuthors">
-          <a (click)="onEditClicked()" class="btn btn-main pointer"
-            >Редактировать</a
-          >
+          <a (click)="onEditClicked()" class="btn btn-main">Редактировать</a>
           <a
             (click)="onDeleteClicked()"
-            class="btn btn-main pointer"
+            class="btn btn-main"
             style="background-color: lightcoral"
             >{{ deleteText }}</a
           >
@@ -134,7 +132,7 @@
             ></span>
             <span>Добавить в избранное</span>
           </div>
-          <div class="container__action" (click)="deleteFromFavorites()">
+          <div class="container__action pointer" *ngIf="!isAuthors">
             <span
               class="iconify"
               data-height="24px"
@@ -142,9 +140,11 @@
               data-inline="false"
               style="color: #1890ff"
             ></span>
-            <span>Пожаловаться на объявление</span>
+            <span
+              ><a href="/newAbuse/{{ id }}">Пожаловаться на объявление</a></span
+            >
           </div>
-          <div class="container__action">
+          <div class="container__action pointer">
             <span
               class="iconify"
               data-height="24px"
@@ -154,7 +154,7 @@
             ></span>
             <span>Поделиться объявлением</span>
           </div>
-          <div class="container__action">
+          <div class="container__action pointer">
             <span
               class="iconify"
               data-height="24px"
@@ -165,21 +165,15 @@
             <span>Продвинуть объявление</span>
           </div>
         </div>
-
-        <span class="advertisement__info"
-          >Объявление №{{ id }} от
-          {{ advertisement?.createdDate | date: "dd.MM.yyyy" }}</span
-        >
       </div>
     </div>
   </div>
-
   <div class="container__advertisements">
     <h2>Объявления этого автора</h2>
     <div class="container__row">
-      <app-advertisement
+      <app-ads
         *ngFor="let advertisement of userAdvertisements"
-        [routLink]="advertisement.id"
+        [advertisementId]="advertisement.id"
         [title]="advertisement.title"
         [price]="advertisement.price"
         [createdDate]="advertisement.createdDate"
@@ -187,14 +181,15 @@
         [thisUserAdvertisement]="true"
         [cover]="advertisement?.images[0]?.id"
         [avatar]="advertisement?.owner?.avatar + ''"
+        [categoryId]="advertisement?.category?.id"
       >
-      </app-advertisement>
+      </app-ads>
     </div>
     <h2>Похожие объявления</h2>
     <div class="container__row">
-      <app-advertisement
+      <app-ads
         *ngFor="let advertisement of sameAdvertisements"
-        [routLink]="advertisement.id"
+        [advertisementId]="advertisement.id"
         [title]="advertisement.title"
         [price]="advertisement.price"
         [ownerName]="
@@ -205,8 +200,9 @@
         [ownerLogin]="advertisement?.owner?.username + ''"
         [cover]="advertisement.images[0].id"
         [avatar]="advertisement?.owner?.avatar + ''"
+        [categoryId]="advertisement?.category?.id"
       >
-      </app-advertisement>
+      </app-ads>
     </div>
   </div>
 </div>

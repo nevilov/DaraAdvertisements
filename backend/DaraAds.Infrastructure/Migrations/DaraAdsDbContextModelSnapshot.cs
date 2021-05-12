@@ -73,6 +73,12 @@ namespace DaraAds.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<decimal>("GeoLat")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("GeoLon")
+                        .HasColumnType("numeric");
+
                     b.Property<string>("Location")
                         .HasColumnType("text");
 
@@ -492,7 +498,7 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
-                            CreatedDate = new DateTime(2021, 5, 4, 17, 52, 5, 945, DateTimeKind.Utc).AddTicks(2320),
+                            CreatedDate = new DateTime(2021, 5, 12, 6, 52, 59, 629, DateTimeKind.Utc).AddTicks(1543),
                             Email = "admin",
                             IsCorporation = false,
                             IsSubscribedToNotifications = false,
@@ -570,14 +576,14 @@ namespace DaraAds.Infrastructure.Migrations
                         {
                             Id = "e4266faa-8fc0-4972-bf1c-14533f1ccffd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2907ea6d-83a0-4a70-a813-08baa66c3aef",
+                            ConcurrencyStamp = "c944415a-51a8-4ca3-8b77-6e178bf5a666",
                             Email = "admin",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBw9T7rgb4d7q9KocLp1boyKBo+hczdfPu3ty53FTjV5dc2Rc78+VERy8sls4XXR3g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKwu7gE5+0qkbDIqThIgzy8S1Bd2/e+b+XP/pzPhfD4xB00WPJVQdJZRhHWUtEKXew==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e8534124-5333-42e2-9f2a-263b04b9c185",
+                            SecurityStamp = "46ee6859-47a5-43f8-b480-82a6169f3a51",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -612,21 +618,21 @@ namespace DaraAds.Infrastructure.Migrations
                         new
                         {
                             Id = "7ca197bb-d569-4fb9-b214-7f719973050e",
-                            ConcurrencyStamp = "32546c8d-67d8-49c6-8352-a7f88154f331",
+                            ConcurrencyStamp = "c49b44f4-5759-4fc8-8390-31f51e7a5d03",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "b09f2dce-4821-4cf3-aa27-37f9d920bc01",
-                            ConcurrencyStamp = "14675ffb-9e49-40a8-ab37-6cd0f5c47740",
+                            ConcurrencyStamp = "1e7c0b06-db1a-4528-bdec-51cd8bdae588",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = "E8E08651-ED1B-468E-A931-F73E2563CD85",
-                            ConcurrencyStamp = "2a685740-2a2a-4aec-965c-f2b823dcc669",
+                            ConcurrencyStamp = "933b64b8-8212-4413-8334-7acb04dc71d5",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         });

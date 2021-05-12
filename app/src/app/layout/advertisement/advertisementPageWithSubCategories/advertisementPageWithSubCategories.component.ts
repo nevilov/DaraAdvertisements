@@ -9,14 +9,14 @@ import { switchMap } from 'rxjs/operators';
 import { SortItem } from 'src/app/Dtos/sorting';
 
 @Component({
-  selector: 'app-advertisementPageWithSubCategories',
+  selector: 'app-adsPageWithSubCategories',
   templateUrl: './advertisementPageWithSubCategories.component.html',
   styleUrls: ['./advertisementPageWithSubCategories.component.scss'],
   providers: [AdvertisementService],
 })
 export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
   advertisements: Advertisement[] = [];
-  categories: Category | null = null;
+  category: Category;
   categoryId = -1;
 
   sotringElements: SortItem[] = [
@@ -57,10 +57,10 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     },
   ];
 
-  total: number = 0;
+  total: number = -1;
 
   queryParams = {
-    limit: 10,
+    limit: 12,
     offset: 0,
     searchString: '',
     categoryId: 0,
@@ -73,6 +73,7 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
     private advertisementService: AdvertisementService,
     private ngDynamicBreadcrumbService: NgDynamicBreadcrumbService
   ) {
+    this.category = {} as Category;
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -82,19 +83,21 @@ export class AdvertisementPageWithSubCategoriesComponent implements OnInit {
       .subscribe((data) => {
         this.categoryId = +data;
         this.getCategoriesById(this.categoryId);
+        console.log(this.categoryId);
       });
 
     if (this.categoryId !== -1) {
       this.queryParams = { ...this.queryParams, categoryId: this.categoryId };
     }
+
     this.loadAdvertisements(this.queryParams);
   }
 
   public getCategoriesById(id: number) {
     this.categoryService.getCategoryChildrens(id).subscribe((data) => {
-      this.categories = data.parent;
+      this.category = data.parent;
 
-      const breadcrumb = { categoryName: this.categories.name };
+      const breadcrumb = { categoryName: this.category.name };
       this.ngDynamicBreadcrumbService.updateBreadcrumbLabels(breadcrumb);
     });
   }

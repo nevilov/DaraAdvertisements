@@ -12,7 +12,13 @@ import { queryPaginated } from './queryPaginated';
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  isCorporation: boolean = false;
+
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+    this.getCurrentUser().subscribe((response) => {
+      this.isCorporation = response.isCorporation;
+    });
+  }
 
   public getUserAdvertisements(
     queryParams?: any
@@ -71,6 +77,44 @@ export class UserService {
     return this.http.post(
       AppComponent.backendAddress + '/api/User/block',
       form,
+      {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        }),
+      }
+    );
+  }
+
+  public changeRole(form: any): Observable<any> {
+    return this.http.post(
+      AppComponent.backendAddress + '/api/User/changerole',
+      form,
+      {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        }),
+      }
+    );
+  }
+
+  public changeCorporationStatus(userId: string, isCorporation: boolean) {
+    return this.http.patch(
+      AppComponent.backendAddress + '/api/User/changeUserStatus',
+      { userId, isCorporation },
+      {
+        headers: new HttpHeaders({
+          Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+        }),
+      }
+    );
+  }
+
+  public setNotificationState(state: boolean): Observable<any> {
+    return this.http.patch(
+      AppComponent.backendAddress +
+        '/api/User/notifications?isSubscribe=' +
+        state,
+      state,
       {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),

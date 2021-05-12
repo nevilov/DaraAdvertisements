@@ -30,7 +30,10 @@ namespace DaraAds.API.Controllers.Advertisement
                 Description = request.Description,
                 Price = request.Price,
                 Cover = request.Cover,
-                CategoryId = request.CategoryId
+                CategoryId = request.CategoryId,
+                Location = request.Location,
+                GeoLat = request.GeoLat,
+                GeoLon = request.GeoLon
             }, cancellationToken);
 
             return Created($"api/advertisements/{response.Id}", new {

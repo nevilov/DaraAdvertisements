@@ -3,7 +3,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ImageService } from 'src/app/services/image.service';
 
 @Component({
-  selector: 'app-advertisement',
+  selector: 'app-ads',
   templateUrl: './advertisement.component.html',
   styleUrls: ['./../../../../assets/scss/layout/__advertisement.scss'],
 })
@@ -17,12 +17,16 @@ export class AdvertisementComponent implements OnInit {
   @Input() ownerId: string = ''; // Решение на скорую руку TODO Исправить
   @Input() avatar: string = '';
   @Input() createdDate: Date = new Date();
-  @Input() routLink: number = 0;
+  @Input() advertisementId: number = 0;
   @Input() thisUserAdvertisement: boolean = false;
-  imageBlob: string = '';
-  avatarBlob: string = '';
+  @Input() categoryId: number | undefined = 0;
+  imageBlob: string;
+  avatarBlob: string;
 
-  constructor(private imageService: ImageService) {}
+  constructor(private imageService: ImageService) {
+    this.imageBlob = 'data:image/jpeg;base64, no_image';
+    this.avatarBlob = 'data:image/jpeg;base64, no_image';
+  }
 
   ngOnInit() {
     this.imageService
@@ -32,18 +36,19 @@ export class AdvertisementComponent implements OnInit {
         if (data.imageBlob) {
           this.imageBlob = 'data:image/jpeg;base64,' + data.imageBlob;
         }
-      });
 
-    if (this.avatar == 'null') {
-      this.avatar = 'default';
-    }
-    this.imageService
-      .getImageById(this.avatar)
-      .pipe(untilDestroyed(this))
-      .subscribe((data: any) => {
-        if (data.imageBlob) {
-          this.avatarBlob = 'data:image/jpeg;base64,' + data.imageBlob;
+        if (this.avatar == 'null') {
+          this.avatar = 'default';
         }
+
+        this.imageService
+          .getImageById(this.avatar)
+          .pipe(untilDestroyed(this))
+          .subscribe((data: any) => {
+            if (data.imageBlob) {
+              this.avatarBlob = 'data:image/jpeg;base64,' + data.imageBlob;
+            }
+          });
       });
   }
 }

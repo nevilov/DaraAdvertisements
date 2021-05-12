@@ -16,13 +16,15 @@ import { ResetPasswordPageComponent } from './layout/auth/resetPasswordPage/rese
 import { UserChatsComponent } from './layout/user/userChats/userChats.component';
 import { UserProfileLoginPassComponent } from './layout/user/userProfile/userProfileLoginPass/userProfileLoginPass.component';
 import { UserProfileAdvertisementsComponent } from './layout/user/userProfile/userProfileAdvertisements/userProfileAdvertisements.component';
-import { UserProfileSettingsComponent } from './layout/user/userProfile/userProfileSettings/userProfileSettings.component';
 import { UserProfileComponent } from './layout/user/userProfile/userProfile.component';
 import { AdvertisementPageWithSubCategoriesComponent } from './layout/advertisement/advertisementPageWithSubCategories/advertisementPageWithSubCategories.component';
 import { LoginGuard } from './Guards/login.guard';
+import { UserProfileFavoritesComponent } from './layout/user/userProfile/user-profile-favorites/user-profile-favorites.component';
 import { UserProfileBlockComponent } from './layout/user/userProfile/userProfileBlock/userProfileBlock.component';
 import { UserProfileBulkLoadingComponent } from './layout/user/userProfile/userProfileBulkLoading/userProfileBulkLoading.component';
-import { UserProfileFavoritesComponent } from './layout/user/userProfile/user-profile-favorites/user-profile-favorites.component';
+import { UserProfileSendNotificationsComponent } from './layout/user/userProfile/userProfileSendNotifications/userProfileSendNotifications.component';
+import { UserProfileChangeRoleComponent } from './layout/user/userProfile/userProfileChangeRole/userProfileChangeRole.component';
+import { UserProfileChangeUserStatusComponent } from './layout/user/userProfile/userProfileChangeUserStatus/userProfileChangeUserStatus.component';
 
 const routes: Routes = [
   // { path: '**', component: PageNotFoundComponent }
@@ -60,13 +62,13 @@ const routes: Routes = [
     },
   },
   {
-    path: 'newAbuse',
+    path: 'newAbuse/:id',
     component: NewAbusePageComponent,
     data: {
       breadcrumb: [
         { label: 'Главная', url: '' },
         { label: 'Жалобы', url: 'abuse' },
-        { label: 'Новая жалоба', url: '/newAbuse' },
+        { label: 'Новая жалоба', url: 'newAbuse/:id' },
       ],
     },
   },
@@ -103,6 +105,7 @@ const routes: Routes = [
   },
   {
     path: 'newAdvertisement',
+    canActivate: [LoginGuard],
     component: NewAdvertisementPageComponent,
     data: {
       breadcrumb: [
@@ -113,6 +116,7 @@ const routes: Routes = [
   },
   {
     path: 'editAdvertisement/:id',
+    canActivate: [LoginGuard],
     component: EditAdvertisementPageComponent,
     data: {
       breadcrumb: [
@@ -123,15 +127,18 @@ const routes: Routes = [
   },
   { path: 'forgotPassword', component: ForgotPasswordPageComponent },
   { path: 'resetPassword', component: ResetPasswordPageComponent },
-  { path: 'chats', component: UserChatsComponent },
+  {
+    path: 'chats',
+    canActivate: [LoginGuard],
+    component: UserChatsComponent,
+  },
   {
     path: 'profile/:Username',
     component: PublicProfileComponent,
-    canActivate: [LoginGuard],
   },
   {
     path: 'cabinet',
-    canActivate: [LoginGuard],
+    // canActivate: [LoginGuard],
     component: UserProfileComponent,
     children: [
       { path: 'personal', component: UserProfilePersonalComponent },
@@ -140,6 +147,12 @@ const routes: Routes = [
       { path: 'block', component: UserProfileBlockComponent },
       { path: 'favorites', component: UserProfileFavoritesComponent },
       { path: 'import', component: UserProfileBulkLoadingComponent },
+      { path: 'sendnotify', component: UserProfileSendNotificationsComponent },
+      { path: 'changerole', component: UserProfileChangeRoleComponent },
+      {
+        path: 'changeCorporationStatus',
+        component: UserProfileChangeUserStatusComponent,
+      },
     ],
   },
 ];

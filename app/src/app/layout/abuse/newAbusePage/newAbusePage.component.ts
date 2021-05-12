@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { switchMap } from 'rxjs/operators';
 import { NewAbuse } from 'src/app/Dtos/abuse';
 import { AbuseService } from './../../../services/abuse.service';
 
@@ -11,6 +13,8 @@ import { AbuseService } from './../../../services/abuse.service';
 	styleUrls: ['./newAbusePage.component.scss']
 })
 export class NewAbusePageComponent implements OnInit {
+
+	advertisementId: number = 0;
 
 	abuseForm = new FormGroup({
 		advId: new FormControl('', [
@@ -34,11 +38,28 @@ export class NewAbusePageComponent implements OnInit {
 
 		this.abuseService.createAbuse(abuse)
 			.pipe(untilDestroyed(this))
-			.subscribe((r) => { });
+			.subscribe((r) => {
+				alert("Отправлено. Спасибо за Вашу жалобу!");
+			},         error => {
+				alert("Ошибка. Не удалось отправить жалобу.");
+				console.log(error);
+			});
 	}
 
-	constructor(private abuseService: AbuseService) { }
+	constructor(
+		private abuseService: AbuseService,
+		private route: ActivatedRoute) { }
 
 	ngOnInit() {
+		this.route.paramMap
+		.pipe(switchMap((params) => params.getAll('id')))
+		.subscribe(
+			(data) => {
+				(this.advertisementId = +data);
+				this.abuseForm.setValue({
+					advId: this.advertisementId,
+					abuseText: ''
+				});
+			});
 	}
 }

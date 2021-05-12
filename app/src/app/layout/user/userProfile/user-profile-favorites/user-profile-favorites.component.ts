@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Advertisement } from 'src/app/Dtos/advertisement';
-import { SortItem } from 'src/app/Dtos/sorting';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FavoritesService } from 'src/app/services/favorites.service';
 import { ImageService } from 'src/app/services/image.service';
@@ -33,25 +32,28 @@ export class UserProfileFavoritesComponent implements OnInit {
   }
 
   loadAdvertisements(queryParams: any) {
-    this.favoritesService.getFavorites(queryParams).subscribe((data) => {
-      this.advertisements = data.items;
-      this.total = data.total;
-      for (let i = 0; i < this.advertisements.length; i++) {
-        if (this.advertisements[i].images[0] === undefined) {
-          this.advertisements[i].images[0] = { id: 'default' };
-        }
+    this.favoritesService
+      .getFavorites(queryParams)
+      .pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.advertisements = data.items;
+        this.total = data.total;
+        for (let i = 0; i < this.advertisements.length; i++) {
+          if (this.advertisements[i].images[0] === undefined) {
+            this.advertisements[i].images[0] = { id: 'default' };
+          }
 
-        this.imageService
-          .getImageById(this.advertisements[i].images[0].id)
-          .pipe(untilDestroyed(this))
-          .subscribe((data: any) => {
-            if (data.imageBlob) {
-              this.advertisements[i].images[0] =
-                'data:image/jpeg;base64,' + data.imageBlob;
-            }
-          });
-      }
-    });
+          this.imageService
+            .getImageById(this.advertisements[i].images[0].id)
+            .pipe(untilDestroyed(this))
+            .subscribe((data: any) => {
+              if (data.imageBlob) {
+                this.advertisements[i].images[0] =
+                  'data:image/jpeg;base64,' + data.imageBlob;
+              }
+            });
+        }
+      });
   }
 
   onRemove(id: number, event: any) {

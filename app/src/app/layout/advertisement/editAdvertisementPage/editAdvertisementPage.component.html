@@ -1,33 +1,51 @@
 <div class="container">
-	<form class="container__content content" [formGroup]="advertisementForm" (ngSubmit)="onSubmit()">
-	  <div class="content__header header">
-		<h1>Редактировать объявление</h1>
-	  </div>
-	  <div class="content__form">
-		<input formControlName="title" class="content__formInput" type="text" name="title" placeholder="Введите название объявления" value="test">
-		<textarea formControlName="description" class="content__formInput" name="description" cols="30" rows="5"
-		  placeholder="Введите описание"></textarea>
-		<input formControlName="price" class="content__formInput" type="number" name="title" placeholder="Введите стоимость (в рублях)">
-		<div class="category-selector">
-		  <span class="content__categoryFormInput" (click)="categorySelectorClicked()">{{ selectedCategory }}</span>
-		  <div class="content__categoryFormList" [style]='isCategoryVisible ? "visibility: visible;" : "visibility: hidden;"'>
-			<div *ngFor="let category of categories; let i = index" style="display:flex; margin: 5px 0 5px 0;">
-			  <span (click)="onCategorySelected(category, i)">{{category}}</span>
-			</div>
-		  </div>
-		</div>
-		<div class="content__fileSelector">
-		  <span *ngFor="let file of filesToUpload; let i = index" style="display:flex; margin: 5px 0 5px 0;">
-			<img style="width: 75px; height: 75px; border-radius: 5px;" [style]='imagePreviews[i] ? "visibility: visible;" : "visibility: hidden;"' [src]="imagePreviews[i]">
-			<input id="file" type="file" style="margin: 0px 0 0px 5px" class="file" name="file" (change)="onFileChange($event, i)">
-			<div style="background-color: rgb(255, 166, 166); font-size: 25px;  width: 25px; border-radius: 5px; margin: 0 5px 0 5px; text-align: center; vertical-align: bottom" (click)="removeFile(i)">-</div>
-		  </span>
-		  <div id="buttons" style="display:flex; margin: 5px 0 5px 0;">
-			<div style="background-color: rgb(179, 223, 179); font-size: 25px; width: 25px; border-radius: 5px; margin: 0 5px 0 5px; text-align: center;"(click)="newFile()">+</div>
-		  </div>
-		</div>
-		<button>{{ creationFormState }}<span class="iconify" data-icon="bi:arrow-right" data-inline="false"
-			style="color: white;"></span></button>
-	  </div>
-	</form>
-  </div>
+    <form class="container__content content" [formGroup]="advertisementForm" (ngSubmit)="onSubmit()">
+        <div class="content__header header">
+            <h1>Редактировать объявление</h1>
+        </div>
+        <div class="content__form">
+            <input formControlName="title" class="content__formInput" type="text" name="title"
+                placeholder="Введите название объявления" value="test">
+            <textarea formControlName="description" class="content__formInput" name="description" cols="30" rows="5"
+                placeholder="Введите описание"></textarea>
+            <ngx-dadata formControlName="currentAddress" [config]="config" (selected)="onAddressSelected($event)">
+            </ngx-dadata>
+            <input formControlName="price" class="content__formInput" type="number" name="title"
+                placeholder="Введите стоимость (в рублях)">
+            <div class="category-selector">
+                <span class="content__categoryFormInput" (click)="categorySelectorClicked()">{{ selectedCategory
+                    }}</span>
+                <div class="content__categoryFormList"
+                    [style]='isCategoryVisible ? "visibility: visible;" : "visibility: hidden;"'>
+                    <div *ngFor="let category of categories; let i = index" style="display:flex; margin: 5px 0 5px 0;">
+                        <span (click)="onCategorySelected(category, i)">{{category}}</span>
+                    </div>
+                </div>
+                <div class="content__categoryFormListSecondLevel"
+                    [style]='isCategorySecondLevelVisible ? "visibility: visible;" : "visibility: hidden;"'>
+                    <div *ngFor="let category of categoriesSecondLevel[selectedCategoryFirstLevel]; let i = index"
+                        style="display:flex; margin: 5px 0 5px 0;">
+                        <span (click)="onCategorySecondLevelSelected(category, i)">{{category}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="content__fileSelector">
+                <span *ngFor="let file of filesToUpload; let i = index" style="display:flex; margin: 5px 0 5px 0;">
+                    <img style="width: 75px; height: 75px; border-radius: 5px;"
+                        [style]='imagePreviews[i] ? "display: block;" : "display: none;"' [src]="imagePreviews[i]">
+                    <input #fileInput id="file" type="file" style="margin: 0px 0 0px 5px" class="file" name="file"
+                        (change)="onFileChange($event, i)">
+                    <div style="background-color: rgb(255, 166, 166); font-size: 25px;  width: 25px; border-radius: 5px; margin: 0 5px 0 5px; text-align: center; vertical-align: bottom"
+                        (click)="removeFile(i)">-</div>
+                </span>
+                <div id="buttons" style="display:flex; margin: 5px 0 5px 0;">
+                    <div *ngIf="filesToUpload.length < 5"
+                        style="background-color: rgb(179, 223, 179); font-size: 25px; width: 25px; border-radius: 5px; margin: 0 5px 0 5px; text-align: center;"
+                        (click)="newFile()">+</div>
+                </div>
+            </div>
+            <button>{{ creationFormState }}<span class="iconify" data-icon="bi:arrow-right" data-inline="false"
+                    style="color: white;"></span></button>
+        </div>
+    </form>
+</div>

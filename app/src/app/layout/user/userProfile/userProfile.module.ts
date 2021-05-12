@@ -8,9 +8,12 @@ import { UserProfileAdvertisementsComponent } from './userProfileAdvertisements/
 import { UserProfileLoginPassComponent } from './userProfileLoginPass/userProfileLoginPass.component';
 import { UserProfilePersonalComponent } from './userProfilePersonal/userProfilePersonal.component';
 import { UserProfileSettingsComponent } from './userProfileSettings/userProfileSettings.component';
+import { UserProfileFavoritesComponent } from './user-profile-favorites/user-profile-favorites.component';
 import { UserProfileBlockComponent } from './userProfileBlock/userProfileBlock.component';
 import { UserProfileBulkLoadingComponent } from './userProfileBulkLoading/userProfileBulkLoading.component';
-import { UserProfileFavoritesComponent } from './user-profile-favorites/user-profile-favorites.component';
+import { UserProfileSendNotificationsComponent } from './userProfileSendNotifications/userProfileSendNotifications.component';
+import { UserProfileChangeRoleComponent } from './userProfileChangeRole/userProfileChangeRole.component';
+import { UserProfileChangeUserStatusComponent } from './userProfileChangeUserStatus/userProfileChangeUserStatus.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
@@ -22,6 +25,9 @@ import { UserProfileFavoritesComponent } from './user-profile-favorites/user-pro
     UserProfileSettingsComponent,
     UserProfileBlockComponent,
     UserProfileBulkLoadingComponent,
+    UserProfileSendNotificationsComponent,
+    UserProfileChangeRoleComponent,
+    UserProfileChangeUserStatusComponent,
     UserProfileFavoritesComponent,
   ],
   exports: [
@@ -33,6 +39,9 @@ import { UserProfileFavoritesComponent } from './user-profile-favorites/user-pro
     UserProfileBlockComponent,
     UserProfileBulkLoadingComponent,
     UserProfileFavoritesComponent,
+    UserProfileSendNotificationsComponent,
+    UserProfileChangeRoleComponent,
+    UserProfileChangeUserStatusComponent,
   ],
 })
 export class UserProfileModule {}

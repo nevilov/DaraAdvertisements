@@ -9,8 +9,8 @@ import { AdvertisementService } from 'src/app/services/advertisements.service';
 import { ImageService } from 'src/app/services/image.service';
 import { ChatService } from '../../../services/chat.service';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
-import { FavoritesService } from 'src/app/services/favorites.service';
 import { ToastrService } from 'ngx-toastr';
+import { FavoritesService } from 'src/app/services/favorites.service';
 
 @UntilDestroy()
 @Component({
@@ -33,6 +33,8 @@ export class AdvertisementDetailPageComponent implements OnInit {
   deleteText: string = 'Удалить объявление';
   sameAdvertisements: Advertisement[] | null = null;
   userAdvertisements: Advertisement[] | null = null;
+  lat = 44.5950483;
+  lon = 33.4758289;
 
   constructor(
     private route: ActivatedRoute,
@@ -99,8 +101,11 @@ export class AdvertisementDetailPageComponent implements OnInit {
 
     this.advertisementService
       .getAdvertisementById(this.id)
+      .pipe(untilDestroyed(this))
       .subscribe((data: Advertisement) => {
         this.advertisement = data;
+        this.lat = this.advertisement.geoLat;
+        this.lon = this.advertisement.geoLon;
         if (this.cookieService.get('UserId')) {
           if (this.advertisement.owner.id == this.cookieService.get('UserId')) {
             this.isAuthors = true;
@@ -136,6 +141,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
 
         this.userService
           .getUserAdvertisementsWithLimit(this.advertisement.owner.id, 4, 0)
+          .pipe(untilDestroyed(this))
           .subscribe((data) => {
             this.userAdvertisements = data.items;
             for (let i = 0; i < this.userAdvertisements.length; i++) {
@@ -147,6 +153,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
 
         this.advertisementService
           .getSameAdvertisementsWithLimit(this.advertisement.category.id, 4)
+          .pipe(untilDestroyed(this))
           .subscribe((data) => {
             this.sameAdvertisements = data.items;
             for (let i = 0; i < this.sameAdvertisements.length; i++) {
@@ -172,14 +179,20 @@ export class AdvertisementDetailPageComponent implements OnInit {
   }
 
   addToFavorites() {
-    this.favoritesService.addToFavorites(this.id).subscribe(
-      (response) => this.toastr.success('', 'Добавлено в избранное!'),
-      (error) => this.toastr.error(error.error.error, 'Ошибка!')
-    );
+    this.favoritesService
+      .addToFavorites(this.id)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        (response) => this.toastr.success('', 'Добавлено в избранное!'),
+        (error) => this.toastr.error(error.error.error, 'Ошибка!')
+      );
   }
 
   deleteFromFavorites() {
-    this.favoritesService.deleteFromFavorites(this.id).subscribe();
+    this.favoritesService
+      .deleteFromFavorites(this.id)
+      .pipe(untilDestroyed(this))
+      .subscribe();
     this.toastr.success('', 'Удалено из избранного!');
   }
 

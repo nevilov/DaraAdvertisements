@@ -24,9 +24,12 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public DateTime CreatedDate { get; set; }
                 public decimal Price { get; set; }
                 public string Status { get; set; }
-                public CategoryResponse Category { get; set; }
                 public IEnumerable<ImageResponse> Images { get; set; }
+                public CategoryResponse Category { get; set; }
+                public string Location { get; set; }
             }
+
+           
 
             public sealed class ImageResponse
             {
