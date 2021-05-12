@@ -171,13 +171,13 @@ export class AdvertisementDetailPageComponent implements OnInit {
       });
   }
 
-  //TODO обратотать повторное нажатие
   addToFavorites() {
-    this.favoritesService.addToFavorites(this.id).subscribe();
-    this.toastr.success('', 'Добавлено в избранное!');
+    this.favoritesService.addToFavorites(this.id).subscribe(
+      (response) => this.toastr.success('', 'Добавлено в избранное!'),
+      (error) => this.toastr.error(error.error.error, 'Ошибка!')
+    );
   }
 
-  //TODO обратотать повторное нажатие
   deleteFromFavorites() {
     this.favoritesService.deleteFromFavorites(this.id).subscribe();
     this.toastr.success('', 'Удалено из избранного!');
