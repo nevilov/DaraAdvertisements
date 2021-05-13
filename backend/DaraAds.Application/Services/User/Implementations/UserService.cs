@@ -86,11 +86,6 @@ namespace DaraAds.Application.Services.User.Implementations
             domainUser.UpdatedDate = DateTime.UtcNow;
             domainUser.Phone = request.Phone;
 
-            if (request.Avatar != null)
-            {
-                domainUser.Avatar = request.Avatar;
-            }
-
             await _repository.Save(domainUser, cancellationToken);
         }
 

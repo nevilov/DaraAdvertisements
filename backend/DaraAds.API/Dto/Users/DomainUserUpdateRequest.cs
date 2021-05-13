@@ -8,6 +8,5 @@ namespace DaraAds.API.Dto.Users
         
         public string Phone { get; set; }
         
-        public string Avatar { get; set; }
     }
 }

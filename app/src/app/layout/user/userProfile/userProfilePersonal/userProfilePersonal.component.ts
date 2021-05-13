@@ -6,6 +6,7 @@ import { User } from 'src/app/Dtos/user';
 import { ImageService } from 'src/app/services/image.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DataSharingService } from 'src/app/services/datasharing.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @UntilDestroy()
 @Component({
@@ -21,6 +22,15 @@ export class UserProfilePersonalComponent implements OnInit {
   fileToUpload: File;
   isNotificated: boolean;
   isCorporative: boolean;
+
+  userInfoForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', Validators.required),
+    phone: new FormControl('', [
+      Validators.required,
+      Validators.pattern('[- +()0-9]+'),
+    ]),
+  });
 
   constructor(
     private userService: UserService,
@@ -83,7 +93,6 @@ export class UserProfilePersonalComponent implements OnInit {
       this.user = data;
       this.isNotificated = this.user.isSubscribeToNotifications;
       this.isCorporative = this.user.isCorporation;
-      console.log(data);
     });
   }
 
@@ -108,5 +117,17 @@ export class UserProfilePersonalComponent implements OnInit {
           this.userImageBlob = 'data:image/jpeg;base64,' + data.imageBlob;
         }
       });
+  }
+
+  onSubmit() {
+    this.userService.updateUserInfo(this.userInfoForm.value).subscribe(
+      (res) => {
+        this.toastr.success('Информация обновлена.', 'Успешно!');
+        this.loadUserInfo();
+      },
+      (error) => {
+        this.toastr.error('Проверте заполенение полей', 'Ошибка!');
+      }
+    );
   }
 }

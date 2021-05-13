@@ -83,6 +83,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
         tempPhone[10] +
         tempPhone[11];
       this.ownerPhone = newPhone;
+      console.log(newPhone);
     }
   }
 
