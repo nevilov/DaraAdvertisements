@@ -181,9 +181,8 @@
     font-size: 18px;
 }
 
-@media all and (min-width: 768px) and (max-width: 1360px) {
+@media all and (min-width: 0px) and (max-width: 1000px) {
     .menu {
-        // background-color: red;
         padding: 15px 50px 15px 50px;
 
         &__btn {
@@ -201,6 +200,52 @@
                     display: block;
                 }
             }
+        }
+    }
+
+    .userMenu {
+        right: 50px;
+        &__item {
+            &-addBtn {
+                display: block;
+            }
+        }
+    }
+}
+
+@media all and (min-width: 1000px) and (max-width: 1200px) {
+    .menu {
+        padding: 15px 50px 15px 50px;
+
+        &__btn {
+            display: none;
+        }
+
+        &__divider {
+            display: none;
+        }
+    }
+
+    .userMenu {
+        right: 50px;
+        &__item {
+            &-addBtn {
+                display: block;
+            }
+        }
+    }
+}
+
+@media all and (min-width: 1200px) and (max-width: 1360px) {
+    .menu {
+        padding: 15px 100px 15px 100px;
+
+        &__btn {
+            display: none;
+        }
+
+        &__divider {
+            display: none;
         }
     }
 
