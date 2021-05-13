@@ -49,14 +49,12 @@ export class MenuComponent implements OnInit {
       this.currentUserAvatar = 'default';
     }
 
-    console.log('data requested' + this.currentUserAvatar);
     this.imageService
       .getImageById(this.currentUserAvatar)
       .subscribe((data: any) => {
         if (data.imageBlob) {
           this.currentUserAvatarBlob =
             'data:image/jpeg;base64,' + data.imageBlob;
-          console.log('data received');
         }
       });
   }
