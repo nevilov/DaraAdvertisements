@@ -4,6 +4,9 @@ import { ChatService } from '../../../services/chat.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Chat, ChatMessage, Message } from '../../../Dtos/chat';
 import { UserService } from '../../../services/user.service';
+import {ImageService} from "../../../services/image.service";
+import {UntilDestroy, untilDestroyed} from "@ngneat/until-destroy";
+@UntilDestroy()
 @Component({
   selector: 'app-userChats',
   templateUrl: './userChats.component.html',
@@ -16,6 +19,7 @@ export class UserChatsComponent implements OnInit {
   isSeller = false;
   chats: Chat[] = [];
   messages: ChatMessage[] = [];
+
   isMessageInputShown = false;
 
   @ViewChild('seller', { read: ElementRef }) Seller!: ElementRef;
@@ -27,7 +31,8 @@ export class UserChatsComponent implements OnInit {
     private signalrService: SignalrService,
     private chatService: ChatService,
     private cookieService: CookieService,
-    private userService: UserService
+    private userService: UserService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit() {
@@ -80,6 +85,22 @@ export class UserChatsComponent implements OnInit {
     this.chatService.getChats(this.isSeller).subscribe((data) => {
       this.chats = data.chats!;
       console.log(this.chats);
+      for (let i = 0; i < this.chats.length; i++) {
+        if (this.chats[i].avatar === null) {
+          this.chats[i].avatar = 'default';
+        }
+
+        this.imageService
+          .getImageById(this.chats[i].avatar!)
+          .pipe(untilDestroyed(this))
+          .subscribe((data: any) => {
+            console.log(this.chats[i].avatar!);
+            if (data.imageBlob) {
+              this.chats[i].avatar =
+                'data:image/jpeg;base64,' + data.imageBlob;
+            }
+          });
+      }
     });
   }
 

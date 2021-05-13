@@ -43,6 +43,7 @@ namespace DaraAds.Application.Services.Chat.Implementations
                         UserId = a.BuyerId,
                         Name = a.Buyer.Name,
                         Lastname = a.Buyer.LastName,
+                        Avatar = a.Buyer.Avatar,
                         UpdatedDate = a.UpdatedDate,
                         Advertisement = new Get.Response.AdvertisementItem
                         {
@@ -63,6 +64,7 @@ namespace DaraAds.Application.Services.Chat.Implementations
                         UserId = a.Advertisement.OwnerId,
                         Name = a.Advertisement.OwnerUser.Name,
                         Lastname = a.Advertisement.OwnerUser.LastName,
+                        Avatar = a.Advertisement.OwnerUser.Avatar,
                         UpdatedDate = a.UpdatedDate,
                         Advertisement = new Get.Response.AdvertisementItem
                         {

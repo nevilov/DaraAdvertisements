@@ -11,6 +11,7 @@ export class Chat{
   userId?: string;
   cover?: string;
   lastname?: string;
+  avatar?: string;
   name?: string;
   updatedDate?: Date;
   advertisement?: Advertisement;
