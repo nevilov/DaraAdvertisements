@@ -11,6 +11,7 @@ import { ChatService } from '../../../services/chat.service';
 import { NgDynamicBreadcrumbService } from 'ng-dynamic-breadcrumb';
 import { ToastrService } from 'ngx-toastr';
 import { FavoritesService } from 'src/app/services/favorites.service';
+import { AppComponent } from 'src/app/app.component';
 
 @UntilDestroy()
 @Component({
@@ -35,6 +36,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
   userAdvertisements: Advertisement[] | null = null;
   lat = 44.5950483;
   lon = 33.4758289;
+  shareUrl: string = AppComponent.backendAddress;
 
   constructor(
     private route: ActivatedRoute,
