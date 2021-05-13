@@ -171,6 +171,32 @@
         ></span>
         <span class="userMenu__text">Блокировка пользователей</span>
       </a>
+      <a
+        (click)="showUsermenu()"
+        class="userMenu__item"
+        routerLink="/cabinet/abuse"
+      >
+        <span
+          class="iconify userMenu__icon"
+          data-icon="fluent:thumb-dislike-20-filled"
+          data-inline="false"
+          style="color: #222222"
+        ></span>
+        <span class="menu__text">Жалобы</span>
+      </a>
+      <a
+        (click)="showUsermenu()"
+        class="userMenu__item"
+        routerLink="/cabinet/changeCorporationStatus"
+      >
+        <span
+          class="iconify userMenu__icon"
+          data-icon="ri:advertisement-fill"
+          data-inline="false"
+          style="color: #222222"
+        ></span>
+        <span class="menu__text">Смена коропоративного статуса</span>
+      </a>
     </div>
 
     <div class="userMenu__block" *ngIf="currentUserRole == 'Admin'">

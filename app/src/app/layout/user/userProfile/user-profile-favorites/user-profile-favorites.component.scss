@@ -30,9 +30,6 @@
     }
   }
 
-  &_body {
-  }
-
   &_row {
     padding: 10px 10px;
     border-bottom: 1px solid #f4f2ff;
@@ -67,6 +64,9 @@
   .disabled {
     pointer-events: none;
     opacity: 0.4;
+    & .table_editPanel {
+      pointer-events: auto;
+    }
   }
 
   &_col {

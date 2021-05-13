@@ -20,6 +20,7 @@ export class AdvertisementComponent implements OnInit {
   @Input() advertisementId: number = 0;
   @Input() thisUserAdvertisement: boolean = false;
   @Input() categoryId: number | undefined = 0;
+  @Input() address: string = '';
   imageBlob: string;
   avatarBlob: string;
 

@@ -548,7 +548,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 throw new ImportExcelException("Данный формат файла не поддерживается, загрузите excel файл");
             }
 
-             var excelFileStream = excel.OpenReadStream();
+            var excelFileStream = excel.OpenReadStream();
 
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
             var domainUser = await _userRepository.FindById(userId, cancellationToken);

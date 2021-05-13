@@ -51,16 +51,16 @@ const routes: Routes = [
       ],
     },
   },
-  {
-    path: 'abuse',
-    component: AbusePageComponent,
-    data: {
-      breadcrumb: [
-        { label: 'Главная', url: '' },
-        { label: 'Жалобы', url: 'abuse' },
-      ],
-    },
-  },
+  // {
+  //   path: 'abuse',
+  //   component: AbusePageComponent,
+  //   data: {
+  //     breadcrumb: [
+  //       { label: 'Главная', url: '' },
+  //       { label: 'Жалобы', url: 'abuse' },
+  //     ],
+  //   },
+  // },
   {
     path: 'newAbuse/:id',
     component: NewAbusePageComponent,
@@ -138,7 +138,7 @@ const routes: Routes = [
   },
   {
     path: 'cabinet',
-    // canActivate: [LoginGuard],
+    canActivate: [LoginGuard],
     component: UserProfileComponent,
     children: [
       { path: 'personal', component: UserProfilePersonalComponent },
@@ -153,6 +153,7 @@ const routes: Routes = [
         path: 'changeCorporationStatus',
         component: UserProfileChangeUserStatusComponent,
       },
+      { path: 'abuse', component: AbusePageComponent },
     ],
   },
 ];

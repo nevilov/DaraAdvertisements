@@ -29,6 +29,7 @@ namespace DaraAds.Application.Services.Favorite.Contracts
             public string Status { get; set; }
             public CategoryResponse Category { get; set; }
             public IEnumerable<ImageResponse> Images { get; set; }
+            public string Location { get; set; }
         }
 
         public sealed class ImageResponse

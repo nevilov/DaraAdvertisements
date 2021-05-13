@@ -108,7 +108,6 @@ export class PublicProfileComponent implements OnInit {
       .subscribe((data) => {
         this.advertisements = data.items;
         this.total = data.total;
-        console.log(data);
         for (let i = 0; i < this.advertisements.length; i++) {
           if (this.advertisements[i].images[0] === undefined) {
             this.advertisements[i].images[0] = { id: 'default' };

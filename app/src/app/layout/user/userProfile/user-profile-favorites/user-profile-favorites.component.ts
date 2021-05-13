@@ -38,6 +38,7 @@ export class UserProfileFavoritesComponent implements OnInit {
       .subscribe((data) => {
         this.advertisements = data.items;
         this.total = data.total;
+
         for (let i = 0; i < this.advertisements.length; i++) {
           if (this.advertisements[i].images[0] === undefined) {
             this.advertisements[i].images[0] = { id: 'default' };

@@ -1,34 +1,69 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Abuse, NewAbuse } from 'src/app/Dtos/abuse';
+import { ToastrService } from 'ngx-toastr';
+import { Abuse } from 'src/app/Dtos/abuse';
+import { AdvertisementService } from 'src/app/services/advertisements.service';
 import { AbuseService } from './../../../services/abuse.service';
 
 @UntilDestroy()
 @Component({
-    selector: 'app-abusePage',
-    templateUrl: './abusePage.component.html',
-    styleUrls: ['./abusePage.component.scss']
+  selector: 'app-abusePage',
+  templateUrl: './abusePage.component.html',
+  styleUrls: ['./abusePage.component.scss'],
 })
 export class AbusePageComponent implements OnInit {
+  abuseItems: Abuse[] = [];
 
-    abuseItems: Abuse[] = [];
+  total: number = 0;
+  queryParams = {
+    limit: 10,
+    offset: 0,
+  };
 
-    constructor(private abuseService: AbuseService) {
-    }
+  constructor(
+    private abuseService: AbuseService,
+    private advertisementService: AdvertisementService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
-    closeAbuse(clickedId: number, clickedOrder: number): void {
-        console.log("close abuse " + clickedId + " clicked");
-        this.abuseService.closeAbuse(clickedId)
-            .pipe(untilDestroyed(this))
-            .subscribe(() => console.log('Delete successful'));
-        this.abuseItems.splice(clickedOrder, 1);
-    }
+  ngOnInit(): void {
+    this.getAllAbuse(this.queryParams);
+  }
 
-    ngOnInit(): void {
-        this.abuseService.getAbuses()
-            .pipe(untilDestroyed(this))
-            .subscribe(data => {
-                this.abuseItems = data.items.filter((abs) => (abs.removedDate == null));
-            });
-    }
+  getAllAbuse(queryParams: any) {
+    this.abuseService
+      .getAbuses(queryParams)
+      .pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.abuseItems = data.items;
+        this.total = data.total;
+      });
+  }
+
+  closeAbuse(clickedId: number, event: any): void {
+    event.preventDefault();
+    this.abuseService
+      .closeAbuse(clickedId)
+      .pipe(untilDestroyed(this))
+      .subscribe((response) => {
+        this.toastr.success('', 'Удалено!');
+        this.getAllAbuse(this.queryParams);
+      });
+  }
+
+  onCheckAdvertisement(id: number) {
+    this.advertisementService.getAdvertisementById(id).subscribe((response) => {
+      console.log(response);
+
+      this.router.navigateByUrl(
+        `advertisements/${response.category.id}/advertisement/${id}`
+      );
+    });
+  }
+  onPageChange(offset: number) {
+    this.queryParams = { ...this.queryParams, offset };
+    this.getAllAbuse(this.queryParams);
+  }
 }

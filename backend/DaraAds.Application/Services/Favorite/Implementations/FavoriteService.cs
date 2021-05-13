@@ -100,7 +100,8 @@ namespace DaraAds.Application.Services.Favorite.Implementations
                     {
                         Id = a.Advertisement.Category.Id,
                         Name = a.Advertisement.Category.Name
-                    }
+                    },
+                    Location = a.Advertisement.Location
                 }),
                 Total = items.Total,
                 Limit = request.Limit,
