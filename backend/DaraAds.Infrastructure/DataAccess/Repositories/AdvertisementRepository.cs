@@ -40,15 +40,16 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<PagedList<Domain.Advertisement>> GetPageByFilterSortSearch(GetPages.Request parameters, CancellationToken cancellationToken)
+        public async Task<PagedList<Domain.Advertisement>> GetPageByFilterSortSearch(GetPages.Request parameters, List<int> ids, CancellationToken cancellationToken)
          {
              var ads = _context.Advertisements.AsQueryable();
  
              var isCategorySet = parameters.CategoryId != 0; 
              if (isCategorySet)
              {
-                 ads = ads.Where(a => a.CategoryId == parameters.CategoryId);
+                 ads = ads.Where(a => ids.Contains(a.CategoryId));
              }
+             
              
              ads = ads.Where(a=> 
                  a.Price >= parameters.MinPrice && 
