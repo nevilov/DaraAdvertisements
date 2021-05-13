@@ -79,7 +79,7 @@ namespace DaraAds.Infrastructure.Identity
             var existedUser = await _userManager.FindByEmailAsync(request.Email);
             if (existedUser != null)
             {
-                throw new DuplicateException("Пользователь с таким именем уже существует");
+                throw new DuplicateException("Пользователь с почтой уже существует");
             }
 
             var newUser = new IdentityUser

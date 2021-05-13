@@ -64,6 +64,32 @@ export class PublicProfileComponent implements OnInit {
     offset: 0,
   };
 
+  ownerPhone = '';
+
+  formatPhone() {
+    if (this.user?.phone != null && this.user?.phone.length == 12) {
+      let tempPhone: string = this.user?.phone;
+      let newPhone: string =
+        tempPhone[0] +
+        tempPhone[1] +
+        ' ' +
+        tempPhone[2] +
+        tempPhone[3] +
+        tempPhone[4] +
+        ' ' +
+        tempPhone[5] +
+        tempPhone[6] +
+        tempPhone[7] +
+        '-' +
+        tempPhone[8] +
+        tempPhone[9] +
+        '-' +
+        tempPhone[10] +
+        tempPhone[11];
+      this.ownerPhone = newPhone;
+    }
+  }
+
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -85,6 +111,7 @@ export class PublicProfileComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((data) => {
         this.user = data;
+        this.formatPhone();
         if (this.user.avatar == null) {
           this.user.avatar = 'default';
         }

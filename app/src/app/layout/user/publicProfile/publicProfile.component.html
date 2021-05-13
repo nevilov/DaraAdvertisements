@@ -4,7 +4,8 @@
       <img [src]="user?.avatar" alt="" />
     </figure>
     <p class="userInfo__name">{{ user?.name + " " + user?.lastname }}</p>
-    <a routerLink="/chats" class="menu__btn btn-main">Написать продавцу</a>
+    <span class="user__phone">{{ user?.phone }}</span>
+    <!-- <a routerLink="/chats" class="menu__btn btn-main">Написать продавцу</a> -->
     <p class="userInfo__date">
       На DaraAds с {{ user?.createdDate | date: "dd.MM.yyyy" }}
     </p>

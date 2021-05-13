@@ -56,7 +56,8 @@ namespace DaraAds.Application.Services.User.Implementations
                     Name = request.Name,
                     LastName = request.LastName,
                     Email = request.Email,
-                    CreatedDate = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow,
+                    Phone = request.Phone
                 };
 
                 await _repository.Save(domainUser, cancellationToken);
