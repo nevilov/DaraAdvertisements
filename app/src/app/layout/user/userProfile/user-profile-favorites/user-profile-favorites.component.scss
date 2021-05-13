@@ -1,0 +1,147 @@
+@import "./../../../../../assets/scss/abstacts/_variables";
+
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 50px;
+
+  &_head {
+    padding: 20px 10px;
+    background: #f4f2ff;
+  }
+
+  &_headItems {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  &_headItem {
+    flex-grow: 1;
+    color: #6e6893;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 1px;
+
+    & .table_cheackbox {
+      transform: scale(1.4);
+    }
+  }
+
+  &_row {
+    padding: 10px 10px;
+    border-bottom: 1px solid #f4f2ff;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+
+    &:hover {
+      transition: all ease 0.2s;
+      background-color: #f6f8ff;
+    }
+
+    & .table_editPanel a .table_editIcon {
+      margin-right: 15px;
+    }
+
+    & .table_editPanel .iconify {
+      color: #6e6893;
+      max-width: 24px;
+      width: 24px;
+    }
+
+    & .table_editPanel .table_editIcon:hover {
+      color: $main-blue;
+    }
+
+    & .table_editPanel .table_deleteIcon:hover {
+      color: $main-blue;
+    }
+  }
+
+  .disabled {
+    pointer-events: none;
+    opacity: 0.4;
+    & .table_editPanel {
+      pointer-events: auto;
+    }
+  }
+
+  &_col {
+    flex-grow: 1;
+    width: calc(100% - 5% - 10% / 5);
+    text-align: center;
+    color: #6e6893;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    flex-shrink: 1;
+    display: flex;
+    justify-content: center;
+
+    & figure {
+      width: 60px;
+      height: 60px;
+      overflow: hidden;
+      border-radius: 2px;
+
+      & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    & .table_cheackbox {
+      transform: scale(1.4);
+    }
+  }
+
+  &_col:first-child {
+  }
+
+  &_col:last-child {
+  }
+
+  & .table_userInfoCol {
+    display: flex;
+    flex-direction: column;
+
+    & .table_userName {
+      font-weight: 500px;
+      color: #222222;
+      text-transform: none;
+      margin-bottom: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: normal;
+    }
+
+    & .table_userEmail {
+      font-weight: normal;
+      color: #6e6893;
+      text-transform: none;
+      font-size: 14px;
+      letter-spacing: normal;
+    }
+  }
+
+  &_row-fail * {
+    color: #ee215a;
+
+    .table_userName a {
+      color: #222;
+    }
+  }
+
+  &_row-success * {
+    color: #1ce40b;
+
+    .table_userName a {
+      color: #222;
+    }
+  }
+}

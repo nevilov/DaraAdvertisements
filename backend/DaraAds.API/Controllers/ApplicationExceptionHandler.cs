@@ -61,6 +61,9 @@ namespace DaraAds.API.Controllers
                 NotFoundException => HttpStatusCode.NotFound,
                 ConflictException => HttpStatusCode.Conflict,
                 NoRightsException => HttpStatusCode.Forbidden,
+                BlockedException => HttpStatusCode.Locked,
+                DaraAds.Domain.Shared.Exceptions.DuplicateException => HttpStatusCode.Conflict,
+
                 _ => throw new ArgumentOutOfRangeException(nameof(domainException), domainException, null)
             };
         }

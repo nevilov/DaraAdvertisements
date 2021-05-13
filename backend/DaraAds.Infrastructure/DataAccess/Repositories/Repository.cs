@@ -64,7 +64,7 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
             var data = _context.Set<TEntity>();
 
-            return await data.OrderBy(e => e.Id).Take(limit).Skip(offset).ToListAsync(cancellationToken);
+            return await data.OrderBy(e => e.Id).Skip(offset).Take(limit).ToListAsync(cancellationToken);
         }
 
         public async Task<int> Count(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
@@ -77,7 +77,7 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
             var data = _context.Set<TEntity>().AsNoTracking();
 
-            return await data.Where(predicate).OrderBy(e => e.Id).Take(limit).Skip(offset)
+            return await data.Where(predicate).OrderBy(e => e.Id).Skip(offset).Take(limit)
                 .ToListAsync(cancellationToken);
         }
 

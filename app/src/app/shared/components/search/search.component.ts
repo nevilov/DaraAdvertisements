@@ -6,9 +6,10 @@ import {
   map,
   filter,
   distinctUntilChanged,
-  switchMap,
 } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -29,6 +30,7 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.searchString
       .pipe(
+        untilDestroyed(this),
         debounceTime(1000),
         map((value) => value.trim()),
         filter((value) => value.length >= 3 || value == ''),

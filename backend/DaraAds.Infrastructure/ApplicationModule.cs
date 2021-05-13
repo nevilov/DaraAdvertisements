@@ -51,7 +51,8 @@ namespace DaraAds.Infrastructure
              .AddScoped<IMessageRepository, MessageRepository>();
 
             services
-                .AddScoped<ISortHelper<Domain.Advertisement>, SortHelper<Domain.Advertisement>>();
+                .AddScoped<ISortHelper<Domain.Advertisement>, SortHelper<Domain.Advertisement>>()
+                .AddScoped<ISortHelper<Domain.Favorite>, SortHelper<Domain.Favorite>>();
 
             return services;
         }

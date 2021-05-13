@@ -1,0 +1,53 @@
+<div class="table">
+  <div class="table_head">
+    <div class="table_headItems">
+      <div class="table_headItem table_col">Картинка</div>
+      <div class="table_headItem table_col">Заголовок</div>
+      <div class="table_headItem table_col">Цена</div>
+      <div class="table_headItem table_col">Адрес</div>
+      <div class="table_headItem table_col">Создано</div>
+      <div class="table_headItem table_col">Действия</div>
+    </div>
+  </div>
+  <div class="table_body">
+    <div
+      class="table_row"
+      [class.disabled]="advertisement.status !== 'Created'"
+      [routerLink]="[
+        '/advertisements/',
+        advertisement.category.id,
+        'advertisement',
+        advertisement.id
+      ]"
+      *ngFor="let advertisement of advertisements"
+    >
+      <div class="table_col">
+        <figure>
+          <img [src]="advertisement.images[0]" />
+        </figure>
+      </div>
+      <div class="table_col">{{ advertisement.title }}</div>
+      <div class="table_col">{{ advertisement.price }}</div>
+      <div class="table_col">{{ advertisement.location }}</div>
+      <div class="table_col">
+        {{ advertisement.createdDate | date: "dd-MM-yyyy" }}
+      </div>
+      <div class="table_col table_editPanel">
+        <a href="" (click)="onRemove(advertisement.id, $event)">
+          <span
+            class="iconify table_deleteIcon"
+            data-height="24px"
+            data-icon="maki:cross-15"
+            data-inline="false"
+          ></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <app-pagination-control
+    [offset]="queryParams.offset"
+    [limit]="queryParams.limit"
+    [total]="total"
+    (pageChange)="onPageChange($event)"
+  ></app-pagination-control>
+</div>

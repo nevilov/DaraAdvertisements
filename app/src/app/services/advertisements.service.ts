@@ -1,11 +1,12 @@
 import { ListOfItems, NewAdvertisement } from './../Dtos/advertisement';
 import { AppComponent } from './../app.component';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Advertisement } from '../Dtos/advertisement';
 import { CookieService } from 'ngx-cookie-service';
+import { queryPaginated } from './queryPaginated';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,7 @@ export class AdvertisementService {
     queryParams?: any
   ): Observable<ListOfItems<Advertisement>> {
     let url = AppComponent.backendAddress + '/api/Advertisement';
-    return this.queryPaginated<Advertisement>(this.http, url, queryParams);
+    return queryPaginated<Advertisement>(this.http, url, queryParams);
   }
 
   public getSameAdvertisementsWithLimit(
@@ -102,28 +103,6 @@ export class AdvertisementService {
         }),
       })
       .pipe(catchError(this.checkError));
-  }
-
-  private queryPaginated<T>(
-    http: HttpClient,
-    baseUrl: string,
-    queryParams?: any
-  ): Observable<ListOfItems<T>> {
-    let params = new HttpParams();
-    let url = baseUrl;
-
-    Object.keys(queryParams)
-      .sort()
-      .forEach((key) => {
-        const value = queryParams[key];
-        if (value !== null && value !== '') {
-          params = params.set(key, value.toString());
-        }
-      });
-
-    return http.get<ListOfItems<T>>(url, {
-      params,
-    });
   }
 
   public checkError(error: any) {

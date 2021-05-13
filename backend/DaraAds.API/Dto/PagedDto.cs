@@ -13,11 +13,5 @@ namespace DaraAds.API.Dto
         /// Смещение, начиная с котрого возвращаются объявления
         /// </summary>
         public int Offset { get; set; } = PagedConstants.PaginationOffset;
-        
-        /// <summary>
-        /// Критерий сортировки
-        /// </summary>
-        /// <example>Id</example>
-        public string OrderBy { get; set; }
     }
 }

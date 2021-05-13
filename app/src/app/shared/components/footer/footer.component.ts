@@ -4,39 +4,22 @@ import { Category } from 'src/app/Dtos/category';
 import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
-    selector: 'app-footer',
-    templateUrl: './footer.component.html',
-    styleUrls: ['./../../../../assets/scss/layout/__footer.scss']
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./../../../../assets/scss/layout/__footer.scss'],
 })
 export class FooterComponent implements OnInit {
+  categories: Category[] = [];
 
-    categories: Category[] = [];
-    // MailingForm: FormGroup;
+  constructor(private categoryService: CategoryService) {}
 
+  ngOnInit() {
+    this.getAllCategories();
+  }
 
-    constructor(
-        private categoryService: CategoryService,) { }
-
-    ngOnInit() {
-        this.getAllCategories();
-    }
-
-    public getAllCategories() {
-        this.categoryService.getAllCategories().subscribe((data) => {
-            this.categories = data.categories;
-            console.log(data.categories);
-        });
-    }
-
-
-    // constructor() {
-    // this.MailingForm = new FormGroup({
-    // 	email: new FormControl()
-    // });
-    // }
-
-
-    // onSubscribe(): void {
-    // 	console.log(this.MailingForm.value.email);
-    // }
+  public getAllCategories() {
+    this.categoryService.getAllCategories().subscribe((data) => {
+      this.categories = data.categories;
+    });
+  }
 }

@@ -1,21 +1,44 @@
-<ul>
-    <li>
-        <span>
-            <span>#</span>
-            <span style="padding-right: 130px">Id автора</span>
-            <span>Id объявления</span>
-            <span>Приоритет</span>
-            <span>Текст жалобы</span>
-        </span>
-    </li>
-    <li *ngFor="let item of abuseItems; let i = index">
-        <span>
-            <strong>{{ i + 1 }}</strong>
-            <span class="AuthorId">{{ item.authorId }}</span>
-            <span class="AbuseAdvId">{{ item.abuseAdvId }}</span>
-            <span class="Priority">{{ item.priority }}</span>
-            <span class="AbuseText">{{ item.abuseText }}</span>
-            <button class="" (click)="closeAbuse(item.id, i)">Рассмотрено</button>
-        </span>
-    </li>
-</ul>
+<div class="table">
+  <div class="table_head">
+    <div class="table_headItems">
+      <div class="table_headItem table_col">Id автора</div>
+      <div class="table_headItem table_col">Id объявления</div>
+      <div class="table_headItem table_col">Приоритет</div>
+      <div class="table_headItem table_col">Текст жалобы</div>
+      <div class="table_headItem table_col">Действия</div>
+    </div>
+  </div>
+  <div class="table_body">
+    <div class="table_row" *ngFor="let item of abuseItems; let i = index">
+      <div class="table_col">{{ item.authorId }}</div>
+      <div
+        class="table_col pointer"
+        (click)="onCheckAdvertisement(item.abuseAdvId)"
+      >
+        {{ item.abuseAdvId }}
+      </div>
+      <div class="table_col">
+        {{ item.priority }}
+      </div>
+      <div class="table_col">
+        {{ item.abuseText }}
+      </div>
+      <div class="table_col table_editPanel">
+        <a href="" (click)="closeAbuse(item.id, $event)" title="Рассмотрено">
+          <span
+            class="iconify table_deleteIcon"
+            data-height="24px"
+            data-icon="maki:cross-15"
+            data-inline="false"
+          ></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <app-pagination-control
+    [offset]="queryParams.offset"
+    [limit]="queryParams.limit"
+    [total]="total"
+    (pageChange)="onPageChange($event)"
+  ></app-pagination-control>
+</div>

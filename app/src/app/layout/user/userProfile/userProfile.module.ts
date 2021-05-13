@@ -8,37 +8,40 @@ import { UserProfileAdvertisementsComponent } from './userProfileAdvertisements/
 import { UserProfileLoginPassComponent } from './userProfileLoginPass/userProfileLoginPass.component';
 import { UserProfilePersonalComponent } from './userProfilePersonal/userProfilePersonal.component';
 import { UserProfileSettingsComponent } from './userProfileSettings/userProfileSettings.component';
-import {UserProfileBlockComponent} from "./userProfileBlock/userProfileBlock.component";
-import {UserProfileBulkLoadingComponent} from "./userProfileBulkLoading/userProfileBulkLoading.component";
-import {UserProfileSendNotificationsComponent} from "./userProfileSendNotifications/userProfileSendNotifications.component";
-import {UserProfileChangeRoleComponent} from "./userProfileChangeRole/userProfileChangeRole.component";
-import {UserProfileChangeUserStatusComponent} from "./userProfileChangeUserStatus/userProfileChangeUserStatus.component";
+import { UserProfileFavoritesComponent } from './user-profile-favorites/user-profile-favorites.component';
+import { UserProfileBlockComponent } from './userProfileBlock/userProfileBlock.component';
+import { UserProfileBulkLoadingComponent } from './userProfileBulkLoading/userProfileBulkLoading.component';
+import { UserProfileSendNotificationsComponent } from './userProfileSendNotifications/userProfileSendNotifications.component';
+import { UserProfileChangeRoleComponent } from './userProfileChangeRole/userProfileChangeRole.component';
+import { UserProfileChangeUserStatusComponent } from './userProfileChangeUserStatus/userProfileChangeUserStatus.component';
 
 @NgModule({
-	imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
-	declarations: [
-		UserProfileComponent,
-		UserProfileAdvertisementsComponent,
-		UserProfileLoginPassComponent,
-		UserProfilePersonalComponent,
-		UserProfileSettingsComponent,
+  imports: [CommonModule, SharedModule, RouterModule, ReactiveFormsModule],
+  declarations: [
+    UserProfileComponent,
+    UserProfileAdvertisementsComponent,
+    UserProfileLoginPassComponent,
+    UserProfilePersonalComponent,
+    UserProfileSettingsComponent,
     UserProfileBlockComponent,
     UserProfileBulkLoadingComponent,
     UserProfileSendNotificationsComponent,
     UserProfileChangeRoleComponent,
-    UserProfileChangeUserStatusComponent
-	],
-	exports: [
-		UserProfileComponent,
-		UserProfileAdvertisementsComponent,
-		UserProfileLoginPassComponent,
-		UserProfilePersonalComponent,
-		UserProfileSettingsComponent,
+    UserProfileChangeUserStatusComponent,
+    UserProfileFavoritesComponent,
+  ],
+  exports: [
+    UserProfileComponent,
+    UserProfileAdvertisementsComponent,
+    UserProfileLoginPassComponent,
+    UserProfilePersonalComponent,
+    UserProfileSettingsComponent,
     UserProfileBlockComponent,
     UserProfileBulkLoadingComponent,
+    UserProfileFavoritesComponent,
     UserProfileSendNotificationsComponent,
     UserProfileChangeRoleComponent,
-    UserProfileChangeUserStatusComponent
-	],
+    UserProfileChangeUserStatusComponent,
+  ],
 })
-export class UserProfileModule { }
+export class UserProfileModule {}

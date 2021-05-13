@@ -10,49 +10,56 @@
             </div>
         </div>
         <div class="container__userChat">
-            <a *ngFor="let chat of chats" class="user__chatButton"
-                (click)="getChatMessages(chat.chatId!); getCurrentRecipient(chat.userId!)">
+            <a *ngFor="let chat of chats" class="user__chatButton" (click)="
+          getChatMessages(chat.chatId!); getCurrentRecipient(chat.userId!)
+        ">
                 <div class="container__userInfo user">
                     <figure>
-                        <img src="assets/images/advertisement/car1.png" alt="" class="user__avatar">
+                        <img src="assets/images/advertisement/car1.png" alt="" class="user__avatar" />
                     </figure>
-                    <span class="user__name">{{ chat.name + " " + chat.lastname}}</span>
+                    <span class="user__name">{{ chat.name + " " + chat.lastname }}</span>
                 </div>
                 <div class="container__advertisementInfo">
-                    <span class="container__advertisement">Объявление: {{chat.advertisement!.title}}</span>
+                    <span class="container__advertisement">Объявление: {{ chat.advertisement!.title }}</span>
                 </div>
                 <div class="container__moreInfo">
-                    <span class="container__updateDate">{{chat.updatedDate}}</span>
+                    <span class="container__updateDate">{{ chat.updatedDate }}</span>
                 </div>
             </a>
         </div>
     </div>
     <div class="container__chat chat">
         <div class="chat__container" #chat>
-            <div class="warning" *ngIf="!isMessageInputShown">Выберите необходимый чат для общения</div>
+            <div class="warning" *ngIf="!isMessageInputShown">
+                Выберите необходимый чат для общения
+            </div>
             <div class="chat__message message" *ngFor="let msg of messages">
                 <div class="message-recipient" *ngIf="userId == msg.recipient?.id">
                     <div class="message__content">
                         <div class="message__text">
-                            {{msg.text}}
+                            {{ msg.text }}
                         </div>
-                        <span class="message__info">{{msg.createdDate| date:'dd.MM.yyyy - HH:mm'}}</span>
+                        <span class="message__info">{{
+                            msg.createdDate | date: "dd.MM.yyyy - HH:mm"
+                            }}</span>
                     </div>
                 </div>
-
                 <div class="message-sender" *ngIf="userId == msg.sender?.id!">
                     <div class="message__content">
                         <div class="message__text">
-                            {{msg.text}}
+                            {{ msg.text }}
                         </div>
-                        <span class="message__info">{{msg.createdDate| date:'dd.MM.yyyy - HH:mm'}}</span>
+                        <span class="message__info">{{
+                            msg.createdDate | date: "dd.MM.yyyy - HH:mm"
+                            }}</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="chat__sendContainer" *ngIf="isMessageInputShown">
-            <input #messageText type="text">
+            <input #messageText type="text" />
+            <!--TODO При нажатии на enter отправлять сообщения-->
             <button class="send__button btn btn-main" type="button"
                 (click)="sendMessage(messageText.value)">Отправить</button>
         </div>

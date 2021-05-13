@@ -156,6 +156,10 @@
         align-items: center;
         transition: background ease 0.3s;
 
+        &-addBtn {
+            display: none;
+        }
+
         &:hover {
             border-left: 4px solid $main-blue;
             padding: 10px 20px 10px 16px;
@@ -175,4 +179,82 @@
 }
 .iconify {
     font-size: 18px;
+}
+
+@media all and (min-width: 0px) and (max-width: 1000px) {
+    .menu {
+        padding: 15px 50px 15px 50px;
+
+        &__btn {
+            display: none;
+        }
+
+        &__divider {
+            display: none;
+        }
+
+        &__items {
+            & .menu__item {
+                display: none;
+                &:first-child {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .userMenu {
+        right: 50px;
+        &__item {
+            &-addBtn {
+                display: block;
+            }
+        }
+    }
+}
+
+@media all and (min-width: 1000px) and (max-width: 1200px) {
+    .menu {
+        padding: 15px 50px 15px 50px;
+
+        &__btn {
+            display: none;
+        }
+
+        &__divider {
+            display: none;
+        }
+    }
+
+    .userMenu {
+        right: 50px;
+        &__item {
+            &-addBtn {
+                display: block;
+            }
+        }
+    }
+}
+
+@media all and (min-width: 1200px) and (max-width: 1360px) {
+    .menu {
+        padding: 15px 100px 15px 100px;
+
+        &__btn {
+            display: none;
+        }
+
+        &__divider {
+            display: none;
+        }
+    }
+
+    .userMenu {
+        right: 50px;
+        &__item {
+            &-addBtn {
+                display: block;
+            }
+        }
+    }
 }

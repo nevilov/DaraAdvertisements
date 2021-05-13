@@ -1,44 +1,81 @@
 <footer class="footer">
-    <div class="footer__mainSection">
-        <div class="footer__cols">
-            <div class="footer__col" *ngFor="let category of categories">
-                <a [routerLink]="['/advertisements/', category.id]" class="footer__colHeader">
-                    <span class="iconify" data-icon="bx:bxs-category" data-height="28px" data-inline="false"
-                        style="color: #1890ff;"></span>
-                    <span>{{category.name}}</span>
-                </a>
-                <div class="footer__colItems">
-                    <a href="" class="footer__colItem" [routerLink]="['/advertisements/', subcategory.id]"
-                        *ngFor="let subcategory of category.childCategories">
-                        <span>{{subcategory.name}}</span>
-                    </a>
-                </div>
-            </div>
+  <div class="footer__mainSection">
+    <div class="footer__cols">
+      <div class="footer__col" *ngFor="let category of categories">
+        <a
+          [routerLink]="['/advertisements/', category.id]"
+          class="footer__colHeader"
+        >
+          <span
+            class="iconify"
+            data-icon="bx:bxs-category"
+            data-height="28px"
+            data-inline="false"
+            style="color: #1890ff"
+          ></span>
+          <span>{{ category.name }}</span>
+        </a>
+        <div class="footer__colItems">
+          <a
+            href=""
+            class="footer__colItem"
+            [routerLink]="['/advertisements/', subcategory.id]"
+            *ngFor="let subcategory of category.childCategories"
+          >
+            <span>{{ subcategory.name }}</span>
+          </a>
         </div>
+      </div>
     </div>
-    <div class="footer__infoSection">
-        <div class="footer__copyright">
-            <span>© Copyright DaraAds</span>
-        </div>
-
-        <div class="footer_socialLinks">
-            <span class="iconify" data-height="24px" data-icon="brandico:facebook-rect" data-inline="false"
-                style="color: #79797C;"></span>
-            <span class="iconify" data-height="24px" data-icon="brandico:skype" data-inline="false"
-                style="color: #79797C;"></span>
-            <span class="iconify" data-height="24px" data-icon="fa-brands:whatsapp-square" data-inline="false"
-                style="color: #79797C;"></span>
-            <span class="iconify" data-height="24px" data-icon="bi:github" data-inline="false"
-                style="color: #79797C;"></span>
-            <span class="iconify" data-height="24px" data-icon="mdi:microsoft-azure" data-inline="false"
-                style="color: #79797C;"></span>
-        </div>
-
-        <div class="footer__helps helpSection">
-            <a href="" class="helpSection__link">Техподдержка</a>
-            <a href="" class="helpSection__link">Terms</a>
-            <a href="" class="helpSection__link">Privacy</a>
-            <a href="" class="helpSection__link">Cookies</a>
-        </div>
+  </div>
+  <div class="footer__infoSection">
+    <div class="footer__copyright">
+      <span>© Copyright DaraAds</span>
     </div>
+
+    <div class="footer_socialLinks">
+      <span
+        class="iconify"
+        data-height="24px"
+        data-icon="brandico:facebook-rect"
+        data-inline="false"
+        style="color: #79797c"
+      ></span>
+      <span
+        class="iconify"
+        data-height="24px"
+        data-icon="brandico:skype"
+        data-inline="false"
+        style="color: #79797c"
+      ></span>
+      <span
+        class="iconify"
+        data-height="24px"
+        data-icon="fa-brands:whatsapp-square"
+        data-inline="false"
+        style="color: #79797c"
+      ></span>
+      <span
+        class="iconify"
+        data-height="24px"
+        data-icon="bi:github"
+        data-inline="false"
+        style="color: #79797c"
+      ></span>
+      <span
+        class="iconify"
+        data-height="24px"
+        data-icon="mdi:microsoft-azure"
+        data-inline="false"
+        style="color: #79797c"
+      ></span>
+    </div>
+
+    <div class="footer__helps helpSection">
+      <a href="" class="helpSection__link" routerLink="/help">Техподдержка</a>
+      <a href="" class="helpSection__link">Terms</a>
+      <a href="" class="helpSection__link">Privacy</a>
+      <a href="" class="helpSection__link">Cookies</a>
+    </div>
+  </div>
 </footer>

@@ -116,26 +116,96 @@
     }
 }
 
-.subscribeForm {
-    &__item {
-        display: flex;
-        flex-direction: row;
-        & span {
-            line-height: 25px;
-            text-align: justify;
+@media all and (min-width: 0px) and (max-width: 1000px) {
+    .footer {
+        margin: 20px 50px 20px 50px;
+        &_socialLinks {
+            display: none;
         }
-        & form {
-            display: flex;
-            width: 100%;
+        &__colHeader {
+            margin-bottom: 20px;
+            & span {
+                font-size: 16px;
+            }
+        }
+
+        &__colItem {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        &__copyright {
+            font-size: 14px;
+        }
+
+        &__helps {
+            font-size: 14px;
         }
     }
-    &__input {
-        max-width: 180px;
-        padding: 8px 15px;
-        flex-grow: 1;
-        margin-right: 5px;
-        border: 1px solid #d3d3d4;
-        color: #79797c;
-        font-size: 16px;
+}
+
+@media all and (min-width: 1000px) and (max-width: 1200px) {
+    .footer {
+        margin: 20px 50px 20px 50px;
+        &_socialLinks {
+            display: none;
+        }
+        &__colHeader {
+            margin-bottom: 20px;
+            & span {
+                font-size: 16px;
+            }
+        }
+
+        &__colItem {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        &__copyright {
+            font-size: 14px;
+        }
+
+        &__helps {
+            font-size: 14px;
+        }
+    }
+}
+
+@media all and (min-width: 1200px) and (max-width: 1360px) {
+    .footer {
+        margin: 20px 100px 20px 100px;
+        &_socialLinks {
+            display: none;
+        }
+        &__colHeader {
+            margin-bottom: 20px;
+            & span {
+                font-size: 19px;
+            }
+        }
+
+        &__colItem {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        &__copyright {
+            font-size: 16px;
+        }
+
+        &__helps {
+            font-size: 16px;
+        }
+    }
+}
+
+@media all and (min-width: 1360px) and (max-width: 1500px) {
+    .footer {
+        &__colHeader {
+            & span {
+                font-size: 18px;
+            }
+        }
     }
 }

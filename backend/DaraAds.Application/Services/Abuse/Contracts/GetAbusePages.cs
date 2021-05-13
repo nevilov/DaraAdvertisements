@@ -6,10 +6,9 @@ namespace DaraAds.Application.Services.Abuse.Contracts
 {
     public static class GetAbusePages
     {
-        public sealed class Request
+        public sealed class Request : Paged.Request
         {
-            public int Offset { get; set; } = 0;
-            public int Limit { get; set; } = 10;
+            
         }
 
         public sealed class Response

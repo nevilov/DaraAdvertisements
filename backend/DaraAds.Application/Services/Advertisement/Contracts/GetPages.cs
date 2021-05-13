@@ -8,7 +8,8 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
     {
         public sealed class Request : Paged.Request
         {
-            public string SortOrder { get; set; }
+            public string SortBy { get; set; }
+            public string SortDirection { get; set; }
             public string SearchString { get; set; }
             public int CategoryId { get; set; }
             public decimal MinPrice { get; set; }
