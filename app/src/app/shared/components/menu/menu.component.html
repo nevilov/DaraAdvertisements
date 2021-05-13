@@ -1,252 +1,142 @@
 <div class="menu">
-  <div class="menu__logo">
-    <a href="">
-      <img src="./../../../../assets/images/logo.svg" alt="DaraAds" />
-    </a>
-  </div>
-  <div class="menu__content-centered">
-    <ul class="menu__items">
-      <li class="" class="menu__item menu__item-opened" (click)="showSubmenu()">
-        <a
-          ><span
-            >Категории
-            <img
-              #btnShowsSubmenu
-              class="menu__itemArrow menu__itemArrow-up"
-              src="./../../../../assets/images/icons/menu_arrow.svg" /></span
-        ></a>
-      </li>
-      <li class="menu__item">
-        <a
-          routerLink="/chats"
-          routerLinkActive="router-link-active"
-          title="Item"
-        >
-          <span>Чаты</span>
+    <div class="menu__logo">
+        <a href="">
+            <img src="./../../../../assets/images/logo.svg" alt="DaraAds" />
         </a>
-      </li>
-      <li class="menu__item">
-        <a
-          routerLink="/contact"
-          routerLinkActive="router-link-active"
-          title="Item"
-        >
-          <span>Контакты</span>
-        </a>
-      </li>
-      <li class="menu__item">
-        <a routerLink="/help" title="Item">
-          <span>Помощь</span>
-        </a>
-      </li>
-    </ul>
-    <span class="menu__divider"></span>
-    <a routerLink="/newAdvertisement" class="menu__btn btn-main"
-      >Добавить объявление</a
-    >
-  </div>
-
-  <div class="menu__userInfo" *ngIf="isAutorized">
-    <div class="menu__userStatus">
-      <span class="menu__userName">{{ currentUserName }}</span>
-      <span class="menu__userRole">{{ currentUserRole }}</span>
     </div>
-    <figure class="menu__userAvatar" (click)="showUsermenu()">
-      <img [src]="currentUserAvatarBlob" alt="" />
-    </figure>
-  </div>
-
-  <div class="menu__auth" *ngIf="!isAutorized">
-    <ul class="menu__items">
-      <li class="menu__item">
-        <a routerLink="/autorization">
-          <span>Вход</span>
-        </a>
-      </li>
-      <li class="menu__item">
-        <a routerLink="/registration">
-          <span>Регистрация</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="container__userMenu userMenu" #usermenu>
-    <div class="userMenu__block">
-      <div class="userMenu__header">Аккаунт</div>
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/personal"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="bx:bxs-user-account"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Персональная информация</span>
-      </a>
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/changeinfo"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="ri:lock-password-fill"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Логин & Пароль</span>
-      </a>
-      <a class="userMenu__item" (click)="userLogout(); showUsermenu()">
-        <span
-          class="iconify userMenu__icon"
-          data-icon="icomoon-free:exit"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Выход</span>
-      </a>
+    <div class="menu__content-centered">
+        <ul class="menu__items">
+            <li class="" class="menu__item menu__item-opened" (click)="showSubmenu()">
+                <a><span>Категории <img #btnShowsSubmenu class="menu__itemArrow menu__itemArrow-up"
+                            src="./../../../../assets/images/icons/menu_arrow.svg"></span></a>
+            </li>
+            <li class="menu__item">
+                <a routerLink="/chats" routerLinkActive="router-link-active" title="Item">
+                    <span>Чаты</span>
+                </a>
+            </li>
+            <li class="menu__item">
+                <a routerLink="/contact" routerLinkActive="router-link-active" title="Item">
+                    <span>Контакты</span>
+                </a>
+            </li>
+            <li class="menu__item">
+                <a routerLink="/help" title="Item">
+                    <span>Помощь</span>
+                </a>
+            </li>
+        </ul>
+        <span class="menu__divider"></span>
+        <a routerLink="/newAdvertisement" class="menu__btn btn-main">Добавить объявление</a>
     </div>
 
-    <div class="userMenu__block" *ngIf="currentUserRole == 'User'">
-      <div class="userMenu__header">Объявления</div>
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/advertisements"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="ri:advertisement-fill"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Мои объявления</span>
-      </a>
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/favorites"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="carbon:favorite-filled"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Избранное</span>
-      </a>
-      <!-- If isCorporative-->
-      <a
-        *ngIf="isCorporation"
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/import"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="ri:advertisement-fill"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Массовая загрузка</span>
-      </a>
+    <div class="menu__userInfo" *ngIf='isAutorized'>
+        <div class="menu__userStatus">
+            <span class="menu__userName">{{ currentUserName }}</span>
+            <span class="menu__userRole">{{ currentUserRole }}</span>
+        </div>
+        <figure class="menu__userAvatar" (click)="showUsermenu()">
+            <img [src]="currentUserAvatarBlob" alt="">
+        </figure>
     </div>
 
-    <div class="userMenu__block" *ngIf="currentUserRole == 'Moderator'">
-      <div class="userMenu__header">Панель модератора</div>
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/block"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="ri:advertisement-fill"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Блокировка пользователей</span>
-      </a>
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/abuse"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="fluent:thumb-dislike-20-filled"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="menu__text">Жалобы</span>
-      </a>
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/changeCorporationStatus"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="ri:advertisement-fill"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="menu__text">Смена коропоративного статуса</span>
-      </a>
+    <div class="menu__auth" *ngIf="!isAutorized">
+        <ul class="menu__items">
+            <li class="menu__item">
+                <a routerLink="/autorization">
+                    <span>Вход</span>
+                </a>
+            </li>
+            <li class="menu__item">
+                <a routerLink="/registration">
+                    <span>Регистрация</span>
+                </a>
+            </li>
+        </ul>
     </div>
+    <div class="container__userMenu userMenu" #usermenu>
+        <div class="userMenu__block">
+            <div class="userMenu__header">Аккаунт</div>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/personal">
+                <span class="iconify userMenu__icon" data-icon="bx:bxs-user-account" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Персональная информация</span>
+            </a>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/changeinfo">
+                <span class="iconify userMenu__icon" data-icon="ri:lock-password-fill" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Логин & Пароль</span>
+            </a>
+            <a class="userMenu__item" (click)="userLogout(); showUsermenu()">
+                <span class="iconify userMenu__icon" data-icon="icomoon-free:exit" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Выход</span>
+            </a>
+        </div>
+        <div class="userMenu__block" *ngIf="currentUserRole == 'User'">
+            <div class="userMenu__header">Объявления</div>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/advertisements">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Мои объявления</span>
+            </a>
+            <a (click)="showUsermenu()" class="userMenu__item userMenu__item-addBtn" routerLink="/newAdvertisement">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222;"></span>
+                <span class="userMenu__text">Добавить объявление</span>
+            </a>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/favorites">
+                <span class="iconify userMenu__icon" data-icon="carbon:favorite-filled" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Избранное</span>
+            </a>
+            <!-- If isCorporative-->
+            <a *ngIf="isCorporation" (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/import">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Массовая загрузка</span>
+            </a>
+        </div>
 
-    <div class="userMenu__block" *ngIf="currentUserRole == 'Admin'">
-      <div class="userMenu__header">Панель администратора</div>
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/block"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="ri:advertisement-fill"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Блокировка пользователей</span>
-      </a>
-      <!-- TODO FIX ROUTING -->
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/advertisements"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="ri:advertisement-fill"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Смена ролей</span>
-      </a>
-      <!-- TODO FIX ROUTING -->
-      <a
-        (click)="showUsermenu()"
-        class="userMenu__item"
-        routerLink="/cabinet/advertisements"
-      >
-        <span
-          class="iconify userMenu__icon"
-          data-icon="ri:advertisement-fill"
-          data-inline="false"
-          style="color: #222222"
-        ></span>
-        <span class="userMenu__text">Рассылка</span>
-      </a>
+        <div class="userMenu__block" *ngIf="currentUserRole == 'Moderator'">
+            <div class="userMenu__header">Панель модератора</div>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/block">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Блокировка пользователей</span>
+            </a>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/abuse">
+                <span class="iconify userMenu__icon" data-icon="fluent:thumb-dislike-20-filled" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="menu__text">Жалобы</span>
+            </a>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/changeCorporationStatus">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="menu__text">Смена коропоративного статуса</span>
+            </a>
+        </div>
+
+        <div class="userMenu__block" *ngIf="currentUserRole == 'Admin'">
+            <div class="userMenu__header">Панель администратора</div>
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/block">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Блокировка пользователей</span>
+            </a>
+            <!-- TODO FIX ROUTING -->
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/advertisements">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Смена ролей</span>
+            </a>
+            <!-- TODO FIX ROUTING -->
+            <a (click)="showUsermenu()" class="userMenu__item" routerLink="/cabinet/advertisements">
+                <span class="iconify userMenu__icon" data-icon="ri:advertisement-fill" data-inline="false"
+                    style="color: #222222"></span>
+                <span class="userMenu__text">Рассылка</span>
+            </a>
+        </div>
     </div>
-  </div>
 </div>
-<app-submenu
-  #submenu
-  [isSubMenuShown]="isSubmenuShown"
-  (isSubMenuShownOutput)="isSubmenuShown = $event"
-></app-submenu>
+<app-submenu #submenu [isSubMenuShown]="isSubmenuShown" (isSubMenuShownOutput)="isSubmenuShown = $event"></app-submenu>

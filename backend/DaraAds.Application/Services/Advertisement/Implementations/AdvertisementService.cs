@@ -59,6 +59,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
 
         private const string S3Url = "https://storage.yandexcloud.net/dara-ads-images/";
 
+       
         public async Task<Create.Response> Create(Create.Request request, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
