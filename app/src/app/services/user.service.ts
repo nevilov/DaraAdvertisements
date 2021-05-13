@@ -2,7 +2,7 @@ import { User } from './../Dtos/user';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { AppComponent } from '../app.component';
 import { Advertisement, ListOfItems } from '../Dtos/advertisement';
 
@@ -71,6 +71,17 @@ export class UserService {
         }),
       }
     );
+  }
+
+  public updateUserInfo(form: any) {
+    let url = AppComponent.backendAddress + '/api/User/update/domainuser';
+    let header = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+      }),
+    };
+
+    return this.http.patch(url, form, header);
   }
 
   public blockUser(form: any): Observable<any> {

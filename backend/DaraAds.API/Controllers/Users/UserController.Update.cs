@@ -23,10 +23,10 @@ namespace DaraAds.API.Controllers.Users
             {
                 Name = request.Name,
                 LastName = request.LastName,
-                Avatar = request.Avatar,
+
                 Phone = request.Phone,
             }, cancellationToken);
-            return Ok("Пользователь обновлен");
+            return NoContent();
         }
     }
     
