@@ -1,4 +1,4 @@
-@import "./../../../../assets/scss/abstacts/_variables";
+@import "./../../../../../assets/scss/abstacts/_variables";
 
 .table {
   border-radius: 8px;
@@ -13,7 +13,7 @@
 
   &_headItems {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
 
   &_headItem {
@@ -34,7 +34,7 @@
     padding: 10px 10px;
     border-bottom: 1px solid #f4f2ff;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     align-items: center;
 
     &:hover {

@@ -1,27 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { AppComponent } from '../app.component';
 import { ListOfCategories } from '../Dtos/category';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
+  constructor(private http: HttpClient) {}
 
-    constructor(private http: HttpClient, private cookieService: CookieService) { }
+  public getAllCategories(): Observable<ListOfCategories> {
+    return this.http.get<ListOfCategories>(
+      AppComponent.backendAddress + '/api/Category/get/top'
+    );
+  }
 
-    public getAllCategories(): Observable<ListOfCategories> {
-        return this.http.get<ListOfCategories>(
-            AppComponent.backendAddress + '/api/Category/get/top'
-        );
-    }
-
-    public getCategoryChildrens(id: number): Observable<ListOfCategories> {
-        return this.http.get<ListOfCategories>(
-            AppComponent.backendAddress + '/api/Category/get/' + id
-        )
-    }
-
+  public getCategoryChildrens(id: number): Observable<ListOfCategories> {
+    return this.http.get<ListOfCategories>(
+      AppComponent.backendAddress + '/api/Category/get/' + id
+    );
+  }
 }

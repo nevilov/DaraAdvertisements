@@ -60,7 +60,7 @@ namespace DaraAds.Application.Services.Favorite.Implementations
             };
         }
 
-        public async Task<GetFavorites.Reponse> GetFavorites(GetFavorites.Request request, CancellationToken cancellationToken)
+        public async Task<GetFavorites.Response> GetFavorites(GetFavorites.Request request, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
             if (string.IsNullOrEmpty(userId))
@@ -71,7 +71,7 @@ namespace DaraAds.Application.Services.Favorite.Implementations
             var total = await _repository.Count(a => a.UserId == userId, cancellationToken);
             if (total == 0)
             {
-                return new GetFavorites.Reponse
+                return new GetFavorites.Response
                 {
                     Total = 0,
                     Offset = request.Offset,
@@ -79,9 +79,9 @@ namespace DaraAds.Application.Services.Favorite.Implementations
                 };
             }
 
-            var items = await _repository.FindFavorites(userId, request.Offset, request.Limit, cancellationToken);
+            var items = await _repository.FindFavorites(userId, request.Offset, request.Limit, request.SortBy, request.SortDirection, cancellationToken);
 
-            return new GetFavorites.Reponse
+            return new GetFavorites.Response
             {
                 Items = items.Select(a => new GetFavorites.Item
                 {
@@ -91,9 +91,19 @@ namespace DaraAds.Application.Services.Favorite.Implementations
                     CreatedDate = a.Advertisement.CreatedDate,
                     Price = a.Advertisement.Price,
                     Status = a.Advertisement.Status.ToString(),
-                    Cover = a.Advertisement.Cover         
+                    Cover = a.Advertisement.Cover,
+                    Images = a.Advertisement.Images.Select(i => new GetFavorites.ImageResponse
+                    {
+                        Id = i.Id,
+                    }),
+                    Category = new GetFavorites.CategoryResponse
+                    {
+                        Id = a.Advertisement.Category.Id,
+                        Name = a.Advertisement.Category.Name
+                    },
+                    Location = a.Advertisement.Location
                 }),
-                Total = total,
+                Total = items.Total,
                 Limit = request.Limit,
                 Offset = request.Offset
             };

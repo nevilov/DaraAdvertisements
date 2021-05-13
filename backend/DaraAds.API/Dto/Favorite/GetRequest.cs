@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DaraAds.Application.Common;
 
-namespace DaraAds.API.Dto.Advertisement
+namespace DaraAds.API.Dto.Favorite
 {
-    public class GetUserAdvertisementsRequest : PagedDto
+    public sealed class GetRequest : PagedDto
     {
-        /// <summary>
-        /// Идентификатор пользователя  
-        /// </summary>
-        public string Id { get; set; }
         /// <summary>
         /// Критерий сортировки
         /// </summary>

@@ -5,10 +5,17 @@ namespace DaraAds.API.Dto.Advertisement
 {
     public sealed class AdvertisementGetRequest : PagedDto
     {
-        public AdvertisementGetRequest()
-        {
-            OrderBy = AdvertisementConstants.SortOrderByIdAsc;
-        }
+        /// <summary>
+        /// Критерий сортировки
+        /// </summary>
+        /// <example>Id</example>
+        public string SortBy { get; set; } = SortConstants.SortBy;
+
+        /// <summary>
+        /// Направление сортировки (asc, desc)
+        /// </summary>
+        /// <example>asc</example>
+        public string SortDirection { get; set; } = SortConstants.SortDirection;
         
         /// <summary>
         /// Строка для поиска объявлений по названию или описанию

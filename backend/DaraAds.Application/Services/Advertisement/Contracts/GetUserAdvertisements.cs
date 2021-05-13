@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DaraAds.Application.Common;
 
 namespace DaraAds.Application.Services.Advertisement.Contracts
 {
@@ -12,7 +8,9 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
         public class Request : Paged.Request
         {
             public string Id { get; set; }
-            
+            public string SortBy { get; set; }
+            public string SortDirection { get; set; }
+
         }
 
         public class Response : Paged.Response<Response.Item>
@@ -31,16 +29,18 @@ namespace DaraAds.Application.Services.Advertisement.Contracts
                 public string Location { get; set; }
             }
 
-            public sealed class CategoryResponse
-            {
-                public int Id { get; set; }
-                public string Name { get; set; }
-            }
+           
 
             public sealed class ImageResponse
             {
                 public string Id { get; set; }
                 public string ImageUrl { get; set; }
+            }
+            
+            public sealed class CategoryResponse
+            {
+                public int Id { get; set; }
+                public string Name { get; set; }
             }
         }
 

@@ -16,6 +16,6 @@ namespace DaraAds.Application.Repositories
 
         Task<PagedList<Domain.Advertisement>> GetPageByFilterSortSearch(GetPages.Request parameters, CancellationToken cancellationToken);
         
-        Task<IEnumerable<Domain.Advertisement>> FindUserAdvertisements(string userId, int limit, int offset, CancellationToken cancellationToken);
+        Task<PagedList<Domain.Advertisement>> FindUserAdvertisements(string userId, int limit, int offset, string sortBy, string sortDirection, CancellationToken cancellationToken);
     }
 }

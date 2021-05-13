@@ -85,8 +85,8 @@ namespace DaraAds.Application.Services.Abuse.Implementations
                 };
             }
 
-            var abuses = await _repository.GetPaged(request.Offset, request.Limit, cancellationToken);
-
+            var abuses = await _repository.GetPaged(a => a.RemovedDate == null, request.Offset, request.Limit, cancellationToken);
+            total =  await _repository.Count(a => a.RemovedDate == null, cancellationToken);
             return new GetAbusePages.Response
             {
                 Items = abuses.Select(a => new GetAbusePages.Response.Item
@@ -98,7 +98,7 @@ namespace DaraAds.Application.Services.Abuse.Implementations
                     AbuseText = a.AbuseText,
                     RemovedDate = a.RemovedDate
                 }),
-                Total = 10,
+                Total = total,
                 Offset = request.Offset,
                 Limit = request.Limit
             };
