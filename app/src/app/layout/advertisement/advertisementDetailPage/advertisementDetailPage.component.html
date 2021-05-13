@@ -1,33 +1,33 @@
 <app-breadcrumbs></app-breadcrumbs>
 <div class="container">
-  <div class="container__head">
-    <h1>{{ advertisement?.title }}</h1>
-    <div class="container__slider slider" *ngIf="imageValues.length > 0">
-      <figure class="slider__mainImage">
-        <span
+    <div class="container__head">
+        <h1>{{ advertisement?.title }}</h1>
+        <div class="container__slider slider" *ngIf="imageValues.length > 0">
+            <figure class="slider__mainImage">
+                <!-- <span
           class="container__iconify"
           data-icon="fluent:thumb-like-16-filled"
           data-inline="false"
           style="color: #79797c"
-        ></span>
-        <img [src]="imageValues[0]" alt="" />
-      </figure>
-      <div class="slider__images">
-        <div *ngFor="let imageValue of imageValues | slice: 1; let i = index">
-          <img (click)="changeImage(i + 1)" [src]="imageValues[i + 1]" alt="" />
+        ></span> -->
+                <img [src]="imageValues[0]" alt="" />
+            </figure>
+            <div class="slider__images">
+                <div *ngFor="let imageValue of imageValues | slice: 1; let i = index">
+                    <img (click)="changeImage(i + 1)" [src]="imageValues[i + 1]" alt="" />
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="container__description">
-    <p>
-      Дополнительно:
-      <span>{{ advertisement?.description }}</span>
-    </p>
-  </div>
-  <div class="container__info container__rows">
-    <!-- <div class="container__characteristics">
+    <div class="container__description">
+        <p>
+            Дополнительно:
+            <span>{{ advertisement?.description }}</span>
+        </p>
+    </div>
+    <div class="container__info container__rows">
+        <!-- <div class="container__characteristics">
             <h2>Характеристики</h2>
             <div class="container__characteristicsItems">
                 <div class="container__characteristicsItem">
@@ -73,136 +73,84 @@
             </div>
         </div> -->
 
-    <div class="container__map">
-      <h2>Расположение</h2>
-      <ya-map [center]="[lat, lon]" [zoom]="15">
-        <ya-placemark [geometry]="[lat, lon]"></ya-placemark>
-      </ya-map>
-    </div>
-    <div class="container__commonInfo">
-      <h2>Цена: {{ advertisement?.price }} руб.</h2>
-      <div class="container__userInfo user">
-        <div class="user__info">
-          <a [routerLink]="['/profile/', advertisement?.owner?.username]">
-            <figure class="user__avatar">
-              <img [src]="userAvatar" alt="" />
-            </figure>
-          </a>
-          <div class="user__container">
-            <a
-              [routerLink]="['/profile/', advertisement?.owner?.username]"
-              class="user__name"
-              >{{
-                advertisement?.owner?.name +
-                  " " +
-                  advertisement?.owner?.lastname
-              }}</a
-            >
-            <span class="user__phone">{{ ownerPhone }}</span>
-          </div>
+        <div class="container__map">
+            <h2>Расположение</h2>
+            <ya-map [center]="[lat, lon]" [zoom]="15">
+                <ya-placemark [geometry]="[lat, lon]"></ya-placemark>
+            </ya-map>
         </div>
+        <div class="container__commonInfo">
+            <h2>Цена: {{ advertisement?.price }} руб.</h2>
+            <div class="container__userInfo user">
+                <div class="user__info">
+                    <a [routerLink]="['/profile/', advertisement?.owner?.username]">
+                        <figure class="user__avatar">
+                            <img [src]="userAvatar" alt="" />
+                        </figure>
+                    </a>
+                    <div class="user__container">
+                        <a [routerLink]="['/profile/', advertisement?.owner?.username]" class="user__name">{{
+                            advertisement?.owner?.name +
+                            " " +
+                            advertisement?.owner?.lastname
+                            }}</a>
+                        <span class="user__phone">{{ ownerPhone }}</span>
+                    </div>
+                </div>
 
-        <div id="write" *ngIf="!isAuthors">
-          <a (click)="onCreateChat()" class="btn btn-main pointer"
-            >Написать продавцу</a
-          >
-        </div>
-        <div id="write" *ngIf="isAuthors">
-          <a (click)="onEditClicked()" class="btn btn-main">Редактировать</a>
-          <a
-            (click)="onDeleteClicked()"
-            class="btn btn-main"
-            style="background-color: lightcoral"
-            >{{ deleteText }}</a
-          >
-        </div>
+                <div id="write" *ngIf="!isAuthors">
+                    <a (click)="onCreateChat()" class="btn btn-main pointer">Написать продавцу</a>
+                </div>
+                <div id="write" *ngIf="isAuthors">
+                    <a (click)="onEditClicked()" class="btn btn-main">Редактировать</a>
+                    <a (click)="onDeleteClicked()" class="btn btn-main" style="background-color: lightcoral">{{
+                        deleteText }}</a>
+                </div>
 
-        <div class="container__mainActions">
-          <div
-            class="container__action pointer"
-            (click)="addToFavorites()"
-            *ngIf="!isAuthors"
-          >
-            <span
-              class="iconify"
-              data-height="24px"
-              data-icon="fluent:thumb-like-16-filled"
-              data-inline="false"
-              style="color: #1890ff"
-            ></span>
-            <span>Добавить в избранное</span>
-          </div>
-          <div class="container__action pointer" *ngIf="!isAuthors">
-            <span
-              class="iconify"
-              data-height="24px"
-              data-icon="fluent:thumb-dislike-20-filled"
-              data-inline="false"
-              style="color: #1890ff"
-            ></span>
-            <span
-              ><a href="/newAbuse/{{ id }}">Пожаловаться на объявление</a></span
-            >
-          </div>
-          <div class="container__action pointer">
-            <span
-              class="iconify"
-              data-height="24px"
-              data-icon="bi:share-fill"
-              data-inline="false"
-              style="color: #1890ff"
-            ></span>
-            <span>Поделиться объявлением</span>
-          </div>
-          <div class="container__action pointer">
-            <span
-              class="iconify"
-              data-height="24px"
-              data-icon="fa-solid:rocket"
-              data-inline="false"
-              style="color: #1890ff"
-            ></span>
-            <span>Продвинуть объявление</span>
-          </div>
+                <div class="container__mainActions">
+                    <div class="container__action pointer" (click)="addToFavorites()" *ngIf="!isAuthors">
+                        <span class="iconify" data-height="24px" data-icon="fluent:thumb-like-16-filled"
+                            data-inline="false" style="color: #1890ff"></span>
+                        <span>Добавить в избранное</span>
+                    </div>
+                    <div class="container__action pointer" *ngIf="!isAuthors">
+                        <span class="iconify" data-height="24px" data-icon="fluent:thumb-dislike-20-filled"
+                            data-inline="false" style="color: #1890ff"></span>
+                        <span><a href="/newAbuse/{{ id }}">Пожаловаться на объявление</a></span>
+                    </div>
+                    <div class="container__action pointer">
+                        <span class="iconify" data-height="24px" data-icon="bi:share-fill" data-inline="false"
+                            style="color: #1890ff"></span>
+                        <span>Поделиться объявлением</span>
+                    </div>
+                    <div class="container__action pointer">
+                        <span class="iconify" data-height="24px" data-icon="fa-solid:rocket" data-inline="false"
+                            style="color: #1890ff"></span>
+                        <span>Продвинуть объявление</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="container__advertisements">
-    <h2>Объявления этого автора</h2>
-    <div class="container__row">
-      <app-ads
-        *ngFor="let advertisement of userAdvertisements"
-        [advertisementId]="advertisement.id"
-        [title]="advertisement.title"
-        [price]="advertisement.price"
-        [createdDate]="advertisement.createdDate"
-        [ownerLogin]="advertisement?.owner?.username + ''"
-        [thisUserAdvertisement]="true"
-        [cover]="advertisement?.images[0]?.id"
-        [avatar]="advertisement?.owner?.avatar + ''"
-        [categoryId]="advertisement?.category?.id"
-      >
-      </app-ads>
-    </div>
-    <h2>Похожие объявления</h2>
-    <div class="container__row">
-      <app-ads
-        *ngFor="let advertisement of sameAdvertisements"
-        [advertisementId]="advertisement.id"
-        [title]="advertisement.title"
-        [price]="advertisement.price"
-        [ownerName]="
+    <div class="container__advertisements">
+        <h2>Объявления этого автора</h2>
+        <div class="container__row">
+            <app-ads *ngFor="let advertisement of userAdvertisements" [advertisementId]="advertisement.id"
+                [title]="advertisement.title" [price]="advertisement.price" [createdDate]="advertisement.createdDate"
+                [ownerLogin]="advertisement?.owner?.username + ''" [thisUserAdvertisement]="true"
+                [cover]="advertisement?.images[0]?.id" [avatar]="advertisement?.owner?.avatar + ''"
+                [categoryId]="advertisement?.category?.id">
+            </app-ads>
+        </div>
+        <h2>Похожие объявления</h2>
+        <div class="container__row">
+            <app-ads *ngFor="let advertisement of sameAdvertisements" [advertisementId]="advertisement.id"
+                [title]="advertisement.title" [price]="advertisement.price" [ownerName]="
           advertisement.owner.name + ' ' + advertisement.owner.lastname
-        "
-        [createdDate]="advertisement.createdDate"
-        [ownerId]="advertisement?.owner?.id + ''"
-        [ownerLogin]="advertisement?.owner?.username + ''"
-        [cover]="advertisement.images[0].id"
-        [avatar]="advertisement?.owner?.avatar + ''"
-        [categoryId]="advertisement?.category?.id"
-      >
-      </app-ads>
+        " [createdDate]="advertisement.createdDate" [ownerId]="advertisement?.owner?.id + ''"
+                [ownerLogin]="advertisement?.owner?.username + ''" [cover]="advertisement.images[0].id"
+                [avatar]="advertisement?.owner?.avatar + ''" [categoryId]="advertisement?.category?.id">
+            </app-ads>
+        </div>
     </div>
-  </div>
 </div>
