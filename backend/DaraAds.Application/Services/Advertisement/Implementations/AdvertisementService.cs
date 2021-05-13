@@ -15,10 +15,12 @@ using ExcelDataReader;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DaraAds.Application.Helpers;
 using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Response;
 using Delete = DaraAds.Application.Services.Advertisement.Contracts.Delete;
 using DeleteImage = DaraAds.Application.Services.Advertisement.Contracts.DeleteImage;
@@ -187,8 +189,18 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Limit = request.Limit
                 };
             }
+            
+            var isCategorySet = request.CategoryId != 0;
 
-            var ads = await _repository.GetPageByFilterSortSearch(request, cancellationToken);
+            List<int> categoryIds = null;
+
+            PagedList<Domain.Advertisement> ads;
+            if(isCategorySet)
+            {
+                categoryIds = await _categoryRepository.FindCategoryIdsByParent(request.CategoryId, cancellationToken);
+            }
+            
+            ads = await _repository.GetPageByFilterSortSearch(request, categoryIds, cancellationToken);
 
             return new GetPages.Response
             {
