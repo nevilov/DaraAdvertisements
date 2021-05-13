@@ -17,6 +17,8 @@ namespace DaraAds.Application.Services.Chat.Contracts
 
                 public string Lastname { get; set; }
 
+                public string Avatar { get; set; }
+
                 public AdvertisementItem Advertisement { get; set; }
 
                 public DateTime? UpdatedDate { get; set; }
