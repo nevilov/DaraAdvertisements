@@ -73,6 +73,19 @@ export class UserService {
     );
   }
 
+  public changeEmail(email: string) {
+    let url =
+      AppComponent.backendAddress +
+      '/api/User/send/changeEmailToken?newEmail=' +
+      email;
+    let header = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),
+      }),
+    };
+    return this.http.get(url, header);
+  }
+
   public updateUserInfo(form: any) {
     let url = AppComponent.backendAddress + '/api/User/update/domainuser';
     let header = {
@@ -122,8 +135,8 @@ export class UserService {
 
   public setNotificationState(isSubscribe: boolean): Observable<any> {
     return this.http.patch(
-      AppComponent.backendAddress +
-        '/api/User/notifications', {isSubscribe},
+      AppComponent.backendAddress + '/api/User/notifications',
+      { isSubscribe },
       {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToastrService } from 'ngx-toastr';
 import { switchMap } from 'rxjs/operators';
@@ -36,6 +36,7 @@ export class NewAbusePageComponent implements OnInit {
       .subscribe(
         (r) => {
           this.toastr.success('Спасибо за Вашу жалобу.', 'Отправлено!');
+          this.router.navigateByUrl('/');
         },
         (error) => {
           this.toastr.error(error.error.errors.AbuseText, 'Ошибка!');
@@ -46,6 +47,7 @@ export class NewAbusePageComponent implements OnInit {
   constructor(
     private abuseService: AbuseService,
     private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService
   ) {}
 

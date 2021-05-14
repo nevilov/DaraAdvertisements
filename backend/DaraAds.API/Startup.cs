@@ -29,8 +29,7 @@ namespace DaraAds.API
             services.AddApplicationModule();
 
             services.AddHttpContextAccessor();
-
-            services.AddScoped<IMailService, MailService>();
+            
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.AddSignalRModule();
