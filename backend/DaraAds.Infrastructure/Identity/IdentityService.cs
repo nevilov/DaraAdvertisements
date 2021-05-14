@@ -278,7 +278,7 @@ namespace DaraAds.Infrastructure.Identity
                 {"token", token },
                 {"newEmail", newEmail }
             };
-            var callback = QueryHelpers.AddQueryString($"{_configuration["ApiUri"]}api/user/confirmСhangeEmail", param);
+            var callback = QueryHelpers.AddQueryString($"{_configuration["ApiUri"]}api/user/confirmChangeEmail", param);
 
             var message = MessageToChangeEmail.Message(callback);
             
