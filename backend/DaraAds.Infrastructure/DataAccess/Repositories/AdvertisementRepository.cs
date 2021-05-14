@@ -28,17 +28,7 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
                 .Take(limit)
                 .ToListAsync(cancellationToken);
         }
-
-        
-        public async Task<IEnumerable<Domain.Advertisement>> Search(Expression<Func<Domain.Advertisement, bool>> predicate, int limit, int offset, CancellationToken cancellationToken)
-        {
-            return await _context.Advertisements
-                .Where(predicate)
-                .OrderBy(x => x.Id)
-                .Take(limit)
-                .Skip(offset)
-                .ToListAsync(cancellationToken);
-        }
+   
 
         public async Task<PagedList<Domain.Advertisement>> GetPageByFilterSortSearch(GetPages.Request parameters, List<int> ids, CancellationToken cancellationToken)
          {
@@ -82,7 +72,7 @@ namespace DaraAds.Infrastructure.DataAccess.Repositories
         {
             var ads = _context.Advertisements.AsQueryable();
 
-            ads = ads.Where(a => a.OwnerId == userId);
+            ads = ads.Where(a => a.OwnerId == userId && a.Status.Equals(Domain.Advertisement.Statuses.Created));
             
             var sortAds = _sortHelper.ApplySort(ads, sortBy, sortDirection);
             

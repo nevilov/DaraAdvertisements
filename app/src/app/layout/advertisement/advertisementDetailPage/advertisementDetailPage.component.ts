@@ -214,8 +214,7 @@ export class AdvertisementDetailPageComponent implements OnInit {
   }
 
   onCreateChat() {
-    this.chatService.createChat(this.id).subscribe((r) => {
-      this.router.navigateByUrl('/chats');
-    });
+    this.chatService.createChat(this.id).subscribe();
+    return this.router.navigateByUrl('/chats');
   }
 }

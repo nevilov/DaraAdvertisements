@@ -50,17 +50,6 @@ namespace DaraAds.Application.Services.Advertisement.Interfaces
         Task<GetPages.Response> GetPages(GetPages.Request request, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Получить объявления по категории
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<GetPagedByCategory.Response> GetPagedByCategory(GetPagedByCategory.Request request, CancellationToken cancellationToken);
-
-        //TODO УДАЛИТЬ!!111
-        Task<Search.Response> Search(Search.Request request, CancellationToken cancellationToken);
-
-        /// <summary>
         /// Получить объявления пользователя
         /// </summary>
         /// <param name="request"></param>
