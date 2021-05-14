@@ -41,16 +41,6 @@ namespace DaraAds.Infrastructure
                .AddScoped<INotificationService, NotificationService>();
 
             services
-             .AddScoped<IAdvertisementRepository, AdvertisementRepository>()
-             .AddScoped<IRepository<Domain.User, string>, Repository<Domain.User, string>>()
-             .AddScoped<IRepository<Domain.Abuse, int>, Repository<Domain.Abuse, int>>()
-             .AddScoped<IRepository<Domain.Image, string>, Repository<Domain.Image, string>>()
-             .AddScoped<IFavoriteRepository, FavoriteRepository>()
-             .AddScoped<ICategoryRepository, CategoryRepository>()
-             .AddScoped<IChatRepository, ChatRepository>()
-             .AddScoped<IMessageRepository, MessageRepository>();
-
-            services
                 .AddScoped<ISortHelper<Domain.Advertisement>, SortHelper<Domain.Advertisement>>()
                 .AddScoped<ISortHelper<Domain.Favorite>, SortHelper<Domain.Favorite>>();
 

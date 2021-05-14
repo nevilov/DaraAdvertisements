@@ -16,7 +16,7 @@ namespace DaraAds.API.Controllers.Advertisement
        /// <param name="request"></param>
        /// <param name="cancellationToken"></param>
        /// <returns></returns>
-       [Authorize(Roles = "User,Moderator")]
+       [Authorize(Roles = "User")]
        [HttpPost]
        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(

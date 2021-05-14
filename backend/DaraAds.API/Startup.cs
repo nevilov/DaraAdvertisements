@@ -1,10 +1,9 @@
 using DaraAds.API.Controllers;
 using DaraAds.Application.Services.Mail.Interfaces;
 using DaraAds.Infrastructure;
-using DaraAds.Infrastructure.Consumers;
+using DaraAds.Infrastructure.DataAccess;
 using DaraAds.Infrastructure.Mail;
 using DaraAds.Infrastructure.SignalR.Hubs;
-using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -40,31 +39,11 @@ namespace DaraAds.API
 
             services.AddIdentity(Configuration);
 
-            services.AddMassTransit(conf =>
-            {
-                conf.AddConsumer<ImportExcelConsumer>();
-                conf.AddConsumer<SendNotificationConsumer>();
-
-                conf.UsingRabbitMq((context, c) =>
-                {
-                    c.Host(Configuration.GetValue<string>("RabbitMq:Host"), host =>
-                    {
-                        host.Username(Configuration.GetValue<string>("RabbitMq:Username"));
-                        host.Password(Configuration.GetValue<string>("RabbitMq:Password"));
-                    });
-
-                    c.ReceiveEndpoint("import_excel", e => e.ConfigureConsumer<ImportExcelConsumer>(context));
-                    c.ReceiveEndpoint("send_notifications", e => e.ConfigureConsumer<SendNotificationConsumer>(context));
-                });
-            }).AddMassTransitHostedService();
+            services.AddRabbitMqModule(Configuration);
 
             services.AddSwaggerModule();
 
-            //Our db
-            services.AddDbContext<DaraAdsDbContext>(p =>
-            {
-                p.UseNpgsql(Configuration.GetConnectionString("PostgresDb")).UseLazyLoadingProxies();
-            });
+            services.AddDataAccessModule(Configuration.GetConnectionString("PostgresDb"));
 
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
 
@@ -75,7 +54,6 @@ namespace DaraAds.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //Init migrations
             using var scope = app.ApplicationServices.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<DaraAdsDbContext>();
             db.Database.Migrate();

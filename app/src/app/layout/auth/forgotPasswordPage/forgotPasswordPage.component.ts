@@ -4,6 +4,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {SignService} from "../../../services/sign.service";
 import {Subscription} from "rxjs";
 import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
+import {ToastrService} from "ngx-toastr";
 
 @UntilDestroy()
 @Component({
@@ -26,6 +27,7 @@ export class ForgotPasswordPageComponent implements OnInit {
   onSubmit(): void{
     const formValue = this.forgotPasswordForm.value.email;
     this.sub = this.signService.forgotPassword(formValue).pipe(untilDestroyed(this)).subscribe(() => {
+      this.toastrService.success('Письмо о смене пароля отправлено на почту', 'Восстановление пароля')
       this.router.navigateByUrl('/');
     });
   }
@@ -33,7 +35,9 @@ export class ForgotPasswordPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  constructor(private signService: SignService, private router: Router) {
+  constructor(private signService: SignService,
+              private router: Router,
+              private toastrService: ToastrService) {
     this.sub = new Subscription;
   }
 

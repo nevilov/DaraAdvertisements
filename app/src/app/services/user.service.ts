@@ -120,12 +120,10 @@ export class UserService {
     );
   }
 
-  public setNotificationState(state: boolean): Observable<any> {
+  public setNotificationState(isSubscribe: boolean): Observable<any> {
     return this.http.patch(
       AppComponent.backendAddress +
-        '/api/User/notifications?isSubscribe=' +
-        state,
-      state,
+        '/api/User/notifications', {isSubscribe},
       {
         headers: new HttpHeaders({
           Authorization: 'Bearer ' + this.cookieService.get('AuthToken'),

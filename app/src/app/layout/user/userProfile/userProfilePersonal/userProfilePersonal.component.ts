@@ -53,7 +53,6 @@ export class UserProfilePersonalComponent implements OnInit {
   }
 
   setNotityState(event: any) {
-    var userId = this.user?.id + '';
     if (event.currentTarget.checked) {
       this.userService.setNotificationState(true).subscribe((data) => {
         this.toastr.success('Ваша подписка успешно оформлена', 'Успешно!');
@@ -91,8 +90,8 @@ export class UserProfilePersonalComponent implements OnInit {
   loadUserInfo() {
     this.userService.getCurrentUser().subscribe((data) => {
       this.user = data;
-      this.isNotificated = this.user.isSubscribeToNotifications;
-      this.isCorporative = this.user.isCorporation;
+      this.isNotificated = Boolean(this.user.isSubscribeToNotifications);
+      this.isCorporative = Boolean(this.user.isCorporation);
     });
   }
 
