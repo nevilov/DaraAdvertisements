@@ -38,3 +38,10 @@ h5 {
     background-image: url("https://material.angular.io/assets/img/examples/shiba1.jpg");
     background-size: cover;
 }
+.mat-card-title {
+    font-size: 18px;
+}
+.mat-card-image {
+    object-fit: cover;
+    height: 360px;
+}
