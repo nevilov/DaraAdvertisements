@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 import { SignService } from "../../../services/sign.service";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { resetPassword } from "../../../Dtos/resetPassword";
+import {ToastrService} from "ngx-toastr";
 
 @UntilDestroy()
 @Component({
@@ -35,11 +36,14 @@ export class ResetPasswordPageComponent {
 
         console.log(resetPasswordRequest);
         this.sub = this.service.resetPassword(resetPasswordRequest).pipe(untilDestroyed(this)).subscribe(() => {
+            this.toastrService.success('Пароль успешно изменен', 'Восстановление пароля')
             this.router.navigateByUrl('/');
         });
     }
 
-    constructor(private route: ActivatedRoute, private service: SignService, private router: Router) {
+    constructor(private route: ActivatedRoute, private service: SignService,
+                private router: Router,
+                private toastrService: ToastrService) {
         this.sub = new Subscription;
     }
 
