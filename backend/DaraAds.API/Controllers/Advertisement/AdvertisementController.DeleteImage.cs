@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DaraAds.Application.Services.Advertisement.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DaraAds.API.Controllers.Advertisement
@@ -15,6 +16,7 @@ namespace DaraAds.API.Controllers.Advertisement
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         [HttpDelete("{id}/images/{imageId}")]
+        [Authorize(Roles = "User, Moderator")]
         public async Task<IActionResult> DeleteImage(
             int id, string imageId, 
             CancellationToken cancellationToken)

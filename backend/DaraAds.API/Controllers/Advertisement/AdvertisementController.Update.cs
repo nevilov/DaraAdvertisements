@@ -18,7 +18,7 @@ namespace DaraAds.API.Controllers.Advertisement
         /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Moderator")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             CancellationToken cancellationToken,

@@ -15,7 +15,7 @@ namespace DaraAds.API.Controllers.Advertisement
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Moderator")]
         [HttpDelete("{id:int}")]
             public async Task<IActionResult> Delete(
             [FromRoute] int id,
