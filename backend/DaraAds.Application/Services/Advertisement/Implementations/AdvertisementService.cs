@@ -25,6 +25,7 @@ using static DaraAds.Application.Services.Advertisement.Contracts.GetPages.Respo
 using Delete = DaraAds.Application.Services.Advertisement.Contracts.Delete;
 using DeleteImage = DaraAds.Application.Services.Advertisement.Contracts.DeleteImage;
 using Get = DaraAds.Application.Services.Advertisement.Contracts.Get;
+using Microsoft.Extensions.Configuration;
 
 namespace DaraAds.Application.Services.Advertisement.Implementations
 {
@@ -38,6 +39,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
         private readonly IS3Service _s3Service;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ISendEndpointProvider _sendEndpointProvider;
+        private readonly IConfiguration _configuration;
 
         public AdvertisementService(
             IAdvertisementRepository repository,
@@ -47,7 +49,8 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             IS3Service s3Service,
             ICategoryRepository categoryRepository,
             ISendEndpointProvider sendEndpointProvider,
-            IRepository<Domain.User, string> userRepository)
+            IRepository<Domain.User, string> userRepository,
+            IConfiguration configuration)
         {
             _repository = repository;
             _identityService = identityService;
@@ -57,11 +60,9 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
             _categoryRepository = categoryRepository;
             _sendEndpointProvider = sendEndpointProvider;
             _userRepository = userRepository;
+            _configuration = configuration;
         }
 
-        private const string S3Url = "https://storage.yandexcloud.net/dara-ads-images/";
-
-       
         public async Task<Create.Response> Create(Create.Request request, CancellationToken cancellationToken)
         {
             var userId = await _identityService.GetCurrentUserId(cancellationToken);
@@ -121,7 +122,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                 Images = ad.Images.Select(i => new Get.Response.ImageResponse
                 {
                     Id = i.Id,
-                    ImageUrl =  S3Url + i.Name
+                    ImageUrl = _configuration.GetValue<string>("AWS:S3Uri") + i.Name
                 }),
 
                 Category = new Get.Response.CategoryResponse
@@ -234,7 +235,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Images = a.Images.Select(i => new ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl =  S3Url + i.Name
+                        ImageUrl = _configuration.GetValue<string>("AWS:S3Uri") + i.Name
                     }),
                 }),
                 Total = ads.Total,
@@ -342,7 +343,7 @@ namespace DaraAds.Application.Services.Advertisement.Implementations
                     Images = a.Images.Select(i => new GetUserAdvertisements.Response.ImageResponse
                     {
                         Id = i.Id,
-                        ImageUrl = S3Url + i.Name
+                        ImageUrl = _configuration.GetValue<string>("AWS:S3Uri") + i.Name
                     }),
                     Category = new GetUserAdvertisements.Response.CategoryResponse
                     {

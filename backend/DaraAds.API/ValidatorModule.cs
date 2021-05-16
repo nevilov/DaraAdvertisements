@@ -14,7 +14,7 @@ namespace DaraAds.API
 {
     public static class Validator
     {
-        public static IServiceCollection ValidatorModule(this IServiceCollection services)
+        public static IServiceCollection AddValidatorModule(this IServiceCollection services)
         {
             services.AddMvc().AddFluentValidation();
             

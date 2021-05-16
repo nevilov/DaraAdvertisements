@@ -46,7 +46,7 @@ namespace DaraAds.API
 
             services.AddApplicationException(config => { config.DefaultErrorStatusCode = 500; });
 
-            services.ValidatorModule();
+            services.AddValidatorModule();
 
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
         }
